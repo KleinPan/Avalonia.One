@@ -1,0 +1,31 @@
+<UserControl x:Class="One.Toolbox.Views.MainView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vmMain:MainWindowVM />
+    </Design.DataContext>
+    <Grid ColumnDefinitions="60,*">
+        <ListBox ItemsSource="{Binding NavigationItems}" SelectedItem="{Binding CurrentMenuItem}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vmMain:MainMenuItemVM">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Header}" />
+                        <PathIcon Data="{Binding Icon}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ContentControl Grid.Column="1" Content="{Binding CurrentMenuItem.Content}" />
+    </Grid>
+</UserControl>

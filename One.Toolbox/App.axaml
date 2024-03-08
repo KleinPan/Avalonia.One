@@ -1,0 +1,25 @@
+<Application x:Class="One.Toolbox.App"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:views="clr-namespace:One.Toolbox.Views"
+             xmlns:vm="using:One.Toolbox.ViewModels"
+             RequestedThemeVariant="Default">
+    <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
+
+    <Application.Styles>
+        <FluentTheme />
+        <oc:HyperLinkStyle />
+
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+    </Application.Styles>
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceInclude Source="/Assets/Languages/zh-CN.axaml" />-->
+
+                <ResourceInclude Source="/Assets/Geometries.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

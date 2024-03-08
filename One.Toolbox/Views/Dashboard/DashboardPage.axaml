@@ -1,0 +1,56 @@
+<UserControl x:Class="One.Toolbox.Views.Dashboard.DashboardPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border>
+            <ScrollViewer>
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="1" Margin="0,24,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                    </Grid>
+
+                    <StackPanel Grid.Row="4" Margin="0,24,0,0">
+                        <TextBlock FontSize="18" FontWeight="DemiBold" Text="One.Toolbox" />
+                        <oc:Hyperlink Alias="Github" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding $self.Url}" Url="https://github.com/KleinPan/One" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{x:Static languages:Resources.Test}" />
+                        <TextBlock Text="{x:Static languages:Resources.Test2}" />
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <!--<StatusBar Grid.Row="1">
+            <StatusBarItem>
+                <TextBlock Text="{Binding CurrentUseIP, StringFormat={}LocalIP: {0}}" />
+            </StatusBarItem>
+        </StatusBar>-->
+    </Grid>
+</UserControl>

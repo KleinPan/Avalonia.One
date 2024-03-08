@@ -1,0 +1,26 @@
+<UserControl x:Class="One.Toolbox.Views.Settings.SettingsPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enum="using:One.Toolbox.Enums"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:One.Toolbox.ViewModels.Setting"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:SettingsPageVM />
+    </Design.DataContext>
+    <StackPanel>
+        <Button Command="{Binding ChangeLanguageCommand}" Content="zh_CN">
+            <Button.CommandParameter>
+                <enum:LanguageEnum>zh_CN</enum:LanguageEnum>
+            </Button.CommandParameter>
+        </Button>
+        <Button Command="{Binding ChangeLanguageCommand}" Content="en_US">
+            <Button.CommandParameter>
+                <enum:LanguageEnum>en_US</enum:LanguageEnum>
+            </Button.CommandParameter>
+        </Button>
+    </StackPanel>
+</UserControl>
