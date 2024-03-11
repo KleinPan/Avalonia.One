@@ -2,8 +2,10 @@
 
 using One.Toolbox.Helpers;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.ViewModels.BingImage;
 using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.Setting;
+using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.Settings;
 
@@ -44,7 +46,12 @@ public partial class MainWindowVM : BaseVM
                 Icon =ResourceHelper. FindObjectResource("home_regular"),
                 Content = new DashboardPage(){DataContext =App.Current!.Services.GetService<DashboardPageVM>()} ,
             },
-
+            new()
+            {
+                Header = "Images",
+                Icon =ResourceHelper. FindObjectResource("image_library_regular"),
+                Content = new BingImagePage(){DataContext =App.Current!.Services.GetService<BingImagePageVM>()} ,
+            },
             new()
             {
                  Header="Settings",

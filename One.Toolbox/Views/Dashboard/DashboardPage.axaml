@@ -39,10 +39,7 @@
                         <TextBlock FontSize="18" FontWeight="DemiBold" Text="One.Toolbox" />
                         <oc:Hyperlink Alias="Github" Command="{Binding OpenUrlCommand}" CommandParameter="{Binding $self.Url}" Url="https://github.com/KleinPan/One" />
                     </StackPanel>
-                    <StackPanel>
-                        <TextBlock Text="{x:Static languages:Resources.Test}" />
-                        <TextBlock Text="{x:Static languages:Resources.Test2}" />
-                    </StackPanel>
+                    
                 </Grid>
             </ScrollViewer>
         </Border>

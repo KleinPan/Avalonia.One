@@ -1,4 +1,11 @@
-﻿using System.Runtime.InteropServices;
+﻿using Avalonia.Media.Imaging;
+
+using One.Toolbox.Helpers;
+
+using System.IO;
+using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.BingImage;
 
@@ -38,6 +45,9 @@ public partial class UsefullImageInfoVM : ObservableObject
     [ObservableProperty]
     private string localImagePath;
 
+    [ObservableProperty]
+    private Bitmap? imageAvalonia;
+
     [RelayCommand]
     private void Set()
     {
@@ -55,6 +65,29 @@ public partial class UsefullImageInfoVM : ObservableObject
 
         return usefullImageInfoViewModel;
     }
+
+    public async Task LoadCover()
+    {
+        await using (var imageStream = await LoadCoverBitmapAsync())
+        {
+            ImageAvalonia = await Task.Run(() => Bitmap.DecodeToWidth(imageStream, 400));
+        }
+    }
+
+    public async Task<Stream> LoadCoverBitmapAsync()
+    {
+        if (File.Exists(LocalImagePath))
+        {
+            return File.OpenRead(LocalImagePath);
+        }
+        else
+        {
+            var data = await s_httpClient.GetByteArrayAsync(DownloadUrl);
+            return new MemoryStream(data);
+        }
+    }
+
+    private static HttpClient s_httpClient = new();
 }
 
 public class UsefullImageInfoModel
@@ -77,6 +110,7 @@ public class UsefullImageInfoModel
         usefullImageInfoViewModel.LocalImagePath = LocalImagePath;
         usefullImageInfoViewModel.LocalImageName = LocalImageName;
         usefullImageInfoViewModel.DownloadUrl = DownloadUrl;
+        //usefullImageInfoViewModel.ImageAvalonia =
 
         return usefullImageInfoViewModel;
     }

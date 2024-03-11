@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.BingImage;
 
-public partial class BingImageVM : BaseVM
+public partial class BingImagePageVM : BaseVM
 {
-    public BingImageVM()
+    public BingImagePageVM()
     {
     }
 
@@ -32,15 +32,18 @@ public partial class BingImageVM : BaseVM
 
     async void InitData()
     {
-        ShowLocalImage();
+        //ShowLocalImage();
         var a = await GetImageInfo();
 
         var b = FilterImageInfoAndSave(a);
 
         ImageList.Clear();
+
         foreach (var item in b)
         {
-            await DownloadImage(item);
+            //await DownloadImage(item);
+
+            await item.LoadCover();
 
             var have = ObImageListInfo.ToList().FirstOrDefault(x => x.LocalImageName == item.LocalImageName);
             if (have != null)
@@ -51,8 +54,9 @@ public partial class BingImageVM : BaseVM
             }
             else
             {
-                ImageList.Add(item);
             }
+
+            ImageList.Add(item);
         }
 
         ObImageListInfo.AddRange(ImageList.OrderByDescending(x => x.LocalImageName));
@@ -63,7 +67,11 @@ public partial class BingImageVM : BaseVM
         ObImageListInfo.Clear();
 
         var temp = Directory.GetFiles(Helpers.PathHelper.imagePath);
-        var temp2 = temp.Where(x => x.EndsWith("jpg"));
+        var temp2 = temp.Where(x => x.EndsWith("bmp"));
+        if (temp2.Count() < 1)
+        {
+            return;
+        }
         var temp3 = temp2.Reverse();
         foreach (var item in temp3)
         {
@@ -122,8 +130,7 @@ public partial class BingImageVM : BaseVM
             usefullImageInfo.Copyright = item.copyright;
             usefullImageInfo.Title = item.title;
             usefullImageInfo.LocalImageName = item.fullstartdate;
-
-            usefullImageInfo.LocalImagePath = Helpers.PathHelper.imagePath + item.fullstartdate + ".jpg";
+            usefullImageInfo.LocalImagePath = Helpers.PathHelper.imagePath + item.fullstartdate + ".bmp";
 
             list.Add(usefullImageInfo);
         }
