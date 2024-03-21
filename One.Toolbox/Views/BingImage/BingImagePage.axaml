@@ -10,19 +10,41 @@
     <Design.DataContext>
         <vm:BingImagePageVM />
     </Design.DataContext>
-    <Grid>
-        <ListBox ItemsSource="{Binding ObImageListInfo}">
+    <UserControl.Styles>
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="TextBlock.h3">
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="auto,*,auto">
+        <TextBlock HorizontalAlignment="Right" Text="{Binding ObImageListInfo.Count}" />
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding ObImageListInfo}">
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vm:UsefullImageInfoVM">
-                    <Grid RowDefinitions="auto,*,auto">
-                        <TextBlock Text="{Binding Title}" />
+                    <Grid Width="150" Height="150" RowDefinitions="auto,*,auto">
+                        <TextBlock Classes="h1" Text="{Binding Title}" />
                         <Border Grid.Row="1" CornerRadius="4,4,0,0">
-                            <Image Height="200" Source="{Binding ImageAvalonia}" />
+                            <Image Source="{Binding ImageAvalonia}" />
                         </Border>
-                        <TextBlock Grid.Row="2" Text="{Binding Copyright}" />
+                        <TextBlock Grid.Row="2" Text="{Binding Copyright}" ToolTip.Tip="{Binding Copyright}" />
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="{Binding SetCommand}" Header="Set" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
         </ListBox>
     </Grid>
 </UserControl>

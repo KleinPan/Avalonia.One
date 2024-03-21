@@ -7,7 +7,6 @@ using RestSharp;
 
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.BingImage;
@@ -16,6 +15,10 @@ public partial class BingImagePageVM : BaseVM
 {
     public BingImagePageVM()
     {
+        //ObImageListInfo.Add(new UsefullImageInfoVM()
+        //{
+        //    Title = "test",
+        //});
     }
 
     public override void OnNavigatedEnter()
@@ -33,7 +36,7 @@ public partial class BingImagePageVM : BaseVM
     async void InitData()
     {
         //ShowLocalImage();
-        var a = await GetImageInfo();
+        var a = await GetLatestImageInfo();
 
         var b = FilterImageInfoAndSave(a);
 
@@ -45,20 +48,9 @@ public partial class BingImagePageVM : BaseVM
 
             await item.LoadCover();
 
-            var have = ObImageListInfo.ToList().FirstOrDefault(x => x.LocalImageName == item.LocalImageName);
-            if (have != null)
-            {
-                have.DownloadUrl = "http://cn.bing.com" + item.DownloadUrl;
-                have.Copyright = item.Copyright;
-                have.Title = item.Title;
-            }
-            else
-            {
-            }
-
             ImageList.Add(item);
         }
-
+        ObImageListInfo.Clear();
         ObImageListInfo.AddRange(ImageList.OrderByDescending(x => x.LocalImageName));
     }
 
@@ -84,7 +76,9 @@ public partial class BingImagePageVM : BaseVM
         }
     }
 
-    private static async Task<BingImageOriginalModel> GetImageInfo()
+    /// <summary> 获取最新的信息 </summary>
+    /// <returns> </returns>
+    private static async Task<BingImageOriginalModel> GetLatestImageInfo()
     {
         //获取图片api:http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1
         //idx参数：指获取图片的时间，0（指获取当天图片），1（获取昨天照片），2（获取前天的图片），最多可获取8天前的照片。
@@ -105,6 +99,9 @@ public partial class BingImagePageVM : BaseVM
 
     private string ConfigPath = One.Toolbox.Helpers.PathHelper.imagePath + "ImageInfo.json";
 
+    /// <summary> 将最新信息和本地信息合并 </summary>
+    /// <param name="bingImageModel"> </param>
+    /// <returns> </returns>
     private List<UsefullImageInfoVM> FilterImageInfoAndSave(BingImageOriginalModel bingImageModel)
     {
         //Model
@@ -130,7 +127,7 @@ public partial class BingImagePageVM : BaseVM
             usefullImageInfo.Copyright = item.copyright;
             usefullImageInfo.Title = item.title;
             usefullImageInfo.LocalImageName = item.fullstartdate;
-            usefullImageInfo.LocalImagePath = Helpers.PathHelper.imagePath + item.fullstartdate + ".bmp";
+            usefullImageInfo.LocalImagePath = Helpers.PathHelper.imagePath + item.fullstartdate + ".jpg";
 
             list.Add(usefullImageInfo);
         }

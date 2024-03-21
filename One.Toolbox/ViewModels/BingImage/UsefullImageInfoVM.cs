@@ -27,7 +27,10 @@ public partial class UsefullImageInfoVM : ObservableObject
 
     public static void SetImageToDesktop(string filePath)
     {
+
+#if WINDOWS
         SystemParametersInfo(20, 1, filePath, 1);
+#endif
     }
 
     [ObservableProperty]
@@ -83,7 +86,20 @@ public partial class UsefullImageInfoVM : ObservableObject
         else
         {
             var data = await s_httpClient.GetByteArrayAsync(DownloadUrl);
+            WriteImageToDisk(data);
+
             return new MemoryStream(data);
+        }
+    }
+
+    private void WriteImageToDisk(byte[] data)
+    {
+        //创造图片
+        using (FileStream fileStream = new FileStream(LocalImagePath, FileMode.Create))
+        {
+            BinaryWriter binaryWriter = new BinaryWriter(fileStream);
+            //写入图片信息
+            binaryWriter.Write(data);
         }
     }
 
