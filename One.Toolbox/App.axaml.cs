@@ -76,7 +76,7 @@ public partial class App : Application
         services.AddSingleton<ViewModels.Dashboard.DashboardPageVM>();
 
         //services.AddTransient<Views.Pages.StringConvertPage>();
-        services.AddSingleton<StringConvertPageVM>();
+        services.AddSingleton<DataProcessPageVM>();
 
         //services.AddTransient<Views.Settings.SettingsPage>();
         services.AddSingleton<ViewModels.Setting.SettingsPageVM>();

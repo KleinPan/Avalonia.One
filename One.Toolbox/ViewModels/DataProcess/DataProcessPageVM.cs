@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 
 namespace One.Toolbox.ViewModels.DataProcess;
 
-public partial class StringConvertPageVM : BaseVM
+public partial class DataProcessPageVM : BaseVM
 {
     public ObservableCollection<string> ConverterTaskList { get; set; } = new ObservableCollection<string>();
 
@@ -28,7 +28,7 @@ public partial class StringConvertPageVM : BaseVM
     public ObservableCollection<string> SelectedConverterTaskList { get; set; } = new ObservableCollection<string>();
 
     [ObservableProperty]
-    private string inputString;
+    private string inputString = "1234";
 
     [ObservableProperty]
     private string outputString;
@@ -36,7 +36,7 @@ public partial class StringConvertPageVM : BaseVM
     [ObservableProperty]
     private double lineHeight;
 
-    public StringConvertPageVM()
+    public DataProcessPageVM()
     {
     }
 
@@ -45,6 +45,7 @@ public partial class StringConvertPageVM : BaseVM
         foreach (var i in converters)
             ConverterTaskList.Add(i.Key);
 
+        InputString = "";
         base.InitializeViewModel();
     }
 
@@ -57,6 +58,7 @@ public partial class StringConvertPageVM : BaseVM
     {
         base.OnNavigatedEnter();
         //ConfigHelper.Instance.LoadLocalDefaultSetting();
+        SelectedConverterTask = ConverterTaskList.First();
     }
 
     private void DoConvert()
@@ -321,6 +323,7 @@ public partial class StringConvertPageVM : BaseVM
 
             innerGrid.Width = 20;
 
+            //内容
             TextBlock txbChar = new TextBlock();
             txbChar.FontSize = 15;
             txbChar.Margin = new Thickness(0, 0, 0, 1);
@@ -342,7 +345,7 @@ public partial class StringConvertPageVM : BaseVM
 
             innerGrid.Children.Add(line);
             Grid.SetRow(line, 1);
-
+            //编号
             TextBlock txbIndex = new TextBlock();
             txbIndex.Text = i.ToString();
             txbIndex.Margin = new Thickness(0, 1, 0, 0);
