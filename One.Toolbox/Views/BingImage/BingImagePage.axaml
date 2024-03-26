@@ -6,6 +6,7 @@
              xmlns:vm="using:One.Toolbox.ViewModels.BingImage"
              d:DesignHeight="450"
              d:DesignWidth="800"
+             x:DataType="vm:BingImagePageVM"
              mc:Ignorable="d">
     <Design.DataContext>
         <vm:BingImagePageVM />

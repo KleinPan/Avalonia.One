@@ -1,0 +1,91 @@
+<UserControl x:Class="One.Toolbox.Views.Note.NotePage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:vms="using:One.Toolbox.ViewModels.NotePad"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vms:NotePageVM"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <StreamGeometry x:Key="BoldGlyph">M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z</StreamGeometry>
+            <StreamGeometry x:Key="ItalicGlyph">M10,4V7H12.21L8.79,15H6V18H14V15H11.79L15.21,7H18V4H10Z</StreamGeometry>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid ColumnDefinitions="*,auto,3*">
+        <Border Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Menu>
+                    <MenuItem Command="{Binding NewFileCommand}" Header="New" />
+                </Menu>
+
+                <ListBox Name="listbox" Grid.Row="1" ItemsSource="{Binding EditFileInfoViewModelOC}" SelectedItem="{Binding SelectedEditFileInfo}">
+                    <i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="SelectionChanged">
+                            <ia:InvokeCommandAction Command="{Binding SelectedEditFileChangedCommand}" PassEventArgsToCommand="True" />
+                        </ia:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="vms:EditFileInfoVM">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding $parent[Border].((vms:NotePageVM)DataContext).DeleteFileCommand}" Header="Delete" />
+                                        <MenuItem Command="{Binding RenameFileCommand}" CommandParameter="{Binding $parent[Grid]}" Header="Rename" />
+                                        <MenuItem Command="{Binding OpenFilePathCommand}" Header="Open File Path" />
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                                <TextBlock IsVisible="{Binding !IsEditFileName}" Text="{Binding FileName}" />
+                                <TextBox x:Name="txb1" Margin="0" Padding="0" Background="Transparent"
+                                         BorderThickness="0" Focusable="True"
+                                         IsVisible="{Binding IsEditFileName}"
+                                         Text="{Binding FileName}" />
+
+                                <TextBlock Grid.Row="1" FontSize="10" Opacity="0.5" Text="{Binding ModifyTime, StringFormat={}{0:yyyy-MM-dd}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" />
+        <Border Grid.Column="2">
+            <Grid RowDefinitions="auto,*">
+                <StackPanel Orientation="Horizontal">
+                    <u:ToolBar>
+                        <Button Command="{Binding SelectedEditFileInfo.SaveFileCommand}" Content="Save" />
+                    </u:ToolBar>
+                    <u:ToolBar DockPanel.Dock="Top">
+                        <ToggleButton Name="bold">
+                            <PathIcon Width="12" Height="16" Data="{DynamicResource BoldGlyph}" />
+                        </ToggleButton>
+                        <ToggleButton Name="italic">
+                            <PathIcon Width="12" Height="16" Data="{DynamicResource ItalicGlyph}" />
+                        </ToggleButton>
+                    </u:ToolBar>
+                    <u:ToolBar>
+                        <CheckBox Content="Show" IsChecked="{Binding SelectedEditFileInfo.ShowInDesktop}" />
+                    </u:ToolBar>
+                </StackPanel>
+
+                <TextBox Grid.Row="1" VerticalContentAlignment="Top" AcceptsReturn="True"
+                         Text="{Binding SelectedEditFileInfo.MdContent}"
+                         TextWrapping="Wrap" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

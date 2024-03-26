@@ -5,10 +5,12 @@ using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.BingImage;
 using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
+using One.Toolbox.ViewModels.NotePad;
 using One.Toolbox.ViewModels.Setting;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
+using One.Toolbox.Views.Note;
 using One.Toolbox.Views.Settings;
 
 using System.Collections.ObjectModel;
@@ -21,7 +23,34 @@ public partial class MainWindowVM : BaseVM
     private string _applicationTitle = string.Empty;
 
     [ObservableProperty]
-    private ObservableCollection<MainMenuItemVM> _navigationItems = new();
+    private ObservableCollection<MainMenuItemVM> _navigationItems = new ObservableCollection<MainMenuItemVM>()
+    {
+        new MainMenuItemVM()
+        {
+             Header = "Home",
+             Icon =ResourceHelper. FindObjectResource("home_regular"),
+        },
+        new()
+        {
+            Header = "Images",
+            Icon =ResourceHelper. FindObjectResource("image_library_regular"),
+        },
+        new()
+        {
+            Header = "Texts",
+            Icon =ResourceHelper. FindObjectResource("text_number_format_regular"),
+        },
+        new()
+        {
+            Header = "Notes",
+            Icon =ResourceHelper. FindObjectResource("notepad_regular"),
+        },
+        new()
+        {
+             Header="Settings",
+             Icon =ResourceHelper. FindObjectResource("settings_regular"),
+        },
+    };
 
     //[ObservableProperty]
     //private ObservableCollection<MenuItem> _trayMenuItems = new();
@@ -54,11 +83,17 @@ public partial class MainWindowVM : BaseVM
                 Icon =ResourceHelper. FindObjectResource("image_library_regular"),
                 Content = new BingImagePage(){DataContext =App.Current!.Services.GetService<BingImagePageVM>()} ,
             },
-             new()
+            new()
             {
                 Header = "Texts",
                 Icon =ResourceHelper. FindObjectResource("text_number_format_regular"),
                 Content = new DataProcessPage(){DataContext =App.Current!.Services.GetService<DataProcessPageVM>()} ,
+            },
+            new()
+            {
+                Header = "Notes",
+                Icon =ResourceHelper. FindObjectResource("notepad_regular"),
+                Content = new NotePage(){DataContext =App.Current!.Services.GetService<NotePageVM>()} ,
             },
             new()
             {

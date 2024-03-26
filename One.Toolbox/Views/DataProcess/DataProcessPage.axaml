@@ -8,6 +8,7 @@
              xmlns:vm="using:One.Toolbox.ViewModels.DataProcess"
              d:DesignHeight="450"
              d:DesignWidth="800"
+             x:DataType="vm:DataProcessPageVM"
              mc:Ignorable="d">
     <Design.DataContext>
         <vm:DataProcessPageVM />
@@ -19,7 +20,9 @@
         </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="*,auto,*">
-        <TextBox AcceptsReturn="True" FontSize="15" Text="{Binding InputString}" TextWrapping="Wrap" />
+        <TextBox VerticalContentAlignment="Top" AcceptsReturn="True" FontSize="15"
+                 Text="{Binding InputString}"
+                 TextWrapping="Wrap" />
         <!--  FontFamily="Consolas"  -->
         <TextBlock Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Classes="test"
                    Text="原始数据" />
@@ -37,15 +40,15 @@
             <Button Margin="2" Command="{Binding ShowIndexEventCommand}" Content="显示编号" />
         </StackPanel>
 
-        <TextBox Grid.Row="2" Margin="2" AcceptsReturn="True" FontSize="15"
-                 IsReadOnly="true"
+        <TextBox Grid.Row="2" Margin="2" VerticalContentAlignment="Top" AcceptsReturn="True"
+                 FontSize="15" IsReadOnly="true"
                  Text="{Binding OutputString}"
                  TextWrapping="Wrap" />
         <!--  FontFamily="Courier New"  -->
         <TextBlock Grid.Row="2" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                    Classes="test" Text="转换结果" />
 
-        <Border BorderThickness="1" Grid.Row="2">
+        <Border Grid.Row="2" BorderThickness="1">
             <WrapPanel Name="wrapPanel" Grid.Row="4">
                 <i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="Loaded">

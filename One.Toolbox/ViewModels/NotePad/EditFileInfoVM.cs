@@ -1,17 +1,18 @@
-﻿using Avalonia.Interactivity;
-
-using AvaloniaEdit.Document;
-using AvaloniaEdit.Highlighting;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Toolbox.Helpers;
 using One.Toolbox.Services;
+using One.Toolbox.Views.Note;
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.NotePad;
 
@@ -25,18 +26,11 @@ public partial class EditFileInfoVM : ObservableObject
     [ObservableProperty]
     private bool isEditFileName;
 
-    /// <summary> 文件后缀 </summary>
-    //[ObservableProperty]
-    //private string extension;
-
     [ObservableProperty]
     private DateTime createTime;
 
     [ObservableProperty]
     private DateTime modifyTime;
-
-    [ObservableProperty]
-    private TextDocument document;
 
     [ObservableProperty]
     private bool isDirty;
@@ -51,15 +45,14 @@ public partial class EditFileInfoVM : ObservableObject
     [ObservableProperty]
     private string filePath;
 
-    /// <summary> AvalonEdit exposes a Highlighting property that controls whether keywords, comments and other interesting text parts are colored or highlighted in any other visual way. This property exposes the highlighting information for the text file managed in this viewmodel class. </summary>
-    [ObservableProperty]
-    private IHighlightingDefinition selectedHighlightingDefinition;
-
-    [ObservableProperty]
-    private ReadOnlyCollection<IHighlightingDefinition> highlightingDefinitionOC;
-
     [ObservableProperty]
     private Encoding encoding = Encoding.UTF8;
+
+    [ObservableProperty]
+    private string mdContent;
+
+    [ObservableProperty]
+    private bool showInDesktop;
 
     public Action UpdateInfoAction { get; set; }
 
@@ -77,10 +70,11 @@ public partial class EditFileInfoVM : ObservableObject
         //FilePath = PathHelper.dataPath + FileName + Extension;
 
         FilePath = filePath;
-        FileName = System.IO.Path.GetFileName(FilePath);
+        FileName = System.IO.Path.GetFileNameWithoutExtension(FilePath);
         //Extension = System.IO.Path.GetExtension(FilePath);
 
-        HighlightingDefinitionOC = HighlightingManager.Instance.HighlightingDefinitions;
+        littleNotePage = new LittleNoteWnd();
+        littleNotePage.DataContext = this;
     }
 
     #region RelayCommand
@@ -133,43 +127,62 @@ public partial class EditFileInfoVM : ObservableObject
     }
 
     [RelayCommand]
-    private void OnSelectedHighlightingChanged(object obj)
+    private void RenameFile(object obj)
     {
-        var parames = obj as object[];
+        var parent = obj as Grid;
 
-        if (parames == null)
-            return;
+        var a = parent!.GetLogicalChildren().OfType<TextBox>().FirstOrDefault();
 
-        if (parames.Length != 1)
-            return;
+        IsEditFileName = true;
 
-        var param = parames[0] as IHighlightingDefinition;
-        if (param == null)
-            return;
+        a!.LostFocus += EditFileInfoVM_LostFocus;
+        a!.KeyDown += EditFileInfoVM_KeyDown;
+        a.Focus();
     }
 
     [RelayCommand]
-    private void RenameFile(object obj)
+    private void DeleteFile(object obj)
     {
-        //var parent = obj as Grid;
-        //if (parent.FindName("txb1") is TextBox txb)
-        //{
-        //    IsEditFileName = true;
-        //    txb.LostFocus += Txb_LostFocus;
-        //    var res = txb.Focus();
-
-        //}
     }
 
-    private void Txb_LostFocus(object sender, RoutedEventArgs e)
+    private void EditFileInfoVM_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
     {
+        TextBox textBox = sender as TextBox;
+        if (e.Key == Avalonia.Input.Key.Enter)
+        {
+            IsEditFileName = false;
+            textBox.LostFocus -= EditFileInfoVM_LostFocus;
+        }
+    }
+
+    private void EditFileInfoVM_LostFocus(object? sender, RoutedEventArgs e)
+    {
+        TextBox textBox = sender as TextBox;
+
         IsEditFileName = false;
+
+        textBox.LostFocus -= EditFileInfoVM_LostFocus;
     }
 
     #endregion RelayCommand
 
+    private LittleNoteWnd littleNotePage;
+
+    partial void OnShowInDesktopChanged(bool value)
+    {
+        if (value)
+        {
+            littleNotePage.Show();
+        }
+        else
+        {
+            littleNotePage.Hide();
+        }
+    }
+
     partial void OnFileNameChanged(string? oldValue, string newValue)
     {
+        return;
         if (oldValue == null)
         {
             return;
@@ -185,16 +198,16 @@ public partial class EditFileInfoVM : ObservableObject
 
         FilePath = FilePath.Replace(oldValue, newValue);
 
-        IsEditFileName = false;
+        //IsEditFileName = false;
 
         SaveDocument();
 
         UpdateInfoAction?.Invoke();
     }
 
-    public void LoadDocument()
+    public async Task LoadDocument()
     {
-        var res = LoadDocument(FilePath);
+        var res = await LoadDocument(FilePath);
 
         if (!res)
         {
@@ -220,34 +233,11 @@ public partial class EditFileInfoVM : ObservableObject
         return true;
     }
 
-    bool LoadDocument(string filePath)
+    async Task<bool> LoadDocument(string filePath)
     {
         if (File.Exists(filePath))
         {
-            var hlManager = HighlightingManager.Instance;
-
-            Document = new TextDocument();
-            string extension = System.IO.Path.GetExtension(filePath);
-            SelectedHighlightingDefinition = hlManager.GetDefinitionByExtension(extension);
-
-            IsDirty = false;
-            IsReadOnly = false;
-
-            // Check file attributes and set to read-only if file attributes indicate that
-            if ((System.IO.File.GetAttributes(filePath) & FileAttributes.ReadOnly) != 0)
-            {
-                IsReadOnly = true;
-                IsReadOnlyReason = "This file cannot be edit because another process is currently writting to it.\n" +
-                                   "Change the file access permissions or save the file in a different location if you want to edit it.";
-            }
-
-            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                using (StreamReader reader = AvaloniaEdit.Utils.FileReader.OpenStream(fs, Encoding))
-                {
-                    Document = new TextDocument(reader.ReadToEnd());
-                }
-            }
+            MdContent = await File.ReadAllTextAsync(filePath);
 
             return true;
         }
@@ -263,14 +253,8 @@ public partial class EditFileInfoVM : ObservableObject
         if (IsDirty)
         {
             ModifyTime = DateTime.Now;
-
-            if (Document != null)
-            {
-                using FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
-                StreamWriter writer = Encoding != null ? new StreamWriter(fs, Encoding) : new StreamWriter(fs);
-                Document.WriteTextTo(writer);
-                writer.Flush();
-            }
         }
+
+        File.WriteAllText(FilePath, MdContent);
     }
 }

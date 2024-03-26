@@ -1,8 +1,5 @@
-﻿//#if NET472
-
-using System;
+﻿using System;
 using System.Collections;
-using System.Configuration.Install;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
@@ -97,6 +94,7 @@ namespace One.Core.Helpers
             }
         }
 
+        /*
         /// <summary> C#安装服务 </summary>
         /// <param name="serviceFilePath"> </param>
         public static void InstallService(string serviceFilePath)
@@ -119,6 +117,7 @@ namespace One.Core.Helpers
                 Console.WriteLine("C#安装服务错误,请查看Error日志");
             }
         }
+        */
 
         /// <summary> C#启动服务 </summary>
         /// <param name="serviceName"> </param>
@@ -146,6 +145,7 @@ namespace One.Core.Helpers
             }
         }
 
+        /*
         /// <summary> C#卸载服务 </summary>
         /// <param name="serviceFilePath"> </param>
         public static void UnstallService(string serviceFilePath)
@@ -166,6 +166,7 @@ namespace One.Core.Helpers
                 Console.WriteLine("C#卸载服务错误,请查看Error日志");
             }
         }
+        */
 
         #endregion C#控制服务
 

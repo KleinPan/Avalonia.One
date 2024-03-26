@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace One.Core.Helpers
 {
@@ -11,20 +9,20 @@ namespace One.Core.Helpers
     {
         public static IOHelper Instance = new Lazy<IOHelper>(() => new IOHelper()).Value;
 
-        private JsonSerializerSettings jsonSerializerSettings;
+        private JsonSerializerOptions jsonSerializerSettings;
 
         public IOHelper(Action<string> logAction = null) : base(logAction)
         {
-            jsonSerializerSettings = new JsonSerializerSettings()
+            jsonSerializerSettings = new JsonSerializerOptions()
             {
-                TypeNameHandling = TypeNameHandling.Auto
+                WriteIndented = true
             };
         }
 
         private T JsonDeserialize<T>(string str)
         {
-            //var result = System.Text.Json.JsonSerializer.Deserialize<T>(str);
-            var result = JsonConvert.DeserializeObject<T>(str, jsonSerializerSettings);
+            var result = System.Text.Json.JsonSerializer.Deserialize<T>(str);
+
             return result;
         }
 
@@ -50,9 +48,9 @@ namespace One.Core.Helpers
 
         /// <summary> </summary>
         /// <typeparam name="T"> </typeparam>
-        /// <param name="allGatewayConfig"> </param>
-        /// <param name="filePath">         全路径，包括后缀 </param>
-        public void WriteContentTolocal<T>(T allGatewayConfig, string filePath)
+        /// <param name="obj">      </param>
+        /// <param name="filePath"> 全路径，包括后缀 </param>
+        public void WriteContentTolocal<T>(T obj, string filePath)
         {
             try
             {
@@ -62,7 +60,9 @@ namespace One.Core.Helpers
                 {
                     Directory.CreateDirectory(newpath);
                 }
-                var json = JsonConvert.SerializeObject(allGatewayConfig, Formatting.Indented, jsonSerializerSettings);
+
+                var json = JsonSerializer.Serialize(obj, jsonSerializerSettings);//SourceGenerationContext.Default.AllConfigModel
+
                 System.IO.File.WriteAllText(filePath, json);
             }
             catch (Exception ex)
@@ -91,6 +91,7 @@ namespace One.Core.Helpers
             }
             catch (Exception ex)
             {
+                throw ex;
             }
         }
 

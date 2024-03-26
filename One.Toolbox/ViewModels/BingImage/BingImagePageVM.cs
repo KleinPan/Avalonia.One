@@ -7,6 +7,7 @@ using RestSharp;
 
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.BingImage;
@@ -99,11 +100,14 @@ public partial class BingImagePageVM : BaseVM
 
     private string ConfigPath = One.Toolbox.Helpers.PathHelper.imagePath + "ImageInfo.json";
 
+    private Mutex Mutex = new Mutex();
+
     /// <summary> 将最新信息和本地信息合并 </summary>
     /// <param name="bingImageModel"> </param>
     /// <returns> </returns>
     private List<UsefullImageInfoVM> FilterImageInfoAndSave(BingImageOriginalModel bingImageModel)
     {
+        Mutex.WaitOne();
         //Model
         List<UsefullImageInfoModel> list = new List<UsefullImageInfoModel>();
         try
@@ -146,6 +150,7 @@ public partial class BingImagePageVM : BaseVM
         {
             listVM.Add(item.ToVM());
         }
+        Mutex.ReleaseMutex();
         return listVM;
     }
 

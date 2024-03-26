@@ -6,22 +6,20 @@
              xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
              d:DesignHeight="450"
              d:DesignWidth="800"
+             x:DataType="vmMain:MainWindowVM"
              mc:Ignorable="d">
     <Design.DataContext>
-        <!--
-            This only sets the DataContext for the previewer in an IDE,
-            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
-        -->
+
         <vmMain:MainWindowVM />
     </Design.DataContext>
-    <Grid ColumnDefinitions="60,*">
+    <Grid ColumnDefinitions="50,*">
         <ListBox ItemsSource="{Binding NavigationItems}" SelectedItem="{Binding CurrentMenuItem}">
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmMain:MainMenuItemVM">
-                    <StackPanel>
-                        <!--<TextBlock Text="{Binding Header}" />-->
-                        <PathIcon Data="{Binding Icon}" ToolTip.Tip="{Binding Header}" />
-                    </StackPanel>
+                    <Grid Height="40">
+
+                        <PathIcon Width="20" Data="{Binding Icon}" ToolTip.Tip="{Binding Header}" />
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

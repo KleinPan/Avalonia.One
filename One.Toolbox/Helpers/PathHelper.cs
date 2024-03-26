@@ -61,9 +61,6 @@ namespace One.Toolbox.Helpers
             dataPath = exePath + @"\Data\";
             Directory.CreateDirectory(dataPath);
 
-            stickPath = dataPath + @"Stick\";
-            Directory.CreateDirectory(stickPath);
-
             notePath = dataPath + @"Note\";
             Directory.CreateDirectory(notePath);
 

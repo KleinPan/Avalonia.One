@@ -87,7 +87,7 @@ public partial class App : Application
         //services.AddTransient<Views.Pages.NetworklPage>();
         services.AddSingleton<ViewModels.Network.NetworkPageVM>();
 
-        services.AddSingleton<ViewModels.NotePad.NotePadPageVM>();
+        services.AddSingleton<ViewModels.NotePad.NotePageVM>();
         services.AddSingleton<ViewModels.Setting.CloudSettingsVM>();
 
         services.AddSingleton<ViewModels.BingImage.BingImagePageVM>();

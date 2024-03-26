@@ -2,15 +2,17 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:u-semi="https://irihi.tech/ursa/themes/semi"
              xmlns:views="clr-namespace:One.Toolbox.Views"
              xmlns:vm="using:One.Toolbox.ViewModels"
              RequestedThemeVariant="Default">
     <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
 
     <Application.Styles>
-        <FluentTheme />
+        <!--<FluentTheme />-->
         <oc:HyperLinkStyle />
-
+        <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" />
+        <u-semi:SemiTheme Locale="zh-CN" />
         <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
     </Application.Styles>
     <Application.Resources>

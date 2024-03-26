@@ -13,16 +13,18 @@ using One.Toolbox.ViewModels.Setting;
 using System.Collections.ObjectModel;
 using System.IO;
 
+using Vanara.PInvoke;
+
 namespace One.Toolbox.ViewModels.NotePad;
 
-public partial class NotePadPageVM : BaseVM
+public partial class NotePageVM : BaseVM
 {
     [ObservableProperty]
     private EditFileInfoVM selectedEditFileInfo;
 
     public ObservableCollection<EditFileInfoVM> EditFileInfoViewModelOC { get; set; } = new ObservableCollection<EditFileInfoVM>();
 
-    public NotePadPageVM()
+    public NotePageVM()
     {
         // Register a message in some module
         WeakReferenceMessenger.Default.Register<CloseMessage>(this, (r, m) =>
@@ -58,7 +60,8 @@ public partial class NotePadPageVM : BaseVM
     private void NewFile()
     {
         int index = EditFileInfoViewModelOC.Count;
-        string filePath = PathHelper.notePath + "unfitled" + index + ".txt";
+    tag:
+        string filePath = PathHelper.notePath + "untitled" + index + ".md";
         EditFileInfoVM editFileInfoViewModel = new EditFileInfoVM(filePath);
         var res = editFileInfoViewModel.CreateNewFile();
         if (res)
@@ -68,19 +71,21 @@ public partial class NotePadPageVM : BaseVM
         }
         else
         {
+            index++;
+            goto tag;
             MessageShowHelper.ShowWarnMessage("File already exist!");
         }
     }
 
     [RelayCommand]
-    private void OnSelectedEditFileChanged(SelectionChangedEventArgs args)
+    private async void OnSelectedEditFileChanged(SelectionChangedEventArgs args)
     {
         var newItems = args.AddedItems;
 
         if (newItems.Count == 1)
         {
             var item = newItems[0] as EditFileInfoVM;
-            item.LoadDocument();
+            await item.LoadDocument();
         }
         else
         {
@@ -88,7 +93,7 @@ public partial class NotePadPageVM : BaseVM
     }
 
     [RelayCommand]
-    private void DeleteFile()
+    private void DeleteFile(object obj)
     {
         if (SelectedEditFileInfo != null)
         {
