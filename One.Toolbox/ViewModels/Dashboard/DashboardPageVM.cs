@@ -76,7 +76,7 @@ public partial class DashboardPageVM : BaseVM
 
             if (sub > TimeSpan.FromDays(7))
             {
-                // MessageShowHelper.ShowErrorMessage("试用期到期！");
+                // App .Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("试用期到期！");
             }
         }
     }

@@ -1,10 +1,6 @@
-﻿using Avalonia.Markup.Xaml.Styling;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
-
-using One.Toolbox.Enums;
 using One.Toolbox.Helpers;
-using One.Toolbox.ViewModels.Serialport;
 using One.Toolbox.ViewModels.Setting;
 
 using System.Globalization;
@@ -63,22 +59,6 @@ namespace One.Toolbox.Services
         void InitDefaultData()
         {
             AllConfig = new AllConfigModel();
-
-            AllConfig.SerialportSetting.QuickSendList.Add(new QuickSendModel()
-            {
-                Id = 0,
-                Commit = "发送",
-                Hex = false,
-                Text = "Hello?",
-            });
-
-            AllConfig.SerialportSetting.QuickSendList.Add(new()
-            {
-                Id = 1,
-                Commit = "Hex发送",
-                Hex = true,
-                Text = "01 02 03 04",
-            });
         }
 
         #endregion LoadSave

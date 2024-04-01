@@ -27,7 +27,7 @@
         <ListBox Grid.Row="1" ItemsSource="{Binding ObImageListInfo}">
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vm:UsefullImageInfoVM">
-                    <Grid Width="150" Height="150" RowDefinitions="auto,*,auto">
+                    <Grid Width="170" Height="170" RowDefinitions="auto,*,auto">
                         <TextBlock Classes="h1" Text="{Binding Title}" />
                         <Border Grid.Row="1" CornerRadius="4,4,0,0">
                             <Image Source="{Binding ImageAvalonia}" />

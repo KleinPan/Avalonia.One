@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
-        xmlns:vms="using:One.Toolbox.ViewModels.NotePad"
+        xmlns:vms="using:One.Toolbox.ViewModels.Note"
         Width="150"
         Height="200"
         d:DesignHeight="450"
@@ -14,8 +14,13 @@
         ExtendClientAreaToDecorationsHint="True"
         ShowInTaskbar="False"
         mc:Ignorable="d">
-    <Grid>
-        <!--  IsHitTestVisible="False"  -->
-        <md:MarkdownScrollViewer Name="abc" Markdown="{Binding MdContent}" />
-    </Grid>
+
+    <Border BorderBrush="Gray" BorderThickness="1">
+        <Grid RowDefinitions="20,*">
+            <Border Background="AliceBlue" PointerPressed="Border_PointerPressed">
+                <TextBlock Text="{Binding FileName}" />
+            </Border>
+            <md:MarkdownScrollViewer Name="abc" Grid.Row="1" Markdown="{Binding MdContent}" SelectionEnabled="True" />
+        </Grid>
+    </Border>
 </Window>

@@ -5,7 +5,7 @@ using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.BingImage;
 using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
-using One.Toolbox.ViewModels.NotePad;
+using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.Setting;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;

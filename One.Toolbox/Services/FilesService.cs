@@ -5,6 +5,13 @@ using Avalonia.Platform.Storage;
 
 namespace One.Toolbox.Services;
 
+public interface IFilesService
+{
+    public Task<IStorageFile?> OpenFileAsync();
+
+    public Task<IStorageFile?> SaveFileAsync();
+}
+
 public class FilesService : IFilesService
 {
     private readonly Window _target;

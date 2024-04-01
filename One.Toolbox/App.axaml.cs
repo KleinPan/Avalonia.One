@@ -8,6 +8,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
@@ -68,6 +69,8 @@ public partial class App : Application
         //Singleton	0指定将创建该服务的单个实例。
         //Transient 2指定每次请求服务时，将创建该服务的新实例。
         services.AddSingleton<IFilesService>(x => new FilesService(desktop.MainWindow));
+        services.AddSingleton<INotifyService>(x => new NotifyService(desktop.MainWindow));
+        //services.AddSingleton(new NotifyService(desktop.MainWindow));//这样也OK，获取的时候不用接口
 
         // Views and ViewModels
         services.AddSingleton<ViewModels.MainWindow.MainWindowVM>();
@@ -81,13 +84,7 @@ public partial class App : Application
         //services.AddTransient<Views.Settings.SettingsPage>();
         services.AddSingleton<ViewModels.Setting.SettingsPageVM>();
 
-        //services.AddTransient<Views.Serialport.SerialportPage>();
-        services.AddSingleton<ViewModels.Serialport.SerialportPageVM>();
-
-        //services.AddTransient<Views.Pages.NetworklPage>();
-        services.AddSingleton<ViewModels.Network.NetworkPageVM>();
-
-        services.AddSingleton<ViewModels.NotePad.NotePageVM>();
+        services.AddSingleton<ViewModels.Note.NotePageVM>();
         services.AddSingleton<ViewModels.Setting.CloudSettingsVM>();
 
         services.AddSingleton<ViewModels.BingImage.BingImagePageVM>();

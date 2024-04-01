@@ -6,7 +6,7 @@
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:u="https://irihi.tech/ursa"
-             xmlns:vms="using:One.Toolbox.ViewModels.NotePad"
+             xmlns:vms="using:One.Toolbox.ViewModels.Note"
              d:DesignHeight="450"
              d:DesignWidth="800"
              x:DataType="vms:NotePageVM"
@@ -49,6 +49,7 @@
                                         <MenuItem Command="{Binding OpenFilePathCommand}" Header="Open File Path" />
                                     </ContextMenu>
                                 </Grid.ContextMenu>
+
                                 <TextBlock IsVisible="{Binding !IsEditFileName}" Text="{Binding FileName}" />
                                 <TextBox x:Name="txb1" Margin="0" Padding="0" Background="Transparent"
                                          BorderThickness="0" Focusable="True"
@@ -66,19 +67,30 @@
         <Border Grid.Column="2">
             <Grid RowDefinitions="auto,*">
                 <StackPanel Orientation="Horizontal">
+
+                    <StackPanel.Styles>
+                        <Style Selector="PathIcon.same">
+                            <Setter Property="Width" Value="16" />
+                            <Setter Property="Height" Value="16" />
+                        </Style>
+                    </StackPanel.Styles>
                     <u:ToolBar>
-                        <Button Command="{Binding SelectedEditFileInfo.SaveFileCommand}" Content="Save" />
+                        <Button Command="{Binding SelectedEditFileInfo.SaveFileCommand}">
+                            <PathIcon Classes="same" Width="16" Height="16" Data="{DynamicResource save_regular}" />
+                        </Button>
                     </u:ToolBar>
                     <u:ToolBar DockPanel.Dock="Top">
                         <ToggleButton Name="bold">
-                            <PathIcon Width="12" Height="16" Data="{DynamicResource BoldGlyph}" />
+                            <PathIcon Classes="same" Data="{DynamicResource BoldGlyph}" />
                         </ToggleButton>
                         <ToggleButton Name="italic">
-                            <PathIcon Width="12" Height="16" Data="{DynamicResource ItalicGlyph}" />
+                            <PathIcon Classes="same" Data="{DynamicResource ItalicGlyph}" />
                         </ToggleButton>
                     </u:ToolBar>
                     <u:ToolBar>
-                        <CheckBox Content="Show" IsChecked="{Binding SelectedEditFileInfo.ShowInDesktop}" />
+                        <ToggleButton IsChecked="{Binding SelectedEditFileInfo.ShowInDesktop}">
+                            <PathIcon Classes="same" Data="{DynamicResource desktop_regular}" />
+                        </ToggleButton>
                     </u:ToolBar>
                 </StackPanel>
 

@@ -4,7 +4,10 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Layout;
 using Avalonia.Media;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using One.Toolbox.Helpers;
+using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 
 using System.Collections.ObjectModel;
@@ -181,7 +184,7 @@ public partial class DataProcessPageVM : BaseVM
         }
         catch (Exception ex)
         {
-            MessageShowHelper.ShowErrorMessage(ex.Message);
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.Message);
             return "";
         }
     }
@@ -297,7 +300,7 @@ public partial class DataProcessPageVM : BaseVM
         }
         catch (Exception ex)
         {
-            MessageShowHelper.ShowErrorMessage(ex.Message);
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.Message);
         }
     }
 

@@ -5,6 +5,7 @@ using One.Toolbox.Helpers;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.BingImage;
@@ -27,7 +28,6 @@ public partial class UsefullImageInfoVM : ObservableObject
 
     public static void SetImageToDesktop(string filePath)
     {
-
 #if WINDOWS
         SystemParametersInfo(20, 1, filePath, 1);
 #endif
@@ -108,15 +108,16 @@ public partial class UsefullImageInfoVM : ObservableObject
 
 public class UsefullImageInfoModel
 {
-    public string DownloadUrl;
+    public string DownloadUrl { get; set; }
 
-    public string Copyright;
+    public string Copyright { get; set; }
 
-    public string Title;
+    public string Title { get; set; }
 
-    public string LocalImageName;
+    public string LocalImageName { get; set; }
 
-    public string LocalImagePath;
+    [JsonInclude]
+    public string LocalImagePath;//默认情况下，字段不会被序列化。
 
     public UsefullImageInfoVM ToVM()
     {

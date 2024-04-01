@@ -1,12 +1,7 @@
-﻿using One.Toolbox.ViewModels.Serialport;
-
-namespace One.Toolbox.ViewModels.Setting;
+﻿namespace One.Toolbox.ViewModels.Setting;
 
 public class AllConfigModel
 {
-    public SerialportSettingModel SerialportSetting { get; set; } = new SerialportSettingModel();
-    public SerialportParams SerialportParams { get; set; } = new SerialportParams();
-
     public SettingModel Setting { get; set; } = new SettingModel();
     public List<EditFileInfo> EditFileInfoList { get; set; } = new();
 }

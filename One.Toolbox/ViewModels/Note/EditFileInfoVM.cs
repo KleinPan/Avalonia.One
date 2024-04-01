@@ -8,13 +8,12 @@ using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.Views.Note;
 
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace One.Toolbox.ViewModels.NotePad;
+namespace One.Toolbox.ViewModels.Note;
 
 public partial class EditFileInfoVM : ObservableObject
 {
@@ -110,7 +109,7 @@ public partial class EditFileInfoVM : ObservableObject
         }
         catch (Exception e)
         {
-            MessageShowHelper.ShowErrorMessage(e.ToString());
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(e.ToString());
         }
     }
 
@@ -211,7 +210,7 @@ public partial class EditFileInfoVM : ObservableObject
 
         if (!res)
         {
-            MessageShowHelper.ShowErrorMessage($"{FilePath} 不存在！");
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage($"{FilePath} 不存在！");
         }
     }
 

@@ -110,7 +110,7 @@ public partial class CloudSettingsVM : BaseVM
 
                 if (!resMK.IsSuccessful)
                 {
-                    MessageShowHelper.ShowErrorMessage("Connect failed!");
+                    App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("Connect failed!");
                     return;
                 }
                 var res = await client.Propfind(targetFile);
@@ -128,17 +128,17 @@ public partial class CloudSettingsVM : BaseVM
                         settingService.LoadTargetSetting(SettingService.LocalConfig);
                     }
 
-                    MessageShowHelper.ShowErrorMessage("Not find cloud setting!");
+                    App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("Not find cloud setting!");
                 }
                 else
                 {
-                    MessageShowHelper.ShowErrorMessage("Not find cloud setting!");
+                    App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("Not find cloud setting!");
                 }
             }
         }
         catch (Exception ex)
         {
-            MessageShowHelper.ShowErrorMessage(ex.Message);
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.Message);
         }
     }
 
@@ -153,14 +153,14 @@ public partial class CloudSettingsVM : BaseVM
             var resMK = await client.Mkcol(targetDir);
             if (!resMK.IsSuccessful)
             {
-                MessageShowHelper.ShowErrorMessage($"Error {resMK.Description};");
+                App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage($"Error {resMK.Description};");
                 return;
             }
             await client.PutFile(targetFile, File.OpenRead(SettingService.LocalConfig)); // upload a resource
         }
         catch (Exception ex)
         {
-            MessageShowHelper.ShowErrorMessage(ex.Message);
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.Message);
         }
     }
 }

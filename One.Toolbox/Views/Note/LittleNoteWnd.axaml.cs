@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Input;
 
 namespace One.Toolbox.Views.Note
 {
@@ -7,6 +8,12 @@ namespace One.Toolbox.Views.Note
         public LittleNoteWnd()
         {
             InitializeComponent();
+        }
+
+        private void Border_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+        {
+            if (e.Pointer.Type == PointerType.Mouse)
+                this.BeginMoveDrag(e);
         }
     }
 }

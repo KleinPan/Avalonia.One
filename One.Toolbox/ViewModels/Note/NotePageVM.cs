@@ -13,9 +13,7 @@ using One.Toolbox.ViewModels.Setting;
 using System.Collections.ObjectModel;
 using System.IO;
 
-using Vanara.PInvoke;
-
-namespace One.Toolbox.ViewModels.NotePad;
+namespace One.Toolbox.ViewModels.Note;
 
 public partial class NotePageVM : BaseVM
 {
@@ -73,7 +71,7 @@ public partial class NotePageVM : BaseVM
         {
             index++;
             goto tag;
-            MessageShowHelper.ShowWarnMessage("File already exist!");
+            App.Current!.Services.GetService<INotifyService>()!.ShowWarnMessage("File already exist!");
         }
     }
 

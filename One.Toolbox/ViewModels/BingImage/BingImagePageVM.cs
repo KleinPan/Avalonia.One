@@ -1,6 +1,9 @@
-﻿using One.Core.ExtensionMethods;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+using One.Core.ExtensionMethods;
 using One.Core.Helpers;
 using One.Toolbox.Helpers;
+using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 
 using RestSharp;
@@ -141,7 +144,7 @@ public partial class BingImagePageVM : BaseVM
         }
         catch (Exception ex)
         {
-            MessageShowHelper.ShowErrorMessage(ex.Message);
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.Message);
         }
 
         //VM
