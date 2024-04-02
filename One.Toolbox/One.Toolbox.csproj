@@ -80,6 +80,10 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\WindowsTitleBar.axaml" />
+  </ItemGroup>
+
   
 
    
