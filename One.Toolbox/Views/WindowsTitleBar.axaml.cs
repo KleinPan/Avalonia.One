@@ -4,6 +4,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ public partial class WindowsTitleBar : UserControl
     private PathIcon maximizeIcon;
     private ToolTip maximizeToolTip;
     private Button closeButton;
-    private PathIcon windowIcon;
+    private Image windowIcon;
 
     private DockPanel titleBar;
     private DockPanel titleBarBackground;
@@ -60,9 +61,9 @@ public partial class WindowsTitleBar : UserControl
         set { SetValue(TitleProperty, value); }
     }
 
-    public static readonly StyledProperty<WindowIcon> IconProperty = AvaloniaProperty.Register<WindowsTitleBar, WindowIcon>(nameof(Icon));
+    public static readonly StyledProperty<Bitmap> IconProperty = AvaloniaProperty.Register<WindowsTitleBar, Bitmap>(nameof(Icon));
 
-    public WindowIcon Icon
+    public Bitmap Icon
     {
         get { return GetValue(IconProperty); }
         set { SetValue(IconProperty, value); }
@@ -95,12 +96,12 @@ public partial class WindowsTitleBar : UserControl
             systemChromeTitle = this.FindControl<TextBlock>("SystemChromeTitle");
             titleBar = this.FindControl<DockPanel>("TitleBar");
             titleBarBackground = this.FindControl<DockPanel>("TitleBarBackground");
-            windowIcon = this.FindControl<PathIcon>("WindowIcon");
+            windowIcon = this.FindControl<Image>("WindowIcon");
 
             minimizeButton.Click += MinimizeWindow;
             maximizeButton.Click += MaximizeWindow;
             closeButton.Click += CloseWindow;
-            //windowIcon.DoubleTapped += CloseWindow;
+            windowIcon.DoubleTapped += CloseWindow;
 
             SubscribeToWindowState();
         }

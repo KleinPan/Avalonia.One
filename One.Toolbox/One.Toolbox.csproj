@@ -19,6 +19,11 @@
     <AvaloniaResource Remove="Assets\Resources.zh-CN.resx" />
   </ItemGroup>
 
+  
+  <ItemGroup>
+    <None Remove="Assets\image.png" />
+  </ItemGroup>
+
   <ItemGroup>
 	  <PackageReference Include="Avalonia" Version="11.1.0-beta1" />
 	  <!--<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.9" />-->

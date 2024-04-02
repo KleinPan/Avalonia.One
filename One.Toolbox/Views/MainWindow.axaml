@@ -18,7 +18,7 @@
         mc:Ignorable="d">
     <Border BorderBrush="Gray" BorderThickness="1">
         <Grid RowDefinitions="auto,*">
-            <views:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="{Binding $parent[Window].Icon}" />
+            <views:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="/Assets/avalonia-logo.ico" />
             <views:MainView Grid.Row="1" />
         </Grid>
     </Border>

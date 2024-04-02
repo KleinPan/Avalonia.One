@@ -18,7 +18,9 @@
         <DockPanel Name="TitleBarBackground" Background="White" IsHitTestVisible="False" />
         <DockPanel Name="TitleBar">
             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="0">
-                <WindowIcon Name="WindowIcon" Margin="5,0,3,0" Icon="{Binding Icon}" />
+                <Image Name="WindowIcon" Width="20" Margin="5,0,3,0"
+                       Source="{Binding Icon}"
+                       Stretch="UniformToFill" />
 
                 <TextBlock Name="SystemChromeTitle" VerticalAlignment="Center" FontSize="12" Foreground="Black"
                            IsHitTestVisible="False"
