@@ -12,8 +12,6 @@
   
   <ItemGroup>
     <AvaloniaResource Remove="Assets\Geometries.axaml" />
-    <AvaloniaResource Remove="Assets\Languages\Resources.en-US.resx" />
-    <AvaloniaResource Remove="Assets\Languages\Resources.zh-CN.resx" />
     <AvaloniaResource Remove="Assets\Resources.en-US.resx" />
     <AvaloniaResource Remove="Assets\Resources.resx" />
     <AvaloniaResource Remove="Assets\Resources.zh-CN.resx" />
@@ -56,16 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    
-    
-    <AvaloniaResource Update="Assets\Languages\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </AvaloniaResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <AvaloniaXaml Update="Assets\Geometries.axaml">
       <SubType>Designer</SubType>
     </AvaloniaXaml>
@@ -80,6 +68,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Assets\Languages\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\Note\LittleNoteWnd.axaml.cs">
       <DependentUpon>LittleNoteWnd.axaml</DependentUpon>
     </Compile>
@@ -87,6 +80,20 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\WindowsTitleBar.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Languages\Resource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </AvaloniaResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Assets\Languages\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   

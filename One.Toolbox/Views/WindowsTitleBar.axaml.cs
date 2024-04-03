@@ -4,7 +4,6 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -19,8 +18,8 @@ public partial class WindowsTitleBar : UserControl
     private Button closeButton;
     private Image windowIcon;
 
-    private DockPanel titleBar;
-    private DockPanel titleBarBackground;
+    private Grid titleBar;
+    private StackPanel titleBarBackground;
     private TextBlock systemChromeTitle;
     private NativeMenuBar seamlessMenuBar;
     private NativeMenuBar defaultMenuBar;
@@ -69,6 +68,14 @@ public partial class WindowsTitleBar : UserControl
         set { SetValue(IconProperty, value); }
     }
 
+    public static readonly StyledProperty<Object> CenterContentProperty = AvaloniaProperty.Register<WindowsTitleBar, Object>(nameof(CenterContent));
+
+    public Object CenterContent
+    {
+        get { return GetValue(CenterContentProperty); }
+        set { SetValue(CenterContentProperty, value); }
+    }
+
     #endregion AvaloniaProperty
 
     /// <summary> ´°¿ÚÒÆ¶¯ </summary>
@@ -94,8 +101,8 @@ public partial class WindowsTitleBar : UserControl
             minimizeButton = this.FindControl<Button>("MinimizeButton");
             seamlessMenuBar = this.FindControl<NativeMenuBar>("SeamlessMenuBar");
             systemChromeTitle = this.FindControl<TextBlock>("SystemChromeTitle");
-            titleBar = this.FindControl<DockPanel>("TitleBar");
-            titleBarBackground = this.FindControl<DockPanel>("TitleBarBackground");
+            titleBar = this.FindControl<Grid>("TitleBar");
+            titleBarBackground = this.FindControl<StackPanel>("TitleBarBackground");
             windowIcon = this.FindControl<Image>("WindowIcon");
 
             minimizeButton.Click += MinimizeWindow;

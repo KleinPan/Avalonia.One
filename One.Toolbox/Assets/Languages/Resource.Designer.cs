@@ -22,14 +22,14 @@ namespace One.Toolbox.Assets.Languages {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Resource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace One.Toolbox.Assets.Languages {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("One.Toolbox.Assets.Languages.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("One.Toolbox.Assets.Languages.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,38 @@ namespace One.Toolbox.Assets.Languages {
         }
         
         /// <summary>
-        ///   查找类似 1 的本地化字符串。
+        ///   查找类似 Chinese 的本地化字符串。
         /// </summary>
-        public static string Test {
+        public static string Chinese {
             get {
-                return ResourceManager.GetString("Test", resourceCulture);
+                return ResourceManager.GetString("Chinese", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 English 的本地化字符串。
         /// </summary>
-        public static string Test2 {
+        public static string English {
             get {
-                return ResourceManager.GetString("Test2", resourceCulture);
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Language 的本地化字符串。
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ShowInDesktop 的本地化字符串。
+        /// </summary>
+        public static string ShowInDesktop {
+            get {
+                return ResourceManager.GetString("ShowInDesktop", resourceCulture);
             }
         }
     }

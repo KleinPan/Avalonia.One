@@ -15,9 +15,10 @@
         <local:WindowsTitleBar />
     </Design.DataContext>
     <Grid>
-        <DockPanel Name="TitleBarBackground" Background="White" IsHitTestVisible="False" />
-        <DockPanel Name="TitleBar">
-            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Spacing="0">
+        <StackPanel Name="TitleBarBackground" HorizontalAlignment="Stretch" Background="White" IsHitTestVisible="False" />
+
+        <Grid Name="TitleBar" ColumnDefinitions="auto,*,auto">
+            <StackPanel Orientation="Horizontal" Spacing="0">
                 <Image Name="WindowIcon" Width="20" Margin="5,0,3,0"
                        Source="{Binding Icon}"
                        Stretch="UniformToFill" />
@@ -26,7 +27,11 @@
                            IsHitTestVisible="False"
                            Text="{Binding Title}" />
             </StackPanel>
-            <StackPanel Height="22" HorizontalAlignment="Right" Orientation="Horizontal" Spacing="0">
+
+            <ContentControl Grid.Column="1" Content="{Binding CenterContent}" />
+
+            <StackPanel Grid.Column="2" Height="22" HorizontalAlignment="Right" Orientation="Horizontal"
+                        Spacing="0">
                 <StackPanel.Styles>
 
                     <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -61,6 +66,6 @@
                     <PathIcon Width="10" Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
                 </Button>
             </StackPanel>
-        </DockPanel>
+        </Grid>
     </Grid>
 </UserControl>
