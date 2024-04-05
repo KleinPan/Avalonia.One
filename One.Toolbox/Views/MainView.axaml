@@ -9,19 +9,28 @@
              x:DataType="vmMain:MainWindowVM"
              mc:Ignorable="d">
     <Design.DataContext>
-
         <vmMain:MainWindowVM />
     </Design.DataContext>
     <Grid ColumnDefinitions="50,*">
         <ListBox ItemsSource="{Binding NavigationItems}" SelectedItem="{Binding CurrentMenuItem}">
+            <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                    <Setter Property="DockPanel.Dock" Value="{Binding Dock, DataType=vmMain:MainMenuItemVM}" />
+                </Style>
+            </ListBox.Styles>
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmMain:MainMenuItemVM">
-                    <Grid Height="40">
-
-                        <PathIcon Width="20" Data="{Binding Icon}" ToolTip.Tip="{Binding Header}" />
-                    </Grid>
+                    <StackPanel>
+                        <PathIcon Width="20" Height="40" Data="{Binding Icon}" ToolTip.Tip="{Binding Header}" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
         </ListBox>
 
         <ContentControl Grid.Column="1" Content="{Binding CurrentMenuItem.Content}" />

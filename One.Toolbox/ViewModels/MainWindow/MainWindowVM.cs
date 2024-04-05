@@ -23,8 +23,8 @@ public partial class MainWindowVM : BaseVM
     private string _applicationTitle = string.Empty;
 
     [ObservableProperty]
-    private ObservableCollection<MainMenuItemVM> _navigationItems = new ObservableCollection<MainMenuItemVM>()
-    {
+    private ObservableCollection<MainMenuItemVM> _navigationItems =
+    [
         new MainMenuItemVM()
         {
              Header = "Home",
@@ -47,13 +47,11 @@ public partial class MainWindowVM : BaseVM
         },
         new()
         {
+             Dock=Avalonia.Controls.Dock.Bottom,
              Header="Settings",
              Icon =ResourceHelper. FindObjectResource("settings_regular"),
         },
-    };
-
-    //[ObservableProperty]
-    //private ObservableCollection<MenuItem> _trayMenuItems = new();
+    ];
 
     [ObservableProperty]
     private MainMenuItemVM currentMenuItem;
@@ -74,6 +72,7 @@ public partial class MainWindowVM : BaseVM
             new()
             {
                 Header = "Home",
+
                 Icon =ResourceHelper. FindObjectResource("home_regular"),
                 Content = new DashboardPage(){DataContext =App.Current!.Services.GetService<DashboardPageVM>()} ,
             },
@@ -98,6 +97,7 @@ public partial class MainWindowVM : BaseVM
             new()
             {
                  Header="Settings",
+                 Dock=Avalonia.Controls.Dock.Bottom,
                  Icon =ResourceHelper. FindObjectResource("settings_regular"),
                  Content=new SettingsPage(){DataContext=App.Current.Services.GetService<SettingsPageVM>()},
             },

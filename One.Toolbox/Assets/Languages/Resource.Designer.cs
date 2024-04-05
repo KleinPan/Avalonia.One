@@ -61,11 +61,47 @@ namespace One.Toolbox.Assets.Languages {
         }
         
         /// <summary>
+        ///   查找类似 About 的本地化字符串。
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Auto 的本地化字符串。
+        /// </summary>
+        public static string Auto {
+            get {
+                return ResourceManager.GetString("Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A word a day 的本地化字符串。
+        /// </summary>
+        public static string AWordADay {
+            get {
+                return ResourceManager.GetString("AWordADay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Chinese 的本地化字符串。
         /// </summary>
         public static string Chinese {
             get {
                 return ResourceManager.GetString("Chinese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Dark 的本地化字符串。
+        /// </summary>
+        public static string Dark {
+            get {
+                return ResourceManager.GetString("Dark", resourceCulture);
             }
         }
         
@@ -88,11 +124,29 @@ namespace One.Toolbox.Assets.Languages {
         }
         
         /// <summary>
+        ///   查找类似 Light 的本地化字符串。
+        /// </summary>
+        public static string Light {
+            get {
+                return ResourceManager.GetString("Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ShowInDesktop 的本地化字符串。
         /// </summary>
         public static string ShowInDesktop {
             get {
                 return ResourceManager.GetString("ShowInDesktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Theme 的本地化字符串。
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
             }
         }
     }

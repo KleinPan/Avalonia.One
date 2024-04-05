@@ -31,6 +31,14 @@
                                     <MenuItem Header="{x:Static lang:Resource.English}" />
                                     <MenuItem Header="{x:Static lang:Resource.Chinese}" />
                                 </MenuItem>
+                                <MenuItem Header="{x:Static lang:Resource.Theme}">
+                                    <MenuItem.Icon>
+                                        <PathIcon Data="{StaticResource dark_theme_regular}" />
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="{x:Static lang:Resource.Light}" />
+                                    <MenuItem Header="{x:Static lang:Resource.Dark}" />
+                                </MenuItem>
+                                <MenuItem Header="{x:Static lang:Resource.About}" />
                             </MenuItem>
                         </Menu>
                     </Grid>
