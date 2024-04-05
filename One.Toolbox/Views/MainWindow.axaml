@@ -26,7 +26,7 @@
                             <MenuItem MinHeight="40" VerticalAlignment="Center" Header="⚙">
                                 <MenuItem Header="{x:Static lang:Resource.Language}">
                                     <MenuItem.Icon>
-                                        <PathIcon Data="{StaticResource Language}" />
+                                        <PathIcon Data="{StaticResource local_language_regular}" />
                                     </MenuItem.Icon>
                                     <MenuItem Header="{x:Static lang:Resource.English}" />
                                     <MenuItem Header="{x:Static lang:Resource.Chinese}" />
