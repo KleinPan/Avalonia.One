@@ -52,7 +52,7 @@ public partial class App : Application
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainWindowVM()
+                DataContext = new MainViewVM()
             };
         }
 
@@ -75,13 +75,12 @@ public partial class App : Application
         // Views and ViewModels
         services.AddSingleton<ViewModels.MainWindow.MainWindowVM>();
 
-        //services.AddTransient<Views.Pages.DashboardPage>();
+        services.AddSingleton<ViewModels.MainWindow.MainViewVM>();
+
         services.AddSingleton<ViewModels.Dashboard.DashboardPageVM>();
 
-        //services.AddTransient<Views.Pages.StringConvertPage>();
         services.AddSingleton<DataProcessPageVM>();
 
-        //services.AddTransient<Views.Settings.SettingsPage>();
         services.AddSingleton<ViewModels.Setting.SettingsPageVM>();
 
         services.AddSingleton<ViewModels.Note.NotePageVM>();

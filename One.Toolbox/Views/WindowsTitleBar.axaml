@@ -29,6 +29,7 @@
             </StackPanel>
 
             <ContentControl Grid.Column="1" Content="{Binding CenterContent}" />
+            <!--  DataContext="{Binding $parent}"  -->
 
             <StackPanel Grid.Column="2" Height="22" HorizontalAlignment="Right" Orientation="Horizontal"
                         Spacing="0">

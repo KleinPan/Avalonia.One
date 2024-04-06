@@ -6,7 +6,7 @@
              xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             x:DataType="vmMain:MainWindowVM"
+             x:DataType="vmMain:MainViewVM"
              mc:Ignorable="d">
     <Design.DataContext>
         <vmMain:MainWindowVM />
