@@ -12,16 +12,5 @@
     <Design.DataContext>
         <vm:SettingsPageVM />
     </Design.DataContext>
-    <StackPanel>
-        <Button Command="{Binding ChangeLanguageCommand}" Content="zh_CN">
-            <Button.CommandParameter>
-                <enum:LanguageEnum>zh_CN</enum:LanguageEnum>
-            </Button.CommandParameter>
-        </Button>
-        <Button Command="{Binding ChangeLanguageCommand}" Content="en_US">
-            <Button.CommandParameter>
-                <enum:LanguageEnum>en_US</enum:LanguageEnum>
-            </Button.CommandParameter>
-        </Button>
-    </StackPanel>
+    <StackPanel />
 </UserControl>

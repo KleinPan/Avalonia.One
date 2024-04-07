@@ -22,7 +22,7 @@ public partial class SettingsPageVM : BaseVM
 
     public SettingsPageVM()
     {
-        SettingService = App.Current.Services.GetService<Services.SettingService>();
+        SettingService = App.Current!.Services.GetService<Services.SettingService>()!;
         LoadSetting();
     }
 

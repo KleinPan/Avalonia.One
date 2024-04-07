@@ -18,6 +18,13 @@
             <StreamGeometry x:Key="ItalicGlyph">M10,4V7H12.21L8.79,15H6V18H14V15H11.79L15.21,7H18V4H10Z</StreamGeometry>
         </ResourceDictionary>
     </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="u|ToolBar">
+
+            <Setter Property="Height" Value="30" />
+        </Style>
+    </UserControl.Styles>
     <Grid ColumnDefinitions="*,auto,3*">
         <Border Grid.Row="1">
             <Grid>
@@ -25,9 +32,11 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Menu>
-                    <MenuItem Command="{Binding NewFileCommand}" Header="New" />
-                </Menu>
+                <u:ToolBar Height="30" HorizontalAlignment="Stretch">
+                    <Button Width="30" Command="{Binding NewFileCommand}">
+                        <PathIcon Width="16" Height="16" Data="{DynamicResource note_add_regular}" />
+                    </Button>
+                </u:ToolBar>
 
                 <ListBox Name="listbox" Grid.Row="1" ItemsSource="{Binding EditFileInfoViewModelOC}" SelectedItem="{Binding SelectedEditFileInfo}">
                     <i:Interaction.Behaviors>
