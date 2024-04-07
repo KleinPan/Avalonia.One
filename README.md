@@ -33,9 +33,14 @@
     * CommunityToolkit.Mvvm
     * NLog
     * RestSharp
+    * Semi.Avalonia 
+    * Ursa.Avalonia 
 
 #### Roadmap
-- [x] 🏁 测试；
+- [ ] 🏁 多语言；
+- [ ] ✨多主题；
+- [x] ✏数据处理；
+- [x] 📔备忘录；
 
 ### 初始页面
 ![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/Dashboard.png?raw=true)
