@@ -142,6 +142,15 @@ namespace One.Toolbox.Assets.Languages {
         }
         
         /// <summary>
+        ///   查找类似 Test 的本地化字符串。
+        /// </summary>
+        public static string Test {
+            get {
+                return ResourceManager.GetString("Test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Theme 的本地化字符串。
         /// </summary>
         public static string Theme {

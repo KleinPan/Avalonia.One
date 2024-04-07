@@ -2,25 +2,19 @@
 
 using Newtonsoft.Json;
 
-using One.Core.Helpers;
 using One.Toolbox.Enums;
-using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Dashboard;
 
 using RestSharp;
 
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Setting;
 
 public partial class SettingsPageVM : BaseVM
 {
-    [ObservableProperty]
-    private string _appVersion = String.Empty;
-
     [ObservableProperty]
     private bool autoUpdate = true;
 
@@ -46,8 +40,6 @@ public partial class SettingsPageVM : BaseVM
 
     public override void InitializeViewModel()
     {
-        AppVersion = $"v{GetAssemblyVersion()} .NET 8.0";
-
         Task.Run(async () =>
         {
             var a = await GetLatestInfo();
@@ -84,7 +76,7 @@ public partial class SettingsPageVM : BaseVM
             //var localVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
             //var localVersion =new AssemblyHelper(Assembly.GetExecutingAssembly()).ProductVersion;
-            var localVersion = AssemblyHelper.Instance.ProductVersion;
+            var localVersion = Core.Helpers.AssemblyHelper.Instance.ProductVersion;
 
             Version gitVersion = Version.Parse(githubReleaseInfoM.tag_name.Replace("v", ""));
 
@@ -103,11 +95,6 @@ public partial class SettingsPageVM : BaseVM
                 NeedUpdate = false,
             };
         }
-    }
-
-    private string GetAssemblyVersion()
-    {
-        return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? String.Empty;
     }
 
     private void LoadSetting()

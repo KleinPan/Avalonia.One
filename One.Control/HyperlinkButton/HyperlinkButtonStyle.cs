@@ -5,7 +5,7 @@ using Avalonia.Styling;
 
 namespace One.Control;
 
-public class HyperLinkStyle : Styles, IResourceProvider, IStyle
+public class HyperlinkButtonStyle : Styles, IResourceProvider, IStyle
 {
     private readonly IStyle _controlsStyles;
     private bool _isLoading;
@@ -13,17 +13,17 @@ public class HyperLinkStyle : Styles, IResourceProvider, IStyle
 
     /// <summary> Initializes a new instance of the <see cref="FluentTheme"/> class. </summary>
     /// <param name="baseUri"> The base URL for the XAML context. </param>
-    public HyperLinkStyle(Uri? baseUri)
+    public HyperlinkButtonStyle(Uri? baseUri)
     {
         _controlsStyles = new StyleInclude(baseUri)
         {
-            Source = new Uri("avares://One.Control/Hyperlink/HyperlinkStyle.axaml")
+            Source = new Uri("avares://One.Control/HyperlinkButton/HyperlinkButtonStyle.axaml")
         };
     }
 
     /// <summary> Initializes a new instance of the <see cref="FluentTheme"/> class. </summary>
     /// <param name="serviceProvider"> The XAML service provider. </param>
-    public HyperLinkStyle(IServiceProvider serviceProvider)
+    public HyperlinkButtonStyle(IServiceProvider serviceProvider)
         : this(((IUriContext)serviceProvider.GetService(typeof(IUriContext)))?.BaseUri)
     {
     }

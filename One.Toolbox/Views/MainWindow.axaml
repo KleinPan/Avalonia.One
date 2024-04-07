@@ -4,32 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:lang="using:One.Toolbox.Assets.Languages"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
         xmlns:views="clr-namespace:One.Toolbox.Views"
         xmlns:vm="using:One.Toolbox.ViewModels"
-        xmlns:vmm="using:One.Toolbox.ViewModels.MainWindow"
+        xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
         Title="One.Toolbox"
         Width="800"
         Height="600"
         d:DesignHeight="450"
         d:DesignWidth="800"
-        x:DataType="vmm:MainWindowVM"
+        x:DataType="vmMain:MainWindowVM"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         ExtendClientAreaToDecorationsHint="True"
         Icon="/Assets/avalonia-logo.ico"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
-
     <Design.DataContext>
-        <vmm:MainWindowVM />
+        <vmMain:MainWindowVM />
     </Design.DataContext>
     <Border BorderBrush="Gray" BorderThickness="1">
         <Grid RowDefinitions="auto,*">
-            <views:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="/Assets/avalonia-logo.ico">
-                <views:WindowsTitleBar.CenterContent>
-                    <Grid ColumnDefinitions="*,auto">
-                        <!--<Button Width="50" Command="{Binding SetLanguageCommand}" Content="1" />-->
-                        <Menu Grid.Column="1">
+            <oc:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="/Assets/avalonia-logo.ico" Theme="{StaticResource WindowsTitleBar}">
+                <oc:WindowsTitleBar.CenterContent>
+                    <Grid ColumnDefinitions="auto,*,auto">
+                        <TextBlock Margin="5,0" VerticalAlignment="Center" FontSize="12" Text="{Binding AppVersion}" />
+                        <Menu Grid.Column="2">
                             <MenuItem MinHeight="40" VerticalAlignment="Center" Header="⚙">
                                 <MenuItem Header="{x:Static lang:Resource.Language}">
                                     <MenuItem.Icon>
@@ -37,20 +37,21 @@
                                     </MenuItem.Icon>
                                     <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="en_US" Header="{x:Static lang:Resource.English}" />
                                     <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="zh_CN" Header="{x:Static lang:Resource.Chinese}" />
+                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="as_IN" Header="{x:Static lang:Resource.Test}" />
                                 </MenuItem>
                                 <MenuItem Header="{x:Static lang:Resource.Theme}">
                                     <MenuItem.Icon>
                                         <PathIcon Data="{StaticResource dark_theme_regular}" />
                                     </MenuItem.Icon>
-                                    <MenuItem Header="{x:Static lang:Resource.Light}" />
-                                    <MenuItem Header="{x:Static lang:Resource.Dark}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="auto" Header="{x:Static lang:Resource.Auto}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="light" Header="{x:Static lang:Resource.Light}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="dark" Header="{x:Static lang:Resource.Dark}" />
                                 </MenuItem>
-                                <MenuItem Header="{x:Static lang:Resource.About}" />
                             </MenuItem>
                         </Menu>
                     </Grid>
-                </views:WindowsTitleBar.CenterContent>
-            </views:WindowsTitleBar>
+                </oc:WindowsTitleBar.CenterContent>
+            </oc:WindowsTitleBar>
             <views:MainView Grid.Row="1" DataContext="{Binding MainViewVM}" />
         </Grid>
     </Border>

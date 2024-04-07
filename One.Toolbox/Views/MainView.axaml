@@ -9,7 +9,7 @@
              x:DataType="vmMain:MainViewVM"
              mc:Ignorable="d">
     <Design.DataContext>
-        <vmMain:MainWindowVM />
+        <vmMain:MainViewVM />
     </Design.DataContext>
     <Grid ColumnDefinitions="50,*">
         <ListBox ItemsSource="{Binding NavigationItems}" SelectedItem="{Binding CurrentMenuItem}">

@@ -1,15 +1,28 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using Avalonia.Reactive;
+
+using One.Control.Extensions;
 
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
-namespace One.Toolbox.Views;
+namespace One.Control;
 
-public partial class WindowsTitleBar : UserControl
+[TemplatePart("PART_CloseButton", typeof(Button))]
+[TemplatePart("PART_MaximizeButton", typeof(Button))]
+[TemplatePart("PART_MaximizeIcon", typeof(PathIcon))]
+[TemplatePart("PART_MaximizeToolTip", typeof(ToolTip))]
+[TemplatePart("PART_MinimizeButton", typeof(Button))]
+[TemplatePart("PART_SystemChromeTitle", typeof(TextBlock))]
+[TemplatePart("PART_TitleBar", typeof(Grid))]
+[TemplatePart("PART_TitleBarBackground", typeof(StackPanel))]
+[TemplatePart("PART_WindowIcon", typeof(Image))]
+public class WindowsTitleBar : ContentControl
 {
     private Button minimizeButton;
     private Button maximizeButton;
@@ -25,32 +38,6 @@ public partial class WindowsTitleBar : UserControl
     private NativeMenuBar defaultMenuBar;
 
     #region AvaloniaProperty
-
-    public static readonly StyledProperty<bool> IsSeamlessProperty = AvaloniaProperty.Register<WindowsTitleBar, bool>(nameof(IsSeamless));
-
-    public bool IsSeamless
-    {
-        get { return GetValue(IsSeamlessProperty); }
-        set
-        {
-            SetValue(IsSeamlessProperty, value);
-            if (titleBarBackground != null &&
-                systemChromeTitle != null &&
-                seamlessMenuBar != null &&
-                defaultMenuBar != null)
-            {
-                titleBarBackground.IsVisible = IsSeamless ? false : true;
-                systemChromeTitle.IsVisible = IsSeamless ? false : true;
-                seamlessMenuBar.IsVisible = IsSeamless ? true : false;
-                defaultMenuBar.IsVisible = IsSeamless ? false : true;
-
-                if (IsSeamless == false)
-                {
-                    titleBar.Resources["SystemControlForegroundBaseHighBrush"] = new SolidColorBrush { Color = new Color(255, 0, 0, 0) };
-                }
-            }
-        }
-    }
 
     public static readonly StyledProperty<string> TitleProperty = AvaloniaProperty.Register<WindowsTitleBar, string>(nameof(Title), defaultValue: "Title");
 
@@ -68,9 +55,9 @@ public partial class WindowsTitleBar : UserControl
         set { SetValue(IconProperty, value); }
     }
 
-    public static readonly StyledProperty<Object> CenterContentProperty = AvaloniaProperty.Register<WindowsTitleBar, Object>(nameof(CenterContent));
+    public static readonly StyledProperty<object> CenterContentProperty = AvaloniaProperty.Register<WindowsTitleBar, object>(nameof(CenterContent));
 
-    public Object CenterContent
+    public object CenterContent
     {
         get { return GetValue(CenterContentProperty); }
         set { SetValue(CenterContentProperty, value); }
@@ -78,14 +65,20 @@ public partial class WindowsTitleBar : UserControl
 
     #endregion AvaloniaProperty
 
-    /// <summary> �����ƶ� </summary>
+    /// <summary> 窗口移动 </summary>
     public event EventHandler<PointerPressedEventArgs> OnPointerMouseHander;
+
+    static WindowsTitleBar()
+    {
+    }
 
     public WindowsTitleBar()
     {
-        InitializeComponent();
+    }
 
-        DataContext = this;
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) == false)
         {
@@ -93,17 +86,17 @@ public partial class WindowsTitleBar : UserControl
         }
         else
         {
-            closeButton = this.FindControl<Button>("CloseButton");
-            defaultMenuBar = this.FindControl<NativeMenuBar>("DefaultMenuBar");
-            maximizeButton = this.FindControl<Button>("MaximizeButton");
-            maximizeIcon = this.FindControl<PathIcon>("MaximizeIcon");
-            maximizeToolTip = this.FindControl<ToolTip>("MaximizeToolTip");
-            minimizeButton = this.FindControl<Button>("MinimizeButton");
-            seamlessMenuBar = this.FindControl<NativeMenuBar>("SeamlessMenuBar");
-            systemChromeTitle = this.FindControl<TextBlock>("SystemChromeTitle");
-            titleBar = this.FindControl<Grid>("TitleBar");
-            titleBarBackground = this.FindControl<StackPanel>("TitleBarBackground");
-            windowIcon = this.FindControl<Image>("WindowIcon");
+            closeButton = e.NameScope.Find<Button>("PART_CloseButton");
+            //defaultMenuBar = e.NameScope.Find<NativeMenuBar>("PART_DefaultMenuBar");
+            maximizeButton = e.NameScope.Find<Button>("PART_MaximizeButton");
+            maximizeIcon = e.NameScope.Find<PathIcon>("PART_MaximizeIcon");
+            maximizeToolTip = e.NameScope.Find<ToolTip>("PART_MaximizeToolTip");
+            minimizeButton = e.NameScope.Find<Button>("PART_MinimizeButton");
+            //seamlessMenuBar = e.NameScope.Find<NativeMenuBar>("SeamlessMenuBar");
+            systemChromeTitle = e.NameScope.Find<TextBlock>("PART_SystemChromeTitle");
+            titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
+            titleBarBackground = e.NameScope.Find<StackPanel>("PART_TitleBarBackground");
+            windowIcon = e.NameScope.Find<Image>("PART_WindowIcon");
 
             minimizeButton.Click += MinimizeWindow;
             maximizeButton.Click += MaximizeWindow;
@@ -153,6 +146,7 @@ public partial class WindowsTitleBar : UserControl
             hostWindow = (Window)VisualRoot;
             await Task.Delay(50);
         }
+        //System.Reactive 有封装的方法
 
         hostWindow.GetObservable(Window.WindowStateProperty).Subscribe(s =>
         {
@@ -167,13 +161,6 @@ public partial class WindowsTitleBar : UserControl
                 maximizeIcon.Data = Geometry.Parse("M2048 1638h-410v410h-1638v-1638h410v-410h1638v1638zm-614-1024h-1229v1229h1229v-1229zm409-409h-1229v205h1024v1024h205v-1229z");
                 hostWindow.Padding = new Thickness(7, 7, 7, 7);
                 maximizeToolTip.Content = "Restore Down";
-
-                // This should be a more universal approach in both cases, but I found it to be less reliable, when for example double-clicking the title bar.
-                /*hostWindow.Padding = new Thickness(
-                        hostWindow.OffScreenMargin.Left,
-                        hostWindow.OffScreenMargin.Top,
-                        hostWindow.OffScreenMargin.Right,
-                        hostWindow.OffScreenMargin.Bottom);*/
             }
         });
     }

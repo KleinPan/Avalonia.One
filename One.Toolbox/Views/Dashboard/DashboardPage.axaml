@@ -19,16 +19,19 @@
         <Border>
 
             <Grid Margin="10" ColumnDefinitions="*,*">
-                <StackPanel Margin="10,10,0,0">
-                    <TextBlock FontSize="18" FontWeight="DemiBold" Text="One.Toolbox" />
-                    <oc:Hyperlink Margin="0,10" Alias="Github Link"
-                                  Command="{Binding OpenUrlCommand}"
-                                  CommandParameter="{Binding $self.Url}"
-                                  Url="https://github.com/KleinPan/One" />
+                <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
+                    <TextBlock Margin="0,2,0,0" FontSize="18" FontWeight="DemiBold" Text="One.Toolbox" />
+                    <HyperlinkButton Margin="10,0,0,0" VerticalAlignment="Top" Classes="WithIcon" NavigateUri="https://github.com/KleinPan/One">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Github Link" TextDecorations="Underline" />
+                    </HyperlinkButton>
+                    <oc:HyperlinkButton Margin="0,10" Alias="Github Link"
+                                        Command="{Binding OpenUrlCommand}"
+                                        CommandParameter="{Binding $self.Url}"
+                                        IsVisible="False" Url="https://github.com/KleinPan/One" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="10,10,0,0">
                     <TextBlock FontSize="18" FontWeight="DemiBold" Text="{x:Static lang:Resource.AWordADay}" />
-                    <TextBlock FontSize="18" Text="{Binding Text}" />
+                    <TextBlock FontSize="18" Text="{Binding Text}" TextWrapping="WrapWithOverflow" />
                 </StackPanel>
             </Grid>
         </Border>

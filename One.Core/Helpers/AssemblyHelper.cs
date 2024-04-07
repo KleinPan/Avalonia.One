@@ -6,7 +6,7 @@ namespace One.Core.Helpers
     public class AssemblyHelper
     {
         /// <summary> 获取执行程序的程序集 </summary>
-        public static AssemblyHelper Instance { get; set; } = new AssemblyHelper(Assembly.GetEntryAssembly());  //GetExecutingAssembly Core的版本
+        public static AssemblyHelper Instance { get; set; } = new AssemblyHelper(Assembly.GetEntryAssembly()!);  //GetExecutingAssembly Core的版本
 
         public static Attribute GetAttribute(Assembly assembly, Type attributeType)
         {

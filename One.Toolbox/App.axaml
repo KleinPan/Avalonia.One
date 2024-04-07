@@ -10,7 +10,7 @@
 
     <Application.Styles>
         <!--<FluentTheme />-->
-        <oc:HyperLinkStyle />
+        <oc:HyperlinkButtonStyle />
         <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" />
         <u-semi:SemiTheme Locale="zh-CN" />
         <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
@@ -22,6 +22,67 @@
 
                 <ResourceInclude Source="/Assets/Geometries.axaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <ControlTheme x:Key="WindowsTitleBar" TargetType="oc:WindowsTitleBar">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <Grid Height="30">
+                            <StackPanel Name="PART_TitleBarBackground" HorizontalAlignment="Stretch" Background="White" IsHitTestVisible="False" />
+
+                            <Grid Name="PART_TitleBar" ColumnDefinitions="auto,*,auto">
+                                <StackPanel Orientation="Horizontal" Spacing="0">
+                                    <Image Name="PART_WindowIcon" Width="20" Margin="5,0,5,0"
+                                           Source="{TemplateBinding Icon}"
+                                           Stretch="UniformToFill" />
+
+                                    <TextBlock Name="PART_SystemChromeTitle" VerticalAlignment="Center" FontSize="12" Foreground="Black"
+                                               IsHitTestVisible="False"
+                                               Text="{TemplateBinding Title}" />
+                                </StackPanel>
+
+                                <ContentControl Name="PART_CenterControl" Grid.Column="1" Content="{TemplateBinding CenterContent}" />
+
+                                <StackPanel Grid.Column="2" Height="22" HorizontalAlignment="Right" Orientation="Horizontal"
+                                            Spacing="0">
+                                    <StackPanel.Styles>
+
+                                        <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                            <Setter Property="Button.Background" Value="#44AAAAAA" />
+                                        </Style>
+                                        <Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+                                            <Setter Property="Button.Background" Value="Transparent" />
+                                        </Style>
+                                        <Style Selector="Button">
+                                            <Setter Property="Width" Value="45" />
+                                            <Setter Property="Height" Value="30" />
+                                        </Style>
+                                    </StackPanel.Styles>
+                                    <Button Name="PART_MinimizeButton" ToolTip.Tip="Minimize">
+                                        <PathIcon Width="10" Data="M2048 1229v-205h-2048v205h2048z" />
+                                    </Button>
+
+                                    <Button Name="PART_MaximizeButton">
+                                        <ToolTip.Tip>
+                                            <ToolTip Name="PART_MaximizeToolTip" Content="Maximize" />
+                                        </ToolTip.Tip>
+                                        <PathIcon Name="PART_MaximizeIcon" Width="10" Data="M2048 2048v-2048h-2048v2048h2048zM1843 1843h-1638v-1638h1638v1638z" />
+                                    </Button>
+
+                                    <Button Name="PART_CloseButton" VerticalAlignment="Stretch" BorderThickness="0" ToolTip.Tip="Close">
+
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background" Value="Red" />
+                                            </Style>
+                                        </Button.Styles>
+                                        <PathIcon Width="10" Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter>
+            </ControlTheme>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
