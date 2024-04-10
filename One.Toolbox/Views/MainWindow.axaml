@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:lang="using:One.Toolbox.Assets.Languages"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+        xmlns:one="https://github.com/one"
         xmlns:views="clr-namespace:One.Toolbox.Views"
         xmlns:vm="using:One.Toolbox.ViewModels"
         xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
@@ -25,8 +25,9 @@
     </Design.DataContext>
     <Border BorderBrush="Gray" BorderThickness="1">
         <Grid RowDefinitions="auto,*">
-            <oc:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="/Assets/avalonia-logo.ico" Theme="{StaticResource WindowsTitleBar}">
-                <oc:WindowsTitleBar.CenterContent>
+
+            <one:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="/Assets/avalonia-logo.ico" Theme="{StaticResource WindowsTitleBar}">
+                <one:WindowsTitleBar.CenterContent>
                     <Grid ColumnDefinitions="auto,*,auto">
                         <TextBlock Margin="5,0" VerticalAlignment="Center" FontSize="12" Text="{Binding AppVersion}" />
                         <Menu Grid.Column="2">
@@ -43,15 +44,15 @@
                                     <MenuItem.Icon>
                                         <PathIcon Data="{StaticResource dark_theme_regular}" />
                                     </MenuItem.Icon>
-                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="auto" Header="{x:Static lang:Resource.Auto}" />
-                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="light" Header="{x:Static lang:Resource.Light}" />
-                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="dark" Header="{x:Static lang:Resource.Dark}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Auto" Header="{x:Static lang:Resource.Auto}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Light" Header="{x:Static lang:Resource.Light}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Dark" Header="{x:Static lang:Resource.Dark}" />
                                 </MenuItem>
                             </MenuItem>
                         </Menu>
                     </Grid>
-                </oc:WindowsTitleBar.CenterContent>
-            </oc:WindowsTitleBar>
+                </one:WindowsTitleBar.CenterContent>
+            </one:WindowsTitleBar>
             <views:MainView Grid.Row="1" DataContext="{Binding MainViewVM}" />
         </Grid>
     </Border>

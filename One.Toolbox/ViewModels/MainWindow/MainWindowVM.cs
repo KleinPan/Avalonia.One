@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Avalonia;
+using Avalonia.Styling;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Setting;
@@ -40,6 +43,25 @@ namespace One.Toolbox.ViewModels.MainWindow
         [RelayCommand]
         private void SetTheme(object obj)
         {
+            var app = Application.Current;
+            if (app is not null)
+            {
+                if (obj is string themeName)
+                {
+                    if (themeName == "Dark")
+                    {
+                        app.RequestedThemeVariant = ThemeVariant.Dark;
+                    }
+                    else if (themeName == "Light")
+                    {
+                        app.RequestedThemeVariant = ThemeVariant.Light;
+                    }
+                    else
+                    {
+                        //自动
+                    }
+                }
+            }
         }
 
         public override void InitializeViewModel()
