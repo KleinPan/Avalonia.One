@@ -61,7 +61,9 @@ public partial class NotePageVM : BaseVM
     tag:
         string filePath = PathHelper.notePath + "untitled" + index + ".md";
         EditFileInfoVM editFileInfoViewModel = new EditFileInfoVM(filePath);
+        editFileInfoViewModel.UpdateInfoAction += Update;
         var res = editFileInfoViewModel.CreateNewFile();
+
         if (res)
         {
             EditFileInfoViewModelOC.Add(editFileInfoViewModel);
@@ -95,9 +97,9 @@ public partial class NotePageVM : BaseVM
     {
         if (SelectedEditFileInfo != null)
         {
-            if (File.Exists(SelectedEditFileInfo.FilePath))
+            if (File.Exists(SelectedEditFileInfo.FileFullPath))
             {
-                File.Delete(SelectedEditFileInfo.FilePath);
+                File.Delete(SelectedEditFileInfo.FileFullPath);
             }
 
             EditFileInfoViewModelOC.Remove(SelectedEditFileInfo);
@@ -119,7 +121,7 @@ public partial class NotePageVM : BaseVM
         {
             EditFileInfo editFileInfo = new()
             {
-                FilePath = item.FilePath,
+                FilePath = item.FileFullPath,
                 FileName = item.FileName,
                 CreateTime = item.CreateTime,
                 ModifyTime = item.ModifyTime,

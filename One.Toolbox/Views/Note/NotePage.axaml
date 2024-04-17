@@ -47,7 +47,7 @@
 
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="vms:EditFileInfoVM">
-                            <Grid>
+                            <Grid Background="Transparent">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition Height="auto" />

@@ -42,7 +42,7 @@ public partial class EditFileInfoVM : ObservableObject
 
     /// <summary> 当前打开的文件路径 </summary>
     [ObservableProperty]
-    private string filePath;
+    private string fileParentDirectory;
 
     [ObservableProperty]
     private Encoding encoding = Encoding.UTF8;
@@ -55,6 +55,12 @@ public partial class EditFileInfoVM : ObservableObject
 
     public Action UpdateInfoAction { get; set; }
 
+    public string FilePath { get => FileParentDirectory + "\\" + FileName; }
+
+    public string FileFullPath { get => FilePath + suffix; }
+
+    public const string suffix = ".md";
+
     /// <summary> UI 展示数据使用 </summary>
     public EditFileInfoVM()
     {
@@ -64,14 +70,10 @@ public partial class EditFileInfoVM : ObservableObject
     /// <param name="filePath"> </param>
     public EditFileInfoVM(string filePath)
     {
-        //FileName = "未命名" + DateTime.Now.ToString("yyMMdd-HHmmss");
-        //Extension = ".txt";
-        //FilePath = PathHelper.dataPath + FileName + Extension;
-
-        FilePath = filePath;
-        FileName = System.IO.Path.GetFileNameWithoutExtension(FilePath);
+        FileParentDirectory = Directory.GetParent(filePath)!.FullName;
+        FileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
         //Extension = System.IO.Path.GetExtension(FilePath);
-
+        lastFileName = FileName;
         littleNotePage = new LittleNoteWnd();
         littleNotePage.DataContext = this;
     }
@@ -142,15 +144,30 @@ public partial class EditFileInfoVM : ObservableObject
     [RelayCommand]
     private void DeleteFile(object obj)
     {
+        File.Delete(FilePath + suffix);
     }
+
+    private string lastFileName = "";
 
     private void EditFileInfoVM_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
     {
+        //可能触发多次
+        //if (!IsEditFileName)
+        //{
+        //    return;
+        //}
         TextBox textBox = sender as TextBox;
         if (e.Key == Avalonia.Input.Key.Enter)
         {
             IsEditFileName = false;
-            textBox.LostFocus -= EditFileInfoVM_LostFocus;
+
+            FileName = textBox.Text.Trim();
+
+            UpdateInfoAction?.Invoke();
+            SaveDocument();
+
+            File.Delete(FileParentDirectory + "\\" + lastFileName + suffix);
+            lastFileName = FileName;
         }
     }
 
@@ -161,6 +178,7 @@ public partial class EditFileInfoVM : ObservableObject
         IsEditFileName = false;
 
         textBox.LostFocus -= EditFileInfoVM_LostFocus;
+        textBox.KeyDown -= EditFileInfoVM_KeyDown;
     }
 
     #endregion RelayCommand
@@ -179,38 +197,38 @@ public partial class EditFileInfoVM : ObservableObject
         }
     }
 
-    partial void OnFileNameChanged(string? oldValue, string newValue)
-    {
-        return;
-        if (oldValue == null)
-        {
-            return;
-        }
-        if (newValue == oldValue)
-        {
-            return;
-        }
-        if (File.Exists(FilePath))
-        {
-            File.Delete(FilePath);
-        }
+    //partial void OnFileNameChanged(string? oldValue, string newValue)
+    //{
+    //    return;
+    //    if (oldValue == null)
+    //    {
+    //        return;
+    //    }
+    //    if (newValue == oldValue)
+    //    {
+    //        return;
+    //    }
+    //    if (File.Exists(FilePath))
+    //    {
+    //        File.Delete(FilePath);
+    //    }
 
-        FilePath = FilePath.Replace(oldValue, newValue);
+    // FilePath = FilePath.Replace(oldValue, newValue);
 
-        //IsEditFileName = false;
+    // //IsEditFileName = false;
 
-        SaveDocument();
+    // SaveDocument();
 
-        UpdateInfoAction?.Invoke();
-    }
+    //    UpdateInfoAction?.Invoke();
+    //}
 
     public async Task LoadDocument()
     {
-        var res = await LoadDocument(FilePath);
+        var res = await LoadDocument(FilePath + suffix);
 
         if (!res)
         {
-            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage($"{FilePath} 不存在！");
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage($"{FilePath + suffix} 不存在！");
         }
     }
 
@@ -218,9 +236,9 @@ public partial class EditFileInfoVM : ObservableObject
     /// <returns> </returns>
     public bool CreateNewFile()
     {
-        if (!File.Exists(FilePath))
+        if (!File.Exists(FilePath + suffix))
         {
-            File.Create(FilePath).Dispose();
+            File.Create(FilePath + suffix).Dispose();
 
             ModifyTime = CreateTime = DateTime.Now;
         }
@@ -246,7 +264,7 @@ public partial class EditFileInfoVM : ObservableObject
 
     public void SaveDocument()
     {
-        if (FilePath == null)
+        if (FilePath == null || string.IsNullOrEmpty(FilePath))
             throw new ArgumentNullException("fileName");
 
         if (IsDirty)
@@ -254,6 +272,6 @@ public partial class EditFileInfoVM : ObservableObject
             ModifyTime = DateTime.Now;
         }
 
-        File.WriteAllText(FilePath, MdContent);
+        File.WriteAllText(FilePath + suffix, MdContent);
     }
 }
