@@ -25,6 +25,7 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\icons8-knife-100.ico" />
     <None Remove="Assets\image.png" />
   </ItemGroup>
 

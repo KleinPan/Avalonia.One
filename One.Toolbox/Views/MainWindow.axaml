@@ -17,7 +17,6 @@
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
         ExtendClientAreaToDecorationsHint="True"
-        Icon="/Assets/avalonia-logo.ico"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Design.DataContext>
@@ -26,7 +25,7 @@
     <Border BorderBrush="Gray" BorderThickness="1">
         <Grid RowDefinitions="auto,*">
 
-            <one:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="/Assets/avalonia-logo.ico" Theme="{StaticResource WindowsTitleBar}">
+            <one:WindowsTitleBar Title="{Binding $parent[Window].Title}" Icon="/Assets/icons8-knife-100.ico" Theme="{StaticResource WindowsTitleBar}">
                 <one:WindowsTitleBar.CenterContent>
                     <Grid ColumnDefinitions="auto,*,auto">
                         <TextBlock Margin="5,0" VerticalAlignment="Center" FontSize="12" Text="{Binding AppVersion}" />

@@ -343,7 +343,9 @@ public partial class DataProcessPageVM : BaseVM
             line.StartPoint = new Point(1, 0);
             line.EndPoint = new Point(15, 0);
 
-            line.Stroke = Brushes.Black;
+            // line.Stroke = Brushes.Black;
+            line.Stroke = (SolidColorBrush)ResourceHelper.FindObjectResource("SemiColorPrimary");
+
             line.HorizontalAlignment = HorizontalAlignment.Center;
 
             innerGrid.Children.Add(line);
@@ -355,7 +357,7 @@ public partial class DataProcessPageVM : BaseVM
             txbIndex.VerticalAlignment = VerticalAlignment.Top;
             txbIndex.HorizontalAlignment = HorizontalAlignment.Center;
 
-            txbIndex.Foreground = Brushes.Black;
+            txbIndex.Foreground = (SolidColorBrush)ResourceHelper.FindObjectResource("SemiColorText1");
             innerGrid.Children.Add(txbIndex);
             Grid.SetRow(txbIndex, 2);
 
