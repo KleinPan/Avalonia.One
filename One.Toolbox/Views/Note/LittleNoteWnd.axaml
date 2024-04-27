@@ -1,6 +1,7 @@
 <Window x:Class="One.Toolbox.Views.Note.LittleNoteWnd"
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
@@ -17,10 +18,19 @@
 
     <Border BorderBrush="Gray" BorderThickness="1">
         <Grid RowDefinitions="20,*">
-            <Border Background="AliceBlue" PointerPressed="Border_PointerPressed">
+            <Border Background="{DynamicResource ThemeBackgroundBrush}" PointerPressed="Border_PointerPressed">
                 <TextBlock Text="{Binding FileName}" />
             </Border>
-            <md:MarkdownScrollViewer Name="abc" Grid.Row="1" Markdown="{Binding MdContent}" SelectionEnabled="True" />
+            <md:MarkdownScrollViewer Name="abc" Grid.Row="1" Markdown="{Binding MdContent}" SelectionEnabled="True">
+                <md:MarkdownScrollViewer.Styles>
+
+                    <!--  overwrite a style in some parts.  -->
+
+                    <Style Selector="ctxt|CTextBlock.Paragraph">
+                        <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+                    </Style>
+                </md:MarkdownScrollViewer.Styles>
+            </md:MarkdownScrollViewer>
         </Grid>
     </Border>
 </Window>
