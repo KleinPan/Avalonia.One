@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-
-using One.Toolbox.Helpers;
+﻿using One.Core.Helpers;
 using One.Toolbox.ViewModels.Setting;
 
 using System.Globalization;
-using System.IO;
+
+using PathHelper = One.Toolbox.Helpers.PathHelper;
 
 namespace One.Toolbox.Services
 {
@@ -27,14 +26,7 @@ namespace One.Toolbox.Services
 
         public void Save()
         {
-            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings()
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            };
-
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(AllConfig, Formatting.Indented, jsonSerializerSettings);
-
-            File.WriteAllText(LocalConfig, json);
+            IOHelper.Instance.WriteContentTolocal(AllConfig, LocalConfig);
         }
 
         public void LoadLocalDefaultSetting()
@@ -46,9 +38,7 @@ namespace One.Toolbox.Services
         {
             try
             {
-                var text = File.ReadAllText(fullPath);
-
-                AllConfig = Newtonsoft.Json.JsonConvert.DeserializeObject<AllConfigModel>(text);
+                AllConfig = IOHelper.Instance.ReadContentFromLocal<AllConfigModel>(fullPath);
             }
             catch (Exception)
             {

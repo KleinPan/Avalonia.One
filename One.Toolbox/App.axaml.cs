@@ -3,9 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Toolbox.Helpers;
@@ -87,7 +84,6 @@ public partial class App : Application
         services.AddSingleton<ViewModels.Setting.CloudSettingsVM>();
 
         services.AddSingleton<ViewModels.BingImage.BingImagePageVM>();
-        services.AddSingleton<ViewModels.LotteryDraw.LotteryDrawPageVM>();
 
         //Services
         services.AddSingleton<Services.SettingService>();
@@ -102,10 +98,5 @@ public partial class App : Application
 
     private void InitDataColelection()
     {
-        var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
-        AppCenter.SetCountryCode(countryCode);
-
-        AppCenter.Start("fc53b46a-1bc7-4f67-8382-2f96c799223f",
-           typeof(Analytics), typeof(Crashes));
     }
 }

@@ -22,7 +22,6 @@
         </Style>
     </UserControl.Styles>
     <Grid RowDefinitions="auto,*,auto">
-        <TextBlock HorizontalAlignment="Right" Text="{Binding ObImageListInfo.Count}" />
 
         <ListBox Grid.Row="1" ItemsSource="{Binding ObImageListInfo}">
             <ListBox.ItemTemplate>
@@ -47,5 +46,10 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Margin="5" Text="Total :" />
+            <TextBlock Margin="5" Text="{Binding ObImageListInfo.Count}" />
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Newtonsoft.Json;
-
 using One.Toolbox.Enums;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
@@ -69,7 +67,8 @@ public partial class SettingsPageVM : BaseVM
 
         if (timeline.StatusCode == System.Net.HttpStatusCode.OK)
         {
-            var githubReleaseInfoM = JsonConvert.DeserializeObject<GithubReleaseInfoM>(timeline.Content);
+            //var githubReleaseInfoM = JsonConvert.DeserializeObject<GithubReleaseInfoM>(timeline.Content);
+            var githubReleaseInfoM = System.Text.Json.JsonSerializer.Deserialize<GithubReleaseInfoM>(timeline.Content);
 
             GithubReleaseFilterInfo githubReleaseFilterInfo = new GithubReleaseFilterInfo();
 
