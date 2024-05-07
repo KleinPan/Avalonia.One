@@ -1,4 +1,4 @@
-﻿using One.Core.ExtensionMethods;
+﻿using One.Base.ExtensionMethods;
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace One.Core.Helpers.HttpHelper
+namespace One.Base.Helpers.HttpHelper
 {
     /// <summary> 主要用于get post请求 </summary>
     public class HTTPClientHelper

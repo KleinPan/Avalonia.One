@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     /// <summary> 文件帮助类 </summary>
     public class FileHelper

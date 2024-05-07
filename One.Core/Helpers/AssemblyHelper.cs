@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     public class AssemblyHelper
     {

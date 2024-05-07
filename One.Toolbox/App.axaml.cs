@@ -9,6 +9,7 @@ using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
+using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.MainWindow;
 using One.Toolbox.Views;
 
@@ -89,6 +90,9 @@ public partial class App : Application
         services.AddSingleton<Services.SettingService>();
 
         services.AddSingleton<TestPageVM>();
+        services.AddSingleton<HashToolPageVM>();
+
+        
 
         //多例
         //services.AddTransient<StickItemVM>();

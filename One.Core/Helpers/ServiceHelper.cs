@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     /// <summary> Windows服务帮助类 </summary>
     public class ServiceHelper

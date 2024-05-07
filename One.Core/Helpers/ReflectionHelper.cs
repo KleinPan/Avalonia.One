@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 
 {
     /// <summary> 反射帮助类 </summary>

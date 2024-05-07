@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace One.Core.Base
+namespace One.Base.Base
 {
     /// <summary> 带通知的Object基类 </summary>
     [Serializable]

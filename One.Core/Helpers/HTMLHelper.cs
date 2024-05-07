@@ -1,8 +1,8 @@
-﻿using One.Core.ExtensionMethods;
+﻿using One.Base.ExtensionMethods;
 
 using System.Text.RegularExpressions;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     public class HTMLHelper
     {

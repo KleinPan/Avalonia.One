@@ -1,11 +1,11 @@
-﻿using One.Core.Helpers;
+﻿using One.Base.Helpers;
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace One.Core.ExtensionMethods
+namespace One.Base.ExtensionMethods
 {
     /// <summary> 扩展字符串类 </summary>
     public static class ExtensionMethodsForString

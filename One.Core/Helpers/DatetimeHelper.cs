@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     public class DatetimeHelper
     {

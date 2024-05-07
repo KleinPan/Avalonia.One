@@ -1,10 +1,11 @@
-﻿using One.Core.ExtensionMethods;
+﻿using One.Base.ExtensionMethods;
+using One.Base.ExtensionMethods;
 
 using System;
 using System.IO;
 using System.Net;
 
-namespace One.Core.Helpers.HttpHelper
+namespace One.Base.Helpers.HttpHelper
 {
     public class HttpServerHelper
     {

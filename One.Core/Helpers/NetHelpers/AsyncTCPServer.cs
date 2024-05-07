@@ -1,4 +1,4 @@
-﻿using One.Core.ExtensionMethods;
+﻿using One.Base.ExtensionMethods;
 
 using Org.BouncyCastle.Bcpg;
 
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace One.Core.Helpers.NetHelpers
+namespace One.Base.Helpers.NetHelpers
 {
     public class AsyncTCPServer : BaseHelper
     {

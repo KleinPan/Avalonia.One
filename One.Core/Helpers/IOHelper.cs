@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text.Json;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     public class IOHelper : BaseHelper
     {

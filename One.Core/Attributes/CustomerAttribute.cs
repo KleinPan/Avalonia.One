@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace One.Core.Attributes
+namespace One.Base.Attributes
 {
     /// <summary> 自定义特性 </summary>
     public class CustomerAttribute : Attribute

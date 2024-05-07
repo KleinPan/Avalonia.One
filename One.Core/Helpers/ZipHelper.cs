@@ -1,4 +1,4 @@
-﻿namespace One.Core.Helpers
+﻿namespace One.Base.Helpers
 {
     public class ZipHelper
     {

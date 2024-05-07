@@ -1,13 +1,12 @@
-﻿using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Security;
-
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
 
-namespace One.Core.Helpers.EncryptionHelpers
+namespace One.Base.Helpers.EncryptionHelpers
 {
     public class RSAHelper
     {
@@ -15,7 +14,7 @@ namespace One.Core.Helpers.EncryptionHelpers
         public static void GeneratePublicAndPrivateKeyInfo()
         {
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            using (StreamWriter writer = new StreamWriter("PrivateKey.xml"))  //这个文件要保密...
+            using (StreamWriter writer = new StreamWriter("PrivateKey.xml")) //这个文件要保密...
             {
                 string privateKey = rsa.ToXmlString(true);
                 writer.WriteLine(privateKey);
@@ -40,7 +39,7 @@ namespace One.Core.Helpers.EncryptionHelpers
             //转换密钥
             AsymmetricCipherKeyPair keyPair = DotNetUtilities.GetKeyPair(privateRsa);
             IBufferedCipher c = CipherUtilities.GetCipher("RSA/ECB/PKCS1Padding"); //使用RSA/ECB/PKCS1Padding格式
-                                                                                   //第一个参数为true表示加密，为false表示解密；第二个参数表示密钥
+            //第一个参数为true表示加密，为false表示解密；第二个参数表示密钥
 
             c.Init(true, keyPair.Private);
             byte[] dataToEncrypt = Encoding.UTF8.GetBytes(strEncryptString);
@@ -362,9 +361,11 @@ namespace One.Core.Helpers.EncryptionHelpers
         public static string RSAPublicKeyJava2DotNet(string publicKey)
         {
             RsaKeyParameters publicKeyParam = (RsaKeyParameters)PublicKeyFactory.CreateKey(Convert.FromBase64String(publicKey));
-            return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent></RSAKeyValue>",
-            Convert.ToBase64String(publicKeyParam.Modulus.ToByteArrayUnsigned()),
-            Convert.ToBase64String(publicKeyParam.Exponent.ToByteArrayUnsigned()));
+            return string.Format(
+                "<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent></RSAKeyValue>",
+                Convert.ToBase64String(publicKeyParam.Modulus.ToByteArrayUnsigned()),
+                Convert.ToBase64String(publicKeyParam.Exponent.ToByteArrayUnsigned())
+            );
         }
 
         /// <summary> RSA私钥格式转换，java-&gt;.net </summary>
@@ -372,17 +373,20 @@ namespace One.Core.Helpers.EncryptionHelpers
         /// <returns> </returns>
         public static string RSAPrivateKeyJava2DotNet(string privateKey)
         {
-            RsaPrivateCrtKeyParameters privateKeyParam = (RsaPrivateCrtKeyParameters)PrivateKeyFactory.CreateKey(Convert.FromBase64String(privateKey));
+            RsaPrivateCrtKeyParameters privateKeyParam = (RsaPrivateCrtKeyParameters)
+                PrivateKeyFactory.CreateKey(Convert.FromBase64String(privateKey));
 
-            return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent><P>{2}</P><Q>{3}</Q><DP>{4}</DP><DQ>{5}</DQ><InverseQ>{6}</InverseQ><D>{7}</D></RSAKeyValue>",
-            Convert.ToBase64String(privateKeyParam.Modulus.ToByteArrayUnsigned()),
-            Convert.ToBase64String(privateKeyParam.PublicExponent.ToByteArrayUnsigned()),
-            Convert.ToBase64String(privateKeyParam.P.ToByteArrayUnsigned()),
-            Convert.ToBase64String(privateKeyParam.Q.ToByteArrayUnsigned()),
-            Convert.ToBase64String(privateKeyParam.DP.ToByteArrayUnsigned()),
-            Convert.ToBase64String(privateKeyParam.DQ.ToByteArrayUnsigned()),
-            Convert.ToBase64String(privateKeyParam.QInv.ToByteArrayUnsigned()),
-            Convert.ToBase64String(privateKeyParam.Exponent.ToByteArrayUnsigned()));
+            return string.Format(
+                "<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent><P>{2}</P><Q>{3}</Q><DP>{4}</DP><DQ>{5}</DQ><InverseQ>{6}</InverseQ><D>{7}</D></RSAKeyValue>",
+                Convert.ToBase64String(privateKeyParam.Modulus.ToByteArrayUnsigned()),
+                Convert.ToBase64String(privateKeyParam.PublicExponent.ToByteArrayUnsigned()),
+                Convert.ToBase64String(privateKeyParam.P.ToByteArrayUnsigned()),
+                Convert.ToBase64String(privateKeyParam.Q.ToByteArrayUnsigned()),
+                Convert.ToBase64String(privateKeyParam.DP.ToByteArrayUnsigned()),
+                Convert.ToBase64String(privateKeyParam.DQ.ToByteArrayUnsigned()),
+                Convert.ToBase64String(privateKeyParam.QInv.ToByteArrayUnsigned()),
+                Convert.ToBase64String(privateKeyParam.Exponent.ToByteArrayUnsigned())
+            );
         }
     }
 }

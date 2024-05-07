@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using One.Core.ExtensionMethods;
-using One.Core.Helpers;
+using One.Base.ExtensionMethods;
+using One.Base.Helpers;
 using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;

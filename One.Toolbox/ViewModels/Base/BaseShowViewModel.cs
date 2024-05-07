@@ -1,6 +1,6 @@
 ﻿using Avalonia.Media;
 
-using One.Core.Helpers.DataProcessHelpers;
+using One.Base.Helpers.DataProcessHelpers;
 using One.Toolbox.Component;
 
 namespace One.Toolbox.ViewModels.Base;

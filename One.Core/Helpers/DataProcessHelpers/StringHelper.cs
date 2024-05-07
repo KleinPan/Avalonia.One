@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace One.Core.Helpers.DataProcessHelpers
+namespace One.Base.Helpers.DataProcessHelpers
 {
     public class StringHelper
     {

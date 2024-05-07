@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace One.Core.Attributes
+namespace One.Base.Attributes
 {
     /// <summary> 导出的测试项名称对应的设置 </summary>
     [AttributeUsage(AttributeTargets.Property)]

@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     /*
     class FireWallHelper

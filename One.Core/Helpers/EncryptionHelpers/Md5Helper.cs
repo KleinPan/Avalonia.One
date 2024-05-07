@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace One.Core.Helpers.EncryptionHelpers;
+namespace One.Base.Helpers.EncryptionHelpers;
 
 public class Md5Helper
 {

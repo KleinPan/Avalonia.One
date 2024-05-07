@@ -3,6 +3,7 @@ using Avalonia.Styling;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Base.Helpers;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Setting;
 
@@ -67,7 +68,7 @@ namespace One.Toolbox.ViewModels.MainWindow
         public override void InitializeViewModel()
         {
             //AppVersion = $"v{GetAssemblyVersion()} .NET 8.0";
-            AppVersion = $"v{One.Core.Helpers.AssemblyHelper.Instance.ProductVersion} .NET 8.0";
+            AppVersion = $"v{AssemblyHelper.Instance.ProductVersion} .NET 8.0";
 
             MainViewVM = App.Current!.Services.GetService<MainViewVM>()!;
             //SettingsPageVM = App.Current!.Services.GetService<SettingsPageVM>()!;

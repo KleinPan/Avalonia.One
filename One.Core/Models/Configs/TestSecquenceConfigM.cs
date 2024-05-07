@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace One.Core.Models.Configs
+namespace One.Base.Models.Configs
 {
     public class TestSecquenceConfigM : ICloneable
     {

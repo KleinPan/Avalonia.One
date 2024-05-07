@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-	<Version>1.0.0</Version>
+	<Version>1.1.0</Version>
 	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 
   </PropertyGroup>
@@ -71,6 +71,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\HashTool\HashToolPage.axaml.cs">
+      <DependentUpon>HashToolPage.axaml</DependentUpon>
     </Compile>
    
   </ItemGroup>

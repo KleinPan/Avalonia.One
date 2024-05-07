@@ -5,7 +5,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 
-namespace One.Core.Helpers.NetHelpers
+namespace One.Base.Helpers.NetHelpers
 {
     /// <summary> 网络帮助类 </summary>
     public class NetHelper

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Management;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     public class HardwareInfoHelper
     {

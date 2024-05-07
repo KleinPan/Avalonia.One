@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace One.Core.Helpers.NetHelpers
+namespace One.Base.Helpers.NetHelpers
 {
     public enum IPListOperationEnum
     {

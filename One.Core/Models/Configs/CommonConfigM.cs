@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace One.Core.Models.Configs
+namespace One.Base.Models.Configs
 {
     public class CommonConfigM : ICloneable
     {

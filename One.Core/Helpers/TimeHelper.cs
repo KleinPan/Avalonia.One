@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct SYSTEMTIME

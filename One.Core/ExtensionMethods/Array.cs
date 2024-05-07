@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace One.Core.ExtensionMethods
+namespace One.Base.ExtensionMethods
 {
     /// <summary> 数组扩展方法 </summary>
     public static class ExtensionMethodsForArray

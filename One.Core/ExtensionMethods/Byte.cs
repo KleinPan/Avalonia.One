@@ -1,4 +1,4 @@
-﻿namespace One.Core.ExtensionMethods
+﻿namespace One.Base.ExtensionMethods
 {
     public static class ExtensionMethodsForByte
     {

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace One.Core.Protect
+namespace One.Base.Protect
 {
     public class SystemInfo
     {
@@ -61,7 +61,7 @@ namespace One.Core.Protect
         /// <returns> </returns>
         public static string GetCPUSN()
         {
-            var res = One.Core.Helpers.HardwareInfoHelper.MulGetHardwareInfo(Helpers.HardwareEnum.Win32_Processor, "ProcessorId");
+            var res = One.Base.Helpers.HardwareInfoHelper.MulGetHardwareInfo(Helpers.HardwareEnum.Win32_Processor, "ProcessorId");
 
             return res.First();
         }
@@ -70,7 +70,7 @@ namespace One.Core.Protect
         /// <returns> </returns>
         public static string GetDiskVolumeSerialNumber()
         {
-            var res = One.Core.Helpers.HardwareInfoHelper.MulGetHardwareInfo(Helpers.HardwareEnum.Win32_LogicalDisk, "VolumeSerialNumber");
+            var res = One.Base.Helpers.HardwareInfoHelper.MulGetHardwareInfo(Helpers.HardwareEnum.Win32_LogicalDisk, "VolumeSerialNumber");
             return res.First();
         }
     }

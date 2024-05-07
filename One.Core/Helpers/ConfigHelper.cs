@@ -1,12 +1,12 @@
-﻿using One.Core.Attributes;
-using One.Core.Models.Configs;
+﻿using One.Base.Attributes;
+using One.Base.Models.Configs;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     public static class ConfigHelper
     {

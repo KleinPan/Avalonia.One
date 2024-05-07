@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace One.Core.Helpers.DataProcessHelpers
+namespace One.Base.Helpers.DataProcessHelpers
 {
     public class NumberHelper
     {

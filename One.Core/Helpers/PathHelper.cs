@@ -1,4 +1,4 @@
-﻿namespace One.Core.Helpers
+﻿namespace One.Base.Helpers
 {
     /// <summary> 路径寻找帮助类 </summary>
     public class PathHelper

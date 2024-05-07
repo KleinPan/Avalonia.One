@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using One.Base.Helpers;
 using One.Toolbox.Enums;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
@@ -75,7 +76,7 @@ public partial class SettingsPageVM : BaseVM
             //var localVersion = Assembly.GetExecutingAssembly().GetName().Version;
 
             //var localVersion =new AssemblyHelper(Assembly.GetExecutingAssembly()).ProductVersion;
-            var localVersion = Core.Helpers.AssemblyHelper.Instance.ProductVersion;
+            var localVersion = AssemblyHelper.Instance.ProductVersion;
 
             Version gitVersion = Version.Parse(githubReleaseInfoM.tag_name.Replace("v", ""));
 

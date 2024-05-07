@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     /// <summary>
     /// 注册表帮助类

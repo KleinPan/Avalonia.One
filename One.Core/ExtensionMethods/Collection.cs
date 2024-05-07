@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace One.Core.ExtensionMethods
+namespace One.Base.ExtensionMethods
 {
     public static class ExtensionMethodsForCollection
     {

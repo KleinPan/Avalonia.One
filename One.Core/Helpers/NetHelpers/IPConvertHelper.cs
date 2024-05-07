@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace One.Core.Helpers.NetHelpers
+namespace One.Base.Helpers.NetHelpers
 {
     /// <summary> IP地址字符串和数字转换 </summary>
     public class IPConvertHelper

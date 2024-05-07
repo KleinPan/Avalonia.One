@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace One.Core.Helpers.EncryptionHelpers
+namespace One.Base.Helpers.EncryptionHelpers
 {
     public class AES256Helper
     {

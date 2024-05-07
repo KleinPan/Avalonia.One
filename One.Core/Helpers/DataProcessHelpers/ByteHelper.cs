@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace One.Core.Helpers.DataProcessHelpers
+namespace One.Base.Helpers.DataProcessHelpers
 {
     public class ByteHelper
     {

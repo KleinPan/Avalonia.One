@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace One.Core.Helpers.NetHelpers
+namespace One.Base.Helpers.NetHelpers
 {
     /// <summary>
     /// 使用新版本微软推荐的异步套接字开发

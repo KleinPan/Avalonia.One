@@ -1,4 +1,4 @@
-﻿using One.Core.Helpers;
+﻿using One.Base.Helpers;
 using One.Toolbox.ViewModels.Setting;
 
 using System.Globalization;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace One.Core.Helpers
+namespace One.Base.Helpers
 {
     /// <summary> 帮助类的基类 </summary>
     public class BaseHelper
