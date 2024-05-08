@@ -1,7 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+
 using One.Toolbox.Helpers;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.BingImage;
@@ -10,12 +8,16 @@ using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.Setting;
+using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
 using One.Toolbox.Views.HashTool;
+using One.Toolbox.Views.IconBoard;
 using One.Toolbox.Views.Note;
 using One.Toolbox.Views.Settings;
+
+using System.Collections.ObjectModel;
 
 namespace One.Toolbox.ViewModels.MainWindow;
 
@@ -110,6 +112,14 @@ public partial class MainViewVM : BaseVM
                 Content = new HashToolPage()
                 {
                     DataContext = App.Current!.Services.GetService<HashToolPageVM>()
+                },
+            }, new()
+            {
+                Header = "IconBoard",
+                Icon = ResourceHelper.FindObjectResource("star_regular"),
+                Content = new IconBoardPage()
+                {
+                    DataContext = App.Current!.Services.GetService<IconBoardPageVM>()
                 },
             },
             new()

@@ -21,6 +21,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceInclude Source="/Assets/Languages/zh-CN.axaml" />-->
+                <ResourceInclude Source="/Assets/AvaloniaUIGeometries.axaml" />
                 <ResourceInclude Source="/Assets/Geometries.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -1,0 +1,46 @@
+<UserControl x:Class="One.Toolbox.Views.IconBoard.IconBoardPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:vm="using:One.Toolbox.ViewModels.IconBoard"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:IconBoardPageVM"
+             mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:IconBoardPageVM />
+    </Design.DataContext>
+
+    <Border>
+        <ListBox Grid.Row="1" ItemsSource="{Binding IconItems}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:IconItemVM">
+                    <Grid Width="50" Height="50" RowDefinitions="auto,*,auto">
+
+                        <Border Grid.Row="1" CornerRadius="4,4,0,0" ToolTip.Tip="{Binding Name}">
+                            <PathIcon Width="20" Height="20" Data="{Binding Icon}" />
+                        </Border>
+
+                        <Grid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Set" />
+                            </ContextMenu>
+                        </Grid.ContextMenu>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+
+    </Border>
+
+
+</UserControl>

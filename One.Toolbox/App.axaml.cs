@@ -1,19 +1,17 @@
-﻿using Avalonia;
+﻿using System.Globalization;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
+using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
 using One.Toolbox.Views;
-
-using System.Globalization;
 
 namespace One.Toolbox;
 
@@ -24,7 +22,7 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
-    public new static App? Current => Application.Current as App;
+    public static new App? Current => Application.Current as App;
 
     /// <summary> Gets the <see cref="IServiceProvider"/> instance to resolve application services. </summary>
     public IServiceProvider Services { get; private set; }
@@ -37,10 +35,7 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var vm = new MainWindowVM();
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = vm
-            };
+            desktop.MainWindow = new MainWindow { DataContext = vm };
 
             Services = ConfigureServices(desktop);
 
@@ -48,10 +43,7 @@ public partial class App : Application
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView
-            {
-                DataContext = new MainViewVM()
-            };
+            singleViewPlatform.MainView = new MainView { DataContext = new MainViewVM() };
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -91,8 +83,7 @@ public partial class App : Application
 
         services.AddSingleton<TestPageVM>();
         services.AddSingleton<HashToolPageVM>();
-
-        
+        services.AddSingleton<IconBoardPageVM>();
 
         //多例
         //services.AddTransient<StickItemVM>();
@@ -100,7 +91,5 @@ public partial class App : Application
         return services.BuildServiceProvider();
     }
 
-    private void InitDataColelection()
-    {
-    }
+    private void InitDataColelection() { }
 }

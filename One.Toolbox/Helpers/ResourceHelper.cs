@@ -1,8 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml.Styling;
-
-using System.IO;
 
 namespace One.Toolbox.Helpers
 {
@@ -10,7 +7,8 @@ namespace One.Toolbox.Helpers
     {
         public static string FindStringResource(string resource)
         {
-            return (string)FindObjectResource(resource) ?? "?!"; ;
+            return (string)FindObjectResource(resource) ?? "?!";
+            ;
         }
 
         public static object FindObjectResource(object resourceKey)

@@ -3,7 +3,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-	<Version>1.1.0</Version>
+	<Version>1.2.0</Version>
 	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 
   </PropertyGroup>
@@ -19,6 +19,7 @@
 
   
   <ItemGroup>
+    <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml" />
     <AvaloniaResource Remove="Assets\Geometries.axaml" />
     <AvaloniaResource Remove="Assets\Resources.en-US.resx" />
     <AvaloniaResource Remove="Assets\Resources.resx" />
@@ -61,6 +62,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Update="Assets\AvaloniaUIGeometries.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaXaml>
     <AvaloniaXaml Update="Assets\Geometries.axaml">
       <SubType>Designer</SubType>
     </AvaloniaXaml>
@@ -74,6 +78,9 @@
     </Compile>
     <Compile Update="Views\HashTool\HashToolPage.axaml.cs">
       <DependentUpon>HashToolPage.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\IconBoard\IconBoardPage.axaml.cs">
+      <DependentUpon>IconBoardPage.axaml</DependentUpon>
     </Compile>
    
   </ItemGroup>

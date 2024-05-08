@@ -1,22 +1,19 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
-
-using Microsoft.Extensions.DependencyInjection;
-
-using One.Toolbox.Helpers;
-using One.Toolbox.Services;
-using One.Toolbox.Views.Note;
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
+using Microsoft.Extensions.DependencyInjection;
+using One.Toolbox.Helpers;
+using One.Toolbox.Services;
+using One.Toolbox.Views.Note;
+using System.Text.RegularExpressions;
 namespace One.Toolbox.ViewModels.Note;
 
 public partial class EditFileInfoVM : ObservableObject
-{
+{ 
     /// <summary> 文件名 </summary>
     [ObservableProperty]
     private string fileName;
@@ -55,16 +52,20 @@ public partial class EditFileInfoVM : ObservableObject
 
     public Action UpdateInfoAction { get; set; }
 
-    public string FilePath { get => FileParentDirectory + "\\" + FileName; }
+    public string FilePath
+    {
+        get => FileParentDirectory + "\\" + FileName;
+    }
 
-    public string FileFullPath { get => FilePath + suffix; }
+    public string FileFullPath
+    {
+        get => FilePath + suffix;
+    }
 
     public const string suffix = ".md";
 
     /// <summary> UI 展示数据使用 </summary>
-    public EditFileInfoVM()
-    {
-    }
+    public EditFileInfoVM() { }
 
     /// <summary> 正常使用 </summary>
     /// <param name="filePath"> </param>
@@ -92,10 +93,12 @@ public partial class EditFileInfoVM : ObservableObject
         try
         {
             var filesService = App.Current?.Services?.GetService<IFilesService>();
-            if (filesService is null) throw new NullReferenceException("Missing File Service instance.");
+            if (filesService is null)
+                throw new NullReferenceException("Missing File Service instance.");
 
             var file = await filesService.OpenFileAsync();
-            if (file is null) return;
+            if (file is null)
+                return;
 
             // Limit the text file to 1MB so that the demo wont lag.
             if ((await file.GetBasicPropertiesAsync()).Size <= 1024 * 1024 * 1)
@@ -185,6 +188,15 @@ public partial class EditFileInfoVM : ObservableObject
 
     private LittleNoteWnd littleNotePage;
 
+    partial void OnMdContentChanged(string value)
+    {
+        if (IsDirty)
+        {
+            return;
+        }
+        IsDirty = true;
+    }
+
     partial void OnShowInDesktopChanged(bool value)
     {
         if (value)
@@ -270,8 +282,9 @@ public partial class EditFileInfoVM : ObservableObject
         if (IsDirty)
         {
             ModifyTime = DateTime.Now;
-        }
 
-        File.WriteAllText(FilePath + suffix, MdContent);
+            File.WriteAllText(FilePath + suffix, MdContent);
+            App.Current!.Services.GetService<INotifyService>()!.ShowInfoMessage("Save success!");
+        }
     }
 }
