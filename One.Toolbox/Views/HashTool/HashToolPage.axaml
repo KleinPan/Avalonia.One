@@ -27,7 +27,7 @@
                 <TextBlock HorizontalAlignment="Left" Foreground="Gray" Text="请拖拽文件或者文件夹到下方进行校验..." />
                 <Rectangle Grid.Row="1" Margin="5" Fill="Transparent" Stroke="Gray"
                            StrokeDashArray="5" StrokeThickness="1" />
-                <TextBox Grid.Row="1" Margin="5" VerticalContentAlignment="Top"
+                <TextBox Grid.Row="1" Margin="5" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
                          och:DragDropHelper.DropFilesCommand="{Binding DropCommand}"
                          DragDrop.AllowDrop="True"
                          Text="{Binding AnylizeResult}" />

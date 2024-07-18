@@ -8,7 +8,7 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
-	<Version>1.2.1</Version>
+	<Version>1.2.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="icons8-knife-100.ico" />
