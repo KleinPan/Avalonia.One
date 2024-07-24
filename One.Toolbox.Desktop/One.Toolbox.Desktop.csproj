@@ -8,14 +8,16 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
-	<Version>1.2.2</Version>
+	<Version>1.2.3</Version>
+	<PublishTrimmed>False</PublishTrimmed>
+	<PublishAot>False</PublishAot>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="icons8-knife-100.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.1.0-rc2" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>

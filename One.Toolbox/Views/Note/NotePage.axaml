@@ -104,7 +104,7 @@
                     </u:ToolBar>
                 </StackPanel>
 
-                <TextBox Grid.Row="1" VerticalContentAlignment="Top" AcceptsReturn="True"
+                <TextBox Grid.Row="1" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalAlignment="Stretch"
                          Text="{Binding SelectedEditFileInfo.MdContent}"
                          TextWrapping="Wrap" />
             </Grid>

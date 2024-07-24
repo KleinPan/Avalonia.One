@@ -7,6 +7,16 @@
 	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
+  </PropertyGroup>
+
   <ItemGroup>
     <AvaloniaXaml Remove="HyperlinkButton\HyperLinkButtonStyle.axaml" />
   </ItemGroup>
@@ -16,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.1.0-rc2" />
+    <PackageReference Include="Avalonia" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>

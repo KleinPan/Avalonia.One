@@ -21,7 +21,7 @@
     </UserControl.Styles>
     <Grid RowDefinitions="*,auto,*">
         <TextBox VerticalContentAlignment="Top" AcceptsReturn="True" FontSize="15"
-                 Text="{Binding InputString}"
+                 Text="{Binding InputString}" VerticalAlignment="Stretch"
                  TextWrapping="Wrap" />
         <!--  FontFamily="Consolas"  -->
         <TextBlock Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Classes="test"
@@ -40,7 +40,7 @@
             <Button Margin="2" Command="{Binding ShowIndexEventCommand}" Content="显示编号" />
         </StackPanel>
 
-        <TextBox Grid.Row="2" Margin="2" VerticalContentAlignment="Top" AcceptsReturn="True"
+        <TextBox Grid.Row="2" Margin="2" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalAlignment="Stretch"
                  FontSize="15" IsReadOnly="true"
                  Text="{Binding OutputString}"
                  TextWrapping="Wrap" />
