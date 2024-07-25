@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.Base", "One.Core\One.Ba
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.Control", "One.Control\One.Control.csproj", "{2E8382A2-D952-4571-A4CF-617EF1C10884}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.SimpleLog", "One.SimpleLog\One.SimpleLog.csproj", "{A7947A7D-148A-4FA0-97B1-66FF2E748728}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "One.ConsoleTest", "One.ConsoleTest\One.ConsoleTest.csproj", "{CA5247AD-5FF4-4A4B-B45C-A08B247FF93E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +37,22 @@ Global
 		{2E8382A2-D952-4571-A4CF-617EF1C10884}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E8382A2-D952-4571-A4CF-617EF1C10884}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E8382A2-D952-4571-A4CF-617EF1C10884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7947A7D-148A-4FA0-97B1-66FF2E748728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7947A7D-148A-4FA0-97B1-66FF2E748728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7947A7D-148A-4FA0-97B1-66FF2E748728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7947A7D-148A-4FA0-97B1-66FF2E748728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA5247AD-5FF4-4A4B-B45C-A08B247FF93E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA5247AD-5FF4-4A4B-B45C-A08B247FF93E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA5247AD-5FF4-4A4B-B45C-A08B247FF93E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA5247AD-5FF4-4A4B-B45C-A08B247FF93E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = en-MY
-		RESX_CodeReferences = {"Items":[{"Expression":"\\W($File.$Key)\\W","Extensions":".cs,.xaml,.cshtml,.axaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($File.$Key)\\W","Extensions":".vbhtml","IsCaseSensitive":false,"SingleLineComment":null},{"Expression":"ResourceManager.GetString\\(\"($Key)\"\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"typeof\\((\\w+\\.)*($File)\\).+\"($Key)\"|\"($Key)\".+typeof\\((\\w+\\.)*($File)\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($Key)\\W","Extensions":".vb","IsCaseSensitive":false,"SingleLineComment":"'"},{"Expression":"\\W($File::$Key)\\W","Extensions":".cpp,.c,.hxx,.h","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"&lt;%\\$\\s+Resources:\\s*($File)\\s*,\\s*($Key)\\s*%&gt;","Extensions":".aspx,.ascx,.master","IsCaseSensitive":true,"SingleLineComment":null},{"Expression":"StringResourceKey\\.($Key)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\.($Key)","Extensions":".ts,.html","IsCaseSensitive":true,"SingleLineComment":"\/\/"}]}
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {CF0DC4FF-C793-44E8-B57D-2E88CC11348A}
+		RESX_SortFileContentOnSave = True
+		RESX_CodeReferences = {"Items":[{"Expression":"\\W($File.$Key)\\W","Extensions":".cs,.xaml,.cshtml,.axaml","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($File.$Key)\\W","Extensions":".vbhtml","IsCaseSensitive":false,"SingleLineComment":null},{"Expression":"ResourceManager.GetString\\(\"($Key)\"\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"typeof\\((\\w+\\.)*($File)\\).+\"($Key)\"|\"($Key)\".+typeof\\((\\w+\\.)*($File)\\)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\W($Key)\\W","Extensions":".vb","IsCaseSensitive":false,"SingleLineComment":"'"},{"Expression":"\\W($File::$Key)\\W","Extensions":".cpp,.c,.hxx,.h","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"&lt;%\\$\\s+Resources:\\s*($File)\\s*,\\s*($Key)\\s*%&gt;","Extensions":".aspx,.ascx,.master","IsCaseSensitive":true,"SingleLineComment":null},{"Expression":"StringResourceKey\\.($Key)","Extensions":".cs","IsCaseSensitive":true,"SingleLineComment":"\/\/"},{"Expression":"\\.($Key)","Extensions":".ts,.html","IsCaseSensitive":true,"SingleLineComment":"\/\/"}]}
+		RESX_NeutralResourcesLanguage = en-MY
 	EndGlobalSection
 EndGlobal

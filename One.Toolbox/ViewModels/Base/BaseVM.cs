@@ -1,9 +1,14 @@
-﻿namespace One.Toolbox.ViewModels.Base
+﻿using One.SimpleLog;
+using One.SimpleLog.Extensions;
+using One.SimpleLog.Loggers;
+
+using System.Threading;
+
+namespace One.Toolbox.ViewModels.Base
 {
     public class BaseVM : ObservableObject
     {
-        public static readonly NLog.Logger NLogger = NLog.LogManager.GetCurrentClassLogger();
-
+        public static LoggerWrapper logger = LogManager.GetLogger();
         protected bool isInitialized = false;
 
         /// <summary> 进入当前页面 </summary>
@@ -14,28 +19,27 @@
         }
 
         /// <summary> 从当前页面离开 </summary>
-        public virtual void OnNavigatedLeave()
-        {
-        }
+        public virtual void OnNavigatedLeave() { }
+
+       
 
         public virtual void InitializeViewModel()
         {
             isInitialized = true;
+
+            WriteDebugLog($"{this.ToString()}");
         }
 
-        public virtual void WriteTraceLog(string msg)
-        {
-            NLogger.Debug(msg);
-        }
-
+      
         public virtual void WriteDebugLog(string msg)
         {
-            NLogger.Debug(msg);
+            logger.WithPatternProperty("ThreadID", Thread.CurrentThread.ManagedThreadId.ToString()).Debug(msg);
         }
 
         public virtual void WriteInfoLog(string msg)
         {
-            NLogger.Info(msg);
+            logger.Info(msg);
+
         }
     }
 }
