@@ -8,13 +8,16 @@ using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.Note;
+using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.Setting;
+using One.Toolbox.Views;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
 using One.Toolbox.Views.HashTool;
 using One.Toolbox.Views.IconBoard;
 using One.Toolbox.Views.Note;
+using One.Toolbox.Views.QRCode;
 using One.Toolbox.Views.Settings;
 
 namespace One.Toolbox.ViewModels.MainWindow;
@@ -90,6 +93,12 @@ public partial class MainViewVM : BaseVM
                 Header = "IconBoard",
                 Icon = ResourceHelper.FindObjectResource("star_regular"),
                 Content = new IconBoardPage() { DataContext = App.Current!.Services.GetService<IconBoardPageVM>() },
+            },
+            new()
+            {
+                Header = "QRCode",
+                Icon = ResourceHelper.FindObjectResource("qr_code_regular"),
+                Content = new QRCodePage() { DataContext = App.Current!.Services.GetService<QRCodePageVM>() },
             },
             new()
             {

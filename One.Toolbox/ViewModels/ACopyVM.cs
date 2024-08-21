@@ -2,9 +2,9 @@
 
 namespace One.Toolbox.ViewModels;
 
-public partial class TestPageVM : BaseVM
+public partial class ACopyVM : BaseVM
 {
-    public TestPageVM()
+    public ACopyVM()
     {
     }
 

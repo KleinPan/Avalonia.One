@@ -1,0 +1,30 @@
+<UserControl x:Class="One.Toolbox.Views.ACopyViewPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:vm="using:One.Toolbox.ViewModels.QRCode"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:QRCodePageVM"
+             mc:Ignorable="d">
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border />
+
+            <!--<StatusBar Grid.Row="1">
+            <StatusBarItem>
+                <TextBlock Text="{Binding CurrentUseIP, StringFormat={}LocalIP: {0}}" />
+            </StatusBarItem>
+        </StatusBar>-->
+        </Grid>
+    </Border>
+
+</UserControl>

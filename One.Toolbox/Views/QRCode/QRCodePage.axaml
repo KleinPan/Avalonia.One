@@ -1,0 +1,61 @@
+<UserControl x:Class="One.Toolbox.Views.QRCode.QRCodePage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:qr="clr-namespace:Avalonia.Labs.Qr;assembly=Avalonia.Labs.Qr"
+             xmlns:vm="using:One.Toolbox.ViewModels.QRCode"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:QRCodePageVM"
+             mc:Ignorable="d">
+    <Border>
+
+        <StackPanel VerticalAlignment="Center" Spacing="10">
+            <qr:QrCode Width="{Binding QrCodeSize}"
+                       Height="{Binding QrCodeSize}"
+                       Padding="{Binding QrCodePadding}"
+                       CornerRadius="{Binding QrCodeCornerRadius}"
+                       Data="{Binding QrCodeString}"
+                       ErrorCorrection="{Binding QrCodeEccLevel}">
+
+                <qr:QrCode.Foreground>
+                    <LinearGradientBrush>
+                        <GradientStop Offset="0" Color="{Binding QrCodeForegroundColor1}" />
+                        <GradientStop Offset="1" Color="{Binding QrCodeForegroundColor2}" />
+                    </LinearGradientBrush>
+                </qr:QrCode.Foreground>
+
+                <qr:QrCode.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Offset="0" Color="{Binding QrCodeBackgroundColor1}" />
+                        <GradientStop Offset="1" Color="{Binding QrCodeBackgroundColor2}" />
+                    </LinearGradientBrush>
+                </qr:QrCode.Background>
+            </qr:QrCode>
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                <Label VerticalAlignment="Center" Content="QRCode Data:" />
+                <TextBox Name="QrDataBox" Width="{Binding QrCodeSize}" Text="{Binding QrCodeString, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                <Label VerticalAlignment="Center" Content="ECC Level:" />
+                <ComboBox Name="EccLevelComboBox" Width="{Binding QrCodeSize}" ItemsSource="{Binding Levels}" SelectedItem="{Binding QrCodeEccLevel, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                <Button Command="{Binding RandomizeData}" Content="Randomize Data" />
+                <Button Command="{Binding RandomizeColors}" Content="Randomize Colors" />
+            </StackPanel>
+
+            <Button HorizontalAlignment="Center" Command="{Binding ResetQrCode}" Content="Reset QRCode" />
+        </StackPanel>
+
+
+    </Border>
+
+</UserControl>

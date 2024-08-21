@@ -11,6 +11,7 @@ using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
+using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.Views;
 
 namespace One.Toolbox;
@@ -81,7 +82,7 @@ public partial class App : Application
         //Services
         services.AddSingleton<Services.SettingService>();
 
-        services.AddSingleton<TestPageVM>();
+        services.AddSingleton<QRCodePageVM>();
         services.AddSingleton<HashToolPageVM>();
         services.AddSingleton<IconBoardPageVM>();
 
