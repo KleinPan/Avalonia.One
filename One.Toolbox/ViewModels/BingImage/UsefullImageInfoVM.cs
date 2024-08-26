@@ -28,6 +28,7 @@ public partial class UsefullImageInfoVM : ObservableObject
 
     public static void SetImageToDesktop(string filePath)
     {
+        //判断平台
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             SystemParametersInfo(20, 1, filePath, 1);

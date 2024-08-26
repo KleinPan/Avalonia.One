@@ -8,6 +8,7 @@ using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
+using One.Toolbox.ViewModels.FileMonitor;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
@@ -85,6 +86,7 @@ public partial class App : Application
         services.AddSingleton<QRCodePageVM>();
         services.AddSingleton<HashToolPageVM>();
         services.AddSingleton<IconBoardPageVM>();
+        services.AddSingleton<FileMonitorPageVM>();
 
         //多例
         //services.AddTransient<StickItemVM>();

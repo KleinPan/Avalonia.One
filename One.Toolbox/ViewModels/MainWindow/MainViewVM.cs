@@ -1,24 +1,27 @@
-﻿using System.Collections.ObjectModel;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+
 using One.Toolbox.Helpers;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.BingImage;
 using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
+using One.Toolbox.ViewModels.FileMonitor;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.Setting;
-using One.Toolbox.Views;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
+using One.Toolbox.Views.FileMonitor;
 using One.Toolbox.Views.HashTool;
 using One.Toolbox.Views.IconBoard;
 using One.Toolbox.Views.Note;
 using One.Toolbox.Views.QRCode;
 using One.Toolbox.Views.Settings;
+
+using System.Collections.ObjectModel;
 
 namespace One.Toolbox.ViewModels.MainWindow;
 
@@ -100,6 +103,8 @@ public partial class MainViewVM : BaseVM
                 Icon = ResourceHelper.FindObjectResource("qr_code_regular"),
                 Content = new QRCodePage() { DataContext = App.Current!.Services.GetService<QRCodePageVM>() },
             },
+           
+
             new()
             {
                 Header = "Settings",
@@ -108,6 +113,19 @@ public partial class MainViewVM : BaseVM
                 Content = new SettingsPage() { DataContext = App.Current.Services.GetService<SettingsPageVM>() },
             },
         };
+        //判断平台
+        if(Environment.OSVersion.Platform == PlatformID.Win32NT)
+        {
+
+            NavigationItems.Add(new()
+            {
+                Header = "FileMonitor",
+                Icon = ResourceHelper.FindObjectResource("lock_regular"),
+                Content = new FileMonitorPage() { DataContext = App.Current!.Services.GetService<FileMonitorPageVM>() },
+            });
+            
+            
+        }
         CurrentMenuItem = NavigationItems.First();
 
         base.InitializeViewModel();

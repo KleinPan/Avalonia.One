@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace One.Toolbox.Services;
 
 public interface INotifyService
@@ -36,5 +38,25 @@ public class NotifyService : INotifyService
     public void ShowInfoMessage(string message)
     {
         _manager?.Show(new Notification("Info", message, NotificationType.Information));
+    }
+}
+
+internal class ServiceHelper
+{
+    public static ServiceHelper Instance = new Lazy<ServiceHelper>(() => new ServiceHelper()).Value;
+
+    public void ShowWarnMessage(string message)
+    {
+        App.Current!.Services.GetService<INotifyService>()!.ShowWarnMessage(message);
+    }
+
+    public void ShowErrorMessage(string message)
+    {
+        App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(message);
+    }
+    public void ShowInfoMessage(string message)
+    {
+        App.Current!.Services.GetService<INotifyService>()!.ShowInfoMessage(message);
+
     }
 }

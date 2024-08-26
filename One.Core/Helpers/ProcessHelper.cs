@@ -222,7 +222,9 @@ namespace One.Base.Helpers
             //得到所有打开的进程
             try
             {
+               
                 var thisproc = Process.GetProcessById(processID);
+               
                 if (thisproc.CloseMainWindow())
                 {
                     thisproc.WaitForExit((int)TimeSpan.FromSeconds(10)

@@ -1,12 +1,14 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Labs.Qr;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
+
+using System.Collections.ObjectModel;
+
 using static Avalonia.Labs.Qr.QrCode;
 
 namespace One.Toolbox.ViewModels.QRCode;
@@ -40,7 +42,7 @@ public partial class QRCodePageVM : BaseVM
         {
             return;
         }
-        var text = Input.Trim();
+        string text = Input.Trim();
         if (string.IsNullOrEmpty(text))
         {
             App.Current!.Services.GetService<INotifyService>()!.ShowWarnMessage("请输入二维码内容");
@@ -92,7 +94,7 @@ public partial class QRCodePageVM : BaseVM
         QrCodeBackgroundColor1 = Colors.White;
         QrCodeBackgroundColor2 = Colors.White;
     }
-   
+
 
     #region Random
     private const string Chars = "qwertyuiopasdfghjklzxcvbnm";
@@ -102,7 +104,7 @@ public partial class QRCodePageVM : BaseVM
     }
     public void RandomizeColors()
     {
-        var newColors = new byte[12];
+        byte[] newColors = new byte[12];
         Random.Shared.NextBytes(newColors);
 
         QrCodeForegroundColor1 = Color.FromRgb(newColors[0], newColors[1], newColors[2]);
@@ -111,7 +113,7 @@ public partial class QRCodePageVM : BaseVM
         QrCodeBackgroundColor1 = Color.FromRgb(newColors[6], newColors[7], newColors[8]);
         QrCodeBackgroundColor2 = Color.FromRgb(newColors[9], newColors[10], newColors[11]);
 
-        var cuurentCode = QrCodeString;
+        string? cuurentCode = QrCodeString;
         QrCodeString = string.Empty;
 
         UpdateQrCode(cuurentCode);

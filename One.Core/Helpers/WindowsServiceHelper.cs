@@ -7,7 +7,7 @@ using System.Threading;
 namespace One.Base.Helpers
 {
     /// <summary> Windows服务帮助类 </summary>
-    public class ServiceHelper
+    public class WindowsServiceHelper
     {
         #region C#控制服务
 

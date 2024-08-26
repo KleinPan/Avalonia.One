@@ -19,10 +19,7 @@ public partial class BingImagePageVM : BaseVM
 {
     public BingImagePageVM()
     {
-        //ObImageListInfo.Add(new UsefullImageInfoVM()
-        //{
-        //    Title = "test",
-        //});
+         
     }
 
     public override void OnNavigatedEnter()

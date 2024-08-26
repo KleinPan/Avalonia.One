@@ -205,6 +205,7 @@ public partial class HashToolPageVM : BaseVM
         }
         catch (Exception ex) { }
     }
+
     [RelayCommand]
     private void Clear()
     {
