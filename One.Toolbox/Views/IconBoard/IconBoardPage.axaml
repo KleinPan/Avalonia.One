@@ -16,29 +16,35 @@
     </Design.DataContext>
 
     <Border>
-        <ListBox Grid.Row="1" ItemsSource="{Binding IconItems}">
-            <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="vm:IconItemVM">
-                    <Grid Width="50" Height="50" RowDefinitions="auto,*,auto">
 
-                        <Border Grid.Row="1" CornerRadius="4,4,0,0" ToolTip.Tip="{Binding Name}">
-                            <PathIcon Width="20" Height="20" Data="{Binding Icon}" />
-                        </Border>
+        <Grid RowDefinitions="auto,*,auto">
 
-                        <Grid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Set" />
-                            </ContextMenu>
-                        </Grid.ContextMenu>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+            <TextBox Text="{Binding SearchText}" />
+            <ListBox Name="listBox" Grid.Row="1" ItemsSource="{Binding IconItems}" SelectedItem="{Binding SelectItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:IconItemVM">
+                        <Grid Width="50" Height="50" RowDefinitions="auto,*,auto">
+
+                            <Border Grid.Row="1" CornerRadius="4,4,0,0" ToolTip.Tip="{Binding Name}">
+                                <PathIcon Width="20" Height="20" Data="{Binding Icon}" />
+                            </Border>
+
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Set" />
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <TextBox Grid.Row="2" IsReadOnly="True " Text="{Binding SelectItem.Name}" />
+        </Grid>
 
     </Border>
 
