@@ -48,7 +48,7 @@ public partial class App : Application
             singleViewPlatform.MainView = new MainView { DataContext = new MainViewVM() };
         }
 
-        Services.GetService<INotifyService>().InitializeLogo();
+      
         base.OnFrameworkInitializationCompleted();
     }
 
