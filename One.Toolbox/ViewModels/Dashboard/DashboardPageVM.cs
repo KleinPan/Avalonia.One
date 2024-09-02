@@ -1,9 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-using One.Base.Helpers;
+﻿using One.Base.Helpers;
 using One.Toolbox.ViewModels.Base;
-using One.Toolbox.ViewModels.BingImage;
-using One.Toolbox.ViewModels.Setting;
 
 using RestSharp;
 

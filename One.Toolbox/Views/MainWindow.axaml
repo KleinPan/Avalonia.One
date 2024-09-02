@@ -52,7 +52,11 @@
                     </Grid>
                 </one:WindowsTitleBar.CenterContent>
             </one:WindowsTitleBar>
+
+
             <views:MainView Grid.Row="1" DataContext="{Binding MainViewVM}" />
+
+
         </Grid>
     </Border>
 </Window>

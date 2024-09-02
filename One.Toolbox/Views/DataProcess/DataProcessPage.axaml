@@ -16,6 +16,7 @@
         <vm:DataProcessPageVM />
     </Design.DataContext>
     <UserControl.Styles>
+
         <Style Selector="TextBlock.test">
             <Setter Property="FontSize" Value="15" />
             <Setter Property="Opacity" Value="0.5" />
@@ -69,13 +70,17 @@
         </TabItem>
         <TabItem Header="DataFormat">
             <Grid RowDefinitions="*,auto">
-                <AvaloniaEdit:TextEditor FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True"    >
+                <Grid.Styles>
+                    <FluentTheme />
+                    <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+                </Grid.Styles>
+                <AvaloniaEdit:TextEditor FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True">
                     <i:Interaction.Behaviors>
                         <behaviors:DocumentTextBindingBehavior Text="{Binding ShowString, Mode=TwoWay}" />
                     </i:Interaction.Behaviors>
                 </AvaloniaEdit:TextEditor>
                 <StackPanel Grid.Row="1">
-                    <Button HorizontalAlignment="Right" Command="{Binding FormateCommand}" Content="{Binding FormateButtonContent}"  />
+                    <Button HorizontalAlignment="Right" Command="{Binding FormateCommand}" Content="{Binding FormateButtonContent}" />
                 </StackPanel>
             </Grid>
         </TabItem>

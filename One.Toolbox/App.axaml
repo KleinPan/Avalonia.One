@@ -2,7 +2,7 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:one="https://github.com/one"
-             xmlns:semi="https://irihi.tech/semi"
+             xmlns:u-semi="https://irihi.tech/ursa/themes/semi"
              xmlns:views="clr-namespace:One.Toolbox.Views"
              xmlns:vm="using:One.Toolbox.ViewModels"
              RequestedThemeVariant="Default">
@@ -11,11 +11,12 @@
     <Application.Styles>
         <!--<FluentTheme />-->
         <!--<oc:HyperlinkButtonStyle />-->
-        <FluentTheme />
-        <semi:SemiTheme />
         <StyleInclude Source="avares://One.Control/Themes/Index.axaml" />
+
+        <u-semi:SemiTheme Locale="zh-CN" />
+        <StyleInclude Source="avares://Semi.Avalonia/Themes/Index.axaml" />
         <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
-        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+
 
         <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
     </Application.Styles>
@@ -28,4 +29,26 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
+
+    <TrayIcon.Icons>
+        <TrayIcons>
+            <TrayIcon Clicked="TrayIcon_Clicked" Icon="/Assets/icons8-knife-100.ico" ToolTipText="One.Toolbox">
+                <TrayIcon.Menu>
+                    <NativeMenu>
+                        <NativeMenuItem Header="Settings">
+                            <NativeMenu>
+                                <NativeMenuItem Header="Test 1" />
+                                <NativeMenuItemSeparator />
+                                <NativeMenuItem Header="Test 2" />
+                            </NativeMenu>
+                        </NativeMenuItem>
+                        <NativeMenuItem Click="Exit_Click" Header="Exit" />
+                    </NativeMenu>
+                </TrayIcon.Menu>
+            </TrayIcon>
+
+        </TrayIcons>
+
+    </TrayIcon.Icons>
+
 </Application>

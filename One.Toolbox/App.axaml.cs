@@ -1,12 +1,11 @@
-﻿using System.Globalization;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+
 using Microsoft.Extensions.DependencyInjection;
-using One.Toolbox.Helpers;
+
 using One.Toolbox.Services;
-using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.FileMonitor;
 using One.Toolbox.ViewModels.HashTool;
@@ -22,9 +21,10 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        
     }
 
-    public static new App? Current => Application.Current as App;
+    public new static App? Current => Application.Current as App;
 
     /// <summary> Gets the <see cref="IServiceProvider"/> instance to resolve application services. </summary>
     public IServiceProvider Services { get; private set; }
@@ -36,7 +36,7 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var vm = new MainWindowVM();
+            MainWindowVM vm = new MainWindowVM();
             desktop.MainWindow = new MainWindow { DataContext = vm };
 
             Services = ConfigureServices(desktop);
@@ -48,13 +48,14 @@ public partial class App : Application
             singleViewPlatform.MainView = new MainView { DataContext = new MainViewVM() };
         }
 
+        Services.GetService<INotifyService>().InitializeLogo();
         base.OnFrameworkInitializationCompleted();
     }
 
     /// <summary> Configures the services for the application. </summary>
     private static IServiceProvider ConfigureServices(IClassicDesktopStyleApplicationLifetime desktop)
     {
-        var services = new ServiceCollection();
+        ServiceCollection services = new ServiceCollection();
 
         // App Host
         //Scoped 1指定将为每个作用域创建服务的新实例。 在 ASP.NET Core 应用中，会针对每个服务器请求创建一个作用域。
@@ -94,5 +95,19 @@ public partial class App : Application
         return services.BuildServiceProvider();
     }
 
-    private void InitDataColelection() { }
+    private void Exit_Click(object? sender, System.EventArgs e)
+    {
+        if ( ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.Shutdown();
+        }
+    }
+
+    private void TrayIcon_Clicked(object? sender, System.EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.MainWindow.IsVisible=true;
+        }
+    }
 }

@@ -74,5 +74,7 @@ namespace One.Toolbox.ViewModels.MainWindow
 
             MainViewVM.InitializeViewModel();
         }
+
+      
     }
 }

@@ -19,25 +19,19 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <UserControl.Styles>
-        <Style Selector="u|ToolBar">
-
-            <Setter Property="Height" Value="30" />
-        </Style>
-    </UserControl.Styles>
+    <UserControl.Styles />
     <Grid ColumnDefinitions="*,auto,3*">
-        <Border Grid.Row="1">
+        <Border>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <u:ToolBar Height="30" HorizontalAlignment="Stretch">
-                    <Button Width="30" Command="{Binding NewFileCommand}">
+                <u:ToolBar>
+                    <Button Width="30" Command="{Binding NewFileCommand}" DockPanel.Dock="Top">
                         <PathIcon Width="16" Height="16" Data="{DynamicResource note_add_regular}" />
                     </Button>
                 </u:ToolBar>
-
                 <ListBox Name="listbox" Grid.Row="1" ItemsSource="{Binding EditFileInfoViewModelOC}" SelectedItem="{Binding SelectedEditFileInfo}">
                     <i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="SelectionChanged">
@@ -104,7 +98,7 @@
                     </u:ToolBar>
                 </StackPanel>
 
-                <TextBox Grid.Row="1" VerticalContentAlignment="Top" AcceptsReturn="True" VerticalAlignment="Stretch"
+                <TextBox Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top" AcceptsReturn="True"
                          Text="{Binding SelectedEditFileInfo.MdContent}"
                          TextWrapping="Wrap" />
             </Grid>
