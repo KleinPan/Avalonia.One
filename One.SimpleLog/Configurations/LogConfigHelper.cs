@@ -19,7 +19,7 @@ internal static class LogConfigHelper
 
     internal static string GetLogFile()
     {
-        return configuration.Get(target, "File") ?? "One.SimpleLog.txt";
+        return configuration.Get(target, "file") ?? "One.SimpleLog.txt";
     }
 
     internal static string GetTarget()

@@ -14,7 +14,10 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Text.Unicode;
 
 namespace One.Toolbox.ViewModels.DataProcess;
 
@@ -45,7 +48,7 @@ public partial class DataProcessPageVM : BaseVM
 
     public override void InitializeViewModel()
     {
-        foreach (var i in converters)
+        foreach (KeyValuePair<string, Func<byte[], byte[]>> i in converters)
             ConverterTaskList.Add(i.Key);
 
         InputString = "";
@@ -138,7 +141,7 @@ public partial class DataProcessPageVM : BaseVM
         ["String to Hex(without space)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(e).Replace("-", "")),
         ["Hex to String"] = (e) => Hex2byte(Encoding.Default.GetString(e)),
         ["String to Base64"] = (e) => { try { return Encoding.Default.GetBytes(System.Convert.ToBase64String(e)); } catch (Exception ee) { return Encoding.Default.GetBytes(ee.Message); } },
-        ["Base64 to String"] = (e) => { try { return (System.Convert.FromBase64String(Encoding.Default.GetString(e))); } catch (Exception ee) { return Encoding.Default.GetBytes(ee.Message); } },
+        ["Base64 to String"] = (e) => { try { return System.Convert.FromBase64String(Encoding.Default.GetString(e)); } catch (Exception ee) { return Encoding.Default.GetBytes(ee.Message); } },
         ["URL encode"] = (e) => Encoding.Default.GetBytes(System.Web.HttpUtility.UrlEncode(Encoding.Default.GetString(e))),
         ["URL decode"] = (e) => Encoding.Default.GetBytes(System.Web.HttpUtility.UrlDecode(Encoding.Default.GetString(e))),
         ["HTML encode"] = (e) => Encoding.Default.GetBytes(System.Web.HttpUtility.HtmlEncode(Encoding.Default.GetString(e))),
@@ -176,7 +179,7 @@ public partial class DataProcessPageVM : BaseVM
                     break;
                 }
 
-                var single = "0x" + input[i] + input[i + 1] + ",";
+                string single = "0x" + input[i] + input[i + 1] + ",";
                 output += single;
             }
 
@@ -236,9 +239,9 @@ public partial class DataProcessPageVM : BaseVM
 
     public static string String2Unicode(string source)
     {
-        var bytes = Encoding.Unicode.GetBytes(source);
-        var stringBuilder = new StringBuilder();
-        for (var i = 0; i < bytes.Length; i += 2)
+        byte[] bytes = Encoding.Unicode.GetBytes(source);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < bytes.Length; i += 2)
         {
             stringBuilder.AppendFormat("\\u{0}{1}", bytes[i + 1].ToString("x").PadLeft(2, '0'), bytes[i].ToString("x").PadLeft(2, '0'));
         }
@@ -257,7 +260,7 @@ public partial class DataProcessPageVM : BaseVM
     private WrapPanel wrapPanel;
 
     [RelayCommand]
-    void InitUI(object obj)
+    private void InitUI(object obj)
     {
         wrapPanel = (WrapPanel)obj;
     }
@@ -272,7 +275,7 @@ public partial class DataProcessPageVM : BaseVM
 
             wrapPanel.IsVisible = true;
 
-            var input = InputString.Trim();
+            string input = InputString.Trim();
 
             //归一
             if (input.Contains(' '))
@@ -368,4 +371,60 @@ public partial class DataProcessPageVM : BaseVM
     }
 
     #endregion ShowIndex
+
+    #region DataFormate
+
+    [ObservableProperty]
+    private string formateButtonContent = "Formate";
+
+    [ObservableProperty]
+    private string rawString = "";
+
+    [ObservableProperty]
+    private string formateString = "";
+
+    [ObservableProperty]
+    private string showString = "";
+
+    private bool isFormated = false;
+
+    [RelayCommand]
+    private void Formate()
+    {
+        if (!isFormated)
+        {
+            RawString = ShowString;//备份
+
+            FormateString = JsonFormate(RawString);
+
+            ShowString = FormateString;
+            FormateButtonContent = "ConvertBack";
+            isFormated = true;
+        }
+        else
+        {
+            ShowString = RawString;
+
+            FormateButtonContent = "Formate";
+
+            isFormated = false;
+        }
+    }
+
+    private string JsonFormate(string input)
+    {
+        var jsonDocument = JsonDocument.Parse(input);
+
+        var formatJson = JsonSerializer.Serialize(jsonDocument, new JsonSerializerOptions()
+        {
+            // 整齐打印
+            WriteIndented = true,
+            //重新编码，解决中文乱码问题
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+        });
+        // 格式化输出
+        return formatJson;
+    }
+
+    #endregion DataFormate
 }

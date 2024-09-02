@@ -1,5 +1,9 @@
-﻿using One.Base.Helpers;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+using One.Base.Helpers;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.ViewModels.BingImage;
+using One.Toolbox.ViewModels.Setting;
 
 using RestSharp;
 
@@ -23,7 +27,7 @@ public partial class DashboardPageVM : BaseVM
     }
 
     [RelayCommand]
-    void OpenUrl(string urlObj)
+    private void OpenUrl(string urlObj)
     {
         var url = urlObj as string;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -46,7 +50,7 @@ public partial class DashboardPageVM : BaseVM
         return;
     }
 
-    void InitData()
+    private void InitData()
     {
         Register();
 
@@ -63,7 +67,7 @@ public partial class DashboardPageVM : BaseVM
     {
         //https://blog.cool2645.com/posts/csruanjianjiaxul/
         //https://m.xp.cn/b.php/92230.html
-        var regTime =   RegistryHelper.ReadSetting("Toolbox", "FirstRun", "");
+        var regTime = RegistryHelper.ReadSetting("Toolbox", "FirstRun", "");
         if (string.IsNullOrEmpty(regTime))
         {
             var first = DateTime.Now.ToString("u");

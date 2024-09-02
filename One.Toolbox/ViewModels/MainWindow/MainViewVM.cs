@@ -76,7 +76,7 @@ public partial class MainViewVM : BaseVM
             new()
             {
                 Header = "Texts",
-                Icon = ResourceHelper.FindObjectResource("text_number_format_regular"),
+                Icon = ResourceHelper.FindObjectResource("text_edit_style_regular"),
                 Content = new DataProcessPage() { DataContext = App.Current!.Services.GetService<DataProcessPageVM>() },
             },
             new()
@@ -94,7 +94,7 @@ public partial class MainViewVM : BaseVM
             new()
             {
                 Header = "IconBoard",
-                Icon = ResourceHelper.FindObjectResource("star_regular"),
+                Icon = ResourceHelper.FindObjectResource("icons_regular"),
                 Content = new IconBoardPage() { DataContext = App.Current!.Services.GetService<IconBoardPageVM>() },
             },
             new()
