@@ -7,16 +7,16 @@ using System.Text.RegularExpressions;
 
 namespace One.Base.ExtensionMethods
 {
-    /// <summary> 扩展字符串类 </summary>
+    /// <summary>扩展字符串类</summary>
     public static class ExtensionMethodsForString
     {
         #region 数据转换
 
         #region 转Int
 
-        /// <summary> 转Int,失败返回0 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>转Int,失败返回0</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static int ToInt(this string t)
         {
             int n;
@@ -25,10 +25,10 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转Int,失败返回pReturn </summary>
-        /// <param name="t">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转Int,失败返回pReturn</summary>
+        /// <param name="t"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static int ToInt(this string t, int pReturn)
         {
             int n;
@@ -37,9 +37,9 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 是否是Int true:是 false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否是Int true:是 false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsInt(this string t)
         {
             int n;
@@ -50,9 +50,9 @@ namespace One.Base.ExtensionMethods
 
         #region 转Int16
 
-        /// <summary> 转Int,失败返回0 </summary>
-        /// <param name="e"> </param>
-        /// <returns> </returns>
+        /// <summary>转Int,失败返回0</summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public static Int16 ToInt16(this string t)
         {
             Int16 n;
@@ -61,10 +61,10 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转Int,失败返回pReturn </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转Int,失败返回pReturn</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static Int16 ToInt16(this string t, Int16 pReturn)
         {
             Int16 n;
@@ -73,9 +73,9 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 是否是Int true:是 false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否是Int true:是 false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsInt16(this string t)
         {
             Int16 n;
@@ -86,9 +86,9 @@ namespace One.Base.ExtensionMethods
 
         #region 转byte
 
-        /// <summary> 转byte,失败返回0 </summary>
-        /// <param name="e"> </param>
-        /// <returns> </returns>
+        /// <summary>转byte,失败返回0</summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public static byte Tobyte(this string t)
         {
             byte n;
@@ -97,18 +97,26 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转byte[] </summary>
-        /// <param name="e"> </param>
-        /// <returns> </returns>
+       /// <summary>
+       /// 转换为指定编码的 <see cref="byte"/>[]
+       /// </summary>
+       /// <param name="t"></param>
+       /// <param name="encoding"></param>
+       /// <returns></returns>
         public static byte[] ToByte(this string t, System.Text.Encoding encoding)
         {
             return encoding.GetBytes(t);
         }
 
-        /// <summary> 转byte,失败返回pReturn </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        public static byte[] ToUTF8Byte(this string t)
+        {
+            return System.Text.Encoding.UTF8.GetBytes(t);
+        }
+
+        /// <summary>转byte,失败返回pReturn</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static byte Tobyte(this string t, byte pReturn)
         {
             byte n;
@@ -117,9 +125,9 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 是否是byte true:是 false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否是byte true:是 false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool Isbyte(this string t)
         {
             byte n;
@@ -130,9 +138,9 @@ namespace One.Base.ExtensionMethods
 
         #region 转Long
 
-        /// <summary> 转Long,失败返回0 </summary>
-        /// <param name="e"> </param>
-        /// <returns> </returns>
+        /// <summary>转Long,失败返回0</summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public static long ToLong(this string t)
         {
             long n;
@@ -141,10 +149,10 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转Long,失败返回pReturn </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转Long,失败返回pReturn</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static long ToLong(this string t, long pReturn)
         {
             long n;
@@ -153,9 +161,9 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 是否是Long true:是 false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否是Long true:是 false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsLong(this string t)
         {
             long n;
@@ -166,9 +174,9 @@ namespace One.Base.ExtensionMethods
 
         #region 转Double
 
-        /// <summary> 转Int,失败返回0 </summary>
-        /// <param name="e"> </param>
-        /// <returns> </returns>
+        /// <summary>转Int,失败返回0</summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public static double ToDouble(this string t)
         {
             double n;
@@ -177,10 +185,10 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转Double,失败返回pReturn </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转Double,失败返回pReturn</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static double ToDouble(this string t, double pReturn)
         {
             double n;
@@ -189,9 +197,9 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 是否是Double true:是 false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否是Double true:是 false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsDouble(this string t)
         {
             double n;
@@ -202,9 +210,9 @@ namespace One.Base.ExtensionMethods
 
         #region 转Decimal
 
-        /// <summary> 转Decimal,失败返回0 </summary>
-        /// <param name="e"> </param>
-        /// <returns> </returns>
+        /// <summary>转Decimal,失败返回0</summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public static decimal ToDecimal(this string t)
         {
             decimal n;
@@ -213,10 +221,10 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转Decimal,失败返回pReturn </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转Decimal,失败返回pReturn</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static decimal ToDecimal(this string t, decimal pReturn)
         {
             decimal n;
@@ -225,9 +233,9 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 是否是Decimal true:是 false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否是Decimal true:是 false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsDecimal(this string t)
         {
             decimal n;
@@ -238,9 +246,9 @@ namespace One.Base.ExtensionMethods
 
         #region 转DateTime
 
-        /// <summary> 转DateTime,失败返回当前时间 </summary>
-        /// <param name="e"> </param>
-        /// <returns> </returns>
+        /// <summary>转DateTime,失败返回当前时间</summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         public static DateTime ToDateTime(this string t)
         {
             DateTime n;
@@ -249,10 +257,10 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转DateTime,失败返回pReturn </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转DateTime,失败返回pReturn</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static DateTime ToDateTime(this string t, DateTime pReturn)
         {
             DateTime n;
@@ -261,10 +269,10 @@ namespace One.Base.ExtensionMethods
             return n;
         }
 
-        /// <summary> 转DateTime,失败返回pReturn </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转DateTime,失败返回pReturn</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static string ToDateTime(this string t, string pFormat, string pReturn)
         {
             DateTime n;
@@ -273,10 +281,10 @@ namespace One.Base.ExtensionMethods
             return n.ToString(pFormat);
         }
 
-        /// <summary> 转DateTime,失败返回空 </summary>
-        /// <param name="e">       </param>
-        /// <param name="pReturn"> 失败返回的值 </param>
-        /// <returns> </returns>
+        /// <summary>转DateTime,失败返回空</summary>
+        /// <param name="e"></param>
+        /// <param name="pReturn">失败返回的值</param>
+        /// <returns></returns>
         public static string ToDateTime(this string t, string pFormat)
         {
             return t.ToDateTime(pFormat, string.Empty);
@@ -287,9 +295,9 @@ namespace One.Base.ExtensionMethods
             return t.ToDateTime("yyyy-MM-dd", string.Empty);
         }
 
-        /// <summary> 是否是DateTime true:是 false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否是DateTime true:是 false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsDateTime(this string t)
         {
             DateTime n;
@@ -300,18 +308,18 @@ namespace One.Base.ExtensionMethods
 
         #region 与int[]相关
 
-        /// <summary> 转int[],字符串以逗号(,)隔开,请确保字符串内容都合法,否则会出错 </summary>
-        /// <param name="pStr"> </param>
-        /// <returns> </returns>
+        /// <summary>转int[],字符串以逗号(,)隔开,请确保字符串内容都合法,否则会出错</summary>
+        /// <param name="pStr"></param>
+        /// <returns></returns>
         public static int[] ToIntArr(this string t)
         {
             return t.ToIntArr(new char[] { ',' });
         }
 
-        /// <summary> 转int[],字符串以逗号(,)隔开,请确保字符串内容都合法,否则会出错 </summary>
-        /// <param name="t">      </param>
-        /// <param name="pSplit"> 隔开的 </param>
-        /// <returns> </returns>
+        /// <summary>转int[],字符串以逗号(,)隔开,请确保字符串内容都合法,否则会出错</summary>
+        /// <param name="t"></param>
+        /// <param name="pSplit">隔开的</param>
+        /// <returns></returns>
         public static int[] ToIntArr(this string t, char[] pSplit)
         {
             if (t.Length == 0)
@@ -332,10 +340,10 @@ namespace One.Base.ExtensionMethods
 
         #region 过滤字符串的非int,重新组合成字符串
 
-        /// <summary> 过滤字符串的非int,重新组合成字符串 </summary>
-        /// <param name="t">      </param>
-        /// <param name="pSplit"> 分隔符 </param>
-        /// <returns> </returns>
+        /// <summary>过滤字符串的非int,重新组合成字符串</summary>
+        /// <param name="t"></param>
+        /// <param name="pSplit">分隔符</param>
+        /// <returns></returns>
         public static string ClearNoInt(this string t, char pSplit)
         {
             string sStr = string.Empty;
@@ -357,9 +365,9 @@ namespace One.Base.ExtensionMethods
             return sStr;
         }
 
-        /// <summary> 过滤字符串的非int,重新组合成字符串 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>过滤字符串的非int,重新组合成字符串</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static string ClearNoInt(this string t)
         {
             return t.ClearNoInt(',');
@@ -369,10 +377,10 @@ namespace One.Base.ExtensionMethods
 
         #region 是否可以转换成int[]
 
-        /// <summary> 是否可以转换成int[],true:是,false:否 </summary>
-        /// <param name="t">      </param>
-        /// <param name="pSplit"> 分隔符 </param>
-        /// <returns> </returns>
+        /// <summary>是否可以转换成int[],true:是,false:否</summary>
+        /// <param name="t"></param>
+        /// <param name="pSplit">分隔符</param>
+        /// <returns></returns>
         public static bool IsIntArr(this string t, char pSplit)
         {
             string[] ArrStr = t.Split(pSplit);
@@ -390,9 +398,9 @@ namespace One.Base.ExtensionMethods
             return b;
         }
 
-        /// <summary> 是否可以转换成int[],true:是,false:否 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>是否可以转换成int[],true:是,false:否</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static bool IsIntArr(this string t)
         {
             return t.IsIntArr(',');
@@ -404,11 +412,11 @@ namespace One.Base.ExtensionMethods
 
         #region 载取左字符
 
-        /// <summary> 载取左字符 </summary>
-        /// <param name="t">       </param>
-        /// <param name="pLen">    字符个数 </param>
-        /// <param name="pReturn"> 超出时后边要加的返回的内容 </param>
-        /// <returns> </returns>
+        /// <summary>载取左字符</summary>
+        /// <param name="t"></param>
+        /// <param name="pLen">字符个数</param>
+        /// <param name="pReturn">超出时后边要加的返回的内容</param>
+        /// <returns></returns>
         public static string Left(this string t, int pLen, string pReturn)
         {
             if (t == null || t.Length == 0)
@@ -464,9 +472,9 @@ namespace One.Base.ExtensionMethods
             public static readonly string[] unSafeStr = { "/", "\\", ":", "*", "?", "\"", "<", ">", "|" };
         }
 
-        /// <summary> 删除文件名或路径的特殊字符 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>删除文件名或路径的特殊字符</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static string ClearPathUnsafe(this string t)
         {
             foreach (string s in ClearPathUnsafeList.unSafeStr)
@@ -481,9 +489,9 @@ namespace One.Base.ExtensionMethods
 
         #region 字符串真实长度 如:一个汉字为两个字节
 
-        /// <summary> 字符串真实长度 如:一个汉字为两个字节 </summary>
-        /// <param name="s"> </param>
-        /// <returns> </returns>
+        /// <summary>字符串真实长度 如:一个汉字为两个字节</summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static int LengthReal(this string s)
         {
             return Encoding.Default.GetBytes(s).Length;
@@ -493,9 +501,9 @@ namespace One.Base.ExtensionMethods
 
         #region 去除小数位最后为0的
 
-        /// <summary> 去除小数位最后为0的 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>去除小数位最后为0的</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static decimal ClearDecimal0(this string t)
         {
             decimal d;
@@ -510,9 +518,9 @@ namespace One.Base.ExtensionMethods
 
         #region 进制转换
 
-        /// <summary> 16进制转二进制 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>16进制转二进制</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static string Change16To2(this string t)
         {
             String BinOne = string.Empty;
@@ -529,9 +537,9 @@ namespace One.Base.ExtensionMethods
             return BinAll;
         }
 
-        /// <summary> 二进制转十进制 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>二进制转十进制</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static Int64 Change2To10(this string t)
         {
             char[] arrc = t.ToCharArray();
@@ -548,9 +556,9 @@ namespace One.Base.ExtensionMethods
             return all;
         }
 
-        /// <summary> 二进制转换byte[]数组 </summary>
-        /// <param name="s"> </param>
-        /// <returns> </returns>
+        /// <summary>二进制转换byte[]数组</summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static byte[] Change2ToBytes(this string t)
         {
             List<byte> list = new List<byte>();
@@ -594,9 +602,9 @@ namespace One.Base.ExtensionMethods
             return arrb;
         }
 
-        /// <summary> 二进制转化为索引id数据,从右到左 </summary>
-        /// <param name="t"> </param>
-        /// <returns> </returns>
+        /// <summary>二进制转化为索引id数据,从右到左</summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static int[] Change2ToIndex(this string t)
         {
             List<int> list = new List<int>();
@@ -625,33 +633,33 @@ namespace One.Base.ExtensionMethods
 
         #region html url编码 解码
 
-        /// <summary> Html Encode </summary>
-        /// <param name="pStr"> </param>
-        /// <returns> </returns>
+        /// <summary>Html Encode</summary>
+        /// <param name="pStr"></param>
+        /// <returns></returns>
         public static string HtmlEncode(this string t)
         {
             return HttpContext.Current.Server.HtmlEncode(t);
         }
 
-        /// <summary> Html Decode </summary>
-        /// <param name="pStr"> </param>
-        /// <returns> </returns>
+        /// <summary>Html Decode</summary>
+        /// <param name="pStr"></param>
+        /// <returns></returns>
         public static string HtmlDecode(this string t)
         {
             return HttpContext.Current.Server.HtmlDecode(t);
         }
 
-        /// <summary> URL Encode </summary>
-        /// <param name="pStr"> </param>
-        /// <returns> </returns>
+        /// <summary>URL Encode</summary>
+        /// <param name="pStr"></param>
+        /// <returns></returns>
         public static string URLEncode(this string t)
         {
             return HttpContext.Current.Server.UrlEncode(t);
         }
 
-        /// <summary> URL Decode </summary>
-        /// <param name="pStr"> </param>
-        /// <returns> </returns>
+        /// <summary>URL Decode</summary>
+        /// <param name="pStr"></param>
+        /// <returns></returns>
         public static string URLDecode(this string t)
         {
             return HttpContext.Current.Server.UrlDecode(t);
@@ -661,15 +669,15 @@ namespace One.Base.ExtensionMethods
 
         #region 向客户端输出内容
 
-        /// <summary> 向客户端输出内容 </summary>
-        /// <param name="t"> </param>
+        /// <summary>向客户端输出内容</summary>
+        /// <param name="t"></param>
         public static void Write(this string t)
         {
             HttpContext.Current.Response.Write(t);
         }
 
-        /// <summary> 向客户端输出内容 </summary>
-        /// <param name="t"> </param>
+        /// <summary>向客户端输出内容</summary>
+        /// <param name="t"></param>
         public static void WriteLine(this string t)
         {
             HttpContext.Current.Response.Write(t + "<br />");
@@ -679,37 +687,39 @@ namespace One.Base.ExtensionMethods
 
         */
 
-        /// <summary> 验证字符串是否由正负号（+-）、数字、小数点构成，并且最多只有一个小数点 </summary>
-        /// <param name="str"> </param>
-        /// <returns> </returns>
+        /// <summary>验证字符串是否由正负号（+-）、数字、小数点构成，并且最多只有一个小数点</summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsNumeric(this string str)
         {
             Regex regex = new Regex(@"^[+-]?\d+[.]?\d*$");
             return regex.IsMatch(str);
         }
 
-        /// <summary> 验证字符串是否仅由[0-9]构成 </summary>
-        /// <param name="str"> </param>
-        /// <returns> </returns>
+        /// <summary>验证字符串是否仅由[0-9]构成</summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsNumericOnly(this string str)
         {
             Regex regex = new Regex("[0-9]");
             return regex.IsMatch(str);
         }
 
-        /// <summary> 验证字符串是否由字母和数字构成 </summary>
-        /// <param name="str"> </param>
-        /// <returns> </returns>
+        /// <summary>验证字符串是否由字母和数字构成</summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsNumericOrLetters(this string str)
         {
             Regex regex = new Regex("[a-zA-Z0-9]");
             return regex.IsMatch(str);
         }
 
-        /// <summary> 验证是否为空字符串。若无需裁切两端空格，建议直接使用 String.IsNullOrEmpty(string) </summary>
-        /// <param name="str"> </param>
-        /// <returns> </returns>
-        /// <remarks> 不同于String.IsNullOrEmpty(string)，此方法会增加一步Trim操作。如 IsNullOrEmptyStr(" ") 将返回 true。 </remarks>
+        /// <summary>验证是否为空字符串。若无需裁切两端空格，建议直接使用 String.IsNullOrEmpty(string)</summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// 不同于String.IsNullOrEmpty(string)，此方法会增加一步Trim操作。如 IsNullOrEmptyStr(" ") 将返回 true。
+        /// </remarks>
         public static bool IsNullOrEmptyStr(this string str)
         {
             if (string.IsNullOrEmpty(str)) { return true; }
@@ -786,9 +796,9 @@ namespace One.Base.ExtensionMethods
             }
         }
 
-        /// <summary> 获取字符串长度。与string.Length不同的是，该方法将中文作 2 个字符计算。 </summary>
-        /// <param name="str"> 目标字符串 </param>
-        /// <returns> </returns>
+        /// <summary>获取字符串长度。与string.Length不同的是，该方法将中文作 2 个字符计算。</summary>
+        /// <param name="str">目标字符串</param>
+        /// <returns></returns>
         public static int GetLength(this string str)
         {
             if (str == null || str.Length == 0) { return 0; }
@@ -811,10 +821,10 @@ namespace One.Base.ExtensionMethods
             return realLen;
         }
 
-        /// <summary> 将形如 10.1MB 格式对用户友好的文件大小字符串还原成真实的文件大小，单位为字节。 </summary>
-        /// <param name="formatedSize"> 形如 10.1MB 格式的文件大小字符串 </param>
-        /// <remarks> 参见： <see cref="uoLib.Common.Functions.FormatFileSize(long)"/> </remarks>
-        /// <returns> </returns>
+        /// <summary>将形如 10.1MB 格式对用户友好的文件大小字符串还原成真实的文件大小，单位为字节。</summary>
+        /// <param name="formatedSize">形如 10.1MB 格式的文件大小字符串</param>
+        /// <remarks>参见： <see cref="uoLib.Common.Functions.FormatFileSize(long)"/></remarks>
+        /// <returns></returns>
         public static long GetFileSizeFromString(this string formatedSize)
         {
             if (IsNullOrEmptyStr(formatedSize)) throw new ArgumentNullException("formatedSize");
