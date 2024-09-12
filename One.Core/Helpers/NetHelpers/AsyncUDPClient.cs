@@ -16,7 +16,7 @@ namespace One.Base.Helpers.NetHelpers
     {
         #region 变量
 
-        private UdpClient udpClient = null;
+        protected UdpClient udpClient = null;
 
         #endregion 变量
 
@@ -40,7 +40,7 @@ namespace One.Base.Helpers.NetHelpers
         /// <summary> 初始化作为客户端并连接 </summary>
         /// <param name="ip">   </param>
         /// <param name="port"> </param>
-        public bool InitClient(IPAddress ip, int port)
+        public virtual bool InitClient(IPAddress ip, int port)
         {
             try
             {
@@ -48,6 +48,7 @@ namespace One.Base.Helpers.NetHelpers
 
                 udpClient = new UdpClient(ipEndPoint);
 
+                //如果调用 Connect 方法，则将放弃来自指定默认值以外的地址的任何数据报。
                 //udpClient.Connect(ipEndPoint);
 
                 var local = udpClient.Client.LocalEndPoint;
@@ -83,7 +84,7 @@ namespace One.Base.Helpers.NetHelpers
             }
         }
 
-        public async void SendData(IPEndPoint iPEndPoint, byte[] data)
+        public virtual async void SendData(IPEndPoint iPEndPoint, byte[] data)
         {
             try
             {
@@ -105,7 +106,7 @@ namespace One.Base.Helpers.NetHelpers
         }
 
         /// <summary> 循环接受缓冲区数据 </summary>
-        private async void Receive()
+        public virtual async void Receive()
         {
             try
             {
