@@ -18,10 +18,10 @@ namespace One.Control;
 [TemplatePart("PART_MaximizeIcon", typeof(PathIcon))]
 [TemplatePart("PART_MaximizeToolTip", typeof(ToolTip))]
 [TemplatePart("PART_MinimizeButton", typeof(Button))]
-[TemplatePart("PART_SystemChromeTitle", typeof(TextBlock))]
+//[TemplatePart("PART_SystemChromeTitle", typeof(TextBlock))]
 [TemplatePart("PART_TitleBar", typeof(Grid))]
 [TemplatePart("PART_TitleBarBackground", typeof(StackPanel))]
-[TemplatePart("PART_WindowIcon", typeof(Image))]
+//[TemplatePart("PART_WindowIcon", typeof(Image))]
 public class WindowsTitleBar : ContentControl
 {
     private Button minimizeButton;
@@ -93,15 +93,15 @@ public class WindowsTitleBar : ContentControl
             maximizeToolTip = e.NameScope.Find<ToolTip>("PART_MaximizeToolTip");
             minimizeButton = e.NameScope.Find<Button>("PART_MinimizeButton");
             //seamlessMenuBar = e.NameScope.Find<NativeMenuBar>("SeamlessMenuBar");
-            systemChromeTitle = e.NameScope.Find<TextBlock>("PART_SystemChromeTitle");
+            //systemChromeTitle = e.NameScope.Find<TextBlock>("PART_SystemChromeTitle");
             titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
             titleBarBackground = e.NameScope.Find<StackPanel>("PART_TitleBarBackground");
-            windowIcon = e.NameScope.Find<Image>("PART_WindowIcon");
+            //windowIcon = e.NameScope.Find<Image>("PART_WindowIcon");
 
             minimizeButton.Click += MinimizeWindow;
             maximizeButton.Click += MaximizeWindow;
             closeButton.Click += CloseWindow;
-            windowIcon.DoubleTapped += CloseWindow;
+            //windowIcon.DoubleTapped += CloseWindow;
 
             SubscribeToWindowState();
         }

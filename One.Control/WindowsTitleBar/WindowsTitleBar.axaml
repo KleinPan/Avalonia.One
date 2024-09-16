@@ -9,7 +9,7 @@
                     <StackPanel Name="PART_TitleBarBackground" HorizontalAlignment="Stretch" Background="{DynamicResource WindowsTitleBarBackground}" IsHitTestVisible="False" />
 
                     <Grid Name="PART_TitleBar" ColumnDefinitions="auto,*,auto">
-                        <StackPanel Orientation="Horizontal" Spacing="0">
+                        <!--<StackPanel Orientation="Horizontal" Spacing="0">
                             <Image Name="PART_WindowIcon" Width="20" Height="20" Margin="5,0,5,0"
                                    Source="{TemplateBinding Icon}"
                                    Stretch="UniformToFill" />
@@ -18,7 +18,7 @@
                                        Foreground="{DynamicResource WindowsTitleBarContentForeground}"
                                        IsHitTestVisible="False"
                                        Text="{TemplateBinding Title}" />
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <ContentControl Name="PART_CenterControl" Grid.Column="1" Content="{TemplateBinding CenterContent}" />
 

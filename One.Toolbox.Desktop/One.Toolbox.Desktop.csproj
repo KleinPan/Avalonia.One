@@ -9,7 +9,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
  
 	<Version>1.8.0</Version>
+ 
+	<ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="icons8-knife-100.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="11.1.3" />

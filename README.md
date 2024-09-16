@@ -54,7 +54,17 @@
 ### 显示编号
 ![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/ShowIndex.png?raw=true)
 
+### Notes
+![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/Notes.png?raw=true)
 
+### HashTools
+![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/HashTools.png?raw=true)
+
+### QRCode
+![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/QRCode.png?raw=true)
+
+### FileMonitor
+![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/FileMonitor.png?raw=true)
 
 
 
