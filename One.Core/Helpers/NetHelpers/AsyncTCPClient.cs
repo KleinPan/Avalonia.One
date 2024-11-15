@@ -8,8 +8,8 @@ namespace One.Base.Helpers.NetHelpers
 {
     /// <summary>
     /// 使用新版本微软推荐的异步套接字开发
-    /// <para> https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/sockets/socket-services#create-a-socket-client </para>
-    /// <para> https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket?view=net-7.0 </para>
+    /// <para>https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/sockets/socket-services#create-a-socket-client</para>
+    /// <para>https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket?view=net-7.0</para>
     /// </summary>
     public class AsyncTCPClient : BaseHelper
     {
@@ -26,23 +26,24 @@ namespace One.Base.Helpers.NetHelpers
 
         public CancellationToken cancellationToken = default;
 
-        /// <summary> 暂时不起作用 </summary>
+        /// <summary>暂时不起作用</summary>
         public int WaitTime = 100;
 
         public AsyncTCPClient(Action<string> logAction) : base(logAction)
         {
         }
 
-        /// <summary> 初始化作为客户端并连接 </summary>
-        /// <param name="ip">   </param>
-        /// <param name="port"> </param>
+        /// <summary>初始化作为客户端并连接</summary>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
         public bool InitClient(IPAddress ip, int port)
         {
             try
             {
                 IPEndPoint ipEndPoint = new(ip, port);
 
-                socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                //socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket = new Socket(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                 SocketAsyncEventArgs e = new SocketAsyncEventArgs();
                 e.RemoteEndPoint = ipEndPoint;
@@ -66,9 +67,9 @@ namespace One.Base.Helpers.NetHelpers
             }
         }
 
-        /// <summary> 连接成功事件 </summary>
-        /// <param name="sender"> </param>
-        /// <param name="e">      </param>
+        /// <summary>连接成功事件</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConnectComplete(object sender, SocketAsyncEventArgs e)
         {
             //这里设置buffer已经晚了，所以提前设置进去
@@ -97,8 +98,8 @@ namespace One.Base.Helpers.NetHelpers
             }
         }
 
-        /// <summary> 释放当前客户端连接 </summary>
-        /// <returns> </returns>
+        /// <summary>释放当前客户端连接</summary>
+        /// <returns></returns>
         public void ReleaseClient()
         {
             try
@@ -139,7 +140,7 @@ namespace One.Base.Helpers.NetHelpers
             }
         }
 
-        /// <summary> 循环接受缓冲区数据 </summary>
+        /// <summary>循环接受缓冲区数据</summary>
         private async void Receive()
         {
             try
