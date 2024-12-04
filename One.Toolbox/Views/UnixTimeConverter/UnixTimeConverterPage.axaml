@@ -1,0 +1,41 @@
+<UserControl x:Class="One.Toolbox.Views.UnixTimeConverter.UnixTimeConverterPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:vm="using:One.Toolbox.ViewModels.UnixTimeConverter"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:UnixTimeConverterVM"
+             mc:Ignorable="d">
+    <Border>
+        <Grid RowDefinitions="auto,*">
+            <Grid Grid.Row="1" RowDefinitions="auto,*">
+                <StackPanel Margin="10">
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="Input:" />
+                        <Button Margin="10" Command="{Binding NowCommand}" Content="Now" />
+                        <Button Margin="10" Command="{Binding ClearCommand}" Content="Clear" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBox Text="{Binding Input}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Margin="10">
+                    <StackPanel>
+                        <TextBlock Margin="10" Text="Local:" />
+                        <TextBox Text="{Binding LocalTme}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Margin="10" Text="UTC:" />
+                        <TextBox Text="{Binding UTCTime}" />
+                    </StackPanel>
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

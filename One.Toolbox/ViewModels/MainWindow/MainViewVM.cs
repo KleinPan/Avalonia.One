@@ -11,6 +11,7 @@ using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.Setting;
+using One.Toolbox.ViewModels.UnixTimeConverter;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
@@ -20,6 +21,7 @@ using One.Toolbox.Views.IconBoard;
 using One.Toolbox.Views.Note;
 using One.Toolbox.Views.QRCode;
 using One.Toolbox.Views.Settings;
+using One.Toolbox.Views.UnixTimeConverter;
 
 using System.Collections.ObjectModel;
 
@@ -103,7 +105,12 @@ public partial class MainViewVM : BaseVM
                 Icon = ResourceHelper.FindObjectResource("qr_code_regular"),
                 Content = new QRCodePage() { DataContext = App.Current!.Services.GetService<QRCodePageVM>() },
             },
-           
+            new()
+            {
+                Header = "UnixTimeConverter",
+                Icon = ResourceHelper.FindObjectResource("timer_regular"),
+                Content = new UnixTimeConverterPage() { DataContext = App.Current!.Services.GetService<UnixTimeConverterVM>() },
+            },
 
             new()
             {

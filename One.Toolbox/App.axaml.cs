@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Toolbox.Services;
+using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.FileMonitor;
 using One.Toolbox.ViewModels.HashTool;
@@ -21,17 +22,17 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        
     }
 
     public new static App? Current => Application.Current as App;
 
-    /// <summary> Gets the <see cref="IServiceProvider"/> instance to resolve application services. </summary>
+    /// <summary>Gets the <see cref="IServiceProvider"/> instance to resolve application services.</summary>
     public IServiceProvider Services { get; private set; }
 
     public override void OnFrameworkInitializationCompleted()
     {
-        // Line below is needed to remove Avalonia data validation. Without this line you will get duplicate validations from both Avalonia and CT
+        // Line below is needed to remove Avalonia data validation. Without this line you will get
+        // duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -48,11 +49,10 @@ public partial class App : Application
             singleViewPlatform.MainView = new MainView { DataContext = new MainViewVM() };
         }
 
-      
         base.OnFrameworkInitializationCompleted();
     }
 
-    /// <summary> Configures the services for the application. </summary>
+    /// <summary>Configures the services for the application.</summary>
     private static IServiceProvider ConfigureServices(IClassicDesktopStyleApplicationLifetime desktop)
     {
         ServiceCollection services = new ServiceCollection();
@@ -88,7 +88,7 @@ public partial class App : Application
         services.AddSingleton<HashToolPageVM>();
         services.AddSingleton<IconBoardPageVM>();
         services.AddSingleton<FileMonitorPageVM>();
-
+        services.AddSingleton<ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
         //多例
         //services.AddTransient<StickItemVM>();
 
@@ -97,7 +97,7 @@ public partial class App : Application
 
     private void Exit_Click(object? sender, System.EventArgs e)
     {
-        if ( ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.Shutdown();
         }
@@ -107,7 +107,7 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow.IsVisible=true;
+            desktop.MainWindow.IsVisible = true;
         }
     }
 }

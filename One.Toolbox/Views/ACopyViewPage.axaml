@@ -12,19 +12,8 @@
              x:DataType="vm:QRCodePageVM"
              mc:Ignorable="d">
     <Border>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Border />
-
-            <!--<StatusBar Grid.Row="1">
-            <StatusBarItem>
-                <TextBlock Text="{Binding CurrentUseIP, StringFormat={}LocalIP: {0}}" />
-            </StatusBarItem>
-        </StatusBar>-->
+        <Grid RowDefinitions="auto,*">
+            <Grid Grid.Row="1" RowDefinitions="auto,*" />
         </Grid>
     </Border>
-
 </UserControl>
