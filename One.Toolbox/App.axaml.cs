@@ -13,6 +13,7 @@ using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
 using One.Toolbox.ViewModels.QRCode;
+using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.Views;
 
 namespace One.Toolbox;
@@ -89,6 +90,8 @@ public partial class App : Application
         services.AddSingleton<IconBoardPageVM>();
         services.AddSingleton<FileMonitorPageVM>();
         services.AddSingleton<ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
+
+        services.AddSingleton<RegularTesterVM>();
         //多例
         //services.AddTransient<StickItemVM>();
 

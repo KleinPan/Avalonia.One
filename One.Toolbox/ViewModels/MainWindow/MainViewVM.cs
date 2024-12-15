@@ -10,8 +10,10 @@ using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.QRCode;
+using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Setting;
 using One.Toolbox.ViewModels.UnixTimeConverter;
+using One.Toolbox.Views;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
@@ -20,6 +22,7 @@ using One.Toolbox.Views.HashTool;
 using One.Toolbox.Views.IconBoard;
 using One.Toolbox.Views.Note;
 using One.Toolbox.Views.QRCode;
+using One.Toolbox.Views.RegularTester;
 using One.Toolbox.Views.Settings;
 using One.Toolbox.Views.UnixTimeConverter;
 
@@ -92,6 +95,12 @@ public partial class MainViewVM : BaseVM
                 Header = "HashTools",
                 Icon = ResourceHelper.FindObjectResource("premium_regular"),
                 Content = new HashToolPage() { DataContext = App.Current!.Services.GetService<HashToolPageVM>() },
+            }, 
+            new()
+            {
+                Header = "RegularTester",
+                Icon = ResourceHelper.FindObjectResource("teddy_regular"),
+                Content = new RegularTesterPage() { DataContext = App.Current!.Services.GetService<RegularTesterVM>() },
             },
             new()
             {

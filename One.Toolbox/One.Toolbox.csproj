@@ -55,10 +55,10 @@
 	  <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.2" />
 	  <PackageReference Include="Markdown.Avalonia" Version="11.0.3-a1" />
 	  
-	  <PackageReference Include="Irihi.Ursa" Version="1.6.1" />
-	  <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.6.1" />
-	  <PackageReference Include="Semi.Avalonia" Version="11.2.1.1" />
-	  <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.1" />
+	  <PackageReference Include="Irihi.Ursa" Version="1.6.2" />
+	  <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.6.2" />
+	  <PackageReference Include="Semi.Avalonia" Version="11.2.1.2" />
+	  <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.2" />
 	  
 	 
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
@@ -106,6 +106,9 @@
     <Folder Include="Views\TextCompare\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\RegularTester\RegularTesterPage.axaml.cs">
+      <DependentUpon>RegularTesterPage.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\UnixTimeConverter\UnixTimeConverterPage.axaml.cs">
       <DependentUpon>UnixTimeConverterPage.axaml</DependentUpon>
     </Compile>

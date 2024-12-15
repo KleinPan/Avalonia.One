@@ -21,7 +21,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate x:DataType="vmMain:MainMenuItemVM">
                     <StackPanel>
-                        <PathIcon Width="20" Height="40" Data="{Binding Icon}" ToolTip.Tip="{Binding Header}"  />
+                        <PathIcon Width="20" Height="40" Data="{Binding Icon}" ToolTip.Tip="{Binding Header}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

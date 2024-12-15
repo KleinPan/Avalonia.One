@@ -1,0 +1,55 @@
+<UserControl x:Class="One.Toolbox.Views.RegularTester.RegularTesterPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:vm="using:One.Toolbox.ViewModels.RegularTester"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:RegularTesterVM"
+             mc:Ignorable="d">
+    <Border>
+        <Grid RowDefinitions="*,auto,*">
+            <Grid RowDefinitions="auto,*">
+                <TextBlock Margin="5">输入文本</TextBlock>
+                <TextBox Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top" Text="{Binding InputText}" />
+            </Grid>
+            <StackPanel Grid.Row="1">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="5" Content="不区分大小写" IsChecked="{Binding IgnoreCase}" />
+                    <CheckBox Margin="5" Content="单行模式搜索" IsChecked="{Binding Singleline}" />
+                    <CheckBox Margin="5" Content="多行模式搜索" IsChecked="{Binding Multiline}" />
+                    <CheckBox Margin="5" Content="从右往左搜索" IsChecked="{Binding RightToLeft}" />
+                    <Button Command="{Binding StartTestCommand}" Content="测试" />
+                </StackPanel>
+                <Grid ColumnDefinitions="auto,*">
+                    <TextBlock Margin="5">正则表达式</TextBlock>
+                    <TextBox Grid.Column="1" Text="{Binding Pattern}" />
+                </Grid>
+
+            </StackPanel>
+
+            <Grid Grid.Row="2" RowDefinitions="auto,*">
+                <TextBlock Margin="5">匹配结果</TextBlock>
+                <TreeView Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding MathReslut}">
+                    <TreeView.ItemTemplate>
+                        <TreeDataTemplate ItemsSource="{Binding SubNodes}">
+                            <TextBlock Text="{Binding Index}" />
+                            <TextBlock Text="{Binding Text}" />
+                        </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+
+
+
+                </TreeView>
+
+                <!--<DataGridTextColumn Binding="{Binding Index}" Header="Index" />
+				<DataGridTextColumn Binding="{Binding Text}" Header="String" />
+				<DataGridTextColumn Binding="{Binding Index2}" Header="Index in original string" />-->
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
