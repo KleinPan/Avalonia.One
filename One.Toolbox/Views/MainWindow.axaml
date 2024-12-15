@@ -9,7 +9,7 @@
         xmlns:vm="using:One.Toolbox.ViewModels"
         xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
         Title="One.Toolbox"
-        Width="800"
+        Width="840"
         Height="600"
         d:DesignHeight="450"
         d:DesignWidth="800"

@@ -12,12 +12,13 @@
              x:DataType="vm:RegularTesterVM"
              mc:Ignorable="d">
     <Border>
-        <Grid RowDefinitions="*,auto,*">
-            <Grid RowDefinitions="auto,*">
+        <Grid RowDefinitions="auto,*,auto,*">
+            <TextBlock Margin="5" FontWeight="SemiBold">正则表达式测试工具</TextBlock>
+            <Grid Grid.Row="1" RowDefinitions="auto,*">
                 <TextBlock Margin="5">输入文本</TextBlock>
                 <TextBox Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top" Text="{Binding InputText}" />
             </Grid>
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="2">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox Margin="5" Content="不区分大小写" IsChecked="{Binding IgnoreCase}" />
                     <CheckBox Margin="5" Content="单行模式搜索" IsChecked="{Binding Singleline}" />
@@ -32,13 +33,17 @@
 
             </StackPanel>
 
-            <Grid Grid.Row="2" RowDefinitions="auto,*">
+            <Grid Grid.Row="3" RowDefinitions="auto,*">
                 <TextBlock Margin="5">匹配结果</TextBlock>
-                <TreeView Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding MathReslut}">
+                <TreeView Grid.Row="1" ItemsSource="{Binding MathReslut}">
                     <TreeView.ItemTemplate>
                         <TreeDataTemplate ItemsSource="{Binding SubNodes}">
-                            <TextBlock Text="{Binding Index}" />
-                            <TextBlock Text="{Binding Text}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Description}" />
+                                <TextBlock Text="{Binding Index}" />
+                                <TextBlock Text="=>" />
+                                <TextBlock Text="{Binding Text}" />
+                            </StackPanel>
                         </TreeDataTemplate>
                     </TreeView.ItemTemplate>
 

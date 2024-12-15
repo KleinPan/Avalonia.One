@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Avalonia;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
@@ -11,10 +13,10 @@ namespace One.Toolbox.ViewModels.RegularTester;
 public partial class RegularTesterVM : BaseVM
 {
     [ObservableProperty]
-    private string inputText;
+    private string inputText= "This is a a farm that that raises dairy cattle.";
 
     [ObservableProperty]
-    private string pattern;
+    private string pattern= @"\b(\w+)\W+(\1)\b";
 
     /// <summary>使用不区分大小写的匹配。</summary>
     [ObservableProperty]
@@ -96,21 +98,31 @@ public partial class RegularTesterVM : BaseVM
             MathReslut.Clear();
             var regex = GenerateRegex(Pattern);
             var match = regex.Match(InputText);
-
+            int i = 1;
             while (match.Success)
             {
                 if (match.Value.Length > 0)
                 {
-                    for (int i = 0; i < match.Groups.Count; i++)
-                    {
-                        Nodes matchResult = new Nodes();
-                        matchResult.Index = i;
-                        matchResult.Text = match.Value;
 
-                        MathReslut.Add(matchResult);
+                    Nodes matchResult = new Nodes();
+                    matchResult.Description = "匹配记录";
+                    matchResult.Index = i;
+                    matchResult.Text =  match.Value;
+
+                    for (int j = 1; j < match.Groups.Count; j++)
+                    {
+                        Nodes subNodes = new Nodes();
+                        subNodes.Description = "匹配组";
+                        subNodes.Index = j;
+                        subNodes.Text = match.Groups[j].Value;
+                        matchResult.SubNodes.Add(subNodes);
+
+
                     }
+                    MathReslut.Add(matchResult);
                 }
 
+                i++;
                 match = match.NextMatch();
             }
         }
@@ -150,6 +162,10 @@ public partial class Nodes : BaseVM
 {
     [ObservableProperty]
     private int index;
+
+
+    [ObservableProperty]
+    private string description;
 
     [ObservableProperty]
     private string text;
