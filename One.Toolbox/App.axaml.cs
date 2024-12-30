@@ -16,6 +16,8 @@ using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.Views;
 
+using System.Globalization;
+
 namespace One.Toolbox;
 
 public partial class App : Application
@@ -35,6 +37,9 @@ public partial class App : Application
         // Line below is needed to remove Avalonia data validation. Without this line you will get
         // duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
+
+        Assets.Languages.Resources.Culture = new CultureInfo("");
+
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

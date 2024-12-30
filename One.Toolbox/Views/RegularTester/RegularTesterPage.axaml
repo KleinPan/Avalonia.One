@@ -2,6 +2,8 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
              xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,7 +18,15 @@
             <TextBlock Margin="5" FontWeight="SemiBold">正则表达式测试工具</TextBlock>
             <Grid Grid.Row="1" RowDefinitions="auto,*">
                 <TextBlock Margin="5">输入文本</TextBlock>
-                <TextBox Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top" Text="{Binding InputText}" />
+                <TextBox Name="txbInput" Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
+                         Text="{Binding InputText}">
+
+                    <i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="Loaded">
+                            <ia:InvokeCommandAction Command="{Binding InitUICommand}" CommandParameter="{Binding ElementName=txbInput}" />
+                        </ia:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </TextBox>
             </Grid>
             <StackPanel Grid.Row="2">
                 <StackPanel Orientation="Horizontal">
@@ -24,36 +34,39 @@
                     <CheckBox Margin="5" Content="单行模式搜索" IsChecked="{Binding Singleline}" />
                     <CheckBox Margin="5" Content="多行模式搜索" IsChecked="{Binding Multiline}" />
                     <CheckBox Margin="5" Content="从右往左搜索" IsChecked="{Binding RightToLeft}" />
+                    <ComboBox Width="200"
+                              DisplayMemberBinding="{Binding Description}"
+                              ItemsSource="{Binding PrePattern}"
+                              SelectedIndex="0"
+                              SelectedItem="{Binding CurrentPrePattern}" />
                     <Button Command="{Binding StartTestCommand}" Content="测试" />
                 </StackPanel>
                 <Grid ColumnDefinitions="auto,*">
                     <TextBlock Margin="5">正则表达式</TextBlock>
                     <TextBox Grid.Column="1" Text="{Binding Pattern}" />
                 </Grid>
-
             </StackPanel>
 
-            <Grid Grid.Row="3" RowDefinitions="auto,*">
-                <TextBlock Margin="5">匹配结果</TextBlock>
-                <TreeView Grid.Row="1" ItemsSource="{Binding MathReslut}">
-                    <TreeView.ItemTemplate>
-                        <TreeDataTemplate ItemsSource="{Binding SubNodes}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Description}" />
-                                <TextBlock Text="{Binding Index}" />
-                                <TextBlock Text="=>" />
-                                <TextBlock Text="{Binding Text}" />
-                            </StackPanel>
-                        </TreeDataTemplate>
-                    </TreeView.ItemTemplate>
+            <Grid Grid.Row="3" ColumnDefinitions="*,auto">
 
-
-
-                </TreeView>
-
-                <!--<DataGridTextColumn Binding="{Binding Index}" Header="Index" />
-				<DataGridTextColumn Binding="{Binding Text}" Header="String" />
-				<DataGridTextColumn Binding="{Binding Index2}" Header="Index in original string" />-->
+                <Grid RowDefinitions="auto,*">
+                    <TextBlock Margin="5">匹配结果</TextBlock>
+                    <TreeView Grid.Row="1" ItemsSource="{Binding MathReslut}" SelectedItem="{Binding CurrentNode}">
+                        <TreeView.ItemTemplate>
+                            <TreeDataTemplate ItemsSource="{Binding SubNodes}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Description}" />
+                                    <TextBlock Text="{Binding Index}" />
+                                    <TextBlock Text="=>" />
+                                    <TextBlock Text="{Binding Text}" />
+                                </StackPanel>
+                            </TreeDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <TextBlock Text="{Binding OutputText}" />
+                </Grid>
             </Grid>
         </Grid>
     </Border>

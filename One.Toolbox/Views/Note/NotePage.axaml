@@ -92,7 +92,7 @@
                         </ToggleButton>
                     </u:ToolBar>
                     <u:ToolBar>
-                        <ToggleButton IsChecked="{Binding SelectedEditFileInfo.ShowInDesktop}" ToolTip.Tip="{x:Static lang:Resource.ShowInDesktop}">
+                        <ToggleButton IsChecked="{Binding SelectedEditFileInfo.ShowInDesktop}" ToolTip.Tip="{x:Static lang:Resources.ShowInDesktop}">
                             <PathIcon Classes="same" Data="{DynamicResource desktop_regular}" />
                         </ToggleButton>
                     </u:ToolBar>

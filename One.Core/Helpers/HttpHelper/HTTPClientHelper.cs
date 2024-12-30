@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace One.Base.Helpers.HttpHelper
 {
-    /// <summary> 主要用于get post请求 </summary>
+    /// <summary>主要用于get post请求</summary>
     public class HTTPClientHelper
     {
         private static readonly HttpClient HttpClient;
@@ -23,10 +23,10 @@ namespace One.Base.Helpers.HttpHelper
             HttpClient = new HttpClient(handler);
         }
 
-        /// <summary> get请求，可以对请求头进行多项设置 </summary>
-        /// <param name="paramArray"> </param>
-        /// <param name="url">        </param>
-        /// <returns> </returns>
+        /// <summary>get请求，可以对请求头进行多项设置</summary>
+        /// <param name="paramArray"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static string GetRequestAsync(Dictionary<string, string> paramArray, string url)
         {
             string result = "";
@@ -62,10 +62,10 @@ namespace One.Base.Helpers.HttpHelper
             return HttpPostRequestAsync(Url, paramArray, ContentType: "application/x-www-form-urlencoded");
         }
 
-        /// <summary> 123 </summary>
-        /// <param name="Url">     </param>
-        /// <param name="jsonstr"> 234 </param>
-        /// <returns> </returns>
+        /// <summary>123</summary>
+        /// <param name="Url"></param>
+        /// <param name="jsonstr">234</param>
+        /// <returns></returns>
         public static object HttpPostJsonRequestAsync(string Url, string jsonstr)
         {
             try
@@ -97,16 +97,16 @@ namespace One.Base.Helpers.HttpHelper
             }
         }
 
-        /// <summary> 异步POST请求 </summary>
-        /// <param name="Url">         234 </param>
-        /// <param name="paramArray">  324 </param>
+        /// <summary>异步POST请求</summary>
+        /// <param name="Url">234</param>
+        /// <param name="paramArray">324</param>
         /// <param name="ContentType">
-        /// <para> POST请求的两种编码格式:  </para>
+        /// <para>POST请求的两种编码格式:</para>
         /// "application/x-www-urlencoded"是浏览器默认的编码格式,用于键值对参数,参数之间用&amp;间隔；
-        /// <para> "multipart/form-data"常用于文件等二进制，也可用于键值对参数，最后连接成一串字符传输(参考Java OK HTTP)。 </para>
-        /// <para> 除了这两个编码格式，还有"application/json"也经常使用。 </para>
+        /// <para>"multipart/form-data"常用于文件等二进制，也可用于键值对参数，最后连接成一串字符传输(参考Java OK HTTP)。</para>
+        /// <para>除了这两个编码格式，还有"application/json"也经常使用。</para>
         /// </param>
-        /// <returns> </returns>
+        /// <returns></returns>
         public static string HttpPostRequestAsync(string Url, Dictionary<string, string> paramArray, string ContentType = "application/x-www-form-urlencoded")
         {
             string result = "";
@@ -149,7 +149,10 @@ namespace One.Base.Helpers.HttpHelper
             return result;
         }
 
-        /// <summary> 异步POST请求 </summary> <param name="Url">234</param> <param name="paramArray">324</param> <param name="ContentType"><para>POST请求的两种编码格式:</para>"application/x-www-urlencoded"是浏览器默认的编码格式,用于键值对参数,参数之间用&（&amp;）用间隔；<para>"multipart/form-data"常用于文件等二进制，也可用于键值对参数，最后连接成一串字符传输(参考Java OK HTTP)。</para><para>除了这两个编码格式，还有"application/json"也经常使用。</para></param> <returns></returns>
+        /// <summary> 异步POST请求 </summary> <param name="Url">234</param> <param
+        /// name="paramArray">324</param> <param
+        /// name="ContentType"><para>POST请求的两种编码格式:</para>"application/x-www-urlencoded"是浏览器默认的编码格式,用于键值对参数,参数之间用&（&amp;）用间隔；<para>"multipart/form-data"常用于文件等二进制，也可用于键值对参数，最后连接成一串字符传输(参考Java
+        /// OK HTTP)。</para><para>除了这两个编码格式，还有"application/json"也经常使用。</para></param> <returns></returns>
         private static Task<HttpResponseMessage> HttpPostRequestAsync(string Url, string jsonStr, string ContentType = "application/x-www-form-urlencoded")//"application/x-www-form-urlencoded"
         {
             var postData = jsonStr;
@@ -187,8 +190,31 @@ namespace One.Base.Helpers.HttpHelper
             }
         }
 
-        private static void GetTimelyReturnMessages(Task<HttpResponseMessage> message)
+        public static async Task<string> Post(string url, string method, string content)
         {
+            var response = await HttpClient.PostAsync(url + method, new FormUrlEncodedContent(new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("Par",content),
+            }));
+
+            return await response.Content.ReadAsStringAsync();
+
+            //var request = new HttpRequestMessage(HttpMethod.Post, url + method);
+
+            //var collection = new List<KeyValuePair<string, string>>();
+            //collection.Add(new("Par", content));
+
+            //request.Content = new FormUrlEncodedContent(collection);
+            //var response = await client.SendAsync(request);
+            //response.EnsureSuccessStatusCode();
+            //return await response.Content.ReadAsStringAsync();
+        }
+
+        public static async Task<string> PostJson(string url, string method, string content)
+        {
+            var response = await HttpClient.PostAsync(url + method, new StringContent(content, Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
         }
 
         private static string BuildParam(Dictionary<string, string> paramArray, Encoding encode = null)
@@ -212,5 +238,71 @@ namespace One.Base.Helpers.HttpHelper
             }
             return url;
         }
+
+        #region 文件下载
+        private static readonly object lockObj = new();
+        /// <summary>下载文件</summary>
+        /// <param name="url">文件下载地址</param>
+        /// <param name="savePath">本地保存路径+名称</param>
+        /// <param name="downloadCallBack">下载回调（总长度,已下载,进度）</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task DownloadFileAsync(string url, string savePath, Action<long, long, double>? downloadCallBack = null)
+        {
+            try
+            {
+                Console.WriteLine($"文件【{url}】开始下载！");
+                HttpResponseMessage? response = null;
+                using (HttpClient client = new HttpClient())
+                    response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+
+                if (response == null)
+                    throw new Exception("文件获取失败");
+
+                var total = response.Content.Headers.ContentLength ?? 0;
+                var stream = await response.Content.ReadAsStreamAsync();
+                var file = new FileInfo(savePath);
+                using (var fileStream = file.Create())
+                using (stream)
+                {
+                    if (downloadCallBack == null)
+                    {
+                        await stream.CopyToAsync(fileStream);
+                        Console.WriteLine($"文件【{url}】下载完成！");
+                    }
+                    else
+                    {
+                        byte[] buffer = new byte[1024];
+                        long readLength = 0;
+                        int length;
+                        while ((length = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                        {
+                            // 写入到文件
+                            fileStream.Write(buffer, 0, length);
+
+                            //更新进度
+                            readLength += length;
+                            double? progress = Math.Round((double)readLength / total * 100, 2, MidpointRounding.ToZero);
+                            lock (lockObj)
+                            {
+                                //下载完毕立刻关闭释放文件流
+                                if (total == readLength && progress == 100)
+                                {
+                                    fileStream.Close();
+                                    fileStream.Dispose();
+                                }
+                                downloadCallBack?.Invoke(total, readLength, progress ?? 0);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"下载文件失败：{ex.Message}!");
+            }
+        }
+
+        #endregion 文件下载
     }
 }

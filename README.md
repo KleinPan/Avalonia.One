@@ -49,6 +49,31 @@
 ![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/BingImage.png?raw=true)
 
 ### 字符处理工具集
+#### Encode/Decode
+    Base64 String Encode/Decode
+#### Hex
+    String to Hex(with space)
+    String to Hex(without space)
+    Hex to String
+#### Base64
+    String to Base64
+    Base64 to String
+#### Web
+    URL encode
+    URL decode
+    HTML encode
+    HTML decode
+
+#### Unicode
+    String to Unicode
+    Unicode to String
+
+#### Hash
+    String to MD5 (Hex)
+    String to SHA-1 (Hex)
+    String to SHA-256 (Hex)
+    String to SHA-512 (Hex)
+
 ![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/DataProcess.png)
 
 ### 显示编号
@@ -66,6 +91,9 @@
 ### FileMonitor
 ![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/FileMonitor.png?raw=true)
 
+### RegularTester
+![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/RegularTester.png?raw=true)
 
-
+### UnixTimeConverter
+![image](https://github.com/KleinPan/Avalonia.One.Toolbox/blob/master/docs/UnixTimeConverter.png?raw=true)
 

@@ -1,4 +1,8 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Documents;
+
+using HtmlAgilityPack;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,10 +17,10 @@ namespace One.Toolbox.ViewModels.RegularTester;
 public partial class RegularTesterVM : BaseVM
 {
     [ObservableProperty]
-    private string inputText= "This is a a farm that that raises dairy cattle.";
+    private string inputText = "This is a a farm that that raises dairy cattle.";
 
     [ObservableProperty]
-    private string pattern= @"\b(\w+)\W+(\1)\b";
+    private string pattern = @"\b(\w+)\W+(\1)\b";
 
     /// <summary>使用不区分大小写的匹配。</summary>
     [ObservableProperty]
@@ -32,7 +36,7 @@ public partial class RegularTesterVM : BaseVM
 
     /// <summary>使用多线模式，其中 ^ 和 $ 表示每行的开头和末尾（不是输入字符串的开头和末尾）。</summary>
     [ObservableProperty]
-    private bool multiline;
+    private bool multiline = true;
 
     /// <summary>使用单行模式，其中的句号 (.) 匹配每个字符（而不是除了 \n 以外的每个字符)。</summary>
     [ObservableProperty]
@@ -46,8 +50,59 @@ public partial class RegularTesterVM : BaseVM
 
     public ObservableCollection<Nodes> MathReslut { get; set; } = new();
 
+    [ObservableProperty]
+    private Nodes currentNode;
+
+    partial void OnCurrentNodeChanged(Nodes value)
+    {
+        if (value == null)
+        {
+            return;
+        }
+
+        textBox.SelectionStart = value.IndexInText;
+        textBox.SelectionEnd = value.EndInText;
+
+        //Run run = new Run(InputText.Substring(value.IndexInText, value.Length));
+        //OutputText = run;
+    }
+
+    [ObservableProperty]
+    private string outputText;
+
+    #region Combox
+
+    [ObservableProperty]
+    private ObservableCollection<PatternVM> prePattern = new();
+
+    [ObservableProperty]
+    private PatternVM currentPrePattern;
+
+    partial void OnCurrentPrePatternChanged(PatternVM value)
+    {
+        Pattern = value.Pattern;
+    }
+
+    #endregion Combox
+
     public RegularTesterVM()
     {
+        PrePattern.Add(new PatternVM()
+        {
+            Description = "Email地址",
+            Pattern = @"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        });
+        PrePattern.Add(new PatternVM()
+        {
+            Description = "手机号码",
+            Pattern = @"1[345678]\d{9}$"
+        });
+
+        PrePattern.Add(new PatternVM()
+        {
+            Description = "中文字符",
+            Pattern = @"[\u4e00-\u9fa5]"
+        });
     }
 
     public override void OnNavigatedEnter()
@@ -87,6 +142,14 @@ public partial class RegularTesterVM : BaseVM
         }
     }
 
+    private TextBox textBox;
+
+    [RelayCommand]
+    void InitUI(TextBox ui)
+    {
+        textBox = ui;
+    }
+
     [RelayCommand]
     void StartTest()
     {
@@ -103,11 +166,12 @@ public partial class RegularTesterVM : BaseVM
             {
                 if (match.Value.Length > 0)
                 {
-
                     Nodes matchResult = new Nodes();
                     matchResult.Description = "匹配记录";
                     matchResult.Index = i;
-                    matchResult.Text =  match.Value;
+                    matchResult.Text = match.Value;
+                    matchResult.IndexInText = match.Index;
+                    matchResult.Length = match.Length;
 
                     for (int j = 1; j < match.Groups.Count; j++)
                     {
@@ -115,9 +179,10 @@ public partial class RegularTesterVM : BaseVM
                         subNodes.Description = "匹配组";
                         subNodes.Index = j;
                         subNodes.Text = match.Groups[j].Value;
+                        subNodes.IndexInText = match.Groups[j].Index;
+                        subNodes.Length = match.Groups[j].Length;
+
                         matchResult.SubNodes.Add(subNodes);
-
-
                     }
                     MathReslut.Add(matchResult);
                 }
@@ -163,12 +228,21 @@ public partial class Nodes : BaseVM
     [ObservableProperty]
     private int index;
 
-
     [ObservableProperty]
     private string description;
 
     [ObservableProperty]
     private string text;
+
+    [NotifyPropertyChangedFor(nameof(EndInText))]
+    [ObservableProperty]
+    private int indexInText;
+
+    [NotifyPropertyChangedFor(nameof(EndInText))]
+    [ObservableProperty]
+    private int length;
+
+    public int EndInText => IndexInText + Length;
 
     public ObservableCollection<Nodes> SubNodes { get; set; } = new();
 }

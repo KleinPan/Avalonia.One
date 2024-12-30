@@ -64,7 +64,7 @@ namespace One.Toolbox.Services
                 //data.Source = new Uri(file, UriKind.Absolute);
                 //Avalonia.Application.Current!.Resources.MergedDictionaries[0] = data;
 
-                Assets.Languages.Resource.Culture = new CultureInfo(language);
+                Assets.Languages.Resources.Culture = new CultureInfo(language);
             }
             catch (Exception ex)
             {

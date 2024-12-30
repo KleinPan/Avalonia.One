@@ -30,7 +30,7 @@
                                         IsVisible="False" Url="https://github.com/KleinPan/One" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="10,10,0,0">
-                    <TextBlock FontSize="18" FontWeight="DemiBold" Text="{x:Static lang:Resource.AWordADay}" />
+                    <TextBlock FontSize="18" FontWeight="DemiBold" Text="{x:Static lang:Resources.AWordADay}" />
                     <TextBlock FontSize="18" Text="{Binding Text}" TextWrapping="WrapWithOverflow" />
                 </StackPanel>
             </Grid>

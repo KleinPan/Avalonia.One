@@ -36,7 +36,7 @@ namespace One.Toolbox.ViewModels.MainWindow
         private void SetLanguage(object obj)
         {
             var language = obj as string;
-            Assets.Languages.Resource.Culture = new CultureInfo(language);
+            Assets.Languages.Resources.Culture = new CultureInfo(language);
         }
 
         [RelayCommand]
