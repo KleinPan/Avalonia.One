@@ -129,20 +129,36 @@
   <data name="Chinese" xml:space="preserve">
     <value>Chinese</value>
   </data>
+  <data name="ConversionResults" xml:space="preserve">
+    <value>Conversion Results</value>
+    <comment>转换结果</comment>
+  </data>
+  <data name="ConvertTask" xml:space="preserve">
+    <value>Convert Task</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Dark</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="ExcuteSelectedItem" xml:space="preserve">
+    <value>Excute Selected Item</value>
+  </data>
+  <data name="Lang" xml:space="preserve">
     <value>Language</value>
   </data>
   <data name="Light" xml:space="preserve">
     <value>Light</value>
   </data>
+  <data name="OriginalData" xml:space="preserve">
+    <value>Original Data</value>
+  </data>
   <data name="ShowInDesktop" xml:space="preserve">
     <value>ShowInDesktop</value>
+  </data>
+  <data name="ShowIndex" xml:space="preserve">
+    <value>ShowIndex</value>
   </data>
   <data name="Test" xml:space="preserve">
     <value>Test</value>

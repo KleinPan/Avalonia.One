@@ -108,23 +108,14 @@ public partial class SettingsPageVM : BaseVM
 
         SettingService.Save();
     }
-
-    [RelayCommand]
-    private void ChangeLanguage(LanguageEnum language)
-    {
-        SettingService.ChangeLanguage(language.ToString());
-    }
 }
 
 public class SettingModel
 {
-    public LanguageEnum CurrentLanguage;
-
     public bool SutoUpdate;
     public bool ShowStickOnStart;
 
     public SettingModel()
     {
-        CurrentLanguage = LanguageEnum.zh_CN;
     }
 }

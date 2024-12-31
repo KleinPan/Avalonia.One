@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:lang="using:One.Toolbox.Assets.Languages"
+        xmlns:markup="using:One.Control.Markup.I18n"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:one="https://github.com/one"
+        xmlns:one="https://github.com/KleinPan/Avalonia.One"
         xmlns:views="clr-namespace:One.Toolbox.Views"
         xmlns:vm="using:One.Toolbox.ViewModels"
         xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
@@ -44,21 +45,21 @@
 
                         <Menu Grid.Column="2">
                             <MenuItem MinHeight="40" VerticalAlignment="Center" Header="⚙">
-                                <MenuItem Header="{x:Static lang:Resources.Language}">
+                                <MenuItem Header="{markup:I18n {x:Static lang:Language.Lang}}">
                                     <MenuItem.Icon>
                                         <PathIcon Data="{StaticResource local_language_regular}" />
                                     </MenuItem.Icon>
-                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="en_US" Header="{x:Static lang:Resources.English}" />
-                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="zh_CN" Header="{x:Static lang:Resources.Chinese}" />
-                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="as_IN" Header="{x:Static lang:Resources.Test}" />
+                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="en" Header="{markup:I18n {x:Static lang:Language.English}}" />
+                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="zh-CN" Header="{markup:I18n {x:Static lang:Language.Chinese}}" />
+                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="as_IN" Header="{markup:I18n {x:Static lang:Language.Test}}" />
                                 </MenuItem>
-                                <MenuItem Header="{x:Static lang:Resources.Theme}">
+                                <MenuItem Header="{markup:I18n {x:Static lang:Language.Theme}}">
                                     <MenuItem.Icon>
                                         <PathIcon Data="{StaticResource dark_theme_regular}" />
                                     </MenuItem.Icon>
-                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Auto" Header="{x:Static lang:Resources.Auto}" />
-                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Light" Header="{x:Static lang:Resources.Light}" />
-                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Dark" Header="{x:Static lang:Resources.Dark}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Auto" Header="{markup:I18n {x:Static lang:Language.Auto}}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Light" Header="{markup:I18n {x:Static lang:Language.Light}}" />
+                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Dark" Header="{markup:I18n {x:Static lang:Language.Dark}}" />
                                 </MenuItem>
                             </MenuItem>
                         </Menu>

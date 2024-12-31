@@ -129,20 +129,35 @@
   <data name="Chinese" xml:space="preserve">
     <value>中文</value>
   </data>
+  <data name="ConversionResults" xml:space="preserve">
+    <value>转换结果</value>
+  </data>
+  <data name="ConvertTask" xml:space="preserve">
+    <value>转换任务</value>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>深色</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>英文</value>
   </data>
-  <data name="Language" xml:space="preserve">
+  <data name="ExcuteSelectedItem" xml:space="preserve">
+    <value>执行选中项</value>
+  </data>
+  <data name="Lang" xml:space="preserve">
     <value>语言</value>
   </data>
   <data name="Light" xml:space="preserve">
     <value>浅色</value>
   </data>
+  <data name="OriginalData" xml:space="preserve">
+    <value>原始数据</value>
+  </data>
   <data name="ShowInDesktop" xml:space="preserve">
     <value>显示在桌面</value>
+  </data>
+  <data name="ShowIndex" xml:space="preserve">
+    <value>显示编号</value>
   </data>
   <data name="Test" xml:space="preserve">
     <value>测试</value>

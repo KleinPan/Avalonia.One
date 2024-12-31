@@ -100,18 +100,37 @@
     <None Update="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Languages\Language.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Language.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\TextCompare\" />
     <Folder Include="Views\TextCompare\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Languages\Language.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Language.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Assets\Languages\Language.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Language.tt</DependentUpon>
+    </Compile>
     <Compile Update="Views\RegularTester\RegularTesterPage.axaml.cs">
       <DependentUpon>RegularTesterPage.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\UnixTimeConverter\UnixTimeConverterPage.axaml.cs">
       <DependentUpon>UnixTimeConverterPage.axaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
    
 </Project>

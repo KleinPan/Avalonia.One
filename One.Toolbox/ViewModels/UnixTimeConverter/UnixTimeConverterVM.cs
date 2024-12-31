@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-using One.Base.Helpers;
-using One.Toolbox.Services;
+﻿using One.Base.Helpers;
 using One.Toolbox.ViewModels.Base;
 
 namespace One.Toolbox.ViewModels.UnixTimeConverter;
@@ -24,10 +21,10 @@ public partial class UnixTimeConverterVM : BaseVM
 
     [ObservableProperty]
     private DateTime localTme;
+
     [ObservableProperty]
     private DateTime uTCTime;
 
-    
     void InitData()
     {
     }
@@ -44,7 +41,6 @@ public partial class UnixTimeConverterVM : BaseVM
         Input = TimeHelper.GetUnixTimestamp();
     }
 
-
     partial void OnInputChanged(string value)
     {
         if (string.IsNullOrEmpty(value)) return;
@@ -57,10 +53,7 @@ public partial class UnixTimeConverterVM : BaseVM
         }
         catch (Exception ex)
         {
-
             //App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.ToString());
         }
-       
-
     }
 }

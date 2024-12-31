@@ -1,22 +1,21 @@
 ﻿using System;
 
-namespace One.Base.Helpers
+namespace One.Base.Helpers;
+
+/// <summary> 帮助类的基类 </summary>
+public class BaseHelper
 {
-    /// <summary> 帮助类的基类 </summary>
-    public class BaseHelper
+    private Action<string> _logAction;
+
+    public BaseHelper(Action<string> logAction = null)
     {
-        private Action<string> _logAction;
+        _logAction = logAction;
+    }
 
-        public BaseHelper(Action<string> logAction = null)
-        {
-            _logAction = logAction;
-        }
-
-        /// <summary> 基类实现的打印log </summary>
-        /// <param name="msg"> </param>
-        public virtual void WriteLog(string msg)
-        {
-            _logAction?.Invoke(msg);
-        }
+    /// <summary> 基类实现的打印log </summary>
+    /// <param name="msg"> </param>
+    public virtual void WriteLog(string msg)
+    {
+        _logAction?.Invoke(msg);
     }
 }

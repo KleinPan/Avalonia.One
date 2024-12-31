@@ -2,32 +2,31 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace One.Base.Models.Configs
+namespace One.Base.Models.Configs;
+
+public class CommonConfigM : ICloneable
 {
-    public class CommonConfigM : ICloneable
+    public CommonConfigM()
     {
-        public CommonConfigM()
-        {
-        }
+    }
 
-        [Editor("ReadOnly", "")]
-        public string Name { get; set; }
+    [Editor("ReadOnly", "")]
+    public string Name { get; set; }
 
-        [Editor("ReadOnly", "")]
-        public string Description { get; set; }
+    [Editor("ReadOnly", "")]
+    public string Description { get; set; }
 
-        [Editor("ReadOnly", "")]
-        public string Type { get; set; }
+    [Editor("ReadOnly", "")]
+    public string Type { get; set; }
 
-        public object Value { get; set; }
+    public object Value { get; set; }
 
-        [Browsable(false)]
-        public List<CommonConfigM> CommonConfigList { get; set; } = new List<CommonConfigM>();
+    [Browsable(false)]
+    public List<CommonConfigM> CommonConfigList { get; set; } = new List<CommonConfigM>();
 
-        public object Clone()
-        {
-            CommonConfigM other = (CommonConfigM)this.MemberwiseClone();
-            return other;
-        }
+    public object Clone()
+    {
+        CommonConfigM other = (CommonConfigM)this.MemberwiseClone();
+        return other;
     }
 }

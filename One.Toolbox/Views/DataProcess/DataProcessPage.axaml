@@ -6,6 +6,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:One.Toolbox.ViewModels.DataProcess"
              d:DesignHeight="450"
@@ -30,19 +32,19 @@
                          TextWrapping="Wrap" />
                 <!--  FontFamily="Consolas"  -->
                 <TextBlock Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Classes="test"
-                           Text="原始数据" />
+                           Text="{markup:I18n {x:Static lang:Language.OriginalData}}" />
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
 
-                    <TextBlock Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="转换任务" />
+                    <TextBlock Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{markup:I18n {x:Static lang:Language.ConvertTask}}" />
 
                     <ComboBox Name="ConvertNamesComBox" Grid.Row="0" Grid.Column="1" Width="300"
                               Margin="10,5"
                               ItemsSource="{Binding ConverterTaskList}"
                               SelectedItem="{Binding SelectedConverterTask}" />
 
-                    <Button Margin="2" Command="{Binding ExcuteSelectedOmeCommand}" Content="执行选中项" />
+                    <Button Margin="2" Command="{Binding ExcuteSelectedOmeCommand}" Content="{markup:I18n {x:Static lang:Language.ExcuteSelectedItem}}" />
 
-                    <Button Margin="2" Command="{Binding ShowIndexEventCommand}" Content="显示编号" />
+                    <Button Margin="2" Command="{Binding ShowIndexEventCommand}" Content="{markup:I18n {x:Static lang:Language.ShowIndex}}" />
                 </StackPanel>
 
                 <TextBox Grid.Row="2" Margin="2" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
@@ -51,7 +53,8 @@
                          TextWrapping="Wrap" />
                 <!--  FontFamily="Courier New"  -->
                 <TextBlock Grid.Row="2" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                           Classes="test" Text="转换结果" />
+                           Classes="test"
+                           Text="{markup:I18n {x:Static lang:Language.ConversionResults}}" />
 
                 <Border Grid.Row="2" BorderThickness="1">
                     <WrapPanel Name="wrapPanel" Grid.Row="4">

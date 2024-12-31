@@ -1,32 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace One.Base.Models.Configs
+namespace One.Base.Models.Configs;
+
+public class TestSecquenceConfigM : ICloneable
 {
-    public class TestSecquenceConfigM : ICloneable
+    public string TestItem { get; set; }
+
+    public string Description { get; set; }
+    public string Customer { get; set; }
+    public int Index { get; set; }
+
+    public List<CommonConfigM> TestSecquenceItemConfigList { get; set; } = new List<CommonConfigM>();
+
+    public object Clone()
     {
-        public string TestItem { get; set; }
+        TestSecquenceConfigM other = (TestSecquenceConfigM)this.MemberwiseClone();
 
-        public string Description { get; set; }
-        public string Customer { get; set; }
-        public int Index { get; set; }
+        List<CommonConfigM> list = new List<CommonConfigM>();
 
-        public List<CommonConfigM> TestSecquenceItemConfigList { get; set; } = new List<CommonConfigM>();
-
-        public object Clone()
+        foreach (var item in TestSecquenceItemConfigList)
         {
-            TestSecquenceConfigM other = (TestSecquenceConfigM)this.MemberwiseClone();
-
-            List<CommonConfigM> list = new List<CommonConfigM>();
-
-            foreach (var item in TestSecquenceItemConfigList)
-            {
-                CommonConfigM temp = (CommonConfigM)item.Clone();
-                list.Add(temp);
-            }
-
-            other.TestSecquenceItemConfigList = list;
-            return other;
+            CommonConfigM temp = (CommonConfigM)item.Clone();
+            list.Add(temp);
         }
+
+        other.TestSecquenceItemConfigList = list;
+        return other;
     }
 }

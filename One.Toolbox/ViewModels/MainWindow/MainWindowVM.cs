@@ -4,77 +4,73 @@ using Avalonia.Styling;
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Base.Helpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
+using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 
-using System.Globalization;
+namespace One.Toolbox.ViewModels.MainWindow;
 
-namespace One.Toolbox.ViewModels.MainWindow
+public partial class MainWindowVM : BaseVM
 {
-    public partial class MainWindowVM : BaseVM
+    [ObservableProperty]
+    private string a;
+
+    [ObservableProperty]
+    private MainViewVM mainViewVM;
+
+    [ObservableProperty]
+    private string _appVersion = string.Empty;
+
+    private SettingService SettingService { get; set; }
+
+    public MainWindowVM()
     {
-        [ObservableProperty]
-        private string a;
+    }
 
-        [ObservableProperty]
-        private MainViewVM mainViewVM;
+    [RelayCommand]
+    private void SetLanguage(object obj)
+    {
+        var language = obj as string;
 
-        //[ObservableProperty]
-        //private SettingsPageVM settingsPageVM;
+        SettingService.ChangeLanguage(language.ToString());
 
-        [ObservableProperty]
-        private string _appVersion = string.Empty;
+        var a = I18nManager.GetString(Language.About);
+    }
 
-        public MainWindowVM()
+    [RelayCommand]
+    private void SetTheme(object obj)
+    {
+        var app = Application.Current;
+        if (app is not null)
         {
-            //MainViewVM = new MainViewVM();
-            //MainViewVM.InitializeViewModel();
-        }
-
-        /// <summary> 目前不能动态切换，只能在启动前 </summary>
-        /// <param name="obj"> </param>
-        [RelayCommand]
-        private void SetLanguage(object obj)
-        {
-            var language = obj as string;
-            Assets.Languages.Resources.Culture = new CultureInfo(language);
-        }
-
-        [RelayCommand]
-        private void SetTheme(object obj)
-        {
-            var app = Application.Current;
-            if (app is not null)
+            if (obj is string themeName)
             {
-                if (obj is string themeName)
+                if (themeName == "Dark")
                 {
-                    if (themeName == "Dark")
-                    {
-                        app.RequestedThemeVariant = ThemeVariant.Dark;
-                    }
-                    else if (themeName == "Light")
-                    {
-                        app.RequestedThemeVariant = ThemeVariant.Light;
-                    }
-                    else
-                    {
-                        //自动
-                    }
+                    app.RequestedThemeVariant = ThemeVariant.Dark;
+                }
+                else if (themeName == "Light")
+                {
+                    app.RequestedThemeVariant = ThemeVariant.Light;
+                }
+                else
+                {
+                    //自动
                 }
             }
         }
+    }
 
-        public override void InitializeViewModel()
-        {
-            //AppVersion = $"v{GetAssemblyVersion()} .NET 8.0";
-            AppVersion = $"v{AssemblyHelper.Instance.ProductVersion} .NET 8.0";
+    public override void InitializeViewModel()
+    {
+        base.InitializeViewModel();
 
-            MainViewVM = App.Current!.Services.GetService<MainViewVM>()!;
-            //SettingsPageVM = App.Current!.Services.GetService<SettingsPageVM>()!;
-            base.InitializeViewModel();
+        AppVersion = $"v{AssemblyHelper.Instance.ProductVersion} .NET 8.0";
 
-            MainViewVM.InitializeViewModel();
-        }
+        MainViewVM = App.Current!.Services.GetService<MainViewVM>()!;
+        SettingService = App.Current!.Services.GetService<Services.SettingService>()!;
 
-      
+        MainViewVM.InitializeViewModel();
     }
 }

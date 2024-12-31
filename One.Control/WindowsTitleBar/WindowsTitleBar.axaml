@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:one="https://github.com/one">
+                    xmlns:one="https://github.com/KleinPan/Avalonia.One">
     <!--  Add Resources Here  -->
     <ControlTheme x:Key="WindowsTitleBar" TargetType="one:WindowsTitleBar">
         <Setter Property="Template">

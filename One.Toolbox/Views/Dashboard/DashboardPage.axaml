@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
-             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:markup="https://github.com/KleinPan/Avalonia.One"
+             xmlns:markup1="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:oc="using:One.Control"
              xmlns:vm="using:One.Toolbox.ViewModels.Dashboard"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -30,7 +31,7 @@
                                         IsVisible="False" Url="https://github.com/KleinPan/One" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Margin="10,10,0,0">
-                    <TextBlock FontSize="18" FontWeight="DemiBold" Text="{x:Static lang:Resources.AWordADay}" />
+                    <TextBlock FontSize="18" FontWeight="DemiBold" Text="{markup1:I18n {x:Static lang:Language.AWordADay}}" />
                     <TextBlock FontSize="18" Text="{Binding Text}" TextWrapping="WrapWithOverflow" />
                 </StackPanel>
             </Grid>

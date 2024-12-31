@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Markup.I18n;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
@@ -38,7 +39,7 @@ public partial class App : Application
         // duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
-        Assets.Languages.Resources.Culture = new CultureInfo("");
+        I18nManager.Instance.Culture = new CultureInfo("zh-CN");
 
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

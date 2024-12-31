@@ -2,7 +2,7 @@
 
 internal class BingImageOriginalModel
 {
-    public List<BingImage> images { get; set; }
+    public List<BingImageInfo> images { get; set; }
     public Tooltips tooltips { get; set; }
 }
 
@@ -15,7 +15,7 @@ public class Tooltips
     public string walls { get; set; }
 }
 
-public class BingImage
+public class BingImageInfo
 {
     public string startdate { get; set; }
     public string fullstartdate { get; set; }

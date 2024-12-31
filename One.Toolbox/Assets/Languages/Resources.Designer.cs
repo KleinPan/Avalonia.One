@@ -117,9 +117,9 @@ namespace One.Toolbox.Assets.Languages {
         /// <summary>
         ///   查找类似 Language 的本地化字符串。
         /// </summary>
-        public static string Language {
+        public static string Lang {
             get {
-                return ResourceManager.GetString("Language", resourceCulture);
+                return ResourceManager.GetString("Lang", resourceCulture);
             }
         }
         

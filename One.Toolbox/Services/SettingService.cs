@@ -1,4 +1,5 @@
 ﻿using One.Base.Helpers;
+using One.Control.Markup.I18n;
 using One.Toolbox.ViewModels.Setting;
 
 using System.Globalization;
@@ -64,7 +65,10 @@ namespace One.Toolbox.Services
                 //data.Source = new Uri(file, UriKind.Absolute);
                 //Avalonia.Application.Current!.Resources.MergedDictionaries[0] = data;
 
-                Assets.Languages.Resources.Culture = new CultureInfo(language);
+                //Assets.Languages.Resources.Culture = new CultureInfo(language);
+
+                var culture = new CultureInfo(language);
+                I18nManager.Instance.Culture = culture;
             }
             catch (Exception ex)
             {

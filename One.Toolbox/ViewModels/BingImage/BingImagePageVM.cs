@@ -19,7 +19,6 @@ public partial class BingImagePageVM : BaseVM
 {
     public BingImagePageVM()
     {
-         
     }
 
     public override void OnNavigatedEnter()
@@ -38,8 +37,9 @@ public partial class BingImagePageVM : BaseVM
     {
         //ShowLocalImage();
         var a = await GetLatestImageInfo();
-
         var b = FilterImageInfoAndSave(a);
+       
+       
 
         ImageList.Clear();
 
@@ -77,34 +77,42 @@ public partial class BingImagePageVM : BaseVM
         }
     }
 
-    /// <summary> 获取最新的信息 </summary>
-    /// <returns> </returns>
+    /// <summary>获取最新的信息</summary>
+    /// <returns></returns>
     private static async Task<BingImageOriginalModel> GetLatestImageInfo()
     {
-        //获取图片api:http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1
-        //idx参数：指获取图片的时间，0（指获取当天图片），1（获取昨天照片），2（获取前天的图片），最多可获取8天前的照片。
-        //n参数：从指定日期往前总共几张图片
-
-        var options = new RestClientOptions("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8")
+        try
         {
-        };
-        var client = new RestClient(options);
+            //获取图片api:http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1
+            //idx参数：指获取图片的时间，0（指获取当天图片），1（获取昨天照片），2（获取前天的图片），最多可获取8天前的照片。
+            //n参数：从指定日期往前总共几张图片
 
-        var request = new RestRequest("");
+            var options = new RestClientOptions("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8")
+            {
+            };
+            var client = new RestClient(options);
 
-        // The cancellation token comes from the caller. You can still make a call without it.
-        var timeline = await client.GetAsync<BingImageOriginalModel>(request);
+            var request = new RestRequest("");
 
-        return timeline;
+            // The cancellation token comes from the caller. You can still make a call without it.
+            var timeline = await client.GetAsync<BingImageOriginalModel>(request);
+
+            return timeline;
+        }
+        catch (Exception ex)
+        {
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.ToString());
+            return default;
+        }
     }
 
     private string ConfigPath = One.Toolbox.Helpers.PathHelper.imagePath + "ImageInfo.json";
 
     private Mutex Mutex = new Mutex();
 
-    /// <summary> 将最新信息和本地信息合并 </summary>
-    /// <param name="bingImageModel"> </param>
-    /// <returns> </returns>
+    /// <summary>将最新信息和本地信息合并</summary>
+    /// <param name="bingImageModel"></param>
+    /// <returns></returns>
     private List<UsefullImageInfoVM> FilterImageInfoAndSave(BingImageOriginalModel bingImageModel)
     {
         Mutex.WaitOne();
@@ -118,23 +126,27 @@ public partial class BingImagePageVM : BaseVM
         {
         }
 
-        foreach (var item in bingImageModel.images)
+        if (bingImageModel!=null)
         {
-            if (list.Any(x => x.LocalImageName == item.fullstartdate))
+            foreach (var item in bingImageModel.images)
             {
-                continue;
+                if (list.Any(x => x.LocalImageName == item.fullstartdate))
+                {
+                    continue;
+                }
+
+                UsefullImageInfoModel usefullImageInfo = new UsefullImageInfoModel();
+
+                usefullImageInfo.DownloadUrl = "http://cn.bing.com" + item.url;
+                usefullImageInfo.Copyright = item.copyright;
+                usefullImageInfo.Title = item.title;
+                usefullImageInfo.LocalImageName = item.fullstartdate;
+                usefullImageInfo.LocalImagePath = Helpers.PathHelper.imagePath + item.fullstartdate + ".jpg";
+
+                list.Add(usefullImageInfo);
             }
-
-            UsefullImageInfoModel usefullImageInfo = new UsefullImageInfoModel();
-
-            usefullImageInfo.DownloadUrl = "http://cn.bing.com" + item.url;
-            usefullImageInfo.Copyright = item.copyright;
-            usefullImageInfo.Title = item.title;
-            usefullImageInfo.LocalImageName = item.fullstartdate;
-            usefullImageInfo.LocalImagePath = Helpers.PathHelper.imagePath + item.fullstartdate + ".jpg";
-
-            list.Add(usefullImageInfo);
         }
+       
         try
         {
             IOHelper.Instance.WriteContentTolocal(list, ConfigPath);
