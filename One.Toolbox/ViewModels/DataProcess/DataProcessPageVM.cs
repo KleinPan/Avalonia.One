@@ -6,6 +6,8 @@ using Avalonia.Media;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
@@ -21,7 +23,7 @@ using System.Text.Unicode;
 
 namespace One.Toolbox.ViewModels.DataProcess;
 
-public partial class DataProcessPageVM : BaseVM
+public partial class DataProcessPageVM : BasePageVM
 {
     public ObservableCollection<string> ConverterTaskList { get; set; } = new ObservableCollection<string>();
 
@@ -46,24 +48,20 @@ public partial class DataProcessPageVM : BaseVM
     {
     }
 
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.DataProcess);
+    }
+
     public override void InitializeViewModel()
     {
+        base.InitializeViewModel();
+
         foreach (KeyValuePair<string, Func<byte[], byte[]>> i in converters)
             ConverterTaskList.Add(i.Key);
 
         InputString = "";
-        base.InitializeViewModel();
-    }
 
-    public override void OnNavigatedLeave()
-    {
-        base.OnNavigatedLeave();
-    }
-
-    public override void OnNavigatedEnter()
-    {
-        base.OnNavigatedEnter();
-        //ConfigHelper.Instance.LoadLocalDefaultSetting();
         SelectedConverterTask = ConverterTaskList.First();
     }
 
@@ -133,7 +131,7 @@ public partial class DataProcessPageVM : BaseVM
         DoConvert2();
     }
 
-    /// <summary> 转换器 </summary>
+    /// <summary>转换器</summary>
     private Dictionary<string, Func<byte[], byte[]>> converters = new Dictionary<string, Func<byte[], byte[]>>
     {
         ["InitToHexArray"] = (e) => Encoding.Default.GetBytes(InitArrayEvent(Encoding.Default.GetString(e))),

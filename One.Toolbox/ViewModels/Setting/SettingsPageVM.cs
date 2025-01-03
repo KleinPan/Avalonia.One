@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 using One.Base.Helpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Enums;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Setting;
 
-public partial class SettingsPageVM : BaseVM
+public partial class SettingsPageVM : BasePageVM
 {
     [ObservableProperty]
     private bool autoUpdate = true;
@@ -36,6 +38,11 @@ public partial class SettingsPageVM : BaseVM
     {
         base.OnNavigatedEnter();
     }
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.Setting);
+    }
+
 
     public override void InitializeViewModel()
     {

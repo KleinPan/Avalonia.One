@@ -49,15 +49,10 @@ public partial class CloudSettingsVM : BaseVM
 
     public CloudSettingsVM()
     {
-        InitializeViewModel();
-    }
-
-    public override void InitializeViewModel()
-    {
-        base.InitializeViewModel();
-
         settingService = App.Current.Services.GetService<Services.SettingService>();
     }
+
+    
 
     [RelayCommand]
     private async void Upload()

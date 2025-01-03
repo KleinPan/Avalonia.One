@@ -2,6 +2,8 @@
 
 using One.Base.ExtensionMethods;
 using One.Base.Helpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Setting;
@@ -16,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.BingImage;
 
-public partial class BingImagePageVM : BaseVM
+public partial class BingImagePageVM : BasePageVM
 {
     public BingImagePageVM()
     {
@@ -26,6 +28,10 @@ public partial class BingImagePageVM : BaseVM
     {
         base.OnNavigatedEnter();
         InitData();
+    }
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.BingImage);
     }
 
     [ObservableProperty]

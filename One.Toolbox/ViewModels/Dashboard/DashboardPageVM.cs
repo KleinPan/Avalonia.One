@@ -1,4 +1,6 @@
 ﻿using One.Base.Helpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.ViewModels.Base;
 
 using RestSharp;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Dashboard;
 
-public partial class DashboardPageVM : BaseVM
+public partial class DashboardPageVM : BasePageVM
 {
     public DashboardPageVM()
     {
@@ -20,6 +22,11 @@ public partial class DashboardPageVM : BaseVM
     {
         base.OnNavigatedEnter();
         InitData();
+    }
+
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.Test);
     }
 
     [RelayCommand]

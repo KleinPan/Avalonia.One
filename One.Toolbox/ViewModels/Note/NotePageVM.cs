@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
 using One.Toolbox.Messenger;
 using One.Toolbox.Services;
@@ -15,7 +17,7 @@ using System.IO;
 
 namespace One.Toolbox.ViewModels.Note;
 
-public partial class NotePageVM : BaseVM
+public partial class NotePageVM : BasePageVM
 {
     [ObservableProperty]
     private EditFileInfoVM selectedEditFileInfo;
@@ -34,7 +36,10 @@ public partial class NotePageVM : BaseVM
 
         InitData();
     }
-
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.Note);
+    }
     public override void OnNavigatedEnter()
     {
         base.OnNavigatedEnter();

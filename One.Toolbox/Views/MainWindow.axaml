@@ -9,6 +9,7 @@
         xmlns:views="clr-namespace:One.Toolbox.Views"
         xmlns:vm="using:One.Toolbox.ViewModels"
         xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
+        xmlns:vmb="using:One.Toolbox.ViewModels.Base"
         Title="One.Toolbox"
         Width="840"
         Height="600"
@@ -42,7 +43,7 @@
 
                         </StackPanel>
                         <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Classes="Ghost Blue"
-                               Content="{Binding MainViewVM.CurrentMenuItem.Header}"
+                               Content="{Binding MainViewVM.CurrentMenuItem.Content.((vmb:BasePageVM)DataContext).Title}"
                                Theme="{StaticResource TagLabel}" />
 
                         <Menu Grid.Column="2">

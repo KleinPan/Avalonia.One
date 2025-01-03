@@ -15,7 +15,6 @@ using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Setting;
 using One.Toolbox.ViewModels.UnixTimeConverter;
-using One.Toolbox.Views;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
@@ -60,7 +59,7 @@ public partial class MainViewVM : BaseVM
     {
     }
 
-    public override void InitializeViewModel()
+    public void InitializeViewModel()
     {
         ApplicationTitle = "One.Toolbox";
 
@@ -103,7 +102,7 @@ public partial class MainViewVM : BaseVM
             {
                 Header = I18nManager.GetString(Language.RegTestTool),//待研究，更换语言后这里不更新
                 Icon = ResourceHelper.FindObjectResource("teddy_regular"),
-                Content = new RegularTesterPage() { DataContext = App.Current!.Services.GetService<RegularTesterVM>() },
+                Content = new RegularTesterPage() { DataContext = App.Current!.Services.GetService<RegularTesterPageVM>() },
             },
             new()
             {
@@ -143,8 +142,6 @@ public partial class MainViewVM : BaseVM
             });
         }
         CurrentMenuItem = NavigationItems.First();
-
-        base.InitializeViewModel();
     }
 
     #region 框架逻辑
@@ -153,12 +150,14 @@ public partial class MainViewVM : BaseVM
     {
         if (oldValue != null)
         {
-            var vm = oldValue.Content.DataContext as BaseVM;
+            var vm = oldValue.Content.DataContext as BasePageVM;
+
             vm.OnNavigatedLeave();
         }
         if (newValue != null)
         {
-            var vmNew = newValue.Content.DataContext as BaseVM;
+            var vmNew = newValue.Content.DataContext as BasePageVM;
+
             vmNew.OnNavigatedEnter();
         }
     }

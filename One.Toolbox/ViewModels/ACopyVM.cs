@@ -5,7 +5,7 @@ using One.Toolbox.ViewModels.Base;
 
 namespace One.Toolbox.ViewModels;
 
-public partial class ACopyVM : BaseVM
+public partial class ACopyVM : BasePageVM
 {
     public ACopyVM()
     {

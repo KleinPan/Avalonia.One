@@ -1,19 +1,20 @@
 ﻿using One.Base.Helpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.ViewModels.Base;
 
 namespace One.Toolbox.ViewModels.UnixTimeConverter;
 
-public partial class UnixTimeConverterVM : BaseVM
+public partial class UnixTimeConverterVM : BasePageVM
 {
     public UnixTimeConverterVM()
     {
         Now();
     }
 
-    public override void OnNavigatedEnter()
+    public override void UpdateTitle()
     {
-        base.OnNavigatedEnter();
-        InitData();
+        Title = I18nManager.GetString(Language.TimeConvert);
     }
 
     [ObservableProperty]
@@ -24,10 +25,6 @@ public partial class UnixTimeConverterVM : BaseVM
 
     [ObservableProperty]
     private DateTime uTCTime;
-
-    void InitData()
-    {
-    }
 
     [RelayCommand]
     void Clear()

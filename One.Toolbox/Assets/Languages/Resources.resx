@@ -126,6 +126,9 @@
   <data name="AWordADay" xml:space="preserve">
     <value>A word a day</value>
   </data>
+  <data name="BingImage" xml:space="preserve">
+    <value>BingImage</value>
+  </data>
   <data name="Chinese" xml:space="preserve">
     <value>Chinese</value>
   </data>
@@ -139,11 +142,20 @@
   <data name="Dark" xml:space="preserve">
     <value>Dark</value>
   </data>
+  <data name="DataProcess" xml:space="preserve">
+    <value>DataProcess</value>
+  </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
   <data name="ExcuteSelectedItem" xml:space="preserve">
     <value>Excute Selected Item</value>
+  </data>
+  <data name="FileMonitor" xml:space="preserve">
+    <value>FileMonitor</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icon</value>
   </data>
   <data name="IgnoreCase" xml:space="preserve">
     <value>IgnoreCase</value>
@@ -163,6 +175,9 @@
   <data name="Multiline" xml:space="preserve">
     <value>Multiline</value>
   </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
   <data name="OriginalData" xml:space="preserve">
     <value>Original Data</value>
   </data>
@@ -174,6 +189,9 @@
   </data>
   <data name="RightToLeft" xml:space="preserve">
     <value>RightToLeft</value>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>Setting</value>
   </data>
   <data name="ShowInDesktop" xml:space="preserve">
     <value>ShowInDesktop</value>

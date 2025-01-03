@@ -2,24 +2,22 @@
 using Avalonia.Controls;
 
 using One.Base.Collections;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.ViewModels.Base;
 
 using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.IconBoard;
 
-public partial class IconBoardPageVM : BaseVM
+public partial class IconBoardPageVM : BasePageVM
 {
     public IconBoardPageVM() {
 
         _dataList = new List<IconItemVM>();
     }
 
-    public override void OnNavigatedEnter()
-    {
-        base.OnNavigatedEnter();
-    }
-
+    
     public override void InitializeViewModel()
     {
         base.InitializeViewModel();
@@ -34,7 +32,10 @@ public partial class IconBoardPageVM : BaseVM
      private IconItemVM selectItem;
     public ManualObservableCollection<IconItemVM> IconItems { get; set; } = new ManualObservableCollection<IconItemVM>();
 
-
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.Icon);
+    }
     async void InitData()
     {
        

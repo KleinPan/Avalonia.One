@@ -26,6 +26,7 @@ public partial class MainWindowVM : BaseVM
 
     public MainWindowVM()
     {
+        InitializeViewModel();
     }
 
     [RelayCommand]
@@ -62,10 +63,8 @@ public partial class MainWindowVM : BaseVM
         }
     }
 
-    public override void InitializeViewModel()
+    public void InitializeViewModel()
     {
-        base.InitializeViewModel();
-
         AppVersion = $"v{AssemblyHelper.Instance.ProductVersion} .NET 8.0";
 
         MainViewVM = App.Current!.Services.GetService<MainViewVM>()!;

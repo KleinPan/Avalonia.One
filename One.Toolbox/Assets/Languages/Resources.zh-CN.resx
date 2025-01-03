@@ -126,6 +126,9 @@
   <data name="AWordADay" xml:space="preserve">
     <value>每日一言</value>
   </data>
+  <data name="BingImage" xml:space="preserve">
+    <value>Bing壁纸</value>
+  </data>
   <data name="Chinese" xml:space="preserve">
     <value>中文</value>
   </data>
@@ -138,11 +141,20 @@
   <data name="Dark" xml:space="preserve">
     <value>深色</value>
   </data>
+  <data name="DataProcess" xml:space="preserve">
+    <value>数据处理</value>
+  </data>
   <data name="English" xml:space="preserve">
     <value>英文</value>
   </data>
   <data name="ExcuteSelectedItem" xml:space="preserve">
     <value>执行选中项</value>
+  </data>
+  <data name="FileMonitor" xml:space="preserve">
+    <value>文件监控</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>图标</value>
   </data>
   <data name="IgnoreCase" xml:space="preserve">
     <value>不区分大小写</value>
@@ -162,6 +174,9 @@
   <data name="Multiline" xml:space="preserve">
     <value>多行模式搜索</value>
   </data>
+  <data name="Note" xml:space="preserve">
+    <value>笔记</value>
+  </data>
   <data name="OriginalData" xml:space="preserve">
     <value>原始数据</value>
   </data>
@@ -173,6 +188,9 @@
   </data>
   <data name="RightToLeft" xml:space="preserve">
     <value>从右往左搜索</value>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>设置</value>
   </data>
   <data name="ShowInDesktop" xml:space="preserve">
     <value>显示在桌面</value>

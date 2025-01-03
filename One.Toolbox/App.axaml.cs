@@ -4,8 +4,10 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 
 using Microsoft.Extensions.DependencyInjection;
-
+using One.SimpleLog.Extensions;
 using One.Control.Markup.I18n;
+using One.SimpleLog.Loggers;
+using One.SimpleLog;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
@@ -18,11 +20,14 @@ using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.Views;
 
 using System.Globalization;
+using System.Threading;
 
 namespace One.Toolbox;
 
 public partial class App : Application
 {
+    public static LoggerWrapper logger = LogManager.GetLogger();
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -39,17 +44,18 @@ public partial class App : Application
         // duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
+         
         I18nManager.Instance.Culture = new CultureInfo("zh-CN");
-
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            Services = ConfigureServices(desktop);
+
             MainWindowVM vm = new MainWindowVM();
             desktop.MainWindow = new MainWindow { DataContext = vm };
 
-            Services = ConfigureServices(desktop);
-
-            vm.InitializeViewModel();
+           
+ 
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
@@ -75,7 +81,6 @@ public partial class App : Application
         //Services
         services.AddSingleton<Services.SettingService>();
 
-
         // Views and ViewModels
         services.AddSingleton<ViewModels.MainWindow.MainWindowVM>();
 
@@ -92,16 +97,13 @@ public partial class App : Application
 
         services.AddSingleton<ViewModels.BingImage.BingImagePageVM>();
 
-
-
         services.AddSingleton<QRCodePageVM>();
         services.AddSingleton<HashToolPageVM>();
         services.AddSingleton<IconBoardPageVM>();
         services.AddSingleton<FileMonitorPageVM>();
         services.AddSingleton<ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
 
-        services.AddSingleton<RegularTesterVM>();
-
+        services.AddSingleton<RegularTesterPageVM>();
 
         return services.BuildServiceProvider();
     }
@@ -120,5 +122,10 @@ public partial class App : Application
         {
             desktop.MainWindow.IsVisible = true;
         }
+    }
+
+    public virtual void WriteDebugLog(string msg)
+    {
+        logger.WithPatternProperty("ThreadID", Thread.CurrentThread.ManagedThreadId.ToString()).Debug(msg);
     }
 }

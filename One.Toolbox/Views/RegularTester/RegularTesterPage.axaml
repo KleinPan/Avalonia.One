@@ -11,11 +11,11 @@
              xmlns:vm="using:One.Toolbox.ViewModels.RegularTester"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             x:DataType="vm:RegularTesterVM"
+             x:DataType="vm:RegularTesterPageVM"
              mc:Ignorable="d">
     <Border>
         <Grid RowDefinitions="auto,*,auto,*">
-            
+
             <Grid Grid.Row="1" RowDefinitions="auto,*">
                 <TextBlock Margin="5" Text="{markup:I18n {x:Static lang:Language.InputText}}" />
                 <TextBox Name="txbInput" Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top"

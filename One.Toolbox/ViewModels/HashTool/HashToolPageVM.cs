@@ -2,21 +2,23 @@
 using System.Diagnostics;
 using System.IO;
 using One.Base.Helpers.EncryptionHelpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.ViewModels.Base;
 
 namespace One.Toolbox.ViewModels.HashTool;
 
-public partial class HashToolPageVM : BaseVM
+public partial class HashToolPageVM : BasePageVM
 {
     public HashToolPageVM() { }
 
-    public override void OnNavigatedEnter()
-    {
-        base.OnNavigatedEnter();
-        InitData();
-    }
+   
 
-    void InitData() { }
+    public override void UpdateTitle()
+    {
+        Title = "HashTool";
+    }
+    
 
     [ObservableProperty]
     string anylizeResult;

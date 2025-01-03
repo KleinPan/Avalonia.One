@@ -1,33 +1,42 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using Microsoft.Extensions.DependencyInjection;
+
 using One.Base.Helpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.ExtensionMethods;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
+
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Text;
+
 using Vanara.Extensions;
+
 using static Vanara.PInvoke.RstrtMgr;
+
 using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
 namespace One.Toolbox.ViewModels.FileMonitor;
 
-public partial class FileMonitorPageVM : BaseVM
+public partial class FileMonitorPageVM : BasePageVM
 {
-    public FileMonitorPageVM() { }
-
-    public override void OnNavigatedEnter()
+    public FileMonitorPageVM()
     {
-        base.OnNavigatedEnter();
-        InitData();
     }
 
-    void InitData() { }
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.FileMonitor);
+    }
+
+
 
     [ObservableProperty]
     private string filePath;
 
-    public ObservableCollection<FIleInUseVM> ProcessList { get; set; } = new ObservableCollection<FIleInUseVM>();
+    public ObservableCollection<FileInUseVM> ProcessList { get; set; } = new ObservableCollection<FileInUseVM>();
 
     [RelayCommand]
     private void Drop(object obj)
@@ -66,7 +75,7 @@ public partial class FileMonitorPageVM : BaseVM
             {
                 continue;
             }
-            FIleInUseVM fIleInUseVM = new FIleInUseVM();
+            FileInUseVM fIleInUseVM = new FileInUseVM();
             fIleInUseVM.LockFileName = item.strAppName;
             fIleInUseVM.LockProcessID = item.Process.dwProcessId;
 
@@ -77,16 +86,15 @@ public partial class FileMonitorPageVM : BaseVM
         }
 
         RmEndSession(pSessionHandel);
-
-        
     }
-    private void RefreshAction(FIleInUseVM vm)
+
+    private void RefreshAction(FileInUseVM vm)
     {
         ProcessList.Remove(vm);
     }
 }
 
-public partial class FIleInUseVM : BaseVM
+public partial class FileInUseVM : BaseVM
 {
     [ObservableProperty]
     private string lockFileName;
@@ -97,8 +105,7 @@ public partial class FIleInUseVM : BaseVM
     [ObservableProperty]
     private DateTime processStartTime;
 
-
-    public Action<FIleInUseVM> RefreshAction;
+    public Action<FileInUseVM> RefreshAction;
 
     [DllImport("kernel32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -129,7 +136,7 @@ public partial class FIleInUseVM : BaseVM
         }
         catch (Exception ex)
         {
-            WriteInfoLog(ex.ToString());
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.ToString());
         }
     }
 }

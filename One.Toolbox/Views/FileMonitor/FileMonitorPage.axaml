@@ -16,7 +16,7 @@
         <Grid RowDefinitions="auto,auto,auto,*">
 
             <Border>
-				 
+
                 <TextBlock Margin="5" HorizontalAlignment="Left"
                            FontSize="{DynamicResource TextBlockTitleH4FontSize}"
                            FontWeight="{DynamicResource TextBlockTitleFontWeight}"
@@ -38,7 +38,7 @@
                     <DataGridTextColumn Width="100" Binding="{Binding ProcessStartTime, StringFormat={}{0:HH:mm:ss}}" Header="StartTime" IsReadOnly="True" />
                     <DataGridTextColumn Width="100" Binding="{Binding LockProcessID}" Header="Process ID" IsReadOnly="True" />
                     <DataGridTemplateColumn Width="100" Header="Action">
-                        <DataTemplate DataType="vm:FIleInUseVM">
+                        <DataTemplate DataType="vm:FileInUseVM">
                             <Button Command="{Binding KillProcessCommand}" Content="Kill" />
                         </DataTemplate>
                     </DataGridTemplateColumn>

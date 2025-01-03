@@ -2,6 +2,8 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 
@@ -10,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace One.Toolbox.ViewModels.RegularTester;
 
-public partial class RegularTesterVM : BaseVM
+public partial class RegularTesterPageVM : BasePageVM
 {
     [ObservableProperty]
     private string inputText = "This is a a farm that that raises dairy cattle.";
@@ -81,7 +83,7 @@ public partial class RegularTesterVM : BaseVM
 
     #endregion Combox
 
-    public RegularTesterVM()
+    public RegularTesterPageVM()
     {
         PrePattern.Add(new PatternVM()
         {
@@ -101,14 +103,15 @@ public partial class RegularTesterVM : BaseVM
         });
     }
 
-    public override void OnNavigatedEnter()
+    public override void UpdateTitle()
     {
-        base.OnNavigatedEnter();
-        InitData();
+        Title = I18nManager.GetString(Language.RegTestTool);
     }
 
-    void InitData()
+    public override void InitializeViewModel()
     {
+        base.InitializeViewModel();
+
         try
         {
             if (IgnorePatternWhitespace)

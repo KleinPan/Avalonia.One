@@ -1,4 +1,6 @@
-﻿using One.Base.Helpers;
+﻿using CommunityToolkit.Mvvm.Messaging;
+
+using One.Base.Helpers;
 using One.Control.Markup.I18n;
 using One.Toolbox.ViewModels.Setting;
 
@@ -90,6 +92,8 @@ namespace One.Toolbox.Services
 
                 var culture = new CultureInfo(language);
                 I18nManager.Instance.Culture = culture;
+
+                WeakReferenceMessenger.Default.Send(new string(language));
             }
             catch (Exception ex)
             {

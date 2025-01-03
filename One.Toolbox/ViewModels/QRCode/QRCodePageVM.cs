@@ -4,6 +4,7 @@ using Avalonia.Media;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Markup.I18n;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 
@@ -13,7 +14,7 @@ using static Avalonia.Labs.Qr.QrCode;
 
 namespace One.Toolbox.ViewModels.QRCode;
 
-public partial class QRCodePageVM : BaseVM
+public partial class QRCodePageVM : BasePageVM
 {
     public QRCodePageVM()
     {
@@ -26,13 +27,10 @@ public partial class QRCodePageVM : BaseVM
     [ObservableProperty]
     private string input;
 
-    public override void OnNavigatedEnter()
+    public override void UpdateTitle()
     {
-        base.OnNavigatedEnter();
-        InitData();
+        Title = "QRCode";
     }
-
-    void InitData() { }
 
     [RelayCommand]
     private void GenerateQRCode()
@@ -51,6 +49,7 @@ public partial class QRCodePageVM : BaseVM
     }
 
     #region Property
+
     [ObservableProperty]
     private string? _qrCodeString;
 
@@ -78,10 +77,10 @@ public partial class QRCodePageVM : BaseVM
     [ObservableProperty]
     private QrCode.EccLevel _qrCodeEccLevel;
 
-    #endregion
-
+    #endregion Property
 
     public ObservableCollection<EccLevel> Levels { get; }
+
     public void ResetQrCode()
     {
         QrCodeEccLevel = QrCode.EccLevel.Medium;
@@ -95,13 +94,15 @@ public partial class QRCodePageVM : BaseVM
         QrCodeBackgroundColor2 = Colors.White;
     }
 
-
     #region Random
+
     private const string Chars = "qwertyuiopasdfghjklzxcvbnm";
+
     public void RandomizeData()
     {
         UpdateQrCode(string.Join("", Enumerable.Range(0, 150).Select(_ => Chars[Random.Shared.Next(0, Chars.Length)])));
     }
+
     public void RandomizeColors()
     {
         byte[] newColors = new byte[12];
@@ -118,6 +119,7 @@ public partial class QRCodePageVM : BaseVM
 
         UpdateQrCode(cuurentCode);
     }
+
     public void UpdateQrCode(string text)
     {
         if (string.IsNullOrEmpty(text))
@@ -125,7 +127,5 @@ public partial class QRCodePageVM : BaseVM
         QrCodeString = text;
     }
 
-    #endregion
-
-
+    #endregion Random
 }
