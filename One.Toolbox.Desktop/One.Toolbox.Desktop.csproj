@@ -8,8 +8,10 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
  
-	<Version>1.8.0</Version>
+	<Version>1.9.0</Version>
 	<PublishAot>true</PublishAot>
+	<IsTrimmable>true</IsTrimmable>
+	<PublishTrimmed>true</PublishTrimmed>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	<ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
   </PropertyGroup>

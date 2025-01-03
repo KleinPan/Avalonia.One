@@ -29,7 +29,7 @@
             <one:WindowsTitleBar Theme="{StaticResource WindowsTitleBar}">
                 <one:WindowsTitleBar.CenterContent>
                     <Grid ColumnDefinitions="auto,*,auto">
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="0">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="0">
                             <Image Name="PART_WindowIcon" Width="20" Height="20" Margin="5,0,5,0"
                                    Source="/Assets/icons8-knife-100.ico" Stretch="UniformToFill" />
 
@@ -41,7 +41,9 @@
                                        Text="{Binding AppVersion}" />
 
                         </StackPanel>
-
+                        <Label Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Classes="Ghost Blue"
+                               Content="{Binding MainViewVM.CurrentMenuItem.Header}"
+                               Theme="{StaticResource TagLabel}" />
 
                         <Menu Grid.Column="2">
                             <MenuItem MinHeight="40" VerticalAlignment="Center" Header="⚙">

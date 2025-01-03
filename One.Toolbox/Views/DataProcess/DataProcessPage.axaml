@@ -54,7 +54,7 @@
                 <!--  FontFamily="Courier New"  -->
                 <TextBlock Grid.Row="2" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                            Classes="test"
-                           Text="{markup:I18n {x:Static lang:Language.ConversionResults}}" />
+                           Text="{markup:I18n {x:Static lang:Language.ConversionResult}}" />
 
                 <Border Grid.Row="2" BorderThickness="1">
                     <WrapPanel Name="wrapPanel" Grid.Row="4">

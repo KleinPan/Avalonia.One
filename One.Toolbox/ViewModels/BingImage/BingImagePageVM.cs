@@ -2,14 +2,15 @@
 
 using One.Base.ExtensionMethods;
 using One.Base.Helpers;
-using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.ViewModels.Setting;
 
 using RestSharp;
 
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,8 +39,6 @@ public partial class BingImagePageVM : BaseVM
         //ShowLocalImage();
         var a = await GetLatestImageInfo();
         var b = FilterImageInfoAndSave(a);
-       
-       
 
         ImageList.Clear();
 
@@ -95,9 +94,11 @@ public partial class BingImagePageVM : BaseVM
             var request = new RestRequest("");
 
             // The cancellation token comes from the caller. You can still make a call without it.
-            var timeline = await client.GetAsync<BingImageOriginalModel>(request);
+            //var timeline = await client.GetAsync<BingImageOriginalModel>(request);
+            var timeline = await client.GetAsync(request);
 
-            return timeline;
+            var b = JsonSerializer.Deserialize(timeline.Content, SourceGenerationContext.Default.BingImageOriginalModel);
+            return b;
         }
         catch (Exception ex)
         {
@@ -120,13 +121,13 @@ public partial class BingImagePageVM : BaseVM
         List<UsefullImageInfoModel> list = new List<UsefullImageInfoModel>();
         try
         {
-            list = IOHelper.Instance.ReadContentFromLocal<List<UsefullImageInfoModel>>(ConfigPath);
+            list = IOHelper.Instance.ReadContentFromLocalSourceGeneration(ConfigPath, SourceGenerationContext.Default.ListUsefullImageInfoModel);
         }
         catch (Exception)
         {
         }
 
-        if (bingImageModel!=null)
+        if (bingImageModel != null)
         {
             foreach (var item in bingImageModel.images)
             {
@@ -146,10 +147,10 @@ public partial class BingImagePageVM : BaseVM
                 list.Add(usefullImageInfo);
             }
         }
-       
+
         try
         {
-            IOHelper.Instance.WriteContentTolocal(list, ConfigPath);
+            IOHelper.Instance.WriteContentTolocalSourceGeneration(list, ConfigPath, SourceGenerationContext.Default.ListUsefullImageInfoModel);
         }
         catch (Exception ex)
         {

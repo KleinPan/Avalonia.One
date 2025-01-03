@@ -16,7 +16,7 @@
         <Grid RowDefinitions="auto,auto,auto,*">
 
             <Border>
-
+				 
                 <TextBlock Margin="5" HorizontalAlignment="Left"
                            FontSize="{DynamicResource TextBlockTitleH4FontSize}"
                            FontWeight="{DynamicResource TextBlockTitleFontWeight}"

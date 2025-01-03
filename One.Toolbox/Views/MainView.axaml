@@ -12,7 +12,7 @@
         <vmMain:MainViewVM />
     </Design.DataContext>
     <Grid ColumnDefinitions="50,*">
-        <ListBox ItemsSource="{Binding NavigationItems}" SelectedItem="{Binding CurrentMenuItem}">
+        <ListBox ItemsSource="{Binding NavigationItems}" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectedItem="{Binding CurrentMenuItem}">
             <ListBox.Styles>
                 <Style Selector="ListBoxItem">
                     <Setter Property="DockPanel.Dock" Value="{Binding Dock, DataType=vmMain:MainMenuItemVM}" />

@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
              xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
              xmlns:vm="using:One.Toolbox.ViewModels.QRCode"
@@ -13,6 +14,7 @@
              mc:Ignorable="d">
     <Border>
         <Grid RowDefinitions="auto,*">
+
             <Grid Grid.Row="1" RowDefinitions="auto,*" />
         </Grid>
     </Border>

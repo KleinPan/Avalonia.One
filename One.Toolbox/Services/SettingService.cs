@@ -3,6 +3,8 @@ using One.Control.Markup.I18n;
 using One.Toolbox.ViewModels.Setting;
 
 using System.Globalization;
+using System.IO;
+using System.Text.Json;
 
 using PathHelper = One.Toolbox.Helpers.PathHelper;
 
@@ -27,7 +29,20 @@ namespace One.Toolbox.Services
 
         public void Save()
         {
-            IOHelper.Instance.WriteContentTolocal(AllConfig, LocalConfig);
+            //IOHelper.Instance.WriteContentTolocal(AllConfig, LocalConfig);
+
+            //string newpath = System.IO.Path.GetDirectoryName(LocalConfig);
+
+            //if (!Directory.Exists(newpath))
+            //{
+            //    Directory.CreateDirectory(newpath);
+            //}
+
+            //var json = JsonSerializer.Serialize(AllConfig, SourceGenerationContext.Default.AllConfigModel);
+
+            //System.IO.File.WriteAllText(LocalConfig, json);
+
+            IOHelper.Instance.WriteContentTolocalSourceGeneration(AllConfig, LocalConfig, SourceGenerationContext.Default.AllConfigModel);
         }
 
         public void LoadLocalDefaultSetting()
@@ -39,7 +54,13 @@ namespace One.Toolbox.Services
         {
             try
             {
-                AllConfig = IOHelper.Instance.ReadContentFromLocal<AllConfigModel>(fullPath);
+                //AllConfig = IOHelper.Instance.ReadContentFromLocal<AllConfigModel>(fullPath);
+
+                 //var content = System.IO.File.ReadAllText(fullPath);
+
+                //AllConfig = JsonSerializer.Deserialize(content, SourceGenerationContext.Default.AllConfigModel);
+
+                AllConfig = IOHelper.Instance.ReadContentFromLocalSourceGeneration (fullPath, SourceGenerationContext.Default.AllConfigModel);
             }
             catch (Exception)
             {

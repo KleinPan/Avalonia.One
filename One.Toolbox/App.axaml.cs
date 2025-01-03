@@ -72,6 +72,10 @@ public partial class App : Application
         services.AddSingleton<INotifyService>(x => new NotifyService(desktop.MainWindow));
         //services.AddSingleton(new NotifyService(desktop.MainWindow));//这样也OK，获取的时候不用接口
 
+        //Services
+        services.AddSingleton<Services.SettingService>();
+
+
         // Views and ViewModels
         services.AddSingleton<ViewModels.MainWindow.MainWindowVM>();
 
@@ -88,8 +92,7 @@ public partial class App : Application
 
         services.AddSingleton<ViewModels.BingImage.BingImagePageVM>();
 
-        //Services
-        services.AddSingleton<Services.SettingService>();
+
 
         services.AddSingleton<QRCodePageVM>();
         services.AddSingleton<HashToolPageVM>();
@@ -98,8 +101,7 @@ public partial class App : Application
         services.AddSingleton<ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
 
         services.AddSingleton<RegularTesterVM>();
-        //多例
-        //services.AddTransient<StickItemVM>();
+
 
         return services.BuildServiceProvider();
     }

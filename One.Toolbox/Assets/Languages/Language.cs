@@ -14,16 +14,25 @@ public static class Language
 	public static readonly string Auto = "Auto";
 	public static readonly string AWordADay = "AWordADay";
 	public static readonly string Chinese = "Chinese";
-	public static readonly string ConversionResults = "ConversionResults";
+	public static readonly string ConversionResult = "ConversionResult";
 	public static readonly string ConvertTask = "ConvertTask";
 	public static readonly string Dark = "Dark";
 	public static readonly string English = "English";
 	public static readonly string ExcuteSelectedItem = "ExcuteSelectedItem";
+	public static readonly string IgnoreCase = "IgnoreCase";
+	public static readonly string InputText = "InputText";
 	public static readonly string Lang = "Lang";
 	public static readonly string Light = "Light";
+	public static readonly string MatchingResult = "MatchingResult";
+	public static readonly string Multiline = "Multiline";
 	public static readonly string OriginalData = "OriginalData";
+	public static readonly string RegTestTool = "RegTestTool";
+	public static readonly string RegularExpression = "RegularExpression";
+	public static readonly string RightToLeft = "RightToLeft";
 	public static readonly string ShowInDesktop = "ShowInDesktop";
 	public static readonly string ShowIndex = "ShowIndex";
+	public static readonly string Singleline = "Singleline";
 	public static readonly string Test = "Test";
 	public static readonly string Theme = "Theme";
+	public static readonly string TimeConvert = "TimeConvert";
 }

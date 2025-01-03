@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.BingImage;
@@ -54,7 +56,9 @@ public partial class MainViewVM : BaseVM
     [ObservableProperty]
     private MainMenuItemVM currentMenuItem;
 
-    public MainViewVM() { }
+    public MainViewVM()
+    {
+    }
 
     public override void InitializeViewModel()
     {
@@ -68,7 +72,6 @@ public partial class MainViewVM : BaseVM
             new()
             {
                 Header = "Home",
-
                 Icon = ResourceHelper.FindObjectResource("home_regular"),
                 Content = new DashboardPage() { DataContext = App.Current!.Services.GetService<DashboardPageVM>() },
             },
@@ -95,10 +98,10 @@ public partial class MainViewVM : BaseVM
                 Header = "HashTools",
                 Icon = ResourceHelper.FindObjectResource("premium_regular"),
                 Content = new HashToolPage() { DataContext = App.Current!.Services.GetService<HashToolPageVM>() },
-            }, 
+            },
             new()
             {
-                Header = "RegularTester",
+                Header = I18nManager.GetString(Language.RegTestTool),//待研究，更换语言后这里不更新
                 Icon = ResourceHelper.FindObjectResource("teddy_regular"),
                 Content = new RegularTesterPage() { DataContext = App.Current!.Services.GetService<RegularTesterVM>() },
             },
@@ -116,7 +119,7 @@ public partial class MainViewVM : BaseVM
             },
             new()
             {
-                Header = "UnixTimeConverter",
+                Header =  I18nManager.GetString(Language.TimeConvert),
                 Icon = ResourceHelper.FindObjectResource("timer_regular"),
                 Content = new UnixTimeConverterPage() { DataContext = App.Current!.Services.GetService<UnixTimeConverterVM>() },
             },
@@ -130,17 +133,14 @@ public partial class MainViewVM : BaseVM
             },
         };
         //判断平台
-        if(Environment.OSVersion.Platform == PlatformID.Win32NT)
+        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
         {
-
             NavigationItems.Add(new()
             {
                 Header = "FileMonitor",
                 Icon = ResourceHelper.FindObjectResource("lock_regular"),
                 Content = new FileMonitorPage() { DataContext = App.Current!.Services.GetService<FileMonitorPageVM>() },
             });
-            
-            
         }
         CurrentMenuItem = NavigationItems.First();
 

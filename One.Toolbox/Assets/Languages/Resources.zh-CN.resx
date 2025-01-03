@@ -129,7 +129,7 @@
   <data name="Chinese" xml:space="preserve">
     <value>中文</value>
   </data>
-  <data name="ConversionResults" xml:space="preserve">
+  <data name="ConversionResult" xml:space="preserve">
     <value>转换结果</value>
   </data>
   <data name="ConvertTask" xml:space="preserve">
@@ -144,14 +144,35 @@
   <data name="ExcuteSelectedItem" xml:space="preserve">
     <value>执行选中项</value>
   </data>
+  <data name="IgnoreCase" xml:space="preserve">
+    <value>不区分大小写</value>
+  </data>
+  <data name="InputText" xml:space="preserve">
+    <value>输入文本</value>
+  </data>
   <data name="Lang" xml:space="preserve">
     <value>语言</value>
   </data>
   <data name="Light" xml:space="preserve">
     <value>浅色</value>
   </data>
+  <data name="MatchingResult" xml:space="preserve">
+    <value>匹配结果</value>
+  </data>
+  <data name="Multiline" xml:space="preserve">
+    <value>多行模式搜索</value>
+  </data>
   <data name="OriginalData" xml:space="preserve">
     <value>原始数据</value>
+  </data>
+  <data name="RegTestTool" xml:space="preserve">
+    <value>正则表达式测试工具</value>
+  </data>
+  <data name="RegularExpression" xml:space="preserve">
+    <value>正则表达式</value>
+  </data>
+  <data name="RightToLeft" xml:space="preserve">
+    <value>从右往左搜索</value>
   </data>
   <data name="ShowInDesktop" xml:space="preserve">
     <value>显示在桌面</value>
@@ -159,10 +180,16 @@
   <data name="ShowIndex" xml:space="preserve">
     <value>显示编号</value>
   </data>
+  <data name="Singleline" xml:space="preserve">
+    <value>单行模式搜索</value>
+  </data>
   <data name="Test" xml:space="preserve">
     <value>测试</value>
   </data>
   <data name="Theme" xml:space="preserve">
     <value>主题</value>
+  </data>
+  <data name="TimeConvert" xml:space="preserve">
+    <value>Unix 时间转换</value>
   </data>
 </root>

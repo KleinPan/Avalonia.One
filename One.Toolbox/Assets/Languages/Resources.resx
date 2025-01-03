@@ -129,8 +129,8 @@
   <data name="Chinese" xml:space="preserve">
     <value>Chinese</value>
   </data>
-  <data name="ConversionResults" xml:space="preserve">
-    <value>Conversion Results</value>
+  <data name="ConversionResult" xml:space="preserve">
+    <value>Conversion Result</value>
     <comment>转换结果</comment>
   </data>
   <data name="ConvertTask" xml:space="preserve">
@@ -145,14 +145,35 @@
   <data name="ExcuteSelectedItem" xml:space="preserve">
     <value>Excute Selected Item</value>
   </data>
+  <data name="IgnoreCase" xml:space="preserve">
+    <value>IgnoreCase</value>
+  </data>
+  <data name="InputText" xml:space="preserve">
+    <value>InputText</value>
+  </data>
   <data name="Lang" xml:space="preserve">
     <value>Language</value>
   </data>
   <data name="Light" xml:space="preserve">
     <value>Light</value>
   </data>
+  <data name="MatchingResult" xml:space="preserve">
+    <value>Matching result</value>
+  </data>
+  <data name="Multiline" xml:space="preserve">
+    <value>Multiline</value>
+  </data>
   <data name="OriginalData" xml:space="preserve">
     <value>Original Data</value>
+  </data>
+  <data name="RegTestTool" xml:space="preserve">
+    <value>Regular expression testing tool</value>
+  </data>
+  <data name="RegularExpression" xml:space="preserve">
+    <value>Regular expression</value>
+  </data>
+  <data name="RightToLeft" xml:space="preserve">
+    <value>RightToLeft</value>
   </data>
   <data name="ShowInDesktop" xml:space="preserve">
     <value>ShowInDesktop</value>
@@ -160,10 +181,17 @@
   <data name="ShowIndex" xml:space="preserve">
     <value>ShowIndex</value>
   </data>
+  <data name="Singleline" xml:space="preserve">
+    <value>Singleline</value>
+  </data>
   <data name="Test" xml:space="preserve">
     <value>Test</value>
   </data>
   <data name="Theme" xml:space="preserve">
     <value>Theme</value>
+  </data>
+  <data name="TimeConvert" xml:space="preserve">
+    <value>Unix Time Convert</value>
+    <comment>{0} 时间转换</comment>
   </data>
 </root>

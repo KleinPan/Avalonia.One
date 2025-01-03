@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
-             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
              xmlns:vm="using:One.Toolbox.ViewModels.UnixTimeConverter"
@@ -13,29 +13,26 @@
              mc:Ignorable="d">
     <Border>
         <Grid RowDefinitions="auto,*">
-            <Grid Grid.Row="1" RowDefinitions="auto,*">
-                <StackPanel Margin="10">
-                    <StackPanel Margin="10" Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center" Text="Input:" />
-                        <Button Margin="10" Command="{Binding NowCommand}" Content="Now" />
-                        <Button Margin="10" Command="{Binding ClearCommand}" Content="Clear" />
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBox Text="{Binding Input}" />
-                    </StackPanel>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="10" VerticalAlignment="Center" Text="Input:" />
+                    <Button Margin="10" Command="{Binding NowCommand}" Content="Now" />
+                    <Button Margin="10" Command="{Binding ClearCommand}" Content="Clear" />
                 </StackPanel>
-                <StackPanel Grid.Row="1" Margin="10">
-                    <StackPanel>
-                        <TextBlock Margin="10" Text="Local:" />
-                        <TextBox Text="{Binding LocalTme}" />
-                    </StackPanel>
-                    <StackPanel>
-                        <TextBlock Margin="10" Text="UTC:" />
-                        <TextBox Text="{Binding UTCTime}" />
-                    </StackPanel>
+                <StackPanel>
+                    <TextBox Margin="10" Text="{Binding Input}" />
                 </StackPanel>
-
-            </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <StackPanel>
+                    <TextBlock Margin="10" Text="Local:" />
+                    <TextBox Text="{Binding LocalTme}" />
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Margin="10" Text="UTC:" />
+                    <TextBox Text="{Binding UTCTime}" />
+                </StackPanel>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>
