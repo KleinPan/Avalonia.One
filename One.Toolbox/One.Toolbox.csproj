@@ -62,12 +62,8 @@
 	  
 	 
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
-	  
-	 
-	  <PackageReference Include="System.Text.Json" Version="9.0.0" />
 
 	  <PackageReference Include="WebDav.Client" Version="2.8.0" />
-	  <PackageReference Include="RestSharp" Version="112.1.0" />
 	  <PackageReference Include="Vanara.PInvoke.RstrtMgr" Version="4.0.4" />
   </ItemGroup>
 

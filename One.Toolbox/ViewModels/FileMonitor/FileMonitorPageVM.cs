@@ -12,9 +12,9 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
-using Vanara.Extensions;
+//using Vanara.Extensions;
 
-using static Vanara.PInvoke.RstrtMgr;
+//using static Vanara.PInvoke.RstrtMgr;
 
 using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
@@ -46,9 +46,9 @@ public partial class FileMonitorPageVM : BasePageVM
 
         FilePath = tem.LocalPath;
 
-        TestFile(FilePath);
+        //TestFile(FilePath);
     }
-
+    /*
     private void TestFile(string filePath)
     {
         ProcessList.Clear();
@@ -87,7 +87,7 @@ public partial class FileMonitorPageVM : BasePageVM
 
         RmEndSession(pSessionHandel);
     }
-
+    */
     private void RefreshAction(FileInUseVM vm)
     {
         ProcessList.Remove(vm);
@@ -127,11 +127,11 @@ public partial class FileInUseVM : BaseVM
             bool res = GetProcessTimes(thisproc.Handle, out FILETIME lpCreationTime, out FILETIME lpExitTime, out FILETIME lpKernelTime, out FILETIME lpUserTime);
             if (res)
             {
-                if (lpCreationTime.ToDateTime() == ProcessStartTime)
-                {
-                    ProcessHelper.KillProcessByID((int)LockProcessID);
-                    RefreshAction?.Invoke(this);
-                }
+                //if (lpCreationTime.ToDateTime() == ProcessStartTime)
+                //{
+                //    ProcessHelper.KillProcessByID((int)LockProcessID);
+                //    RefreshAction?.Invoke(this);
+                //}
             }
         }
         catch (Exception ex)

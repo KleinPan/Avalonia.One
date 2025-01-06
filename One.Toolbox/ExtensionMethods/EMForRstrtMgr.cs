@@ -6,6 +6,7 @@ namespace One.Toolbox.ExtensionMethods;
 
 public static class EMForRstrtMgr
 {
+    /*
     /// <summary> 复制指定长度的字符到新的字符串 </summary>
     /// <param name="str">    </param>
     /// <param name="start">  </param>
@@ -19,4 +20,5 @@ public static class EMForRstrtMgr
             ServiceHelper.Instance.ShowErrorMessage($"Error Code:{error.ToString()}");
         }
     }
+    */
 }

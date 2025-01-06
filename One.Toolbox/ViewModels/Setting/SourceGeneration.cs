@@ -1,4 +1,5 @@
 ﻿using One.Toolbox.ViewModels.BingImage;
+using One.Toolbox.ViewModels.Dashboard;
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,9 @@ namespace One.Toolbox.ViewModels.Setting;
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(AllConfigModel))]
 [JsonSerializable(typeof(BingImageOriginalModel))]
-[JsonSerializable(typeof(List<UsefullImageInfoModel>))] 
+[JsonSerializable(typeof(YiyanAPIM))]
+[JsonSerializable(typeof(List<UsefullImageInfoModel>))]
+[JsonSerializable(typeof(GithubReleaseInfoM))] 
 internal partial class SourceGenerationContext : JsonSerializerContext
 {
 }

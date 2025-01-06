@@ -2,13 +2,12 @@
 
 using One.Base.ExtensionMethods;
 using One.Base.Helpers;
+using One.Base.Helpers.HttpHelper;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Setting;
-
-using RestSharp;
 
 using System.Collections.ObjectModel;
 using System.IO;
@@ -29,6 +28,7 @@ public partial class BingImagePageVM : BasePageVM
         base.OnNavigatedEnter();
         InitData();
     }
+
     public override void UpdateTitle()
     {
         Title = I18nManager.GetString(Language.BingImage);
@@ -92,18 +92,9 @@ public partial class BingImagePageVM : BasePageVM
             //idx参数：指获取图片的时间，0（指获取当天图片），1（获取昨天照片），2（获取前天的图片），最多可获取8天前的照片。
             //n参数：从指定日期往前总共几张图片
 
-            var options = new RestClientOptions("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8")
-            {
-            };
-            var client = new RestClient(options);
+            var aa = await HTTPClientHelper.GetStringAsync("http://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8");
 
-            var request = new RestRequest("");
-
-            // The cancellation token comes from the caller. You can still make a call without it.
-            //var timeline = await client.GetAsync<BingImageOriginalModel>(request);
-            var timeline = await client.GetAsync(request);
-
-            var b = JsonSerializer.Deserialize(timeline.Content, SourceGenerationContext.Default.BingImageOriginalModel);
+            var b = JsonSerializer.Deserialize(aa, SourceGenerationContext.Default.BingImageOriginalModel);
             return b;
         }
         catch (Exception ex)
@@ -171,38 +162,5 @@ public partial class BingImagePageVM : BasePageVM
         }
         Mutex.ReleaseMutex();
         return listVM;
-    }
-
-    private async Task DownloadImage(UsefullImageInfoVM usefullImageInfos)
-    {
-        //查看图片是否已经下载，path为路径
-        if (File.Exists(usefullImageInfos.LocalImagePath))
-        {
-            return;
-        }
-
-        var options = new RestClientOptions(usefullImageInfos.DownloadUrl)
-        {
-        };
-        var client = new RestClient(options);
-
-        var request = new RestRequest("");
-
-        // The cancellation token comes from the caller. You can still make a call without it.
-        var timeline = await client.DownloadDataAsync(request);
-
-        if (timeline == null)
-        {
-            return;
-        }
-        //创造图片
-        using (FileStream fileStream = new FileStream(usefullImageInfos.LocalImagePath, FileMode.Create))
-        {
-            BinaryWriter binaryWriter = new BinaryWriter(fileStream);
-            //写入图片信息
-            binaryWriter.Write(timeline);
-        }
-
-        return;
     }
 }

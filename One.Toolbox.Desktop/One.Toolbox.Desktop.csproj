@@ -9,13 +9,17 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
  
 	<Version>1.9.0</Version>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
 	<PublishAot>true</PublishAot>
 	<IsTrimmable>true</IsTrimmable>
 	<PublishTrimmed>true</PublishTrimmed>
-	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	<TrimmerSingleWarn>false</TrimmerSingleWarn>
+	<IsAotCompatible>true</IsAotCompatible>
 	<ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+	<TrimmerRootDescriptor Include="Roots.xml" />
     <Content Include="icons8-knife-100.ico" />
   </ItemGroup>
 

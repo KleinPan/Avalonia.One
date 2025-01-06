@@ -1,13 +1,14 @@
 ﻿using One.Base.Helpers;
+using One.Base.Helpers.HttpHelper;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.ViewModels.Base;
-
-using RestSharp;
+using One.Toolbox.ViewModels.Setting;
 
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Dashboard;
@@ -59,10 +60,12 @@ public partial class DashboardPageVM : BasePageVM
 
         Task.Run(async () =>
         {
-            var a = await GetEveryDayYiyan();
+            // var a = await GetEveryDayYiyan();
+            var jsonString = await HTTPClientHelper.GetStringAsync("https://v1.hitokoto.cn/");
 
-            Text = a.hitokoto;
-            Author = "--" + a.from;
+            var json = JsonSerializer.Deserialize(jsonString, SourceGenerationContext.Default.YiyanAPIM);
+            Text = json.hitokoto;
+            Author = "--" + json.from;
         });
     }
 
@@ -108,20 +111,5 @@ public partial class DashboardPageVM : BasePageVM
         //     new InputInfoVM("dd","ee"),
         //};
         //var res = await DialogHelper.Instance.ShowInputDialog("test", inputInfoVMs);
-    }
-
-    private static async Task<YiyanAPIM> GetEveryDayYiyan()
-    {
-        var options = new RestClientOptions("https://v1.hitokoto.cn/")
-        {
-        };
-        var client = new RestClient(options);
-
-        var request = new RestRequest("");
-
-        // The cancellation token comes from the caller. You can still make a call without it.
-        var timeline = await client.GetAsync<YiyanAPIM>(request);
-
-        return timeline;
     }
 }
