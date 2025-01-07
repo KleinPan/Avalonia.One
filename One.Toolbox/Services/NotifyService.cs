@@ -26,7 +26,7 @@ public class NotifyService : INotifyService
     public NotifyService(Window target)
     {
         topLevel = target;
-        _manager = new WindowNotificationManager(topLevel) { MaxItems = 2 };
+        _manager = new WindowNotificationManager(topLevel) { MaxItems = 2,Position=NotificationPosition.TopCenter };
       
     }
 

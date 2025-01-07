@@ -10,15 +10,16 @@ using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.Views.Note;
 using System.Text.RegularExpressions;
+
 namespace One.Toolbox.ViewModels.Note;
 
 public partial class EditFileInfoVM : ObservableObject
-{ 
-    /// <summary> 文件名 </summary>
+{
+    /// <summary>文件名</summary>
     [ObservableProperty]
     private string fileName;
 
-    /// <summary> 文件名 </summary>
+    /// <summary>文件名</summary>
     [ObservableProperty]
     private bool isEditFileName;
 
@@ -37,7 +38,7 @@ public partial class EditFileInfoVM : ObservableObject
     [ObservableProperty]
     private string isReadOnlyReason;
 
-    /// <summary> 当前打开的文件路径 </summary>
+    /// <summary>当前打开的文件路径</summary>
     [ObservableProperty]
     private string fileParentDirectory;
 
@@ -64,11 +65,11 @@ public partial class EditFileInfoVM : ObservableObject
 
     public const string suffix = ".md";
 
-    /// <summary> UI 展示数据使用 </summary>
+    /// <summary>UI 展示数据使用</summary>
     public EditFileInfoVM() { }
 
-    /// <summary> 正常使用 </summary>
-    /// <param name="filePath"> </param>
+    /// <summary>正常使用</summary>
+    /// <param name="filePath"></param>
     public EditFileInfoVM(string filePath)
     {
         FileParentDirectory = Directory.GetParent(filePath)!.FullName;
@@ -188,13 +189,20 @@ public partial class EditFileInfoVM : ObservableObject
 
     private LittleNoteWnd littleNotePage;
 
-    partial void OnMdContentChanged(string value)
+    partial void OnMdContentChanged(string? oldValue, string newValue)
     {
-        if (IsDirty)
+        if (oldValue == null)//第一次加载
         {
             return;
         }
-        IsDirty = true;
+        if (oldValue == newValue)
+        {
+            IsDirty = false;
+        }
+        else
+        {
+            IsDirty = true;
+        }
     }
 
     partial void OnShowInDesktopChanged(bool value)
@@ -209,31 +217,6 @@ public partial class EditFileInfoVM : ObservableObject
         }
     }
 
-    //partial void OnFileNameChanged(string? oldValue, string newValue)
-    //{
-    //    return;
-    //    if (oldValue == null)
-    //    {
-    //        return;
-    //    }
-    //    if (newValue == oldValue)
-    //    {
-    //        return;
-    //    }
-    //    if (File.Exists(FilePath))
-    //    {
-    //        File.Delete(FilePath);
-    //    }
-
-    // FilePath = FilePath.Replace(oldValue, newValue);
-
-    // //IsEditFileName = false;
-
-    // SaveDocument();
-
-    //    UpdateInfoAction?.Invoke();
-    //}
-
     public async Task LoadDocument()
     {
         var res = await LoadDocument(FilePath + suffix);
@@ -244,8 +227,8 @@ public partial class EditFileInfoVM : ObservableObject
         }
     }
 
-    /// <summary> 创建文件 </summary>
-    /// <returns> </returns>
+    /// <summary>创建文件</summary>
+    /// <returns></returns>
     public bool CreateNewFile()
     {
         if (!File.Exists(FilePath + suffix))
@@ -274,7 +257,7 @@ public partial class EditFileInfoVM : ObservableObject
         return false;
     }
 
-    public void SaveDocument()
+    public async Task SaveDocument()
     {
         if (FilePath == null || string.IsNullOrEmpty(FilePath))
             throw new ArgumentNullException("fileName");
@@ -283,7 +266,7 @@ public partial class EditFileInfoVM : ObservableObject
         {
             ModifyTime = DateTime.Now;
 
-            File.WriteAllText(FilePath + suffix, MdContent);
+            await File.WriteAllTextAsync(FilePath + suffix, MdContent);
             App.Current!.Services.GetService<INotifyService>()!.ShowInfoMessage("Save success!");
         }
     }

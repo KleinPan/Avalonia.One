@@ -1,5 +1,4 @@
 ﻿<linker>
 	<assembly fullname="System.Net.Http" preserve="All" />
 	<assembly fullname="One.Toolbox.Desktop" preserve="All" />
-	<assembly fullname="RestSharp" preserve="All" />
 </linker>

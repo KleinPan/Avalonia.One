@@ -260,5 +260,41 @@ namespace One.Base.Helpers.HttpHelper
         }
 
         #endregion 文件下载
+
+        public static HttpClient CreateSimpleHttpProxyClient(string proxyHost, string proxyPort)
+        {
+            var proxy = new WebProxy
+            {
+                Address = new Uri($"http://{proxyHost}:{proxyPort}"),
+                BypassProxyOnLocal = false,
+                UseDefaultCredentials = false,
+
+                // *** These creds are given to the proxy server, not the web server ***
+                //Credentials = new NetworkCredential(
+                //    userName: proxyUserName,
+                //    password: proxyPassword)
+            };
+
+            // Now create a client handler which uses that proxy
+            var httpClientHandler = new HttpClientHandler
+            {
+                Proxy = proxy,
+            };
+
+            // Omit this part if you don't need to authenticate with the web server:
+            if (false)
+            {
+                httpClientHandler.PreAuthenticate = true;
+                httpClientHandler.UseDefaultCredentials = false;
+
+                // *** These creds are given to the web server, not the proxy server ***
+                //httpClientHandler.Credentials = new NetworkCredential(
+                //    userName: serverUserName,
+                //    password: serverPassword);
+            }
+
+            // Finally, create the HTTP client object
+            return new HttpClient(handler: httpClientHandler, disposeHandler: true);
+        }
     }
 }

@@ -1,20 +1,14 @@
-﻿using ExCSS;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 using One.Base.Helpers;
 using One.Base.Helpers.HttpHelper;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
-using One.Toolbox.Enums;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Dashboard;
 
-using System.Net.Http;
 using System.Threading.Tasks;
-
-using Ursa.Controls;
 
 namespace One.Toolbox.ViewModels.Setting;
 
@@ -22,6 +16,12 @@ public partial class SettingsPageVM : BasePageVM
 {
     [ObservableProperty]
     private bool autoUpdate = true;
+
+    [ObservableProperty]
+    private string proxyHost;
+
+    [ObservableProperty]
+    private string proxyPort;
 
     private SettingService SettingService { get; set; }
 
@@ -45,7 +45,7 @@ public partial class SettingsPageVM : BasePageVM
 
     public override void UpdateTitle()
     {
-        Title = I18nManager.GetString(Language.Setting);
+        Title = I18nManager.GetString(Language.Setting)!;
     }
 
     public override void InitializeViewModel()
@@ -63,20 +63,20 @@ public partial class SettingsPageVM : BasePageVM
         base.InitializeViewModel();
     }
 
-    private HttpClient httpClient = new HttpClient();
-
     private async Task<GithubReleaseFilterInfo> GetLatestInfo()
     {
         //https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#get-the-latest-release
+        var client = HTTPClientHelper.CreateSimpleHttpProxyClient(ProxyHost, ProxyPort);
 
-        httpClient.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+        client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+        client.DefaultRequestHeaders.Add("User-Agent", "One.Toolbox");
 
-        var result = await httpClient.GetStringAsync("https://api.github.com/repos/KleinPan/One/releases/latest");
+        var result = await client.GetStringAsync("https://api.github.com/repos/KleinPan/One/releases/latest");
 
         var githubReleaseInfoM = System.Text.Json.JsonSerializer.Deserialize(result, SourceGenerationContext.Default.GithubReleaseInfoM);
 
         var localVersion = AssemblyHelper.Instance.ProductVersion;
-        Version gitVersion = Version.Parse(githubReleaseInfoM.tag_name.Replace("v", ""));
+        Version gitVersion = Version.Parse(githubReleaseInfoM!.tag_name.Replace("v", ""));
 
         GithubReleaseFilterInfo githubReleaseFilterInfo = new GithubReleaseFilterInfo();
 
@@ -93,22 +93,16 @@ public partial class SettingsPageVM : BasePageVM
     private void LoadSetting()
     {
         AutoUpdate = SettingService.AllConfig.Setting.SutoUpdate;
+        ProxyHost = SettingService.AllConfig.Setting.NetSetting.ProxyHost;
+        ProxyPort = SettingService.AllConfig.Setting.NetSetting.ProxyPort;
     }
 
     private void SaveSetting()
     {
         SettingService.AllConfig.Setting.SutoUpdate = AutoUpdate;
+        SettingService.AllConfig.Setting.NetSetting.ProxyHost = ProxyHost;
+        SettingService.AllConfig.Setting.NetSetting.ProxyPort = ProxyPort;
 
         SettingService.Save();
-    }
-}
-
-public class SettingModel
-{
-    public bool SutoUpdate;
-    public bool ShowStickOnStart;
-
-    public SettingModel()
-    {
     }
 }

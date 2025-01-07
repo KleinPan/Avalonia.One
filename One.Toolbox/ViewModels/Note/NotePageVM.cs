@@ -86,7 +86,13 @@ public partial class NotePageVM : BasePageVM
     private async void OnSelectedEditFileChanged(SelectionChangedEventArgs args)
     {
         var newItems = args.AddedItems;
+        var oldItems = args.RemovedItems;
 
+        if (oldItems.Count==1)
+        {
+            var item = oldItems[0] as EditFileInfoVM;
+            await item.SaveDocument();
+        }
         if (newItems.Count == 1)
         {
             var item = newItems[0] as EditFileInfoVM;

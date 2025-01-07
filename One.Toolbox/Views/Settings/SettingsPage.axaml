@@ -12,5 +12,12 @@
     <Design.DataContext>
         <vm:SettingsPageVM />
     </Design.DataContext>
-    <StackPanel />
+    <Grid RowDefinitions="auto,*">
+        <Grid ColumnDefinitions="2*,3*" RowDefinitions="*,*">
+            <TextBlock Margin="5" Text="Host" />
+            <TextBox Grid.Column="1" Margin="5" Text="{Binding ProxyHost}" />
+            <TextBlock Grid.Row="1" Margin="5" Text="Port" />
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="5" Text="{Binding ProxyPort}" />
+        </Grid>
+    </Grid>
 </UserControl>
