@@ -2,10 +2,7 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-             xmlns:behaviors="using:One.Toolbox.Behaviors"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
              xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -58,15 +55,17 @@
 
                 <Border Grid.Row="2" BorderThickness="1">
                     <WrapPanel Name="wrapPanel" Grid.Row="4">
-                        <i:Interaction.Behaviors>
+                        <!--<i:Interaction.Behaviors>
                             <ia:EventTriggerBehavior EventName="Loaded">
                                 <ia:InvokeCommandAction Command="{Binding InitUICommand}" CommandParameter="{Binding ElementName=wrapPanel}" />
 
-                                <!--<ia:InvokeCommandAction Command="{Binding NavigationItemClickCmd}"
-                                            CommandParameter="{Binding ElementName=Navigation,Path=SelectedItem}" />这样也是ok的
-					-->
+                        -->
+                        <!--<ia:InvokeCommandAction Command="{Binding NavigationItemClickCmd}"
+                                            CommandParameter="{Binding ElementName=Navigation,Path=SelectedItem}" />这样也是ok的-->
+                        <!--
+
                             </ia:EventTriggerBehavior>
-                        </i:Interaction.Behaviors>
+                        </i:Interaction.Behaviors>-->
                     </WrapPanel>
                 </Border>
             </Grid>
@@ -78,9 +77,9 @@
                     <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
                 </Grid.Styles>
                 <AvaloniaEdit:TextEditor FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True">
-                    <i:Interaction.Behaviors>
+                    <!--<i:Interaction.Behaviors>
                         <behaviors:DocumentTextBindingBehavior Text="{Binding ShowString, Mode=TwoWay}" />
-                    </i:Interaction.Behaviors>
+                    </i:Interaction.Behaviors>-->
                 </AvaloniaEdit:TextEditor>
                 <StackPanel Grid.Row="1">
                     <Button HorizontalAlignment="Right" Command="{Binding FormateCommand}" Content="{Binding FormateButtonContent}" />

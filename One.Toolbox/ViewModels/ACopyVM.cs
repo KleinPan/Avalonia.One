@@ -11,12 +11,6 @@ public partial class ACopyVM : BasePageVM
     {
     }
 
-    public override void OnNavigatedEnter()
-    {
-        base.OnNavigatedEnter();
-        InitData();
-    }
-
     void InitData()
     {
         try

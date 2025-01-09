@@ -34,7 +34,6 @@
 	  <PackageReference Include="Avalonia.Labs.Qr" Version="11.2.0" />
 	  <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
 	  <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.3" />
-	  <PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.2.0.4" />
 	  <PackageReference Include="AvaloniaEdit.TextMate" Version="11.1.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 	  <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
@@ -86,6 +85,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Behaviors\" />
     <Folder Include="ViewModels\TextCompare\" />
     <Folder Include="Views\TextCompare\" />
   </ItemGroup>

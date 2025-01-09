@@ -21,11 +21,6 @@ public partial class BingImagePageVM : BasePageVM
 {
     public BingImagePageVM()
     {
-    }
-
-    public override void OnNavigatedEnter()
-    {
-        base.OnNavigatedEnter();
         InitData();
     }
 

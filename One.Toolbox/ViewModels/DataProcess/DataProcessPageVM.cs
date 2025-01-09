@@ -3,9 +3,11 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Threading;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Helpers;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
@@ -63,6 +65,8 @@ public partial class DataProcessPageVM : BasePageVM
         InputString = "";
 
         SelectedConverterTask = ConverterTaskList.First();
+
+        GetTargetControl();
     }
 
     private void DoConvert()
@@ -129,6 +133,16 @@ public partial class DataProcessPageVM : BasePageVM
         }
 
         DoConvert2();
+    }
+
+    private void GetTargetControl()
+    {
+        Dispatcher.UIThread.Post(() =>
+        {
+            var a = TopLevel.GetTopLevel(currentPage);
+
+            wrapPanel = MyVisualTreeHelper.FindControlByName<WrapPanel>(a, "wrapPanel");
+        });
     }
 
     /// <summary>转换器</summary>
@@ -256,12 +270,6 @@ public partial class DataProcessPageVM : BasePageVM
     #region ShowIndex
 
     private WrapPanel wrapPanel;
-
-    [RelayCommand]
-    private void InitUI(object obj)
-    {
-        wrapPanel = (WrapPanel)obj;
-    }
 
     [RelayCommand]
     private void ShowIndexEvent()
@@ -409,17 +417,19 @@ public partial class DataProcessPageVM : BasePageVM
         }
     }
 
+    private JsonSerializerOptions jsonOption = new JsonSerializerOptions()
+    {
+        // 整齐打印
+        WriteIndented = true,
+        //重新编码，解决中文乱码问题
+        Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
+    };
+
     private string JsonFormate(string input)
     {
         var jsonDocument = JsonDocument.Parse(input);
 
-        var formatJson = JsonSerializer.Serialize(jsonDocument, new JsonSerializerOptions()
-        {
-            // 整齐打印
-            WriteIndented = true,
-            //重新编码，解决中文乱码问题
-            Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
-        });
+        var formatJson = JsonSerializer.Serialize(jsonDocument, jsonOption);
         // 格式化输出
         return formatJson;
     }

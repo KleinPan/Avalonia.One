@@ -29,20 +29,19 @@ public partial class NotePageVM : BasePageVM
         // Register a message in some module
         WeakReferenceMessenger.Default.Register<CloseMessage>(this, (r, m) =>
         {
-            // Handle the message here, with r being the recipient and m being the input message. Using the recipient passed as input makes it so that the lambda expression doesn't capture "this", improving performance.
+            // Handle the message here, with r being the recipient and m being the input message.
+            // Using the recipient passed as input makes it so that the lambda expression doesn't
+            // capture "this", improving performance.
 
             SaveSetting();
         });
 
         InitData();
     }
+
     public override void UpdateTitle()
     {
         Title = I18nManager.GetString(Language.Note);
-    }
-    public override void OnNavigatedEnter()
-    {
-        base.OnNavigatedEnter();
     }
 
     void InitData()
@@ -82,27 +81,13 @@ public partial class NotePageVM : BasePageVM
         }
     }
 
-    [RelayCommand]
-    private async void OnSelectedEditFileChanged(SelectionChangedEventArgs args)
+    partial void OnSelectedEditFileInfoChanged(EditFileInfoVM? oldValue, EditFileInfoVM newValue)
     {
-        var newItems = args.AddedItems;
-        var oldItems = args.RemovedItems;
-
-        if (oldItems.Count==1)
-        {
-            var item = oldItems[0] as EditFileInfoVM;
-            await item.SaveDocument();
-        }
-        if (newItems.Count == 1)
-        {
-            var item = newItems[0] as EditFileInfoVM;
-            await item.LoadDocument();
-        }
-        else
-        {
-        }
+        oldValue?.SaveDocument();
+        newValue?.LoadDocument();
     }
 
+   
     [RelayCommand]
     private void DeleteFile(object obj)
     {
@@ -161,11 +146,10 @@ public partial class NotePageVM : BasePageVM
             EditFileInfoViewModelOC.Add(editFileInfo);
         }
 
-        if (EditFileInfoViewModelOC.Count>0)
+        if (EditFileInfoViewModelOC.Count > 0)
         {
             SelectedEditFileInfo = EditFileInfoViewModelOC.First();
         }
-      
     }
 
     private void Update()

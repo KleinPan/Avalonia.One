@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Threading;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using One.Control.Helpers;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
@@ -9,6 +11,7 @@ using One.Toolbox.ViewModels.Base;
 
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.RegularTester;
 
@@ -58,11 +61,14 @@ public partial class RegularTesterPageVM : BasePageVM
             return;
         }
 
-        textBox.SelectionStart = value.IndexInText;
-        textBox.SelectionEnd = value.EndInText;
+        //Dispatcher.UIThread.Post(() =>
+        //{
+        //    var a = TopLevel.GetTopLevel(currentPage);
 
-        //Run run = new Run(InputText.Substring(value.IndexInText, value.Length));
-        //OutputText = run;
+        //    var textBox = MyVisualTreeHelper.FindControlByName<TextBox>(a, "txbInput");
+        //    textBox.SelectionStart = value.IndexInText;
+        //    textBox.SelectionEnd = value.EndInText;
+        //});
     }
 
     [ObservableProperty]
@@ -139,14 +145,6 @@ public partial class RegularTesterPageVM : BasePageVM
         {
             App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.ToString());
         }
-    }
-
-    private TextBox textBox;
-
-    [RelayCommand]
-    void InitUI(TextBox ui)
-    {
-        textBox = ui;
     }
 
     [RelayCommand]

@@ -158,7 +158,7 @@ public partial class MainViewVM : BaseVM
         {
             var vmNew = newValue.Content.DataContext as BasePageVM;
 
-            vmNew.OnNavigatedEnter();
+            vmNew.OnNavigatedEnter(newValue.Content);
         }
     }
 

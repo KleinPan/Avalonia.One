@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+﻿using Avalonia.Controls;
+
+using CommunityToolkit.Mvvm.Messaging;
 
 using One.SimpleLog;
 using One.SimpleLog.Extensions;
@@ -6,6 +8,7 @@ using One.SimpleLog.Loggers;
 using One.Toolbox.Messenger;
 
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Base;
 
@@ -17,11 +20,22 @@ public partial class BasePageVM : BaseVM
     [ObservableProperty]
     private string title;
 
+    protected UserControl currentPage;
+
     /// <summary>进入当前页面</summary>
-    public virtual void OnNavigatedEnter()
+    public virtual void OnNavigatedEnter(UserControl userControl)
     {
         if (!isInitialized)
+        {
+            currentPage = userControl;
             InitializeViewModel();
+
+            //Task.Run(() =>
+            //{
+            //    Task.Delay(10);
+            //    currentPage = userControl;
+            //});
+        }
     }
 
     /// <summary>从当前页面离开</summary>

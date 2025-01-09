@@ -1,4 +1,6 @@
-﻿using One.Base.Helpers;
+﻿using Avalonia.Controls;
+
+using One.Base.Helpers;
 using One.Base.Helpers.HttpHelper;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
@@ -19,9 +21,10 @@ public partial class DashboardPageVM : BasePageVM
     {
     }
 
-    public override void OnNavigatedEnter()
+    public override void OnNavigatedEnter(UserControl userControl)
     {
-        base.OnNavigatedEnter();
+        base.OnNavigatedEnter(userControl);
+
         InitData();
     }
 

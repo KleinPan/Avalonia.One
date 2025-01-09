@@ -38,11 +38,6 @@ public partial class SettingsPageVM : BasePageVM
         SaveSetting();
     }
 
-    public override void OnNavigatedEnter()
-    {
-        base.OnNavigatedEnter();
-    }
-
     public override void UpdateTitle()
     {
         Title = I18nManager.GetString(Language.Setting)!;

@@ -18,15 +18,10 @@
 
             <Grid Grid.Row="1" RowDefinitions="auto,*">
                 <TextBlock Margin="5" Text="{markup:I18n {x:Static lang:Language.InputText}}" />
-                <TextBox Name="txbInput" Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
-                         Text="{Binding InputText}">
-
-                    <i:Interaction.Behaviors>
-                        <ia:EventTriggerBehavior EventName="Loaded">
-                            <ia:InvokeCommandAction Command="{Binding InitUICommand}" CommandParameter="{Binding ElementName=txbInput}" />
-                        </ia:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                </TextBox>
+                <TextBox x:Name="txbInput" Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
+                         SelectionEnd="{Binding CurrentNode.EndInText}"
+                         SelectionStart="{Binding CurrentNode.IndexInText}"
+                         Text="{Binding InputText}" />
             </Grid>
             <StackPanel Grid.Row="2">
                 <StackPanel Orientation="Horizontal">
