@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
     One for Windows with net7.0-windows TFM, one for MacOS with net7.0-macos and one with net7.0 TFM for Linux.-->
-    <TargetFramework>net8.0</TargetFramework>
+ 
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -12,8 +12,7 @@
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 
 	<PublishAot>true</PublishAot>
-	<IsTrimmable>true</IsTrimmable>
-	<PublishTrimmed>true</PublishTrimmed>
+
 	<TrimmerSingleWarn>false</TrimmerSingleWarn>
 	<IsAotCompatible>true</IsAotCompatible>
 	<ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>

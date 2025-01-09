@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+
     <PackageTags>C#,.Net Core</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>BranPan</Authors>
@@ -12,19 +12,9 @@
     <PackageProjectUrl>https://github.com/KleinPan/One</PackageProjectUrl>
 	<DocumentationFile />
 	<GenerateDocumentationFile>True</GenerateDocumentationFile>
-  </PropertyGroup>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
+	<IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>

@@ -160,6 +160,12 @@ public partial class NotePageVM : BasePageVM
 
             EditFileInfoViewModelOC.Add(editFileInfo);
         }
+
+        if (EditFileInfoViewModelOC.Count>0)
+        {
+            SelectedEditFileInfo = EditFileInfoViewModelOC.First();
+        }
+      
     }
 
     private void Update()

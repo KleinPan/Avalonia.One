@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+ 
     <Title>A very simple logging library</Title>
     <Version>2.0.2</Version>
     <Authors>one.github.com</Authors>
@@ -9,17 +9,9 @@
     <RepositoryUrl></RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>Logging;Logger;Log;log;logger;logging;simplelogging</PackageTags>
+	<IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-    <IsAotCompatible>True</IsAotCompatible>
-  </PropertyGroup>
   <ItemGroup>
     <None Update="README.md">
       <Pack>True</Pack>

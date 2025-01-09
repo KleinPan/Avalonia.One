@@ -12,34 +12,36 @@ namespace One.Toolbox.ViewModels.IconBoard;
 
 public partial class IconBoardPageVM : BasePageVM
 {
-    public IconBoardPageVM() {
-
+    public IconBoardPageVM()
+    {
         _dataList = new List<IconItemVM>();
     }
 
-    
     public override void InitializeViewModel()
     {
         base.InitializeViewModel();
 
-      
         InitData();
     }
+
     [ObservableProperty]
     private string searchText;
 
-     [ObservableProperty]
-     private IconItemVM selectItem;
+    [ObservableProperty]
+    private IconItemVM selectItem;
+
     public ManualObservableCollection<IconItemVM> IconItems { get; set; } = new ManualObservableCollection<IconItemVM>();
 
     public override void UpdateTitle()
     {
         Title = I18nManager.GetString(Language.Icon);
     }
+
     async void InitData()
     {
-       
         await LoadAssets();
+
+       
         FilterItems("");
     }
 
@@ -47,7 +49,9 @@ public partial class IconBoardPageVM : BasePageVM
     {
         FilterItems(value);
     }
+
     private readonly List<IconItemVM> _dataList;
+
     private void FilterItems(string key)
     {
         IconItems.CanNotify = false;
@@ -73,7 +77,7 @@ public partial class IconBoardPageVM : BasePageVM
         {
             _dataList.Add(new IconItemVM() { Name = item.Key.ToString(), Icon = target[item.Key.ToString()] });
         }
-
+       
         return Task.CompletedTask;
     }
 }

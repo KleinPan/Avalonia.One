@@ -21,87 +21,87 @@
 
     <UserControl.Styles />
     <Grid ColumnDefinitions="*,auto,3*">
-        <Border>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <u:ToolBar>
+                <Button Width="30" Command="{Binding NewFileCommand}" DockPanel.Dock="Top">
+                    <PathIcon Width="16" Height="16" Data="{DynamicResource note_add_regular}" />
+                </Button>
+            </u:ToolBar>
+            <ListBox Name="listbox" Grid.Row="1" ItemsSource="{Binding EditFileInfoViewModelOC}" SelectedItem="{Binding SelectedEditFileInfo}">
+                <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="SelectionChanged">
+                        <ia:InvokeCommandAction Command="{Binding SelectedEditFileChangedCommand}" PassEventArgsToCommand="True" />
+                    </ia:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="vms:EditFileInfoVM">
+                        <Grid Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding $parent[Border].((vms:NotePageVM)DataContext).DeleteFileCommand}" Header="Delete" />
+                                    <MenuItem Command="{Binding RenameFileCommand}" CommandParameter="{Binding $parent[Grid]}" Header="Rename" />
+                                    <MenuItem Command="{Binding OpenFilePathCommand}" Header="Open File Path" />
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+
+                            <TextBlock IsVisible="{Binding !IsEditFileName}" Text="{Binding FileName}" />
+                            <TextBox x:Name="txb1" Margin="0" Padding="0" Background="Transparent"
+                                     BorderThickness="0" Focusable="True"
+                                     IsVisible="{Binding IsEditFileName}"
+                                     Text="{Binding FileName}" />
+
+                            <TextBlock Grid.Row="1" FontSize="10" Opacity="0.5" Text="{Binding ModifyTime, StringFormat={}{0:yyyy-MM-dd}}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" />
+
+        <Grid Grid.Column="2" RowDefinitions="auto,*">
+            <StackPanel Orientation="Horizontal">
+
+                <StackPanel.Styles>
+                    <Style Selector="PathIcon.same">
+                        <Setter Property="Width" Value="16" />
+                        <Setter Property="Height" Value="16" />
+                    </Style>
+                </StackPanel.Styles>
                 <u:ToolBar>
-                    <Button Width="30" Command="{Binding NewFileCommand}" DockPanel.Dock="Top">
-                        <PathIcon Width="16" Height="16" Data="{DynamicResource note_add_regular}" />
+                    <Button Command="{Binding SelectedEditFileInfo.SaveFileCommand}">
+                        <PathIcon Width="16" Height="16" Classes="same" Data="{DynamicResource save_regular}" />
                     </Button>
                 </u:ToolBar>
-                <ListBox Name="listbox" Grid.Row="1" ItemsSource="{Binding EditFileInfoViewModelOC}" SelectedItem="{Binding SelectedEditFileInfo}">
-                    <i:Interaction.Behaviors>
-                        <ia:EventTriggerBehavior EventName="SelectionChanged">
-                            <ia:InvokeCommandAction Command="{Binding SelectedEditFileChangedCommand}" PassEventArgsToCommand="True" />
-                        </ia:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
+                <u:ToolBar DockPanel.Dock="Top">
+                    <ToggleButton Name="bold">
+                        <PathIcon Classes="same" Data="{DynamicResource BoldGlyph}" />
+                    </ToggleButton>
+                    <ToggleButton Name="italic">
+                        <PathIcon Classes="same" Data="{DynamicResource ItalicGlyph}" />
+                    </ToggleButton>
+                </u:ToolBar>
+                <u:ToolBar>
+                    <ToggleButton IsChecked="{Binding SelectedEditFileInfo.ShowInDesktop}">
+                        <PathIcon Classes="same" Data="{DynamicResource desktop_regular}" />
+                    </ToggleButton>
+                </u:ToolBar>
+            </StackPanel>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="vms:EditFileInfoVM">
-                            <Grid Background="Transparent">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Command="{Binding $parent[Border].((vms:NotePageVM)DataContext).DeleteFileCommand}" Header="Delete" />
-                                        <MenuItem Command="{Binding RenameFileCommand}" CommandParameter="{Binding $parent[Grid]}" Header="Rename" />
-                                        <MenuItem Command="{Binding OpenFilePathCommand}" Header="Open File Path" />
-                                    </ContextMenu>
-                                </Grid.ContextMenu>
+            <TextBox Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top" AcceptsReturn="True"
+                     Text="{Binding SelectedEditFileInfo.MdContent}"
+                     TextWrapping="Wrap" />
+        </Grid>
 
-                                <TextBlock IsVisible="{Binding !IsEditFileName}" Text="{Binding FileName}" />
-                                <TextBox x:Name="txb1" Margin="0" Padding="0" Background="Transparent"
-                                         BorderThickness="0" Focusable="True"
-                                         IsVisible="{Binding IsEditFileName}"
-                                         Text="{Binding FileName}" />
-
-                                <TextBlock Grid.Row="1" FontSize="10" Opacity="0.5" Text="{Binding ModifyTime, StringFormat={}{0:yyyy-MM-dd}}" />
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
-        </Border>
-        <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Stretch" />
-        <Border Grid.Column="2">
-            <Grid RowDefinitions="auto,*">
-                <StackPanel Orientation="Horizontal">
-
-                    <StackPanel.Styles>
-                        <Style Selector="PathIcon.same">
-                            <Setter Property="Width" Value="16" />
-                            <Setter Property="Height" Value="16" />
-                        </Style>
-                    </StackPanel.Styles>
-                    <u:ToolBar>
-                        <Button Command="{Binding SelectedEditFileInfo.SaveFileCommand}">
-                            <PathIcon Width="16" Height="16" Classes="same" Data="{DynamicResource save_regular}" />
-                        </Button>
-                    </u:ToolBar>
-                    <u:ToolBar DockPanel.Dock="Top">
-                        <ToggleButton Name="bold">
-                            <PathIcon Classes="same" Data="{DynamicResource BoldGlyph}" />
-                        </ToggleButton>
-                        <ToggleButton Name="italic">
-                            <PathIcon Classes="same" Data="{DynamicResource ItalicGlyph}" />
-                        </ToggleButton>
-                    </u:ToolBar>
-                    <u:ToolBar>
-                        <ToggleButton IsChecked="{Binding SelectedEditFileInfo.ShowInDesktop}" ToolTip.Tip="{x:Static lang:Resources.ShowInDesktop}">
-                            <PathIcon Classes="same" Data="{DynamicResource desktop_regular}" />
-                        </ToggleButton>
-                    </u:ToolBar>
-                </StackPanel>
-
-                <TextBox Grid.Row="1" VerticalAlignment="Stretch" VerticalContentAlignment="Top" AcceptsReturn="True"
-                         Text="{Binding SelectedEditFileInfo.MdContent}"
-                         TextWrapping="Wrap" />
-            </Grid>
-        </Border>
     </Grid>
 </UserControl>

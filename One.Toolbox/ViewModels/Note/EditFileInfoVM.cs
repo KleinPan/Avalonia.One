@@ -1,15 +1,17 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.Views.Note;
-using System.Text.RegularExpressions;
+
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Note;
 
@@ -126,9 +128,9 @@ public partial class EditFileInfoVM : ObservableObject
     }
 
     [RelayCommand]
-    private void SaveFile()
+    private async void SaveFile()
     {
-        SaveDocument();
+        await SaveDocument();
     }
 
     [RelayCommand]

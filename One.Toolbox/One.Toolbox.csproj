@@ -1,22 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+ 
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
 	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-
+ 
+	<IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsTrimmable>False</IsTrimmable>
-    <IsAotCompatible>False</IsAotCompatible>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <IsTrimmable>False</IsTrimmable>
-    <IsAotCompatible>False</IsAotCompatible>
-  </PropertyGroup>
-
-
-  
+ 
   <ItemGroup>
     <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml" />
     <AvaloniaResource Remove="Assets\Geometries.axaml" />
@@ -29,8 +20,6 @@
   <ItemGroup>
     <EmbeddedResource Remove="Assets\Languages\Resource.as.resx" />
   </ItemGroup>
-
-  
   <ItemGroup>
     <None Remove="Assets\icons8-knife-100.ico" />
   </ItemGroup>
@@ -39,9 +28,6 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\icons8-knife-100.ico" />
   </ItemGroup>
-
-  
-
   <ItemGroup>
 	  <PackageReference Include="Avalonia" Version="11.2.3" />
 	  <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.2.3" />
@@ -80,8 +66,6 @@
       <SubType>Designer</SubType>
     </AvaloniaXaml>
   </ItemGroup>
-
-  
 
   <ItemGroup>
     <AvaloniaResource Update="Assets\Languages\Resource.resx">
