@@ -4,14 +4,13 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 
 using Microsoft.Extensions.DependencyInjection;
-using One.SimpleLog.Extensions;
+
 using One.Control.Markup.I18n;
-using One.SimpleLog.Loggers;
 using One.SimpleLog;
+using One.SimpleLog.Extensions;
+using One.SimpleLog.Loggers;
 using One.Toolbox.Services;
-using One.Toolbox.ViewModels;
 using One.Toolbox.ViewModels.DataProcess;
-using One.Toolbox.ViewModels.FileMonitor;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
@@ -44,7 +43,6 @@ public partial class App : Application
         // duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
-         
         I18nManager.Instance.Culture = new CultureInfo("zh-CN");
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -53,9 +51,6 @@ public partial class App : Application
 
             MainWindowVM vm = new MainWindowVM();
             desktop.MainWindow = new MainWindow { DataContext = vm };
-
-           
- 
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
@@ -100,7 +95,7 @@ public partial class App : Application
         services.AddSingleton<QRCodePageVM>();
         services.AddSingleton<HashToolPageVM>();
         services.AddSingleton<IconBoardPageVM>();
-        services.AddSingleton<FileMonitorPageVM>();
+
         services.AddSingleton<ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
 
         services.AddSingleton<RegularTesterPageVM>();

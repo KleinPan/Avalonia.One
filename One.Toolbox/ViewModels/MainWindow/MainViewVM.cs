@@ -7,7 +7,6 @@ using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.BingImage;
 using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
-using One.Toolbox.ViewModels.FileMonitor;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.Note;
@@ -18,7 +17,6 @@ using One.Toolbox.ViewModels.UnixTimeConverter;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
-using One.Toolbox.Views.FileMonitor;
 using One.Toolbox.Views.HashTool;
 using One.Toolbox.Views.IconBoard;
 using One.Toolbox.Views.Note;
@@ -134,12 +132,7 @@ public partial class MainViewVM : BaseVM
         //判断平台
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
         {
-            NavigationItems.Add(new()
-            {
-                Header = "FileMonitor",
-                Icon = ResourceHelper.FindObjectResource("lock_regular"),
-                Content = new FileMonitorPage() { DataContext = App.Current!.Services.GetService<FileMonitorPageVM>() },
-            });
+           
         }
         CurrentMenuItem = NavigationItems.First();
     }
