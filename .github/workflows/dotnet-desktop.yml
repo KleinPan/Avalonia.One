@@ -98,5 +98,5 @@ jobs:
         name: One.Toolbox
         path: | 
           ${{ env.Wap_Project_Directory }}\AppPackages
-          ${{ env.Wap_Project_Directory }}\AppPackages\*.pdb
+          !${{ env.Wap_Project_Directory }}\AppPackages\*.pdb
           
