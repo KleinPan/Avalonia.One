@@ -21,71 +21,51 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </UserControl.Styles>
-    <TabControl>
-        <TabItem Header="DataProcess">
-            <Grid RowDefinitions="*,auto,*">
-                <TextBox VerticalAlignment="Stretch" VerticalContentAlignment="Top" AcceptsReturn="True" FontSize="15"
-                         Text="{Binding InputString}"
-                         TextWrapping="Wrap" />
-                <!--  FontFamily="Consolas"  -->
-                <TextBlock Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Classes="test"
-                           Text="{markup:I18n {x:Static lang:Language.OriginalData}}" />
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
+    <Grid RowDefinitions="*,auto,*">
+        <TextBox VerticalAlignment="Stretch" VerticalContentAlignment="Top" AcceptsReturn="True" FontSize="15"
+                 Text="{Binding InputString}"
+                 TextWrapping="Wrap" />
+        <!--  FontFamily="Consolas"  -->
+        <TextBlock Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Classes="test"
+                   Text="{markup:I18n {x:Static lang:Language.OriginalData}}" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
 
-                    <TextBlock Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{markup:I18n {x:Static lang:Language.ConvertTask}}" />
+            <TextBlock Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{markup:I18n {x:Static lang:Language.ConvertTask}}" />
 
-                    <ComboBox Name="ConvertNamesComBox" Grid.Row="0" Grid.Column="1" Width="300"
-                              Margin="10,5"
-                              ItemsSource="{Binding ConverterTaskList}"
-                              SelectedItem="{Binding SelectedConverterTask}" />
+            <ComboBox Name="ConvertNamesComBox" Grid.Row="0" Grid.Column="1" Width="300"
+                      Margin="10,5"
+                      ItemsSource="{Binding ConverterTaskList}"
+                      SelectedItem="{Binding SelectedConverterTask}" />
 
-                    <Button Margin="2" Command="{Binding ExcuteSelectedOmeCommand}" Content="{markup:I18n {x:Static lang:Language.ExcuteSelectedItem}}" />
+            <Button Margin="2" Command="{Binding ExcuteSelectedOmeCommand}" Content="{markup:I18n {x:Static lang:Language.ExcuteSelectedItem}}" />
 
-                    <Button Margin="2" Command="{Binding ShowIndexEventCommand}" Content="{markup:I18n {x:Static lang:Language.ShowIndex}}" />
-                </StackPanel>
+            <Button Margin="2" Command="{Binding ShowIndexEventCommand}" Content="{markup:I18n {x:Static lang:Language.ShowIndex}}" />
+        </StackPanel>
 
-                <TextBox Grid.Row="2" Margin="2" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
-                         AcceptsReturn="True" FontSize="15" IsReadOnly="true"
-                         Text="{Binding OutputString}"
-                         TextWrapping="Wrap" />
-                <!--  FontFamily="Courier New"  -->
-                <TextBlock Grid.Row="2" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                           Classes="test"
-                           Text="{markup:I18n {x:Static lang:Language.ConversionResult}}" />
+        <TextBox Grid.Row="2" Margin="2" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
+                 AcceptsReturn="True" FontSize="15" IsReadOnly="true"
+                 Text="{Binding OutputString}"
+                 TextWrapping="Wrap" />
+        <!--  FontFamily="Courier New"  -->
+        <TextBlock Grid.Row="2" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                   Classes="test"
+                   Text="{markup:I18n {x:Static lang:Language.ConversionResult}}" />
 
-                <Border Grid.Row="2" BorderThickness="1">
-                    <WrapPanel Name="wrapPanel" Grid.Row="4">
-                        <!--<i:Interaction.Behaviors>
+        <Border Grid.Row="2" BorderThickness="1">
+            <WrapPanel Name="wrapPanel" Grid.Row="4">
+                <!--<i:Interaction.Behaviors>
                             <ia:EventTriggerBehavior EventName="Loaded">
                                 <ia:InvokeCommandAction Command="{Binding InitUICommand}" CommandParameter="{Binding ElementName=wrapPanel}" />
 
-                        -->
-                        <!--<ia:InvokeCommandAction Command="{Binding NavigationItemClickCmd}"
+                -->
+                <!--<ia:InvokeCommandAction Command="{Binding NavigationItemClickCmd}"
                                             CommandParameter="{Binding ElementName=Navigation,Path=SelectedItem}" />这样也是ok的-->
-                        <!--
+                <!--
 
                             </ia:EventTriggerBehavior>
                         </i:Interaction.Behaviors>-->
-                    </WrapPanel>
-                </Border>
-            </Grid>
-        </TabItem>
-        <TabItem Header="DataFormat">
-            <Grid RowDefinitions="*,auto">
-                <Grid.Styles>
-                    <FluentTheme />
-                    <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
-                </Grid.Styles>
-                <AvaloniaEdit:TextEditor FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True">
-                    <!--<i:Interaction.Behaviors>
-                        <behaviors:DocumentTextBindingBehavior Text="{Binding ShowString, Mode=TwoWay}" />
-                    </i:Interaction.Behaviors>-->
-                </AvaloniaEdit:TextEditor>
-                <StackPanel Grid.Row="1">
-                    <Button HorizontalAlignment="Right" Command="{Binding FormateCommand}" Content="{Binding FormateButtonContent}" />
-                </StackPanel>
-            </Grid>
-        </TabItem>
-    </TabControl>
+            </WrapPanel>
+        </Border>
+    </Grid>
 
 </UserControl>

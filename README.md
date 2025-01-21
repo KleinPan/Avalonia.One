@@ -28,6 +28,7 @@
 ### 简介
 
     项目采用MVVM架构开发，Dotnet版本为8.0。
+    反射相关功能不可用。
 
 #### 主要使用到的第三方库如下
     * CommunityToolkit.Mvvm

@@ -5,6 +5,8 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Threading;
 
+using AvaloniaEdit;
+
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Control.Helpers;
@@ -427,11 +429,19 @@ public partial class DataProcessPageVM : BasePageVM
 
     private string JsonFormate(string input)
     {
-        var jsonDocument = JsonDocument.Parse(input);
+        try
+        {
+            var jsonDocument = JsonDocument.Parse(input);
 
-        var formatJson = JsonSerializer.Serialize(jsonDocument, jsonOption);
-        // 格式化输出
-        return formatJson;
+            var formatJson = JsonSerializer.Serialize(jsonDocument, jsonOption);
+            // 格式化输出
+            return formatJson;
+        }
+        catch (Exception ex)
+        {
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.ToString());
+            return "";
+        }
     }
 
     #endregion DataFormate

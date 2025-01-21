@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -295,6 +296,17 @@ namespace One.Base.Helpers.HttpHelper
 
             // Finally, create the HTTP client object
             return new HttpClient(handler: httpClientHandler, disposeHandler: true);
+        }
+
+        public static HttpClient CreateSimpleHttpClient(string userName, string password)
+        {
+            HttpClient client = new HttpClient();
+            // 创建身份认证 using System.Net.Http.Headers;
+            AuthenticationHeaderValue authentication = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{userName}:{password}")));
+
+            client.DefaultRequestHeaders.Authorization = authentication;
+
+            return client;
         }
     }
 }
