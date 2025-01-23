@@ -74,13 +74,29 @@ jobs:
         name: One.Toolbox
         path: D:\a\Avalonia.One\Avalonia.One\README.md
            
+    - name: Get last release tag
+      id: get_last_tag
+      run: |
+        last_tag=$(git describe --tags --abbrev=0)
+        echo "Last release tag: $last_tag"
+        echo "::set-output name=last_tag::$last_tag"
 
-    - name: GH Release
+    - name: Get commit messages since last tag
+      id: get_commits
+      run: |
+        # 获取从上次 tag 到当前 tag 的所有 commit
+        commits=$(git log ${{ steps.get_last_tag.outputs.last_tag }}..HEAD --oneline)
+        echo "Commits since last release tag:"
+        echo "$commits"
+        echo "::set-output name=commits::$commits"
+    
+    - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
-      if: startsWith(github.ref, 'refs/tags/')
       with:
+        body: |
+          ## Commits since last release:
+          ${{ steps.get_commits.outputs.commits }}
         files: One.Toolbox.zip
-        generate_release_notes: true
-        draft: true
+
          
               
