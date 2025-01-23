@@ -59,12 +59,13 @@ jobs:
     #    ${{ env.Wap_Project_Directory }}\AppPackages
     #    !${{ env.Wap_Project_Directory }}\AppPackages\*.pdb
     - name: Zip the Build
-      uses: thedoctor0/zip-release@0.7.1
+      uses: thedoctor0/zip-release@0.7.6
       with:
-        type: 'zip'
+        type: '7z'
         filename: 'One.Toolbox_${{ github.ref_name }}.zip'
         path : ${{ env.Wap_Project_Directory }}\AppPackages
         exclusions: '*.pdb'
+        recursive_exclusions: '*.pdb'
     
     - name: Get previous tag
       id: prev-tag
@@ -87,7 +88,7 @@ jobs:
       shell: bash
 
     - name: Release
-      uses: ncipollo/release-action@v1.12.0
+      uses: ncipollo/release-action@v1
       with:
         body: ${{ steps.release-notes.outputs.release_notes }}
         artifacts: "One.Toolbox_${{ github.ref_name }}.zip"
