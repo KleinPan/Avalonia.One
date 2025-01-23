@@ -40,8 +40,6 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches:
-      - master # Default release branch
     tags:        
       - v*
 
@@ -74,29 +72,32 @@ jobs:
         name: One.Toolbox
         path: D:\a\Avalonia.One\Avalonia.One\README.md
            
-    - name: Get last release tag
-      id: get_last_tag
+    - name: Get previous tag
+      id: prev-tag
       run: |
-        last_tag=$(git describe --tags --abbrev=0)
-        echo "Last release tag: $last_tag"
-        echo "::set-output name=last_tag::$last_tag"
+        PREV_TAG=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)
+        echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
 
-    - name: Get commit messages since last tag
-      id: get_commits
+    - name: Generate release notes
+      id: release-notes
       run: |
-        # 获取从上次 tag 到当前 tag 的所有 commit
-        commits=$(git log ${{ steps.get_last_tag.outputs.last_tag }}..HEAD --oneline)
-        echo "Commits since last release tag:"
-        echo "$commits"
-        echo "::set-output name=commits::$commits"
-    
-    - name: Create GitHub Release
+        if [ -z "${{ steps.prev-tag.outputs.prev_tag }}" ]; then
+          RELEASE_NOTES=$(git log --pretty=format:"- %s" HEAD)
+        else
+          RELEASE_NOTES=$(git log ${{ steps.prev-tag.outputs.prev_tag }}..HEAD --pretty=format:"- %s")
+        fi
+        echo "release_notes<<EOF" >> $GITHUB_OUTPUT
+        echo "$RELEASE_NOTES" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
-        body: |
-          ## Commits since last release:
-          ${{ steps.get_commits.outputs.commits }}
-        files: One.Toolbox.zip
+       body: |
+         ${{ steps.release-notes.outputs.release_notes }}
+       tag_name: ${{ github.ref_name }}
+       name: Release ${{ github.ref_name }}
 
          
               
