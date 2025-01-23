@@ -58,10 +58,13 @@ jobs:
     #   path: |
     #    ${{ env.Wap_Project_Directory }}\AppPackages
     #    !${{ env.Wap_Project_Directory }}\AppPackages\*.pdb
-    - name: ZipFiles
-      shell: bash
-      run: |
-        zip -r One.Toolbox_${{ github.ref_name }}.zip ${{ env.Wap_Project_Directory }}/AppPackages -x "*.pdb"
+    - name: Zip the Build
+      uses: thedoctor0/zip-release@0.7.1
+      with:
+        type: 'zip'
+        filename: 'One.Toolbox_${{ github.ref_name }}.zip'
+        path : ${{ env.Wap_Project_Directory }}\AppPackages
+        exclusions: '*.pdb'
     
     - name: Get previous tag
       id: prev-tag
@@ -83,13 +86,11 @@ jobs:
         echo "EOF" >> $GITHUB_OUTPUT
       shell: bash
 
-    - name: Create Release
-      uses: softprops/action-gh-release@v2
+    - name: Release
+      uses: ncipollo/release-action@v1.12.0
       with:
         body: ${{ steps.release-notes.outputs.release_notes }}
-        tag_name: ${{ github.ref_name }}
-        name: Release ${{ github.ref_name }}
-        files: One.Toolbox_${{ github.ref_name }}.zip
+        artifacts: "One.Toolbox_${{ github.ref_name }}.zip"
 
          
               
