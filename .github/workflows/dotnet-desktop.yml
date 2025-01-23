@@ -6,9 +6,7 @@ on:
       - "v*.*.*"
 
 jobs:
-
   build:
-
     strategy:
       matrix:
         configuration: [Release]
@@ -53,14 +51,18 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
   
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: One.Toolbox_${{ github.ref_name }}
-        path: |
-          ${{ env.Wap_Project_Directory }}\AppPackages
-          !${{ env.Wap_Project_Directory }}\AppPackages\*.pdb
-           
+    #- name: Upload build artifacts
+    #  uses: actions/upload-artifact@v4
+    #  with:
+    #   name: One.Toolbox_${{ github.ref_name }}
+    #   path: |
+    #    ${{ env.Wap_Project_Directory }}\AppPackages
+    #    !${{ env.Wap_Project_Directory }}\AppPackages\*.pdb
+    - name: ZipFiles
+      shell: bash
+      run: |
+        zip -r One.Toolbox_${{ github.ref_name }}.zip ${{ env.Wap_Project_Directory }}/AppPackages -x "*.pdb"
+    
     - name: Get previous tag
       id: prev-tag
       shell: bash
@@ -84,11 +86,10 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
-       body: |
-         ${{ steps.release-notes.outputs.release_notes }}
-       tag_name: ${{ github.ref_name }}
-       name: Release ${{ github.ref_name }}
-       files: ${{ env.Wap_Project_Directory }}One.Toolbox_${{ github.ref_name }}.zip
+        body: ${{ steps.release-notes.outputs.release_notes }}
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+        files: One.Toolbox_${{ github.ref_name }}.zip
 
          
               
