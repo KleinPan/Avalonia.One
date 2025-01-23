@@ -61,7 +61,7 @@ jobs:
          ${{ steps.release-notes.outputs.release_notes }}
        tag_name: ${{ github.ref_name }}
        name: Release ${{ github.ref_name }}
-       files: One.Toolbox.zip
+       files: One.Toolbox
 
          
               
