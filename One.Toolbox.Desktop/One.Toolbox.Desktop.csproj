@@ -12,7 +12,6 @@
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 
 	<PublishAot>true</PublishAot>
-
 	<TrimmerSingleWarn>false</TrimmerSingleWarn>
 	<IsAotCompatible>true</IsAotCompatible>
 	<ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
