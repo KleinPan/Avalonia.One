@@ -40,9 +40,10 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - master # Default release branch
+    tags:        
+      - v*
 
 jobs:
 
@@ -75,7 +76,6 @@ jobs:
            
 
     - name: GH Release
-      # You may pin to the exact commit or the version.
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
