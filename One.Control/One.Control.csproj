@@ -1,14 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
- 
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<LangVersion>latest</LangVersion>
 	<IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
-
-
   <ItemGroup>
     <AvaloniaXaml Remove="HyperlinkButton\HyperLinkButtonStyle.axaml" />
   </ItemGroup>

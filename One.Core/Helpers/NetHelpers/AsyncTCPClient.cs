@@ -79,6 +79,8 @@ namespace One.Base.Helpers.NetHelpers
                 //客户端自己的Socket,也可以直接用最开始的socket
                 var localClientSocket = e.ConnectSocket;//连接的 Socket 对象。
                 var addressFamily = localClientSocket.AddressFamily.ToString();
+
+               
                 // var a = localClientSocket.LocalEndPoint.ToString();
                 var a = $"{localClientSocket.LocalEndPoint.ToString()} connected!";
 
