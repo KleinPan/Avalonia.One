@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
+using System.Text.Unicode;
+ 
 
 namespace One.Base.Helpers;
 
@@ -16,7 +19,9 @@ public class IOHelper : BaseHelper
     {
         jsonSerializerSettings = new JsonSerializerOptions()
         {
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.CjkUnifiedIdeographs),
             WriteIndented = true,
+            // TypeInfoResolver = SourceGenerationContext.Default
         };
     }
 
