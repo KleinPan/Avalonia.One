@@ -37,7 +37,7 @@
                       ItemsSource="{Binding ConverterTaskList}"
                       SelectedItem="{Binding SelectedConverterTask}" />
 
-            <Button Margin="2" Command="{Binding ExcuteSelectedOmeCommand}" Content="{markup:I18n {x:Static lang:Language.ExcuteSelectedItem}}" />
+            <Button Margin="2" Command="{Binding ExcuteSelectedOneCommand}" Content="{markup:I18n {x:Static lang:Language.ExcuteSelectedItem}}" />
 
             <Button Margin="2" Command="{Binding ShowIndexEventCommand}" Content="{markup:I18n {x:Static lang:Language.ShowIndex}}" />
         </StackPanel>

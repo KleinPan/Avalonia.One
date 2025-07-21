@@ -84,6 +84,10 @@ public partial class RegularTesterPageVM : BasePageVM
 
     partial void OnCurrentPrePatternChanged(PatternVM value)
     {
+        if (value == null)
+        {
+            return;
+        }
         Pattern = value.Pattern;
     }
 

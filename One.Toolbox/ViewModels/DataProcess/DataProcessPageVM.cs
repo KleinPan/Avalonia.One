@@ -5,8 +5,6 @@ using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Threading;
 
-using AvaloniaEdit;
-
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Control.Helpers;
@@ -123,7 +121,7 @@ public partial class DataProcessPageVM : BasePageVM
     }
 
     [RelayCommand]
-    private void ExcuteSelectedOme()
+    private void ExcuteSelectedOne()
     {
         if (SelectedConverterTask == null)
             return;
@@ -154,6 +152,35 @@ public partial class DataProcessPageVM : BasePageVM
         ["String to Hex(with space)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(e).Replace("-", " ")),
         ["String to Hex(without space)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(e).Replace("-", "")),
         ["Hex to String"] = (e) => Hex2byte(Encoding.Default.GetString(e)),
+
+        ["Int To ByteArray(<<)"] = (e) =>
+        {
+            var res = One.Base.Helpers.DataProcessHelpers.ByteHelper.IntToByteArray(int.Parse((Encoding.Default.GetString(e))));
+            var res2 = One.Base.Helpers.DataProcessHelpers.StringHelper.BytesToHexString(res, true);
+            return (Encoding.Default.GetBytes(res2));
+        },
+
+        ["Format"] = (e) =>
+        {
+            var upperString = Encoding.Default.GetString(e).Trim().ToUpper();
+
+            // 构建结果字符串
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < upperString.Length; i++)
+            {
+                // 添加当前字符
+                result.Append(upperString[i]);
+
+                // 每两位字符后添加一个空格，最后一位后不添加
+                if ((i + 1) % 2 == 0 && i != upperString.Length - 1)
+                {
+                    result.Append(' ');
+                }
+            }
+            return Encoding.Default.GetBytes(result.ToString());
+        },
+
         ["String to Base64"] = (e) => { try { return Encoding.Default.GetBytes(System.Convert.ToBase64String(e)); } catch (Exception ee) { return Encoding.Default.GetBytes(ee.Message); } },
         ["Base64 to String"] = (e) => { try { return System.Convert.FromBase64String(Encoding.Default.GetString(e)); } catch (Exception ee) { return Encoding.Default.GetBytes(ee.Message); } },
         ["URL encode"] = (e) => Encoding.Default.GetBytes(System.Web.HttpUtility.UrlEncode(Encoding.Default.GetString(e))),
