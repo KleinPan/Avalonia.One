@@ -21,16 +21,16 @@
 
         <GeometryDrawing x:Key="LargeGridGeometry" Brush="{DynamicResource GridLinesBrush}" Geometry="M0,0 L0,1 0.015,1 0.015,0.015 1,0.015 1,0 Z" />
 
-        <!--<DrawingBrush x:Key="SmallGridLinesDrawingBrush" DestinationRect="0 0 15 15"
+        <DrawingBrush x:Key="SmallGridLinesDrawingBrush" DestinationRect="0 0 15 15"
                       Drawing="{StaticResource SmallGridGeometry}"
                       TileMode="Tile"
                       Transform="{Binding DpiScaledViewportTransform, ElementName=Editor}"
-                      TransformOrigin="0,0" />-->
+                      TransformOrigin="0,0" />
 
-        <!--<DrawingBrush x:Key="LargeGridLinesDrawingBrush" DestinationRect="0 0 150 150"
+        <DrawingBrush x:Key="LargeGridLinesDrawingBrush" DestinationRect="0 0 150 150"
                       Drawing="{StaticResource LargeGridGeometry}"
                       Opacity="0.5" TileMode="Tile"
-                      Transform="{Binding DpiScaledViewportTransform, ElementName=Editor}" />-->
+                      Transform="{Binding DpiScaledViewportTransform, ElementName=Editor}" />
 
         <LinearGradientBrush x:Key="BorderBrush" StartPoint="0%,0%" EndPoint="100%,0%">
             <GradientStop Offset="0" Color="#6366f1" />
@@ -122,7 +122,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <!--<nodify:NodifyEditor x:Name="Editor"
+        <nodify:NodifyEditor x:Name="Editor"
                              Background="{StaticResource SmallGridLinesDrawingBrush}"
                              ConnectionTemplate="{StaticResource ConnectionTemplate}"
                              Connections="{Binding Connections}"
@@ -135,11 +135,11 @@
                              PendingConnectionTemplate="{StaticResource PendingConnectionTemplate}"
                              SelectedItems="{Binding SelectedOperations}">
             <nodify:NodifyEditor.Resources>
-                <ControlTheme x:Key="{x:Type nodify:NodeInput}" BasedOn="{StaticResource {x:Type nodify:NodeInput}}" TargetType="{x:Type nodify:NodeInput}">
+                <ControlTheme x:Key="{x:Type nodify:NodeInput}" x:DataType="nodify:NodeInput" BasedOn="{StaticResource {x:Type nodify:NodeInput}}" TargetType="{x:Type nodify:NodeInput}">
                     <Setter Property="Header" Value="{Binding}" />
                     <Setter Property="IsConnected" Value="{Binding IsConnected}" />
                     <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />
-                    <Setter Property="(ToolTip.Tip)" Value="{Binding Value}" />
+                    <!--<Setter Property="(ToolTip.Tip)" Value="{Binding Value}" />-->
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate DataType="{x:Type vm:ConnectorVM}">
@@ -152,7 +152,7 @@
                     </Setter>
                 </ControlTheme>
 
-                <ControlTheme x:Key="{x:Type nodify:NodeOutput}" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
+                <ControlTheme x:Key="{x:Type nodify:NodeOutput}" x:DataType="nodify:NodeOutput" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
                     <Setter Property="Header" Value="{Binding}" />
                     <Setter Property="IsConnected" Value="{Binding IsConnected}" />
                     <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />
@@ -167,75 +167,6 @@
             </nodify:NodifyEditor.Resources>
 
             <nodify:NodifyEditor.DataTemplates>
-                <DataTemplate DataType="{x:Type vm:OperationGraphVM}">
-                    <nodify:GroupingNode ActualSize="{Binding DesiredSize, Mode=TwoWay}" CanResize="{Binding IsExpanded}" Header="{Binding}" MovementMode="Self">
-                        <nodify:GroupingNode.HeaderTemplate>
-                            <DataTemplate DataType="{x:Type vm:OperationGraphVM}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <TextBlock Text="{Binding Title}" />
-                                    <StackPanel Grid.Column="1" Margin="5,0,0,0" Orientation="Horizontal">
-                                        <TextBlock Margin="0,0,5,0" IsVisible="{Binding IsExpanded}" Text="Expand?" />
-                                        <CheckBox IsChecked="{Binding IsExpanded}" />
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </nodify:GroupingNode.HeaderTemplate>
-                        <Grid>
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                <nodify:NodifyEditor Background="Transparent"
-                                                     ConnectionTemplate="{StaticResource ConnectionTemplate}"
-                                                     Connections="{Binding Connections}"
-                                                     DataContext="{Binding InnerCalculator}"
-                                                     DisconnectConnectorCommand="{Binding DisconnectConnectorCommand}"
-                                                     DragDrop.AllowDrop="True" GridCellSize="15"
-                                                     IsVisible="{Binding DataContext.IsExpanded, RelativeSource={RelativeSource AncestorType=nodify:GroupingNode}, Converter={occ:BooleanToVisibilityConverter}}"
-                                                     ItemContainerTheme="{StaticResource ItemContainerStyle}"
-                                                     ItemsSource="{Binding Operations}"
-                                                     PendingConnection="{Binding PendingConnection}"
-                                                     PendingConnectionTemplate="{StaticResource PendingConnectionTemplate}"
-                                                     SelectedItems="{Binding SelectedOperations}"
-                                                     Tag="{Binding DataContext, RelativeSource={RelativeSource Self}}">
-
-                                    <nodify:NodifyEditor.KeyBindings>
-                                        <KeyBinding Command="{Binding DeleteSelectionCommand}" Gesture="Delete" />
-                                        <KeyBinding Command="{Binding GroupSelectionCommand}" Gesture="C" />
-                                    </nodify:NodifyEditor.KeyBindings>
-
-                                    <nodify:NodifyEditor.Decorators>
-                                        <collections:ArrayList>
-                                            <nodify:DecoratorContainer DataContext="{Binding OperationsMenu}" Location="{Binding Location}">
-                                                <localView:OperationsMenuView />
-                                            </nodify:DecoratorContainer>
-                                        </collections:ArrayList>
-                                    </nodify:NodifyEditor.Decorators>
-                                </nodify:NodifyEditor>
-                            </ScrollViewer>
-
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <ItemsControl ItemsSource="{Binding Input}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <nodify:NodeInput />
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-
-                                <nodify:NodeOutput Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" DataContext="{Binding Output}" />
-                            </Grid>
-                        </Grid>
-                    </nodify:GroupingNode>
-                </DataTemplate>
 
                 <DataTemplate DataType="{x:Type vm:ExpandoOperationVM}">
                     <nodify:Node Content="{Binding}" Header="{Binding Title}" Input="{Binding Input}" Output="{Binding Output, Converter={StaticResource ItemToListConverter}}">
@@ -250,52 +181,10 @@
                     </nodify:Node>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type local:ExpressionOperationViewModel}">
-                    <nodify:Node Content="{Binding}" Input="{Binding Input}" Output="{Binding Output, Converter={StaticResource ItemToListConverter}}">
-                        <nodify:Node.ContentTemplate>
-                            <DataTemplate DataType="{x:Type local:ExpressionOperationViewModel}">
-                                <TextBox MinWidth="100" Margin="5,0,0,0" Text="{Binding Expression}" />
-                            </DataTemplate>
-                        </nodify:Node.ContentTemplate>
-                    </nodify:Node>
-                </DataTemplate>
 
-                <DataTemplate DataType="{x:Type local:CalculatorOperationViewModel}">
-                    <nodify:Node Header="{Binding Title}" Input="{Binding Input}" Output="{Binding Output, Converter={StaticResource ItemToListConverter}}" ToolTip.Tip="Double click to expand">
-                        <Interaction.Behaviors>
-                            <RoutedEventTriggerBehavior RoutedEvent="{x:Static InputElement.DoubleTappedEvent}">
-                                <InvokeCommandAction Command="{Binding DataContext.OpenCalculatorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding InnerCalculator}" />
-                            </RoutedEventTriggerBehavior>
-                        </Interaction.Behaviors>
-                    </nodify:Node>
-                </DataTemplate>
 
-                <DataTemplate DataType="{x:Type vm:CalculatorInputOperationVM}">
-                    <nodify:Node Header="{Binding Title}" Output="{Binding Output}">
-                        <StackPanel>
-                            <Button Command="{Binding AddOutputCommand}" Content="{StaticResource PlusIcon}" Theme="{StaticResource IconButton}" />
-                            <Button Command="{Binding RemoveOutputCommand}" Content="{StaticResource RemoveKeyIcon}" Theme="{StaticResource IconButton}" />
-                        </StackPanel>
 
-                        <nodify:Node.Resources>
-                            <ControlTheme x:Key="{x:Type nodify:NodeOutput}" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
-                                <Setter Property="Header" Value="{Binding}" />
-                                <Setter Property="IsConnected" Value="{Binding IsConnected}" />
-                                <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />
-                                <Setter Property="HeaderTemplate">
-                                    <Setter.Value>
-                                        <DataTemplate DataType="{x:Type local:ConnectorViewModel}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBox IsEnabled="False" Text="{Binding Value}" />
-                                                <TextBlock Margin="5,0,0,0" Text="{Binding Title}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </ControlTheme>
-                        </nodify:Node.Resources>
-                    </nodify:Node>
-                </DataTemplate>
+
 
                 <DataTemplate DataType="{x:Type vm:OperationGroupVM}">
                     <nodify:GroupingNode ActualSize="{Binding GroupSize, Mode=TwoWay}" Header="{Binding Title}" />
@@ -308,7 +197,7 @@
 
             <nodify:NodifyEditor.KeyBindings>
                 <KeyBinding Command="{Binding DeleteSelectionCommand}" Gesture="Delete" />
-                <KeyBinding Command="{Binding GroupSelectionCommand}" Gesture="C" />
+
             </nodify:NodifyEditor.KeyBindings>
 
             <nodify:NodifyEditor.Decorators>
@@ -318,7 +207,7 @@
                     </nodify:DecoratorContainer>
                 </collections:ArrayList>
             </nodify:NodifyEditor.Decorators>
-        </nodify:NodifyEditor>-->
+        </nodify:NodifyEditor>
 
         <Grid Panel.ZIndex="-2" Background="{StaticResource LargeGridLinesDrawingBrush}" />
 

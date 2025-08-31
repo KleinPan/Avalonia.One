@@ -6,6 +6,7 @@ using System.Globalization;
 
 namespace One.Control.Converters;
 
+/// <summary>带反转参数的转换</summary>
 public class BooleanToVisibilityConverter : MarkupExtension, IValueConverter
 {
     public bool FalseVisibility { get; set; } = false;
