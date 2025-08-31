@@ -4,9 +4,18 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
 	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
- 
 	<IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
+  <ItemGroup>
+    <AvaloniaXaml Remove="ViewModels\TextCompare\**" />
+    <AvaloniaXaml Remove="Views\TextCompare\**" />
+    <Compile Remove="ViewModels\TextCompare\**" />
+    <Compile Remove="Views\TextCompare\**" />
+    <EmbeddedResource Remove="ViewModels\TextCompare\**" />
+    <EmbeddedResource Remove="Views\TextCompare\**" />
+    <None Remove="ViewModels\TextCompare\**" />
+    <None Remove="Views\TextCompare\**" />
+  </ItemGroup>
  
   <ItemGroup>
     <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml" />
@@ -15,19 +24,48 @@
     <AvaloniaResource Remove="Assets\Resources.resx" />
     <AvaloniaResource Remove="Assets\Resources.zh-CN.resx" />
   </ItemGroup>
-
+ 
+ 
   
   <ItemGroup>
     <EmbeddedResource Remove="Assets\Languages\Resource.as.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\icons8-knife-100.ico" />
+    <None Remove="Themes\Brushes.xaml" />
+    <None Remove="Themes\Dark.xaml" />
+    <None Remove="Themes\Light.xaml" />
+    <None Remove="Themes\Nodify.xaml" />
+    <None Remove="Views\StringNodify\EditorPage.xaml" />
+ 
   </ItemGroup>
 
   
   <ItemGroup>
     <AvaloniaResource Include="Assets\icons8-knife-100.ico" />
   </ItemGroup>
+
+  
+  <ItemGroup>
+    <AvaloniaXaml Include="Themes\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaXaml>
+    <AvaloniaXaml Include="Themes\Dark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaXaml>
+    <AvaloniaXaml Include="Themes\Light.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaXaml>
+    <AvaloniaXaml Include="Themes\Nodify.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </AvaloniaXaml>
+    <AvaloniaXaml Include="Views\StringNodify\EditorPage.xaml">
+      <Generator></Generator>
+    </AvaloniaXaml>
+  </ItemGroup>
+
+
+ 
   <ItemGroup>
 	  <PackageReference Include="Avalonia" Version="11.3.2" />
 	  <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.2" />
@@ -42,12 +80,15 @@
 	  
 	  <PackageReference Include="Irihi.Ursa" Version="1.11.1" />
 	  <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.11.1" />
+	  <PackageReference Include="NodifyAvalonia" Version="6.5.0" />
 	  <PackageReference Include="Semi.Avalonia" Version="11.2.1.8" />
 	  <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.8" />
 	  
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
 
 	  <PackageReference Include="WebDav.Client" Version="2.9.0" />
+
+	  <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -84,9 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Behaviors\" />
-    <Folder Include="ExtensionMethods\" />
-    <Folder Include="ViewModels\TextCompare\" />
-    <Folder Include="Views\TextCompare\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Languages\Language.cs">

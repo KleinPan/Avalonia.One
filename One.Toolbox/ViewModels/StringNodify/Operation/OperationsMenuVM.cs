@@ -1,0 +1,63 @@
+﻿using Avalonia;
+
+using One.Toolbox.ViewModels.Base;
+
+namespace One.Toolbox.ViewModels.StringNodify;
+
+public partial class OperationsMenuVM : BaseVM
+{
+    [ObservableProperty]
+    private bool _isVisible;
+
+    [ObservableProperty]
+    private Point _location;
+
+    public event Action? Closed;
+
+    public NodifyObservableCollection<OperationInfoVM> AvailableOperations { get; }
+
+    private readonly CalculatorVM _calculator;
+
+    public OperationsMenuVM(CalculatorVM calculator)
+    {
+        _calculator = calculator;
+
+        List<OperationInfoVM> operations = new List<OperationInfoVM>();
+
+        operations.AddRange(OperationFactory.GetOperationsInfo(typeof(OperationsContainer)));
+
+        AvailableOperations = new NodifyObservableCollection<OperationInfoVM>(operations);
+    }
+
+    public void OpenAt(Point targetLocation)
+    {
+        Close();
+        Location = targetLocation;
+        IsVisible = true;
+    }
+
+    public void Close()
+    {
+        IsVisible = false;
+    }
+
+    [RelayCommand]
+    private void CreateOperation(OperationInfoVM operationInfo)
+    {
+        OperationVM op = OperationFactory.GetOperation(operationInfo);
+        op.Location = Location;
+
+        _calculator.Operations.Add(op);
+
+        var pending = _calculator.PendingConnection;
+        if (pending.IsVisible)
+        {
+            var connector = pending.Source.IsInput ? op.Output : op.Input.FirstOrDefault();
+            if (connector != null && _calculator.CanCreateConnection(pending.Source, connector))
+            {
+                _calculator.CreateConnection(pending.Source, connector);
+            }
+        }
+        Close();
+    }
+}

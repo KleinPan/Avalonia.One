@@ -1,19 +1,14 @@
 using Avalonia.Controls;
 
-using Microsoft.Extensions.DependencyInjection;
+namespace One.Toolbox.Views.Dashboard;
 
-using One.Toolbox.ViewModels.Dashboard;
-
-namespace One.Toolbox.Views.Dashboard
+public partial class DashboardPage : UserControl
 {
-    public partial class DashboardPage : UserControl
-    {
-        // public DashboardVM ViewModel { get; }
+    // public DashboardVM ViewModel { get; }
 
-        public DashboardPage()
-        {
-            // DataContext = ViewModel = App.Current.Services.GetService<DashboardVM>();
-            InitializeComponent();
-        }
+    public DashboardPage()
+    {
+        // DataContext = ViewModel = App.Current.Services.GetService<DashboardVM>();
+        InitializeComponent();
     }
 }

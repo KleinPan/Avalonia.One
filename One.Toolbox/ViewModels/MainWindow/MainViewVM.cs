@@ -13,6 +13,7 @@ using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Setting;
+using One.Toolbox.ViewModels.StringNodify;
 using One.Toolbox.ViewModels.UnixTimeConverter;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
@@ -23,6 +24,7 @@ using One.Toolbox.Views.Note;
 using One.Toolbox.Views.QRCode;
 using One.Toolbox.Views.RegularTester;
 using One.Toolbox.Views.Settings;
+using One.Toolbox.Views.StringNodify;
 using One.Toolbox.Views.UnixTimeConverter;
 
 using System.Collections.ObjectModel;
@@ -63,6 +65,12 @@ public partial class MainViewVM : BaseVM
 
         NavigationItems = new ObservableCollection<MainMenuItemVM>
         {
+            new()
+            {
+                Header = "Nodify",
+                Icon = ResourceHelper.FindObjectResource("home_regular"),
+                 Content = new  EditorPage() { DataContext = App.Current!.Services.GetService<EditorPageVM>() },
+            },
             //https://avaloniaui.github.io/icons.html
             //https://www.xicons.org/#/
             //https://pictogrammers.com/library/mdi/
@@ -132,7 +140,6 @@ public partial class MainViewVM : BaseVM
         //判断平台
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
         {
-           
         }
         CurrentMenuItem = NavigationItems.First();
     }

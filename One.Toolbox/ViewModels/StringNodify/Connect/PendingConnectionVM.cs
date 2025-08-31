@@ -1,0 +1,20 @@
+﻿using Avalonia;
+
+using One.Toolbox.ViewModels.Base;
+
+namespace One.Toolbox.ViewModels.StringNodify;
+
+public partial class PendingConnectionVM : BaseVM
+{
+    [ObservableProperty]
+    private ConnectorVM _source = default!;
+
+    [ObservableProperty]
+    private ConnectorVM? _target;
+
+    [ObservableProperty]
+    private bool _isVisible;
+
+    [ObservableProperty]
+    private Point _targetLocation;
+}

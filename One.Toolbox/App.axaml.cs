@@ -16,6 +16,7 @@ using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
+using One.Toolbox.ViewModels.StringNodify;
 using One.Toolbox.Views;
 
 using System.Globalization;
@@ -99,6 +100,7 @@ public partial class App : Application
         services.AddSingleton<ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
 
         services.AddSingleton<RegularTesterPageVM>();
+        services.AddSingleton<EditorPageVM>();
 
         return services.BuildServiceProvider();
     }

@@ -1,0 +1,69 @@
+<UserControl x:Class="One.Toolbox.Views.StringNodify.OperationsMenuView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:One.Toolbox.Views.StringNodify"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:occ="using:One.Control.Converters"
+             xmlns:vm="using:One.Toolbox.ViewModels.StringNodify"
+             MinWidth="250"
+             d:DesignHeight="400"
+             d:DesignWidth="250"
+             x:DataType="vm:OperationsMenuVM"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <ControlTheme x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </ControlTheme>
+    </UserControl.Resources>
+    <Design.DataContext>
+        <vm:OperationsMenuVM />
+    </Design.DataContext>
+
+
+    <Border Padding="7"
+            Background="{DynamicResource Node.BackgroundBrush}"
+            BorderBrush="{StaticResource NodifyEditor.SelectionRectangleStrokeBrush}"
+            BorderThickness="2" CornerRadius="3"
+            IsVisible="{Binding IsVisible, Converter={occ:BooleanToVisibilityConverter}}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding AvailableOperations}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:OperationInfoVM}">
+                        <Button Padding="3" HorizontalContentAlignment="Left" Background="Transparent" BorderBrush="Transparent"
+                                Command="{Binding $parent.((vm:OperationsMenuVM)DataContext).CreateOperationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}"
+                                Content="{Binding Title}"
+                                Cursor="Hand"
+                                Foreground="{DynamicResource ForegroundBrush}">
+                            <!--    -->
+                            <Button.Theme>
+                                <ControlTheme TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Name="Border" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style Selector="^:pointerover /template/ Border#Border">
+                                        <Setter Property="Background" Value="{DynamicResource NodeInput.BorderBrush}" />
+                                    </Style>
+                                </ControlTheme>
+                            </Button.Theme>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Border>
+</UserControl>

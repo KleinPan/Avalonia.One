@@ -13,11 +13,11 @@
         <!--<FluentTheme />-->
         <!--<oc:HyperlinkButtonStyle />-->
         <StyleInclude Source="avares://One.Control/Themes/Index.axaml" />
-		
-		<semi:SemiTheme Locale="zh-CN" />
+
+        <semi:SemiTheme Locale="zh-CN" />
         <u-semi:SemiTheme Locale="zh-CN" />
-		
-       
+
+
         <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
 
 
@@ -29,7 +29,13 @@
                 <!--<ResourceInclude Source="/Assets/Languages/zh-CN.axaml" />-->
                 <ResourceInclude Source="/Assets/AvaloniaUIGeometries.axaml" />
                 <ResourceInclude Source="/Assets/Geometries.axaml" />
+                <ResourceInclude Source="/Themes/Nodify.xaml" />
+                <ResourceInclude Source="avares://Nodify/Theme.axaml" />
+
+
             </ResourceDictionary.MergedDictionaries>
+
+
         </ResourceDictionary>
     </Application.Resources>
 

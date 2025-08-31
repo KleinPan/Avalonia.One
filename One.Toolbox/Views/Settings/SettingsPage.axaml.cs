@@ -1,12 +1,11 @@
 using Avalonia.Controls;
 
-namespace One.Toolbox.Views.Settings
+namespace One.Toolbox.Views.Settings;
+
+public partial class SettingsPage : UserControl
 {
-    public partial class SettingsPage : UserControl
+    public SettingsPage()
     {
-        public SettingsPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
