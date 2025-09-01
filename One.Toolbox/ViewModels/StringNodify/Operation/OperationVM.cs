@@ -3,6 +3,7 @@
 using One.Toolbox.ViewModels.Base;
 
 using System.ComponentModel;
+using System.Text;
 
 namespace One.Toolbox.ViewModels.StringNodify;
 
@@ -58,14 +59,15 @@ public partial class OperationVM : BaseVM
         });
     }
 
+    /// <summary>将所有输入在这里转换为byte[]</summary>
     protected virtual void OnInputValueChanged()
     {
         if (Output != null && Operation != null)
         {
             try
             {
-                var input = Input.Select(i => i.Value).ToArray();
-                Output.Value = Operation?.Execute(input) ?? new byte[0];//The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null;
+                var input = Input.Select(i => Encoding.Default.GetBytes(i.Value)).ToArray();
+                Output.Value = Encoding.Default.GetString(Operation?.Execute(input) ?? new byte[0]);//The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null;
             }
             catch
             {

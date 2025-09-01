@@ -9,9 +9,20 @@ public partial class InputOperationVM : OperationVM
     {
         Title = "Input Parameters";
 
+        // 监听集合变化，当集合项增减时触发命令状态更新
+        Output.CollectionChanged += (s, e) =>
+        {
+            // 通知 RemoveOutput 命令重新评估 CanExecute
+            RemoveOutputCommand.NotifyCanExecuteChanged();
+            // 同时更新 AddOutput 命令的状态（可选，视需求而定）
+            AddOutputCommand.NotifyCanExecuteChanged();
+        };
+
         Output.Add(new ConnectorVM
         {
-            Title = "In 0"
+            Title = "In 0",
+            Value = "00",
+            IsInput = true,
         });
     }
 
@@ -22,7 +33,9 @@ public partial class InputOperationVM : OperationVM
     {
         Output.Add(new ConnectorVM
         {
-            Title = $"In {Output.Count}"
+            Title = $"In {Output.Count}",
+            Value = "0" + Output.Count,
+            IsInput = true,
         });
     }
 

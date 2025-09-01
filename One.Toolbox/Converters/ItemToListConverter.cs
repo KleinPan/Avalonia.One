@@ -6,28 +6,27 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace One.Toolbox.Converters
+namespace One.Toolbox.Converters;
+
+public class ItemToListConverter : IValueConverter
 {
-    public class ItemToListConverter : IValueConverter
+    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value != null)
         {
-            if (value != null)
-            {
-                var argType = value.GetType();
-                var listType = typeof(List<>).MakeGenericType(argType);
-                var list = Activator.CreateInstance(listType) as IList;
-                list?.Add(value);
+            var argType = value.GetType();
+            var listType = typeof(List<>).MakeGenericType(argType);
+            var list = Activator.CreateInstance(listType) as IList;
+            list?.Add(value);
 
-                return list;
-            }
-
-            return value;
+            return list;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
+        return value;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
     }
 }

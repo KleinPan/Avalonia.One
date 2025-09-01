@@ -11,7 +11,7 @@ public partial class ConnectorVM : BaseVM
     private string _title;
 
     [ObservableProperty]
-    private byte[] _value;
+    private string _value;
 
     [ObservableProperty]
     private bool _isConnected;
