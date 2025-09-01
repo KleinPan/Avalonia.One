@@ -1,14 +1,17 @@
 ﻿namespace One.Toolbox.ViewModels.StringNodify;
 
-public partial class CalculatorInputOperationVM : OperationVM
+/// <summary>纯输入算子，输入在输出显示</summary>
+public partial class InputOperationVM : OperationVM
 {
     public new NodifyObservableCollection<ConnectorVM> Output { get; set; } = new();
 
-    public CalculatorInputOperationVM()
+    public InputOperationVM()
     {
+        Title = "Input Parameters";
+
         Output.Add(new ConnectorVM
         {
-            Title = $"In {Output.Count}"
+            Title = "In 0"
         });
     }
 

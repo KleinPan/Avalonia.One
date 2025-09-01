@@ -22,7 +22,26 @@ public partial class OperationsMenuVM : BaseVM
     {
         _calculator = calculator;
 
-        List<OperationInfoVM> operations = new List<OperationInfoVM>();
+        List<OperationInfoVM> operations = new List<OperationInfoVM>()
+        {
+            new OperationInfoVM()
+            {
+                Title = "ParseInput",
+                Type = OperationType.Input,
+                MinInput = 1,
+                MaxInput = 10,
+                Input = { "01 02 03 04" }
+            },
+
+            new OperationInfoVM()
+            {
+                Title = "ParseOutput",
+                Type = OperationType.Output,
+                MinInput = 1,
+                MaxInput = 1,
+                Input = { "01" }
+            }
+        };
 
         operations.AddRange(OperationFactory.GetOperationsInfo(typeof(OperationsContainer)));
 
@@ -47,7 +66,7 @@ public partial class OperationsMenuVM : BaseVM
         OperationVM op = OperationFactory.GetOperation(operationInfo);
         op.Location = Location;
 
-        _calculator.Operations.Add(op);
+        _calculator.Nodes.Add(op);
 
         var pending = _calculator.PendingConnection;
         if (pending.IsVisible)

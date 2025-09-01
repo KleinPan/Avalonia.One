@@ -7,14 +7,16 @@ namespace One.Toolbox.ViewModels.StringNodify;
 
 public partial class CalculatorVM : BaseVM
 {
+    /// <summary>一个一个算子</summary>
     [ObservableProperty]
-    private NodifyObservableCollection<OperationVM> _operations = new();
+    private NodifyObservableCollection<OperationVM> nodes = new();
 
     public OperationsMenuVM OperationsMenu { get; set; }
 
     [ObservableProperty]
     private NodifyObservableCollection<OperationVM> _selectedOperations = new();
 
+    /// <summary>连接线</summary>
     public NodifyObservableCollection<ConnectionVM> Connections { get; } = new();
 
     public PendingConnectionVM PendingConnection { get; set; } = new();
@@ -35,8 +37,7 @@ public partial class CalculatorVM : BaseVM
             c.Input.Value = c.Output.Value;
 
             c.Output.ValueObservers.Add(c.Input);
-        })
-           .WhenRemoved(c =>
+        }).WhenRemoved(c =>
            {
                var ic = Connections.Count(con => con.Input == c.Input || con.Output == c.Input);
                var oc = Connections.Count(con => con.Input == c.Output || con.Output == c.Output);
@@ -54,22 +55,16 @@ public partial class CalculatorVM : BaseVM
                c.Output.ValueObservers.Remove(c.Input);
            });
 
-        Operations.WhenAdded(x =>
+        Nodes.WhenAdded(x =>
         {
             x.Input.WhenRemoved(RemoveConnection);
-
-            if (x is CalculatorInputOperationVM ci)
-            {
-                ci.Output.WhenRemoved(RemoveConnection);
-            }
-
+            //目前先不做套娃
             void RemoveConnection(ConnectorVM i)
             {
                 var c = Connections.Where(con => con.Input == i || con.Output == i).ToArray();
                 c.ForEach(con => Connections.Remove(con));
             }
-        })
-        .WhenRemoved(x =>
+        }).WhenRemoved(x =>
         {
             foreach (var input in x.Input)
             {
@@ -137,7 +132,7 @@ public partial class CalculatorVM : BaseVM
     private void DeleteSelection()
     {
         var selected = SelectedOperations.ToList();
-        selected.ForEach(o => Operations.Remove(o));
+        selected.ForEach(o => Nodes.Remove(o));
     }
 
     private bool CanGroupSelectedOperations() => SelectedOperations.Count > 0;
@@ -148,7 +143,7 @@ public partial class CalculatorVM : BaseVM
         var selected = SelectedOperations.ToList();
         var bounding = selected.GetBoundingBox(50);
 
-        Operations.Add(new OperationGroupVM
+        Nodes.Add(new OperationGroupVM
         {
             Title = "Operations",
             Location = bounding.Position,

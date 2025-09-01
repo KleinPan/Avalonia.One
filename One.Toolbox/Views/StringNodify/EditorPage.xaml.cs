@@ -16,9 +16,10 @@ public partial class EditorPage : UserControl
         InitializeComponent();
 
         PointerPressedEvent.AddClassHandler<NodifyEditor>(CloseOperationsMenuPointerPressed);
-        ItemContainer.DragStartedEvent.AddClassHandler<ItemContainer>(CloseOperationsMenu);
         PointerReleasedEvent.AddClassHandler<NodifyEditor>(OpenOperationsMenu);
-        //Editor.AddHandler(DragDrop.DropEvent, OnDropNode);
+        ItemContainer.DragStartedEvent.AddClassHandler<ItemContainer>(CloseOperationsMenu);
+
+        Editor.AddHandler(DragDrop.DropEvent, OnDropNode);
     }
 
     private void OpenOperationsMenu(object? sender, PointerReleasedEventArgs e)
@@ -30,7 +31,11 @@ public partial class EditorPage : UserControl
             calculator.OperationsMenu.OpenAt(editor.MouseLocation);
         }
     }
-
+    /// <summary>
+    /// 左键关闭菜单
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void CloseOperationsMenuPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.GetCurrentPoint(this).Properties.PointerUpdateKind == PointerUpdateKind.LeftButtonPressed)
@@ -48,15 +53,17 @@ public partial class EditorPage : UserControl
         }
     }
 
+    /// <summary>拖放事件</summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnDropNode(object? sender, DragEventArgs e)
     {
         NodifyEditor? editor = (e.Source as NodifyEditor) ?? (e.Source as Avalonia.Controls.Control)?.GetLogicalParent() as NodifyEditor;
-        if (editor != null && editor.DataContext is CalculatorVM calculator
-            && e.Data.Get(typeof(OperationInfoVM).FullName) is OperationInfoVM operation)
+        if (editor != null && editor.DataContext is CalculatorVM calculator && e.Data.Get(typeof(OperationInfoVM).FullName) is OperationInfoVM operation)
         {
             OperationVM op = OperationFactory.GetOperation(operation);
             op.Location = editor.GetLocationInsideEditor(e);
-            calculator.Operations.Add(op);
+            calculator.Nodes.Add(op);
 
             e.Handled = true;
         }

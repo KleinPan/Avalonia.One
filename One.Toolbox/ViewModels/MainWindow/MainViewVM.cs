@@ -68,7 +68,7 @@ public partial class MainViewVM : BaseVM
             new()
             {
                 Header = "Nodify",
-                Icon = ResourceHelper.FindObjectResource("home_regular"),
+                Icon = ResourceHelper.FindObjectResource("rocket_regular"),
                  Content = new  EditorPage() { DataContext = App.Current!.Services.GetService<EditorPageVM>() },
             },
             //https://avaloniaui.github.io/icons.html

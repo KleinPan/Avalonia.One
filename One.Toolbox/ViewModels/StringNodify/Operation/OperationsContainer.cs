@@ -1,34 +1,37 @@
-﻿using System.Globalization;
+﻿using One.Base.Helpers.DataProcessHelpers;
+
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace One.Toolbox.ViewModels.StringNodify;
 
+/// <summary>所有的算子</summary>
 public static class OperationsContainer
 {
-    public static byte[] String2Hex(byte[] input)
-      => Encoding.Default.GetBytes(BitConverter.ToString(input).Replace("-", " "));
+    #region Input
 
-    public static byte[] Hex2String(byte[] input)
-     => Hex2byte(Encoding.Default.GetString(input));
+    //public static byte[] ParseInput(string input) => Encoding.Default.GetBytes(input);
 
-    public static byte[] Hex2byte(string mHex)
-    {
-        mHex = Regex.Replace(mHex, "[^0-9A-Fa-f]", "");
-        if (mHex.Length % 2 != 0)
-            mHex = mHex.Remove(mHex.Length - 1, 1);
-        if (mHex.Length <= 0) return new byte[] { };
-        byte[] vBytes = new byte[mHex.Length / 2];
-        for (int i = 0; i < mHex.Length; i += 2)
-            if (!byte.TryParse(mHex.Substring(i, 2), NumberStyles.HexNumber, null, out vBytes[i / 2]))
-                vBytes[i / 2] = 0;
-        return vBytes;
-    }
+    #endregion Input
+
+    #region Output
+
+    //[Operation(MinInput = 1, MaxInput = 1, GenerateInputNames = false)]
+    //public static string ParseOutput(byte[] input) => Encoding.Default.GetString(input);
+
+    #endregion Output
+
+    [Operation(MinInput = 1, MaxInput = 1, GenerateInputNames = false)]
+    public static byte[] String2Hex(byte[] input) => Encoding.Default.GetBytes(StringHelper.BytesToHexString(input));
+
+    [Operation(MinInput = 1, MaxInput = 1, GenerateInputNames = false)]
+    public static byte[] Hex2String(byte[] input) => StringHelper.HexStringToBytes(Encoding.Default.GetString(input));
 }
 
 public sealed class OperationAttribute : Attribute
 {
     public uint MaxInput { get; set; }
     public uint MinInput { get; set; }
+
+    /// <summary>是否显示输入参数名</summary>
     public bool GenerateInputNames { get; set; }
 }

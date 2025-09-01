@@ -4,10 +4,12 @@ public enum OperationType
 {
     Normal,
     Expando,
-    Expression,
-    Calculator,
+
     Group,
-    Graph
+    Graph,
+    Input,
+    Output
+
 }
 
 public class OperationInfoVM

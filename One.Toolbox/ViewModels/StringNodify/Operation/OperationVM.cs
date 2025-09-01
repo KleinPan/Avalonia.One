@@ -6,6 +6,7 @@ using System.ComponentModel;
 
 namespace One.Toolbox.ViewModels.StringNodify;
 
+/// <summary>算子基类</summary>
 public partial class OperationVM : BaseVM
 {
     [ObservableProperty]
@@ -25,6 +26,17 @@ public partial class OperationVM : BaseVM
     [ObservableProperty]
     private IOperation? _operation;
 
+    /// <summary>默认都是有输入的</summary>
+    public NodifyObservableCollection<ConnectorVM> Input { get; } = new();
+
+    private void OnInputValueChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ConnectorVM.Value))
+        {
+            OnInputValueChanged();
+        }
+    }
+
     [ObservableProperty]
     private ConnectorVM? _output;
 
@@ -32,8 +44,6 @@ public partial class OperationVM : BaseVM
     {
         if (_output != null) { _output.Operation = this; }
     }
-
-    public NodifyObservableCollection<ConnectorVM> Input { get; } = new();
 
     public OperationVM()
     {
@@ -48,14 +58,6 @@ public partial class OperationVM : BaseVM
         });
     }
 
-    private void OnInputValueChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(ConnectorVM.Value))
-        {
-            OnInputValueChanged();
-        }
-    }
-
     protected virtual void OnInputValueChanged()
     {
         if (Output != null && Operation != null)
@@ -63,7 +65,7 @@ public partial class OperationVM : BaseVM
             try
             {
                 var input = Input.Select(i => i.Value).ToArray();
-                Output.Value = Operation?.Execute(input) ?? 0;
+                Output.Value = Operation?.Execute(input) ?? new byte[0];//The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null;
             }
             catch
             {

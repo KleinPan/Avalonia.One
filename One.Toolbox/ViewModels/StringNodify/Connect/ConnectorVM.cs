@@ -4,13 +4,14 @@ using One.Toolbox.ViewModels.Base;
 
 namespace One.Toolbox.ViewModels.StringNodify;
 
+/// <summary>一个操作的连接点</summary>
 public partial class ConnectorVM : BaseVM
 {
     [ObservableProperty]
     private string _title;
 
     [ObservableProperty]
-    private double _value;
+    private byte[] _value;
 
     [ObservableProperty]
     private bool _isConnected;

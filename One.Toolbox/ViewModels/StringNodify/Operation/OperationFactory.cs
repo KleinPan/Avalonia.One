@@ -64,6 +64,21 @@ public static class OperationFactory
 
         switch (info.Type)
         {
+            case OperationType.Input:
+                return new InputOperationVM
+                {
+                    Title = info.Title,
+                    Operation = info.Operation,
+
+                };
+            case OperationType.Output:
+                return new OutputOperationVM
+                {
+                    Title = info.Title,
+                    Operation = info.Operation,
+                    
+                };
+
             default:
                 {
                     var op = new OperationVM

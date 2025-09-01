@@ -14,6 +14,6 @@ public partial class EditorPageVM : BasePageVM
 
     public EditorPageVM()
     {
-        _calculator=new CalculatorVM();
+        _calculator = new CalculatorVM();
     }
 }
