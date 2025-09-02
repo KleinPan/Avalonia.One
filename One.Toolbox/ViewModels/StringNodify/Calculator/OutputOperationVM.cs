@@ -5,9 +5,7 @@ public partial class OutputOperationVM : OperationVM
 {
     public OutputOperationVM()
     {
-        Title = "Output Parameters";
+        
         IsReadOnly = true;
     }
-
-    
 }

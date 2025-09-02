@@ -16,7 +16,7 @@ public partial class CalculatorVM : BaseVM
     [ObservableProperty]
     private NodifyObservableCollection<OperationVM> _selectedOperations = new();
 
-    /// <summary>连接线</summary>
+    
     public NodifyObservableCollection<ConnectionVM> Connections { get; } = new();
 
     public PendingConnectionVM PendingConnection { get; set; } = new();
@@ -98,6 +98,7 @@ public partial class CalculatorVM : BaseVM
 
         PendingConnection.IsVisible = false;
 
+        //断开其他的输入
         DisconnectConnector(input);
 
         Connections.Add(new ConnectionVM

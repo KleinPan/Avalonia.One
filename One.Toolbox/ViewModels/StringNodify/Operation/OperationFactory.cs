@@ -1,5 +1,7 @@
 ﻿using AvaloniaEdit.Utils;
 
+using One.Toolbox.ViewModels.StringNodify.Operation;
+
 using System.Reflection;
 
 namespace One.Toolbox.ViewModels.StringNodify;
@@ -25,6 +27,25 @@ public static class OperationFactory
                 bool generateInputNames = true;
 
                 op.Type = OperationType.Normal;
+
+                if (para.Length == 2)
+                {
+                }
+                else if (para.Length == 1)
+                {
+                    if (para[0].ParameterType.IsArray)
+                    {
+                       
+                    }
+                    else
+                    {
+                        var delType = typeof(Func<string, string>);
+                        var del = (Func<string, string>)Delegate.CreateDelegate(delType, method);
+
+                        op.Operation = new TransportOperation(del);
+                        op.MaxInput = int.MaxValue;
+                    }
+                }
 
                 if (attr != null)
                 {
@@ -68,15 +89,14 @@ public static class OperationFactory
                 return new InputOperationVM
                 {
                     Title = info.Title,
-                    Operation = info.Operation,
-
+                   
                 };
+
             case OperationType.Output:
                 return new OutputOperationVM
                 {
                     Title = info.Title,
-                    Operation = info.Operation,
-                    
+                  
                 };
 
             default:

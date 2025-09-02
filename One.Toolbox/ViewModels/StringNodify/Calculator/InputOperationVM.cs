@@ -1,24 +1,46 @@
-﻿namespace One.Toolbox.ViewModels.StringNodify;
+﻿using One.Toolbox.ViewModels.StringNodify.Operation;
 
-/// <summary>纯输入算子，输入在输出显示</summary>
+using System.Text;
+
+namespace One.Toolbox.ViewModels.StringNodify;
+
+/// <summary>将多个输入合并为一个输入</summary>
 public partial class InputOperationVM : OperationVM
 {
-    public new NodifyObservableCollection<ConnectorVM> Output { get; set; } = new();
+    public new NodifyObservableCollection<ConnectorVM> Input { get; set; } = new();
 
     public InputOperationVM()
     {
-        Title = "Input Parameters";
-
-        // 监听集合变化，当集合项增减时触发命令状态更新
-        Output.CollectionChanged += (s, e) =>
+        //监听集合变化，当集合项增减时触发命令状态更新
+        Input.CollectionChanged += (s, e) =>
         {
             // 通知 RemoveOutput 命令重新评估 CanExecute
-            RemoveOutputCommand.NotifyCanExecuteChanged();
+            RemoveInputCommand.NotifyCanExecuteChanged();
             // 同时更新 AddOutput 命令的状态（可选，视需求而定）
-            AddOutputCommand.NotifyCanExecuteChanged();
+            AddInputCommand.NotifyCanExecuteChanged();
+
+            OnInputValueChanged();
         };
 
-        Output.Add(new ConnectorVM
+        Input.WhenAdded(x =>
+        {
+            x.Operation = this;
+            x.IsInput = true;
+            x.PropertyChanged += X_PropertyChanged;
+        }).WhenRemoved(x =>
+        {
+            x.PropertyChanged -= X_PropertyChanged;
+        });
+
+        Output = new ConnectorVM
+        {
+            Title = "Out",
+            IsInput = false,
+        };
+
+        Operation = new CombineOperation(CombineInputs);
+
+        Input.Add(new ConnectorVM
         {
             Title = "In 0",
             Value = "00",
@@ -26,24 +48,53 @@ public partial class InputOperationVM : OperationVM
         });
     }
 
-    bool CanAddOutput() => Output.Count < 10;
-
-    [RelayCommand(CanExecute = nameof(CanAddOutput))]
-    private void AddOutput()
+    private void X_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        Output.Add(new ConnectorVM
+        if (e.PropertyName == nameof(ConnectorVM.Value))
         {
-            Title = $"In {Output.Count}",
-            Value = "0" + Output.Count,
+            OnInputValueChanged();
+        }
+    }
+
+    protected override void OnInputValueChanged()
+    {
+        if (Output != null && Operation != null)
+        {
+            try
+            {
+                var input = Input.Select(i => i.Value).ToArray();
+                Output.Value = Operation?.Execute(input) ?? "";//The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null;
+            }
+            catch
+            {
+            }
+        }
+    }
+
+    bool CanAddInput() => Input.Count < 10;
+
+    [RelayCommand(CanExecute = nameof(CanAddInput))]
+    private void AddInput()
+    {
+        Input.Add(new ConnectorVM
+        {
+            Title = $"In {Input.Count}",
+            Value = "0" + Input.Count,
             IsInput = true,
         });
     }
 
-    bool CanRemoveOutput() => Output.Count > 1;
+    bool CanRemoveInput() => Input.Count > 1;
 
-    [RelayCommand(CanExecute = nameof(CanRemoveOutput))]
-    private void RemoveOutput()
+    [RelayCommand(CanExecute = nameof(CanRemoveInput))]
+    private void RemoveInput()
     {
-        Output.RemoveAt(Output.Count - 1);
+        Input.RemoveAt(Input.Count - 1);
+    }
+
+    string CombineInputs(string[] bytes)
+    {
+        string result2 = string.Join("", bytes);
+        return result2;
     }
 }

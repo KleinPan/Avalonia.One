@@ -9,7 +9,6 @@ public enum OperationType
     Graph,
     Input,
     Output
-
 }
 
 public class OperationInfoVM
@@ -17,7 +16,7 @@ public class OperationInfoVM
     public string? Title { get; set; }
     public OperationType Type { get; set; }
     public IOperation? Operation { get; set; }
-    public List<string?> Input { get; } = new List<string?>();
+    public List<string> Input { get; } = new();
     public uint MinInput { get; set; }
     public uint MaxInput { get; set; }
 }

@@ -26,4 +26,9 @@ public partial class ConnectorVM : BaseVM
     private OperationVM _operation = default!;
 
     public List<ConnectorVM> ValueObservers { get; } = new();
+
+    partial void OnValueChanged(string value)
+    {
+        ValueObservers.ForEach(o => o.Value = value);
+    }
 }

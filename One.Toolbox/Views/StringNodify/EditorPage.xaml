@@ -103,8 +103,6 @@
             <nodify:CircuitConnection Source="{Binding Output.Anchor}" Target="{Binding Input.Anchor}" />
         </DataTemplate>
 
-
-
         <ControlTheme x:Key="ItemContainerStyle" x:DataType="vm:OperationVM" BasedOn="{StaticResource {x:Type nodify:ItemContainer}}" TargetType="{x:Type nodify:ItemContainer}">
             <Setter Property="Location" Value="{Binding Location}" />
             <Setter Property="IsSelected" Value="{Binding IsSelected}" />
@@ -127,7 +125,7 @@
                              PendingConnection="{Binding PendingConnection}"
                              SelectedItems="{Binding SelectedOperations}">
             <nodify:NodifyEditor.Resources>
-                <ControlTheme x:Key="{x:Type nodify:NodeInput}" x:DataType="nodify:NodeInput" BasedOn="{StaticResource {x:Type nodify:NodeInput}}" TargetType="{x:Type nodify:NodeInput}">
+                <ControlTheme x:Key="{x:Type nodify:NodeInput}" x:DataType="vm:ConnectorVM" BasedOn="{StaticResource {x:Type nodify:NodeInput}}" TargetType="{x:Type nodify:NodeInput}">
                     <Setter Property="Header" Value="{Binding}" />
                     <Setter Property="IsConnected" Value="{Binding IsConnected}" />
                     <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />
@@ -144,7 +142,7 @@
                     </Setter>
                 </ControlTheme>
 
-                <ControlTheme x:Key="{x:Type nodify:NodeOutput}" x:DataType="nodify:NodeOutput" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
+                <ControlTheme x:Key="{x:Type nodify:NodeOutput}" x:DataType="vm:ConnectorVM" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
                     <Setter Property="Header" Value="{Binding}" />
                     <Setter Property="IsConnected" Value="{Binding IsConnected}" />
                     <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />
@@ -159,7 +157,7 @@
             </nodify:NodifyEditor.Resources>
 
             <nodify:NodifyEditor.PendingConnectionTemplate>
-                <DataTemplate x:DataType="vm:PendingConnectionVM" DataType="{x:Type vm:PendingConnectionVM}">
+                <DataTemplate DataType="{x:Type vm:PendingConnectionVM}">
                     <nodify:PendingConnection CompletedCommand="{ReflectionBinding DataContext.CreateConnectionCommand,
                                                                                    RelativeSource={RelativeSource AncestorType={x:Type nodify:NodifyEditor}}}"
                                               IsVisible="{Binding IsVisible}"
@@ -168,36 +166,36 @@
                                                                                  RelativeSource={RelativeSource AncestorType={x:Type nodify:NodifyEditor}}}"
                                               Target="{Binding Target, Mode=OneWayToSource}"
                                               TargetAnchor="{Binding TargetLocation, Mode=OneWayToSource}" />
-                </DataTemplate>
 
+                </DataTemplate>
             </nodify:NodifyEditor.PendingConnectionTemplate>
             <nodify:NodifyEditor.DataTemplates>
                 <!--  注意模板顺序  -->
                 <DataTemplate DataType="{x:Type vm:InputOperationVM}">
 
-                    <nodify:Node Header="{Binding Title}" Output="{Binding Output}">
+                    <nodify:Node Header="{Binding Title}" Input="{Binding Input}" Output="{Binding Output, Converter={StaticResource ItemToListConverter}}">
                         <StackPanel>
-                            <Button Command="{Binding AddOutputCommand}" Content="{StaticResource PlusIcon}" Theme="{StaticResource IconButton}" />
-                            <Button Command="{Binding RemoveOutputCommand}" Content="{StaticResource RemoveKeyIcon}" Theme="{StaticResource IconButton}" />
+                            <Button Command="{Binding AddInputCommand}" Content="{StaticResource PlusIcon}" Theme="{StaticResource IconButton}" />
+                            <Button Command="{Binding RemoveInputCommand}" Content="{StaticResource RemoveKeyIcon}" Theme="{StaticResource IconButton}" />
                         </StackPanel>
-
                         <nodify:Node.Resources>
-                            <ControlTheme x:Key="{x:Type nodify:NodeOutput}" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
+                            <ControlTheme x:Key="{x:Type nodify:NodeOutput}" x:DataType="vm:ConnectorVM" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
                                 <Setter Property="Header" Value="{Binding}" />
-                                <!--<Setter Property="IsConnected" Value="{Binding IsConnected}" />
-                                <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />-->
+                                <Setter Property="IsConnected" Value="{Binding IsConnected}" />
+                                <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />
                                 <Setter Property="HeaderTemplate">
                                     <Setter.Value>
                                         <DataTemplate DataType="{x:Type vm:ConnectorVM}">
+
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBox IsEnabled="True" Text="{Binding Value}" />
-                                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Title}" />
+                                                <TextBox IsEnabled="True" IsReadOnly="True" Text="{Binding Value}" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </Setter.Value>
                                 </Setter>
                             </ControlTheme>
                         </nodify:Node.Resources>
+
                     </nodify:Node>
                 </DataTemplate>
 
@@ -205,7 +203,7 @@
                     <nodify:Node Header="{Binding Title}" Input="{Binding Input}">
 
                         <nodify:Node.Resources>
-                            <ControlTheme x:Key="{x:Type nodify:NodeInput}" x:DataType="nodify:NodeInput" BasedOn="{StaticResource {x:Type nodify:NodeInput}}" TargetType="{x:Type nodify:NodeInput}">
+                            <ControlTheme x:Key="{x:Type nodify:NodeOutput}" x:DataType="vm:ConnectorVM" BasedOn="{StaticResource {x:Type nodify:NodeOutput}}" TargetType="{x:Type nodify:NodeOutput}">
                                 <Setter Property="Header" Value="{Binding}" />
                                 <Setter Property="IsConnected" Value="{Binding IsConnected}" />
                                 <Setter Property="Anchor" Value="{Binding Anchor, Mode=OneWayToSource}" />
@@ -213,8 +211,8 @@
                                     <Setter.Value>
                                         <DataTemplate DataType="{x:Type vm:ConnectorVM}">
                                             <StackPanel Orientation="Horizontal">
-                                                <TextBox IsEnabled="False" Text="{Binding Value}" />
-                                                <TextBlock Margin="5,0,0,0" Text="{Binding Title}" />
+                                                <TextBox IsEnabled="True" Text="{Binding Value}" />
+                                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Title}" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </Setter.Value>

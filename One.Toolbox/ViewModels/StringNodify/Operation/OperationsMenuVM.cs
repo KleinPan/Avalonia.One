@@ -30,7 +30,8 @@ public partial class OperationsMenuVM : BaseVM
                 Type = OperationType.Input,
                 MinInput = 1,
                 MaxInput = 10,
-                Input = { "01 02 03 04" }
+               
+               
             },
 
             new OperationInfoVM()
@@ -39,7 +40,7 @@ public partial class OperationsMenuVM : BaseVM
                 Type = OperationType.Output,
                 MinInput = 1,
                 MaxInput = 1,
-                Input = { "01" }
+              
             }
         };
 

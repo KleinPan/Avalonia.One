@@ -66,8 +66,9 @@ public partial class OperationVM : BaseVM
         {
             try
             {
-                var input = Input.Select(i => Encoding.Default.GetBytes(i.Value)).ToArray();
-                Output.Value = Encoding.Default.GetString(Operation?.Execute(input) ?? new byte[0]);//The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null;
+                var input = Input.Select(i => i.Value).ToArray();
+
+                Output.Value = Operation?.Execute(input) ?? "";//The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null;
             }
             catch
             {
