@@ -73,9 +73,9 @@ public partial class OperationsMenuVM : BaseVM
         if (pending.IsVisible)
         {
             var connector = pending.Source.IsInput ? op.Output : op.Input.FirstOrDefault();
-            if (connector != null && _calculator.CanCreateConnection(pending.Source, connector))
+            if (connector != null && _calculator.CanPendingConnectionCompleted(pending.Source, connector))
             {
-                _calculator.CreateConnection(pending.Source, connector);
+                _calculator.PendingConnectionCompleted(pending.Source, connector);
             }
         }
         Close();

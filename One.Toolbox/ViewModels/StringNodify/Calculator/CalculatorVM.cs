@@ -1,7 +1,13 @@
 ﻿using Avalonia;
 
+using Nodify;
+
 using One.Base.ExtensionMethods;
 using One.Toolbox.ViewModels.Base;
+
+using Org.BouncyCastle.Asn1.X509;
+
+using System.Diagnostics;
 
 namespace One.Toolbox.ViewModels.StringNodify;
 
@@ -16,18 +22,21 @@ public partial class CalculatorVM : BaseVM
     [ObservableProperty]
     private NodifyObservableCollection<OperationVM> _selectedOperations = new();
 
-    
     public NodifyObservableCollection<ConnectionVM> Connections { get; } = new();
 
     public PendingConnectionVM PendingConnection { get; set; } = new();
 
-    public INodifyCommand CreateConnectionCommand { get; }
+    public INodifyCommand PendingConnectionCompletedCommand { get; }
+    public INodifyCommand ConnectionCompletedCommand { get; }
 
     public CalculatorVM()
     {
-        CreateConnectionCommand = new DelegateCommand<ConnectorVM>(
-               _ => CreateConnection(PendingConnection.Source, PendingConnection.Target),
-               _ => CanCreateConnection(PendingConnection.Source, PendingConnection.Target));
+        PendingConnectionCompletedCommand = new DelegateCommand<ConnectorVM>(
+               _ => PendingConnectionCompleted(PendingConnection.Source, PendingConnection.Target),
+               _ => CanPendingConnectionCompleted(PendingConnection.Source, PendingConnection.Target));
+
+        ConnectionCompletedCommand = new DelegateCommand<ConnectorVM>(
+               _ => ConnectionCompleted(PendingConnection.Source, PendingConnection.Target));
 
         Connections.WhenAdded(c =>
         {
@@ -80,46 +89,10 @@ public partial class CalculatorVM : BaseVM
         OperationsMenu = new OperationsMenuVM(this);
     }
 
-    internal bool CanCreateConnection(ConnectorVM source, ConnectorVM? target)
-           => target == null || (source != target && source.Operation != target.Operation && source.IsInput != target.IsInput);
-
-    internal void CreateConnection(ConnectorVM source, ConnectorVM? target)
-    {
-        if (target == null)
-        {
-            PendingConnection.IsVisible = true;
-            OperationsMenu.OpenAt(PendingConnection.TargetLocation);
-            OperationsMenu.Closed += OnOperationsMenuClosed;
-            return;
-        }
-
-        var input = source.IsInput ? source : target;
-        var output = target.IsInput ? source : target;
-
-        PendingConnection.IsVisible = false;
-
-        //断开其他的输入
-        DisconnectConnector(input);
-
-        Connections.Add(new ConnectionVM
-        {
-            Input = input,
-            Output = output
-        });
-    }
-
     private void OnOperationsMenuClosed()
     {
         PendingConnection.IsVisible = false;
         OperationsMenu.Closed -= OnOperationsMenuClosed;
-    }
-
-    private bool CanStartConnection(ConnectorVM c) => !(c.IsConnected && c.IsInput);
-
-    [RelayCommand(CanExecute = nameof(CanStartConnection))]
-    private void StartConnection(ConnectorVM connectorViewModel)
-    {
-        PendingConnection.IsVisible = true;
     }
 
     [RelayCommand]
@@ -149,6 +122,72 @@ public partial class CalculatorVM : BaseVM
             Title = "Operations",
             Location = bounding.Position,
             GroupSize = new Size(bounding.Width, bounding.Height)
+        });
+    }
+
+    [RelayCommand]
+    private void ConnectionStarted(ConnectorVM source)
+    {
+        Debug.WriteLine("ConnectionStarted");
+        Debug.WriteLine(source);
+    }
+
+    /// <summary>第二个参数是空的</summary>
+    /// <param name="source"></param>
+    /// <param name="target"></param>
+    private void ConnectionCompleted(ConnectorVM source, ConnectorVM? target)
+    {
+        Debug.WriteLine("ConnectionCompleted");
+
+        Debug.WriteLine(source);
+        if (target != null)
+        {
+            Debug.WriteLine(target);
+        }
+    }
+
+    private bool CanStartConnection(ConnectorVM c) =>
+        !(c.IsConnected && c.IsInput);
+
+    [RelayCommand(CanExecute = nameof(CanStartConnection))]
+    private void PendingConnectionStarted(ConnectorVM connectorViewModel)
+    {
+        Debug.WriteLine("PendingConnectionStarted");
+        PendingConnection.IsVisible = true;
+    }
+
+    internal bool CanPendingConnectionCompleted(ConnectorVM source, ConnectorVM? target)
+         => target == null || (source != target && source.Operation != target.Operation && source.IsInput != target.IsInput);
+
+    internal void PendingConnectionCompleted(ConnectorVM source, ConnectorVM? target)
+    {
+        Debug.WriteLine("PendingConnectionCompleted");
+        Debug.WriteLine(source);
+        if (target != null)
+        {
+            Debug.WriteLine(target);
+        }
+
+        if (target == null)
+        {
+            PendingConnection.IsVisible = true;
+            OperationsMenu.OpenAt(PendingConnection.TargetLocation);
+            OperationsMenu.Closed += OnOperationsMenuClosed;
+            return;
+        }
+
+        var input = source.IsInput ? source : target;
+        var output = target.IsInput ? source : target;
+
+        PendingConnection.IsVisible = false;
+
+        //断开其他的输入
+        DisconnectConnector(input);
+
+        Connections.Add(new ConnectionVM
+        {
+            Input = input,
+            Output = output
         });
     }
 }

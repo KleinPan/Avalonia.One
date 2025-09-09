@@ -9,6 +9,8 @@ public partial class InputOperationVM : OperationVM
 {
     public new NodifyObservableCollection<ConnectorVM> Input { get; set; } = new();
 
+    [ObservableProperty]
+    private bool removeWhiteSpace=true;
     public InputOperationVM()
     {
         //监听集合变化，当集合项增减时触发命令状态更新
@@ -46,6 +48,8 @@ public partial class InputOperationVM : OperationVM
             Value = "00",
             IsInput = true,
         });
+
+        
     }
 
     private void X_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -62,7 +66,7 @@ public partial class InputOperationVM : OperationVM
         {
             try
             {
-                var input = Input.Select(i => i.Value).ToArray();
+                var input = Input.Select(i => i.Value.Replace(" ","")).ToArray();
                 Output.Value = Operation?.Execute(input) ?? "";//The null-coalescing operator ?? returns the value of its left-hand operand if it isn't null;
             }
             catch

@@ -5,7 +5,6 @@ public partial class OutputOperationVM : OperationVM
 {
     public OutputOperationVM()
     {
-        
         IsReadOnly = true;
     }
 }

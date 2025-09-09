@@ -1,99 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
- 
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-	<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-	<IsAotCompatible>true</IsAotCompatible>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
-  <ItemGroup>
-    <AvaloniaXaml Remove="ViewModels\TextCompare\**" />
-    <AvaloniaXaml Remove="Views\TextCompare\**" />
-    <Compile Remove="ViewModels\TextCompare\**" />
-    <Compile Remove="Views\TextCompare\**" />
-    <EmbeddedResource Remove="ViewModels\TextCompare\**" />
-    <EmbeddedResource Remove="Views\TextCompare\**" />
-    <None Remove="ViewModels\TextCompare\**" />
-    <None Remove="Views\TextCompare\**" />
-  </ItemGroup>
- 
-  <ItemGroup>
-    <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml" />
-    <AvaloniaResource Remove="Assets\Geometries.axaml" />
-    <AvaloniaResource Remove="Assets\Resources.en-US.resx" />
-    <AvaloniaResource Remove="Assets\Resources.resx" />
-    <AvaloniaResource Remove="Assets\Resources.zh-CN.resx" />
-  </ItemGroup>
- 
- 
-  
-  <ItemGroup>
-    <EmbeddedResource Remove="Assets\Languages\Resource.as.resx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\icons8-knife-100.ico" />
-    <None Remove="Themes\Brushes.xaml" />
-    <None Remove="Themes\Dark.xaml" />
-    <None Remove="Themes\Light.xaml" />
-    <None Remove="Themes\Nodify.xaml" />
-    <None Remove="Views\StringNodify\EditorPage.xaml" />
- 
-  </ItemGroup>
 
-  
   <ItemGroup>
-    <AvaloniaResource Include="Assets\icons8-knife-100.ico" />
-  </ItemGroup>
-
-  
-  <ItemGroup>
-    <AvaloniaXaml Include="Themes\Brushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </AvaloniaXaml>
-    <AvaloniaXaml Include="Themes\Dark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </AvaloniaXaml>
-    <AvaloniaXaml Include="Themes\Light.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </AvaloniaXaml>
-    <AvaloniaXaml Include="Themes\Nodify.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </AvaloniaXaml>
-    <AvaloniaXaml Include="Views\StringNodify\EditorPage.xaml">
-      <Generator></Generator>
-    </AvaloniaXaml>
-  </ItemGroup>
-
-
- 
-  <ItemGroup>
-	  <PackageReference Include="Avalonia" Version="11.3.2" />
-	  <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.2" />
-	  <PackageReference Include="Avalonia.Labs.Qr" Version="11.3.0" />
-	  <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.2" />
-	  <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.2" />
-	  <PackageReference Include="AvaloniaEdit.TextMate" Version="11.3.0" />
-	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-	  <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-	  <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.2" />
-	  <PackageReference Include="Markdown.Avalonia" Version="11.0.3-a1" />
-	  
-	  <PackageReference Include="Irihi.Ursa" Version="1.11.1" />
-	  <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.11.1" />
-	  <PackageReference Include="NodifyAvalonia" Version="6.5.0" />
-	  <PackageReference Include="Semi.Avalonia" Version="11.2.1.8" />
-	  <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.8" />
-	  
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
-
-	  <PackageReference Include="WebDav.Client" Version="2.9.0" />
-
-	  <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.2" />
+    <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml"/>
+    <AvaloniaResource Remove="Assets\Geometries.axaml"/>
+    <AvaloniaResource Remove="Assets\Resources.en-US.resx"/>
+    <AvaloniaResource Remove="Assets\Resources.resx"/>
+    <AvaloniaResource Remove="Assets\Resources.zh-CN.resx"/>
+    <EmbeddedResource Remove="Assets\Languages\Resource.as.resx"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\One.Control\One.Control.csproj" />
-    <ProjectReference Include="..\One.SimpleLog\One.SimpleLog.csproj" />
+    <AvaloniaResource Include="Assets\icons8-knife-100.ico"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.5"/>
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.5"/>
+    <PackageReference Include="Avalonia.Labs.Qr" Version="11.3.1"/>
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.5"/>
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.5"/>
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.3.0"/>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.5"/>
+    <PackageReference Include="Markdown.Avalonia" Version="11.0.3-a1"/>
+    <PackageReference Include="Irihi.Ursa" Version="1.12.0"/>
+    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.12.0"/>
+    <PackageReference Include="NodifyAvalonia" Version="6.5.0"/>
+    <PackageReference Include="Semi.Avalonia" Version="11.2.1.9"/>
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.9"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8"/>
+    <PackageReference Include="WebDav.Client" Version="2.9.0"/>
+    <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.2"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\One.Control\One.Control.csproj"/>
+    <ProjectReference Include="..\One.SimpleLog\One.SimpleLog.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -111,9 +59,11 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </AvaloniaResource>
   </ItemGroup>
+
   <ItemGroup>
-  	<RdXmlFile Include="rd.xml" />
+    <RdXmlFile Include="rd.xml"/>
   </ItemGroup>
+
   <ItemGroup>
     <None Update="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -123,9 +73,7 @@
       <LastGenOutput>Language.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Behaviors\" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="Assets\Languages\Language.cs">
       <DesignTime>True</DesignTime>
@@ -133,21 +81,8 @@
       <DependentUpon>Language.tt</DependentUpon>
     </None>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Update="Assets\Languages\Language.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Language.tt</DependentUpon>
-    </Compile>
-    <Compile Update="Views\RegularTester\RegularTesterPage.axaml.cs">
-      <DependentUpon>RegularTesterPage.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\UnixTimeConverter\UnixTimeConverterPage.axaml.cs">
-      <DependentUpon>UnixTimeConverterPage.axaml</DependentUpon>
-    </Compile>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}"/>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-   
 </Project>

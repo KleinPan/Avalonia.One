@@ -2,6 +2,8 @@
 
 using One.Toolbox.ViewModels.Base;
 
+using System.Diagnostics;
+
 namespace One.Toolbox.ViewModels.StringNodify;
 
 public partial class PendingConnectionVM : BaseVM
@@ -17,4 +19,11 @@ public partial class PendingConnectionVM : BaseVM
 
     [ObservableProperty]
     private Point _targetLocation;
+
+    partial void OnTargetLocationChanged(Point value)
+    {
+       // Debug.WriteLine("PendingConnectionVM" + value);
+    }
+
+    
 }
