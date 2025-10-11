@@ -128,7 +128,7 @@ public partial class EditFileInfoVM : ObservableObject
     }
 
     [RelayCommand]
-    private async void SaveFile()
+    private async Task SaveFile()
     {
         await SaveDocument();
     }
@@ -145,12 +145,6 @@ public partial class EditFileInfoVM : ObservableObject
         a!.LostFocus += EditFileInfoVM_LostFocus;
         a!.KeyDown += EditFileInfoVM_KeyDown;
         a.Focus();
-    }
-
-    [RelayCommand]
-    private void DeleteFile(object obj)
-    {
-        File.Delete(FilePath + suffix);
     }
 
     private string lastFileName = "";

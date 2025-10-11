@@ -7,41 +7,40 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml"/>
-    <AvaloniaResource Remove="Assets\Geometries.axaml"/>
-    <AvaloniaResource Remove="Assets\Resources.en-US.resx"/>
-    <AvaloniaResource Remove="Assets\Resources.resx"/>
-    <AvaloniaResource Remove="Assets\Resources.zh-CN.resx"/>
-    <EmbeddedResource Remove="Assets\Languages\Resource.as.resx"/>
+    <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml" />
+    <AvaloniaResource Remove="Assets\Geometries.axaml" />
+    <AvaloniaResource Remove="Assets\Resources.en-US.resx" />
+    <AvaloniaResource Remove="Assets\Resources.resx" />
+    <AvaloniaResource Remove="Assets\Resources.zh-CN.resx" />
+    <EmbeddedResource Remove="Assets\Languages\Resource.as.resx" />
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Assets\icons8-knife-100.ico"/>
+    <AvaloniaResource Include="Assets\icons8-knife-100.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.3.5"/>
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.5"/>
-    <PackageReference Include="Avalonia.Labs.Qr" Version="11.3.1"/>
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.5"/>
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.5"/>
-    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.3.0"/>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.5"/>
-    <PackageReference Include="Markdown.Avalonia" Version="11.0.3-a1"/>
-    <PackageReference Include="Irihi.Ursa" Version="1.12.0"/>
-    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.12.0"/>
-    <PackageReference Include="NodifyAvalonia" Version="6.5.0"/>
-    <PackageReference Include="Semi.Avalonia" Version="11.2.1.9"/>
-    <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.9"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8"/>
-    <PackageReference Include="WebDav.Client" Version="2.9.0"/>
-    <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.2"/>
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.7" />
+    <PackageReference Include="Avalonia.Labs.Qr" Version="11.3.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.7" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.7" />
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.3.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.7" />
+    <PackageReference Include="Markdown.Avalonia" Version="11.0.3-a1" />
+    <PackageReference Include="Irihi.Ursa" Version="1.13.0" />
+    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.13.0" />
+    <PackageReference Include="NodifyAvalonia" Version="6.5.0" />
+    <PackageReference Include="Semi.Avalonia" Version="11.3.7" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.3.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
+    <PackageReference Include="WebDav.Client" Version="2.9.0" />
+    <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.6.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\One.Control\One.Control.csproj"/>
-    <ProjectReference Include="..\One.SimpleLog\One.SimpleLog.csproj"/>
+    <ProjectReference Include="..\One.Control\One.Control.csproj" />
+    <ProjectReference Include="..\One.SimpleLog\One.SimpleLog.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,7 +60,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <RdXmlFile Include="rd.xml"/>
+    <RdXmlFile Include="rd.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -83,6 +82,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}"/>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 </Project>

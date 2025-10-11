@@ -65,12 +65,7 @@ public partial class MainViewVM : BaseVM
 
         NavigationItems = new ObservableCollection<MainMenuItemVM>
         {
-            new()
-            {
-                Header = "Nodify",
-                Icon = ResourceHelper.FindObjectResource("rocket_regular"),
-                 Content = new  EditorPage() { DataContext = App.Current!.Services.GetService<EditorPageVM>() },
-            },
+            
             //https://avaloniaui.github.io/icons.html
             //https://www.xicons.org/#/
             //https://pictogrammers.com/library/mdi/
@@ -128,7 +123,12 @@ public partial class MainViewVM : BaseVM
                 Icon = ResourceHelper.FindObjectResource("timer_regular"),
                 Content = new UnixTimeConverterPage() { DataContext = App.Current!.Services.GetService<UnixTimeConverterVM>() },
             },
-
+            new()
+            {
+                Header = "Nodify",
+                Icon = ResourceHelper.FindObjectResource("rocket_regular"),
+                 Content = new  EditorPage() { DataContext = App.Current!.Services.GetService<EditorPageVM>() },
+            },
             new()
             {
                 Header = "Settings",

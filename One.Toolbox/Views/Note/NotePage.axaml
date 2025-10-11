@@ -18,6 +18,10 @@
     </UserControl.Resources>
 
     <UserControl.Styles />
+
+    <Design.DataContext>
+        <vms:NotePageVM />
+    </Design.DataContext>
     <Grid ColumnDefinitions="*,auto,3*">
 
         <Grid>
@@ -31,11 +35,7 @@
                 </Button>
             </u:ToolBar>
             <ListBox Name="listbox" Grid.Row="1" ItemsSource="{Binding EditFileInfoViewModelOC}" SelectedItem="{Binding SelectedEditFileInfo}">
-                <!--<i:Interaction.Behaviors>
-                    <ia:EventTriggerBehavior EventName="SelectionChanged">
-                        <ia:InvokeCommandAction Command="{Binding SelectedEditFileChangedCommand}" PassEventArgsToCommand="True" />
-                    </ia:EventTriggerBehavior>
-                </i:Interaction.Behaviors>-->
+
 
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="vms:EditFileInfoVM">
@@ -46,7 +46,8 @@
                             </Grid.RowDefinitions>
                             <Grid.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Command="{Binding $parent[Border].((vms:NotePageVM)DataContext).DeleteFileCommand}" Header="Delete" />
+                                    <!--  https://docs.avaloniaui.net/zh-Hans/docs/guides/data-binding/binding-to-controls  -->
+                                    <MenuItem Command="{Binding #listbox((vms:NotePageVM)DataContext).DeleteFileCommand}" Header="Delete" />
                                     <MenuItem Command="{Binding RenameFileCommand}" CommandParameter="{Binding $parent[Grid]}" Header="Rename" />
                                     <MenuItem Command="{Binding OpenFilePathCommand}" Header="Open File Path" />
                                 </ContextMenu>
