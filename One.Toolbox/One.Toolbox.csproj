@@ -20,22 +20,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.7" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.9" />
     <PackageReference Include="Avalonia.Labs.Qr" Version="11.3.1" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.7" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.7" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.9" />
     <PackageReference Include="AvaloniaEdit.TextMate" Version="11.3.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.7" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.9" />
     <PackageReference Include="Markdown.Avalonia" Version="11.0.3-a1" />
-    <PackageReference Include="Irihi.Ursa" Version="1.13.0" />
-    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.13.0" />
+    <PackageReference Include="Irihi.Ursa" Version="1.14.0" />
+    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.14.0" />
     <PackageReference Include="NodifyAvalonia" Version="6.5.0" />
-    <PackageReference Include="Semi.Avalonia" Version="11.3.7" />
-    <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.3.7" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
+    <PackageReference Include="Semi.Avalonia" Version="11.3.7.1" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.3.7.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />
-    <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.6.5" />
+    <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.9" />
   </ItemGroup>
 
   <ItemGroup>
