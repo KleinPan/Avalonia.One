@@ -5,15 +5,17 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>BranPan</Authors>
     <Company />
-    <Version>4.0.0</Version>
-    <PackageReleaseNotes>Update DotNet version to 7.0</PackageReleaseNotes>
+    <Version>4.1.0</Version>
+    <PackageReleaseNotes>Updated to .NET 10.0, Avalonia 11.3.11, improved error handling and resource management</PackageReleaseNotes>
     <Description>This is a tool class library that contains extension methods, help classes, etc...</Description>
     <PackageProjectUrl>https://github.com/KleinPan/One</PackageProjectUrl>
-	<DocumentationFile />
-	<GenerateDocumentationFile>True</GenerateDocumentationFile>
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-
-	<IsAotCompatible>True</IsAotCompatible>
+    <DocumentationFile />
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <IsAotCompatible>False</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,248 +1,319 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace One.Base.Helpers;
 
-public class ProcessHelper : BaseHelper
+/// <summary>进程执行辅助类，提供运行外部程序的功能</summary>
+public class ProcessHelper : BaseHelper, IDisposable
 {
-    public Action<object> logAction;
-    public Process process;
+    private Process? _process;
+    private bool _disposed = false;
 
-    public ProcessHelper(Action<object> LogDelegate) : base(LogDelegate)
+    public ProcessHelper(Action<string>? logAction = null) : base(logAction)
     {
-        logAction = LogDelegate;
     }
 
-    public void RunExe(string exeWorkDirectory, string exeName, string parmams)
+    /// <summary>配置进程启动信息</summary>
+    private void ConfigureProcessStartInfo(ProcessStartInfo startInfo, string exeWorkDirectory, string exeName, string parameters)
     {
-        if (process == null)
-        {
-            process = new Process();
-        }
-
-        WriteLog("Excutdir:" + exeWorkDirectory + exeName + ",Param: " + parmams);
-        process.StartInfo.WorkingDirectory = exeWorkDirectory;
-        process.StartInfo.FileName = exeWorkDirectory + exeName;
-        process.StartInfo.Arguments = parmams;
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardInput = true;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardError = true;
-        process.StartInfo.CreateNoWindow = true;
-        process.Start();
-
-        //return process.ExitCode == 0;
+        startInfo.WorkingDirectory = exeWorkDirectory;
+        startInfo.FileName = System.IO.Path.Combine(exeWorkDirectory, exeName);
+        startInfo.Arguments = parameters;
+        startInfo.UseShellExecute = false;
+        startInfo.RedirectStandardInput = true;
+        startInfo.RedirectStandardOutput = true;
+        startInfo.RedirectStandardError = true;
+        startInfo.CreateNoWindow = true;
     }
 
-    public bool RunExeAndReadResult(string exeWorkDirectory, string exeName, string parmams, out string res)
+    /// <summary>获取或创建进程对象</summary>
+    private Process GetOrCreateProcess()
     {
-        string commandLineString = "";
-
-        if (process == null)
+        if (_process != null)
         {
-            process = new Process();
+            _process.Dispose();
         }
-        res = "";
-        WriteLog("Excutdir:" + exeWorkDirectory + exeName + ",Param: " + parmams);
-        process.StartInfo.WorkingDirectory = exeWorkDirectory;
-        process.StartInfo.FileName = exeWorkDirectory + exeName;
-        process.StartInfo.Arguments = parmams;
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardInput = true;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardError = true;
-        process.StartInfo.CreateNoWindow = true;
-        process.Start();
-
-        while (!process.HasExited)
-        {
-            commandLineString = process.StandardOutput.ReadLine();
-            WriteLog(commandLineString);
-            res += commandLineString;
-        }
-
-        commandLineString = process.StandardOutput.ReadToEnd();
-        res += commandLineString;
-        WriteLog("ReadToEnd = " + commandLineString);
-        commandLineString = process.StandardError.ReadToEnd();
-        res += commandLineString;
-        WriteLog("StandardError = " + commandLineString + ".");
-
-        process.WaitForExit(1000);
-        WriteLog("ExecCMD ... exit code is ..." + process.ExitCode.ToString());
-        return process.ExitCode == 0;
+        return _process = new Process();
     }
 
-    /// <summary>读输出流，3秒内要做完，不然杀进程</summary>
-    /// <param name="exeWorkDirectory"></param>
-    /// <param name="exeName"></param>
-    /// <param name="parmams"></param>
-    /// <param name="res"></param>
-    /// <param name="second"></param>
-    /// <returns></returns>
-    public bool RunExeAndReadResultWithTimeLimit(string exeWorkDirectory, string exeName, string parmams, out string res, int second = 3)
+    /// <summary>运行可执行程序（异步）</summary>
+    public void RunExe(string exeWorkDirectory, string exeName, string parameters)
     {
-        WriteLog("RunExeAndReadResultWithTimeLimit");
-        string commandLineString = "";
-
-        res = "";
-        process = new Process();
-        WriteLog("WorkingDirectory:" + exeWorkDirectory + ",FileName:" + exeName + ",Param: " + parmams);
-        process.StartInfo.WorkingDirectory = exeWorkDirectory;
-        process.StartInfo.FileName = exeName;
-        process.StartInfo.Arguments = parmams;
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.RedirectStandardInput = true;
-        process.StartInfo.RedirectStandardOutput = true;
-        process.StartInfo.RedirectStandardError = true;
-        process.StartInfo.CreateNoWindow = true;
-        process.ErrorDataReceived += new DataReceivedEventHandler((sender, e) =>
-        {
-            WriteLog("ERROR Start");
-            WriteLog($"ErrorDataReceived={e.Data}");
-            WriteLog("ERROR End");
-        });
-
-        process.Start();
-
         try
         {
-            Debug.WriteLine($"Process ID={process.Id}");
-
-            bool check = true;
-            Task.Run(() =>
+            using (var process = new Process())
             {
-                DateTime start = DateTime.Now;
-                DateTime end = start;
-
-                while (true)
-                {
-                    end = DateTime.Now;
-                    Thread.Sleep(1000);
-                    bool bFlag = (end - start) < TimeSpan.FromSeconds(second);
-
-                    if (check)
-                    {
-                        if (!bFlag)
-                        {
-                            process.Kill();
-
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            });
-            while (!process.HasExited)
-            {
-                commandLineString = process.StandardOutput.ReadLine();
-
-                res += commandLineString;
-
-                WriteLog($"Process ReadLine={res}");
-            }
-
-            commandLineString = process.StandardOutput.ReadToEnd();
-            res += commandLineString;
-            WriteLog($"Read End={res}");
-            process.StandardOutput.Close();
-            Debug.WriteLine($"Process ID = {process.Id} StandardOutput.Close()");
-
-            process.WaitForExit();
-            check = false;
-            if (process.ExitCode != 0)
-            {
-                int code = process.ExitCode;
-                process.Kill();
-
-                return false;
-            }
-            else
-            {
-                //process.Close();
-                //process.Kill();
-                process.Dispose();
-
-                Thread.Sleep(100);
-
-                return true;
+                WriteLog($"ExecuteDir: {exeWorkDirectory}{exeName}, Parameters: {parameters}");
+                ConfigureProcessStartInfo(process.StartInfo, exeWorkDirectory, exeName, parameters);
+                process.Start();
+                process.WaitForExit();
             }
         }
-        catch (Exception exception)
+        catch (Exception ex)
         {
+            WriteLog($"Error executing process: {ex.Message}");
+        }
+    }
+
+    /// <summary>运行可执行程序并读取结果</summary>
+    public bool RunExeAndReadResult(string exeWorkDirectory, string exeName, string parameters, out string result)
+    {
+        result = string.Empty;
+        try
+        {
+            using (var process = new Process())
+            {
+                WriteLog($"ExecuteDir: {exeWorkDirectory}{exeName}, Parameters: {parameters}");
+                ConfigureProcessStartInfo(process.StartInfo, exeWorkDirectory, exeName, parameters);
+                process.Start();
+
+                try
+                {
+                    while (!process.HasExited)
+                    {
+                        var line = process.StandardOutput.ReadLine();
+                        if (line != null)
+                        {
+                            WriteLog($"Output: {line}");
+                            result += line;
+                        }
+                    }
+
+                    var remaining = process.StandardOutput.ReadToEnd();
+                    result += remaining;
+                    if (!string.IsNullOrEmpty(remaining))
+                        WriteLog($"ReadToEnd: {remaining}");
+
+                    var errors = process.StandardError.ReadToEnd();
+                    result += errors;
+                    if (!string.IsNullOrEmpty(errors))
+                        WriteLog($"StandardError: {errors}");
+
+                    process.WaitForExit(1000);
+                    WriteLog($"ExitCode: {process.ExitCode}");
+                    return process.ExitCode == 0;
+                }
+                catch (Exception ex)
+                {
+                    WriteLog($"Error reading process output: {ex.Message}");
+                    return false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            WriteLog($"Error executing process: {ex.Message}");
             return false;
         }
     }
 
-    #region Kill
+    /// <summary>运行可执行程序并读取结果，指定时间限制（超时则杀死进程）</summary>
+    /// <param name="exeWorkDirectory">工作目录</param>
+    /// <param name="exeName">可执行文件名</param>
+    /// <param name="parameters">参数</param>
+    /// <param name="result">输出结果</param>
+    /// <param name="timeoutSeconds">超时时间（秒），默认 3 秒</param>
+    /// <returns>执行是否成功</returns>
+    public bool RunExeAndReadResultWithTimeLimit(string exeWorkDirectory, string exeName, string parameters, out string result, int timeoutSeconds = 3)
+    {
+        result = string.Empty;
+        try
+        {
+            using (var process = new Process())
+            {
+                WriteLog($"ExecuteDir: {exeWorkDirectory}{exeName}, Parameters: {parameters}, Timeout: {timeoutSeconds}s");
+                ConfigureProcessStartInfo(process.StartInfo, exeWorkDirectory, exeName, parameters);
 
+                process.ErrorDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                        WriteLog($"ErrorDataReceived: {e.Data}");
+                };
+
+                process.Start();
+
+                try
+                {
+                    var outputResult = new StringBuilder();
+                    bool finished = false;
+                    var task = Task.Run(() =>
+                    {
+                        try
+                        {
+                            while (!process.HasExited)
+                            {
+                                var line = process.StandardOutput.ReadLine();
+                                if (line != null)
+                                {
+                                    outputResult.Append(line);
+                                    WriteLog($"ProcessOutput: {line}");
+                                }
+                            }
+
+                            var remaining = process.StandardOutput.ReadToEnd();
+                            outputResult.Append(remaining);
+                            if (!string.IsNullOrEmpty(remaining))
+                                WriteLog($"ReadEnd: {remaining}");
+
+                            process.StandardOutput.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            WriteLog($"Error reading output: {ex.Message}");
+                        }
+                    });
+
+                    finished = task.Wait(TimeSpan.FromSeconds(timeoutSeconds));
+
+                    if (!finished && !process.HasExited)
+                    {
+                        WriteLog("Process timeout, killing...");
+                        process.Kill();
+                        return false;
+                    }
+
+                    result = outputResult.ToString();
+                    process.WaitForExit();
+                    WriteLog($"ProcessExitCode: {process.ExitCode}");
+                    
+                    if (process.ExitCode != 0)
+                    {
+                        WriteLog($"Process failed with exit code: {process.ExitCode}");
+                        return false;
+                    }
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    WriteLog($"Error executing process: {ex.Message}");
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                    }
+                    return false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            WriteLog($"Error in RunExeAndReadResultWithTimeLimit: {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>杀死指定名称的所有进程</summary>
     public static void KillProcessByName(string processName)
     {
-        System.Diagnostics.Process myproc = new System.Diagnostics.Process();
-        //得到所有打开的进程
         try
         {
-            // var a = Process.GetProcessesByName(processName);
-            foreach (Process thisproc in Process.GetProcessesByName(processName))
+            foreach (var process in Process.GetProcessesByName(processName))
             {
-                //if (!thisproc.CloseMainWindow())
-                //{
-                //    thisproc.Kill();
-                //}
-
-                if (thisproc.CloseMainWindow())
+                using (process)
                 {
-                    thisproc.WaitForExit((int)TimeSpan.FromSeconds(10)
-                        .TotalMilliseconds); //give some time to process message
-                }
+                    try
+                    {
+                        if (process.CloseMainWindow())
+                        {
+                            if (!process.WaitForExit((int)TimeSpan.FromSeconds(10).TotalMilliseconds))
+                            {
+                                process.Kill();
+                            }
+                        }
+                        else
+                        {
+                            process.Kill();
+                        }
 
-                if (!thisproc.HasExited)
-                {
-                    thisproc.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
+                        Console.WriteLine($"Successfully killed process: {processName}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error killing process {processName}: {ex.Message}");
+                    }
                 }
-
-                Console.WriteLine("杀死" + processName + "成功！");
             }
         }
-        catch (Exception Ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(Ex.Message);
-            Console.WriteLine("杀死" + processName + "失败！");
+            Console.WriteLine($"Error in KillProcessByName: {ex.Message}");
         }
     }
 
+    /// <summary>杀死指定 ID 的进程</summary>
     public static void KillProcessByID(int processID)
     {
-        System.Diagnostics.Process myproc = new System.Diagnostics.Process();
-        //得到所有打开的进程
         try
         {
-            var thisproc = Process.GetProcessById(processID);
-
-            if (thisproc.CloseMainWindow())
+            var process = Process.GetProcessById(processID);
+            using (process)
             {
-                thisproc.WaitForExit((int)TimeSpan.FromSeconds(10)
-                    .TotalMilliseconds); //give some time to process message
-            }
+                try
+                {
+                    if (process.CloseMainWindow())
+                    {
+                        if (!process.WaitForExit((int)TimeSpan.FromSeconds(10).TotalMilliseconds))
+                        {
+                            process.Kill();
+                        }
+                    }
+                    else
+                    {
+                        process.Kill();
+                    }
 
-            if (!thisproc.HasExited)
-            {
-                thisproc.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
+                    Console.WriteLine($"Successfully killed process ID: {processID}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error killing process ID {processID}: {ex.Message}");
+                }
             }
-
-            Console.WriteLine("杀死" + processID + "成功！");
         }
-        catch (Exception Ex)
+        catch (Exception ex)
         {
-            Console.WriteLine(Ex.Message);
-            Console.WriteLine("杀死" + processID + "失败！");
+            Console.WriteLine($"Error in KillProcessByID: {ex.Message}");
         }
     }
 
-    #endregion Kill
+    /// <summary>释放资源</summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>释放资源的受保护方法</summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                if (_process != null)
+                {
+                    if (!_process.HasExited)
+                    {
+                        try
+                        {
+                            _process.Kill();
+                        }
+                        catch { }
+                    }
+                    _process.Dispose();
+                    _process = null;
+                }
+            }
+            _disposed = true;
+        }
+    }
+
+    /// <summary>析构函数</summary>
+    ~ProcessHelper()
+    {
+        Dispose(false);
+    }
 }

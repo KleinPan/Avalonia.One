@@ -71,40 +71,40 @@ public static class StringExtensions
 
     #endregion
 
-    #region 数值类型转换（保留原有 API 兼容性）
+    #region 数值类型转换（使用通用方法）
 
     /// <summary>转Int,失败返回0</summary>
-    public static int ToInt(this string? t) => int.TryParse(t, out var n) ? n : 0;
+    public static int ToInt(this string? t) => t.ToInt(0);
 
     /// <summary>转Int,失败返回默认值</summary>
     public static int ToInt(this string? t, int defaultValue) => int.TryParse(t, out var n) ? n : defaultValue;
 
     /// <summary>转Long,失败返回0</summary>
-    public static long ToLong(this string? t) => long.TryParse(t, out var n) ? n : 0;
+    public static long ToLong(this string? t) => t.ToLong(0L);
 
     /// <summary>转Long,失败返回默认值</summary>
     public static long ToLong(this string? t, long defaultValue) => long.TryParse(t, out var n) ? n : defaultValue;
 
     /// <summary>转Double,失败返回0</summary>
-    public static double ToDouble(this string? t) => double.TryParse(t, out var n) ? n : 0;
+    public static double ToDouble(this string? t) => t.ToDouble(0d);
 
     /// <summary>转Double,失败返回默认值</summary>
     public static double ToDouble(this string? t, double defaultValue) => double.TryParse(t, out var n) ? n : defaultValue;
 
     /// <summary>转Decimal,失败返回0</summary>
-    public static decimal ToDecimal(this string? t) => decimal.TryParse(t, out var n) ? n : 0;
+    public static decimal ToDecimal(this string? t) => t.ToDecimal(0m);
 
     /// <summary>转Decimal,失败返回默认值</summary>
     public static decimal ToDecimal(this string? t, decimal defaultValue) => decimal.TryParse(t, out var n) ? n : defaultValue;
 
     /// <summary>转byte,失败返回0</summary>
-    public static byte ToByte(this string? t) => byte.TryParse(t, out var n) ? n : (byte)0;
+    public static byte ToByte(this string? t) => t.ToByte((byte)0);
 
     /// <summary>转byte,失败返回默认值</summary>
     public static byte ToByte(this string? t, byte defaultValue) => byte.TryParse(t, out var n) ? n : defaultValue;
 
     /// <summary>转Int16,失败返回0</summary>
-    public static short ToInt16(this string? t) => short.TryParse(t, out var n) ? n : (short)0;
+    public static short ToInt16(this string? t) => t.ToInt16((short)0);
 
     /// <summary>转Int16,失败返回默认值</summary>
     public static short ToInt16(this string? t, short defaultValue) => short.TryParse(t, out var n) ? n : defaultValue;

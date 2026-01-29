@@ -4,64 +4,90 @@ using System.Reflection;
 
 namespace One.Base.Helpers;
 
-using System;
-using System.Diagnostics;
-using System.Reflection;
+/// <summary>反射帮助类 - 注意：此类不支持 AOT 编译，仅在 JIT 环境中使用</summary>
+[AttributeUsage(AttributeTargets.Class)]
+internal class ReflectionHelperAttribute : Attribute
+{
+}
 
-/// <summary> 反射帮助类 </summary>
-    public class ReflectionHelper
+/// <summary>反射帮助类 - 使用反射，不兼容 AOT</summary>
+public class ReflectionHelper
+{
+    /// <summary>遍历类属性</summary>
+    /// <typeparam name="T">对象类型</typeparam>
+    /// <param name="model">要遍历的对象实例</param>
+    public static void ForeachClassProperties<T>(T model)
     {
-        /// <summary> 遍历类属性 </summary>
-        /// <typeparam name="T"> </typeparam>
-        /// <param name="model"> </param>
-        public static void ForeachClassProperties<T>(T model)
+        try
         {
-            Type t = model.GetType();
-            PropertyInfo[] PropertyList = t.GetProperties();
-            foreach (PropertyInfo item in PropertyList)
+            var type = model?.GetType();
+            if (type == null) return;
+
+            var properties = type.GetProperties();
+            foreach (var property in properties)
             {
-                string PropertyName = item.Name;
-                object PropertyValue = item.GetValue(model, null);
-                //EsspClassLibrary.Message.Mes.Notify(PropertyName + "：" + PropertyValue.ToString() + "\r\n");
-                Console.WriteLine(PropertyName + "：" + PropertyValue.ToString() + "\r\n");
+                try
+                {
+                    var value = property.GetValue(model, null);
+                    Console.WriteLine($"{property.Name}: {value}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error reading property {property.Name}: {ex.Message}");
+                }
             }
         }
-
-        /// <summary> 遍历类字段 </summary>
-        /// <typeparam name="T"> </typeparam>
-        /// <param name="model"> </param>
-        public static void ForeachClassFields<T>(T model)
+        catch (Exception ex)
         {
-            Type t = model.GetType();
-            FieldInfo[] PropertyList = t.GetFields();
-            foreach (FieldInfo item in PropertyList)
-            {
-                string FieldName = item.Name;
-                object FieldValue = item.GetValue(model);
-                //EsspClassLibrary.Message.Mes.Notify(FieldName + "：" + FieldValue.ToString() + "\r\n");
-                Console.WriteLine(FieldName + "：" + FieldValue.ToString() + "\r\n");
-            }
-        }
-
-        /// <summary> 获取父方法名 </summary>
-        /// <returns> </returns>
-        public static string GetParentMethodName()
-        {
-            string str = "";
-
-            StackTrace ss = new StackTrace(true);
-            MethodBase mb = ss.GetFrame(1).GetMethod();
-            //取得父方法命名空间
-            //str += mb.DeclaringType.Namespace + "\n";
-            //取得父方法类名
-            //str += mb.DeclaringType.Name + "\n";
-            //取得父方法类全名
-            //str += mb.DeclaringType.FullName + "\n";
-            //取得父方法名
-            //str += mb.Name + "\n";
-
-            str += mb.Name;
-
-            return str;
+            Console.WriteLine($"Error in ForeachClassProperties: {ex.Message}");
         }
     }
+
+    /// <summary>遍历类字段</summary>
+    /// <typeparam name="T">对象类型</typeparam>
+    /// <param name="model">要遍历的对象实例</param>
+    public static void ForeachClassFields<T>(T model)
+    {
+        try
+        {
+            var type = model?.GetType();
+            if (type == null) return;
+
+            var fields = type.GetFields();
+            foreach (var field in fields)
+            {
+                try
+                {
+                    var value = field.GetValue(model);
+                    Console.WriteLine($"{field.Name}: {value}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error reading field {field.Name}: {ex.Message}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in ForeachClassFields: {ex.Message}");
+        }
+    }
+
+    /// <summary>获取调用者的方法名</summary>
+    /// <returns>调用者的方法名</returns>
+    public static string GetParentMethodName()
+    {
+        try
+        {
+            var stackTrace = new StackTrace(true);
+            var frame = stackTrace.GetFrame(1);
+            var method = frame?.GetMethod();
+            return method?.Name ?? "Unknown";
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in GetParentMethodName: {ex.Message}");
+            return "Unknown";
+        }
+    }
+}

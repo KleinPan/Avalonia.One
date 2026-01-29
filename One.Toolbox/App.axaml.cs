@@ -19,6 +19,7 @@ using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.StringNodify;
 using One.Toolbox.Views;
 
+using System;
 using System.Globalization;
 using System.Threading;
 
@@ -64,48 +65,33 @@ public partial class App : Application
     /// <summary>Configures the services for the application.</summary>
     private static IServiceProvider ConfigureServices(IClassicDesktopStyleApplicationLifetime desktop)
     {
-        ServiceCollection services = new ServiceCollection();
+        var services = new ServiceCollection();
 
-        // App Host
-        //Scoped 1指定将为每个作用域创建服务的新实例。 在 ASP.NET Core 应用中，会针对每个服务器请求创建一个作用域。
-        //Singleton	0指定将创建该服务的单个实例。
-        //Transient 2指定每次请求服务时，将创建该服务的新实例。
-        services.AddSingleton<IFilesService>(x => new FilesService(desktop.MainWindow));
-        services.AddSingleton<INotifyService>(x => new NotifyService(desktop.MainWindow));
-        //services.AddSingleton(new NotifyService(desktop.MainWindow));//这样也OK，获取的时候不用接口
-
-        //Services
-        services.AddSingleton<Services.SettingService>();
+        // 核心服务注册
+        services.AddSingleton<IFilesService>(x => new FilesService(desktop.MainWindow!));
+        services.AddSingleton<INotifyService>(x => new NotifyService(desktop.MainWindow!));
+        services.AddSingleton<SettingService>();
 
         // Views and ViewModels
-        services.AddSingleton<ViewModels.MainWindow.MainWindowVM>();
-
-        services.AddSingleton<ViewModels.MainWindow.MainViewVM>();
-
-        services.AddSingleton<ViewModels.Dashboard.DashboardPageVM>();
-
+        services.AddSingleton<MainWindowVM>();
+        services.AddSingleton<MainViewVM>();
+        services.AddSingleton<One.Toolbox.ViewModels.Dashboard.DashboardPageVM>();
         services.AddSingleton<DataProcessPageVM>();
-
-        services.AddSingleton<ViewModels.Setting.SettingsPageVM>();
-
-        services.AddSingleton<ViewModels.Note.NotePageVM>();
-        services.AddSingleton<ViewModels.Setting.CloudSettingsVM>();
-
-        services.AddSingleton<ViewModels.BingImage.BingImagePageVM>();
-
+        services.AddSingleton<One.Toolbox.ViewModels.Setting.SettingsPageVM>();
+        services.AddSingleton<One.Toolbox.ViewModels.Note.NotePageVM>();
+        services.AddSingleton<One.Toolbox.ViewModels.Setting.CloudSettingsVM>();
+        services.AddSingleton<One.Toolbox.ViewModels.BingImage.BingImagePageVM>();
         services.AddSingleton<QRCodePageVM>();
         services.AddSingleton<HashToolPageVM>();
         services.AddSingleton<IconBoardPageVM>();
-
-        services.AddSingleton<ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
-
+        services.AddSingleton<One.Toolbox.ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
         services.AddSingleton<RegularTesterPageVM>();
         services.AddSingleton<EditorPageVM>();
 
         return services.BuildServiceProvider();
     }
 
-    private void Exit_Click(object? sender, System.EventArgs e)
+    private void Exit_Click(object? sender, EventArgs e)
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -113,7 +99,7 @@ public partial class App : Application
         }
     }
 
-    private void TrayIcon_Clicked(object? sender, System.EventArgs e)
+    private void TrayIcon_Clicked(object? sender, EventArgs e)
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

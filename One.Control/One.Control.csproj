@@ -3,8 +3,8 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<LangVersion>latest</LangVersion>
-	<IsAotCompatible>True</IsAotCompatible>
+    <LangVersion>latest</LangVersion>
+    <IsAotCompatible>False</IsAotCompatible>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="HyperlinkButton\HyperLinkButtonStyle.axaml" />
