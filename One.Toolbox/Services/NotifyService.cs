@@ -9,12 +9,11 @@ namespace One.Toolbox.Services;
 
 public interface INotifyService
 {
-    public void ShowErrorMessage(string message);
+    public void ShowErrorMessage(string message, string title = "Error");
 
-    public void ShowWarnMessage(string message);
+    public void ShowWarnMessage(string message, string title = "Warning");
 
-    public void ShowInfoMessage(string message);
-
+    public void ShowInfoMessage(string message, string title = "Info");
 }
 
 public class NotifyService : INotifyService
@@ -26,23 +25,22 @@ public class NotifyService : INotifyService
     public NotifyService(Window target)
     {
         topLevel = target;
-        _manager = new WindowNotificationManager(topLevel) { MaxItems = 2,Position=NotificationPosition.TopCenter };
-      
+        _manager = new WindowNotificationManager(topLevel) { MaxItems = 2, Position = NotificationPosition.TopCenter };
     }
 
-    public void ShowErrorMessage(string message)
+    public void ShowErrorMessage(string message, string title = "Error")
     {
-        _manager?.Show(new Notification("Error", message, NotificationType.Error));
+        _manager?.Show(new Notification(title, message, NotificationType.Error));
     }
 
-    public void ShowWarnMessage(string message)
+    public void ShowWarnMessage(string message, string title = "Warning")
     {
-        _manager?.Show(new Notification("Warn", message, NotificationType.Warning));
+        _manager?.Show(new Notification(title, message, NotificationType.Warning));
     }
 
-    public void ShowInfoMessage(string message)
+    public void ShowInfoMessage(string message, string title = "Info")
     {
-        _manager?.Show(new Notification("Info", message, NotificationType.Information));
+        _manager?.Show(new Notification(title, message, NotificationType.Information));
     }
 
     public void InitializeLogo()
@@ -58,7 +56,7 @@ public class NotifyService : INotifyService
         NotifyIcon.IsVisible = true;
         NotifyIcon.Clicked += NotifyIcon_Clicked;
         NotifyIcon.Menu = new NativeMenu();
-        NotifyIcon.Menu.Add(new NativeMenuItem() { Header = "Exit"  });
+        NotifyIcon.Menu.Add(new NativeMenuItem() { Header = "Exit" });
     }
 
     private static void NotifyIcon_Clicked(object? sender, EventArgs e)
