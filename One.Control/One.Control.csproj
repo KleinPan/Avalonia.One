@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\One.Core\One.Base.csproj" />
+    <ProjectReference Include="..\One.Base\One.Base.csproj" />
   </ItemGroup>
 
 </Project>

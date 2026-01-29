@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/解决方案项/">
+    <File Path=".github/workflows/dotnet-desktop.yml" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="One.Base/One.Base.csproj" />
+  <Project Path="One.ConsoleTest/One.ConsoleTest.csproj" />
+  <Project Path="One.Control/One.Control.csproj" />
+  <Project Path="One.SimpleLog/One.SimpleLog.csproj" />
+  <Project Path="One.Toolbox.Desktop/One.Toolbox.Desktop.csproj" />
+  <Project Path="One.Toolbox/One.Toolbox.csproj" />
+  <Properties Name="ExtensibilityGlobals" Scope="PostLoad">
+    <Property Name="RESX_SortFileContentOnSave" Value="True" />
+  </Properties>
+</Solution>

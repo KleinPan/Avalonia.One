@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.Toolbox.Desktop", "One.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.Toolbox", "One.Toolbox\One.Toolbox.csproj", "{92C7980E-4367-494A-BC81-E6BA3C68B70A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.Base", "One.Core\One.Base.csproj", "{144A4093-EAEB-4810-A4BC-0CA65FFE0B69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.Base", "One.Base\One.Base.csproj", "{144A4093-EAEB-4810-A4BC-0CA65FFE0B69}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "One.Control", "One.Control\One.Control.csproj", "{2E8382A2-D952-4571-A4CF-617EF1C10884}"
 EndProject
