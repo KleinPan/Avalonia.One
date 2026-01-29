@@ -65,7 +65,6 @@ public partial class MainViewVM : BaseVM
 
         NavigationItems = new ObservableCollection<MainMenuItemVM>
         {
-            
             //https://avaloniaui.github.io/icons.html
             //https://www.xicons.org/#/
             //https://pictogrammers.com/library/mdi/

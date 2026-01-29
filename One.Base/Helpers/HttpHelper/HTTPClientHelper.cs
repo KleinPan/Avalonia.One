@@ -204,8 +204,7 @@ public class HTTPClientHelper
         {
             Console.WriteLine($"文件【{url}】开始下载！");
             HttpResponseMessage? response = null;
-            using (HttpClient client = new HttpClient())
-                response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            response = await HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
             if (response == null)
                 throw new Exception("文件获取失败");
