@@ -1,10 +1,6 @@
 ﻿using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-
 namespace One.Toolbox.Helpers;
 
 public static class ImageHelper

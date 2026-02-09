@@ -65,21 +65,21 @@ public class NotifyService : INotifyService
     }
 }
 
-internal class ServiceHelper
+internal class NotifyHelper
 {
-    public static ServiceHelper Instance = new Lazy<ServiceHelper>(() => new ServiceHelper()).Value;
+    //public static NotifyHelper Instance = new Lazy<NotifyHelper>(() => new NotifyHelper()).Value;
 
-    public void ShowWarnMessage(string message)
+    public static void ShowWarnMessage(string message)
     {
         App.Current!.Services.GetService<INotifyService>()!.ShowWarnMessage(message);
     }
 
-    public void ShowErrorMessage(string message)
+    public static void ShowErrorMessage(string message)
     {
         App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(message);
     }
 
-    public void ShowInfoMessage(string message)
+    public static void ShowInfoMessage(string message)
     {
         App.Current!.Services.GetService<INotifyService>()!.ShowInfoMessage(message);
     }

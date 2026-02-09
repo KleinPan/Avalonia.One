@@ -65,7 +65,7 @@ public partial class MainWindowVM : BaseVM
 
     public void InitializeViewModel()
     {
-        AppVersion = $"v{AssemblyHelper.Instance.ProductVersion} .NET 9.0";
+        AppVersion = $"v{AssemblyHelper.Instance.ProductVersion} .NET 10.0";
 
         MainViewVM = App.Current!.Services.GetService<MainViewVM>()!;
         SettingService = App.Current!.Services.GetService<Services.SettingService>()!;

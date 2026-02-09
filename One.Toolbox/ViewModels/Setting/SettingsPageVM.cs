@@ -98,6 +98,6 @@ public partial class SettingsPageVM : BasePageVM
         SettingService.AllConfig.Setting.NetSetting.ProxyHost = ProxyHost;
         SettingService.AllConfig.Setting.NetSetting.ProxyPort = ProxyPort;
 
-        SettingService.Save();
+        SettingService.SaveCommonSetting();
     }
 }

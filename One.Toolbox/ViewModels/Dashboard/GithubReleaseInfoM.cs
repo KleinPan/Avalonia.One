@@ -18,12 +18,12 @@ public class GithubReleaseInfoM
     public Author author { get; set; }
     public string node_id { get; set; }
 
-    /// <summary> 版本号 </summary>
+    /// <summary>版本号</summary>
     public string tag_name { get; set; }
 
     public string target_commitish { get; set; }
 
-    /// <summary> 版本号 </summary>
+    /// <summary>版本号</summary>
     public string name { get; set; }
 
     public bool draft { get; set; }
@@ -73,7 +73,7 @@ public class Asset
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
 
-    /// <summary> 下载链接 </summary>
+    /// <summary>下载链接</summary>
     public string browser_download_url { get; set; }
 }
 

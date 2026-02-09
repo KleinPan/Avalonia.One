@@ -35,8 +35,6 @@
                 </Button>
             </u:ToolBar>
             <ListBox Name="listbox" Grid.Row="1" ItemsSource="{Binding EditFileInfoViewModelOC}" SelectedItem="{Binding SelectedEditFileInfo}">
-
-
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="vms:EditFileInfoVM">
                         <Grid Background="Transparent">
@@ -47,7 +45,8 @@
                             <Grid.ContextMenu>
                                 <ContextMenu>
                                     <!--  https://docs.avaloniaui.net/zh-Hans/docs/guides/data-binding/binding-to-controls  -->
-                                    <MenuItem Command="{Binding #listbox((vms:NotePageVM)DataContext).DeleteFileCommand}" Header="Delete" />
+                                    <!--<MenuItem Command="{Binding #listbox((vms:NotePageVM)DataContext).DeleteFileCommand}" Header="Delete" />-->
+                                    <MenuItem Command="{Binding $parent[ListBox].DataContext.DeleteFileCommand}" Header="Delete" />
                                     <MenuItem Command="{Binding RenameFileCommand}" CommandParameter="{Binding $parent[Grid]}" Header="Rename" />
                                     <MenuItem Command="{Binding OpenFilePathCommand}" Header="Open File Path" />
                                 </ContextMenu>

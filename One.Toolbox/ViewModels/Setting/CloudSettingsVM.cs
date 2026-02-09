@@ -120,7 +120,7 @@ public partial class CloudSettingsVM : BaseVM
                             rsp.Stream.CopyTo(fileStream);
                         }
 
-                        settingService.LoadTargetSetting(SettingService.LocalConfig);
+                        settingService.LoadTargetCommonSetting(SettingService.LocalConfig);
                     }
 
                     App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("Not find cloud setting!");

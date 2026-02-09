@@ -5,10 +5,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using One.SimpleLog;
 using One.SimpleLog.Extensions;
 using One.SimpleLog.Loggers;
-using One.Toolbox.Messenger;
-
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Base;
 
@@ -70,7 +66,14 @@ public partial class BasePageVM : BaseVM
     {
         logger.Info(msg);
     }
-
+    public virtual void WriteWarnLog(string msg)
+    {
+        logger.Warn(msg);
+    }
+    public virtual void WriteErrorLog(string msg)
+    {
+        logger.Error(msg);
+    }
     public virtual void UpdateTitle()
     {
     }

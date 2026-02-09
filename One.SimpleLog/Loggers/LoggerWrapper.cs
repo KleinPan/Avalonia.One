@@ -1,8 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using One.SimpleLog.Configurations;
+﻿using One.SimpleLog.Configurations;
 using One.SimpleLog.Enum;
+
+using System.Diagnostics;
 
 namespace One.SimpleLog.Loggers;
 

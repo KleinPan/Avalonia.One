@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace One.SimpleLog.Helpers;
 
@@ -53,9 +51,8 @@ internal static class LogHelper
     }
 
     #region PropertyReplace
-    /// <summary>
-    ///
-    /// </summary>
+
+    /// <summary>///</summary>
     /// <param name="inputString"></param>
     /// <param name="propertyName">代替换的属性名</param>
     /// <returns></returns>
@@ -84,10 +81,8 @@ internal static class LogHelper
                 // 输出结果
                 Console.WriteLine($"冒号前: {beforeColon}, 冒号后: {afterColon}");
 
-
                 if (propertyDic.ContainsKey(beforeColon))
                 {
-                     
                 }
             }
         }
@@ -158,5 +153,6 @@ internal static class LogHelper
 
         return result;
     }
-    #endregion
+
+    #endregion PropertyReplace
 }

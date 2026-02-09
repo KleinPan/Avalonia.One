@@ -3,9 +3,6 @@ using One.SimpleLog.Datas;
 using One.SimpleLog.Enum;
 using One.SimpleLog.Helpers;
 
-using System;
-using System.Collections.Generic;
-
 namespace One.SimpleLog.Loggers;
 
 public abstract class BaseLogger
@@ -13,9 +10,12 @@ public abstract class BaseLogger
     internal Dictionary<string, string> targetDic = new();
 
     internal Dictionary<string, string> patternDic = new();
+
     internal abstract void Log(string message, LogLevel level);
 
-    internal virtual void SetProperty(string propertyName, string propertyValue) { }
+    internal virtual void SetProperty(string propertyName, string propertyValue)
+    {
+    }
 
     internal virtual bool IsWriteable(LogLevel level)
     {

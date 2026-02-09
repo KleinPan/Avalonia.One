@@ -127,7 +127,7 @@ public partial class NotePageVM : BasePageVM
             service.AllConfig.EditFileInfoList.Add(editFileInfo);
         }
 
-        service.Save();
+        service.SaveCommonSetting();
     }
 
     public void LoadSetting()
@@ -136,6 +136,7 @@ public partial class NotePageVM : BasePageVM
 
         var service = App.Current.Services.GetService<SettingService>();
 
+        service.LoadLocalDefaultSetting();
         foreach (var item in service.AllConfig.EditFileInfoList)
         {
             EditFileInfoVM editFileInfo = new(item.FilePath);

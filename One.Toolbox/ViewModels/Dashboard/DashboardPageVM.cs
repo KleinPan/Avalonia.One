@@ -11,16 +11,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Dashboard;
 
 public partial class DashboardPageVM : BasePageVM
 {
-    public DashboardPageVM()
-    {
-    }
-
     public override void OnNavigatedEnter(UserControl userControl)
     {
         base.OnNavigatedEnter(userControl);

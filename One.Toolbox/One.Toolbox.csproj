@@ -30,10 +30,10 @@
     <PackageReference Include="Markdown.Avalonia" Version="11.0.3-a1" />
     <PackageReference Include="Irihi.Ursa" Version="1.14.1" />
     <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.14.1" />
-    <PackageReference Include="NodifyAvalonia" Version="6.5.0" />
     <PackageReference Include="Semi.Avalonia" Version="11.3.7.2" />
     <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.3.7.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
+    <PackageReference Include="System.IO.Ports" Version="10.0.2" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />
     <PackageReference Include="Xaml.Behaviors.Interactions" Version="11.3.9.3" />
   </ItemGroup>
@@ -83,5 +83,11 @@
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Serialport\SerialportPage.axaml.cs">
+      <DependentUpon>SerialportPage.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,27 @@
+<UserControl x:Class="One.Toolbox.Views.SerialportPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:markup="using:One.Control.Markup.I18n"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+             xmlns:vm="using:One.Toolbox.ViewModels.Serialport"
+             d:DesignHeight="450"
+             d:DesignWidth="800"  xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+             x:DataType="vm:SerialportPageVM"
+             mc:Ignorable="d">
+    <Border>
+        <Grid  ColumnDefinitions="*,auto">
+
+            <Grid RowDefinitions="10*,3*,auto">
+				  <Border Margin="0,0,0,-35">
+					  <AvaloniaEdit:TextEditor Text="Hello AvaloniaEdit!"
+                           ShowLineNumbers="True"></AvaloniaEdit:TextEditor>
+                  </Border>
+
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -8,23 +8,21 @@ using One.Toolbox.ViewModels.BingImage;
 using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
-using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
+using One.Toolbox.ViewModels.Serialport;
 using One.Toolbox.ViewModels.Setting;
-using One.Toolbox.ViewModels.StringNodify;
 using One.Toolbox.ViewModels.UnixTimeConverter;
+using One.Toolbox.Views;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
 using One.Toolbox.Views.HashTool;
-using One.Toolbox.Views.IconBoard;
 using One.Toolbox.Views.Note;
 using One.Toolbox.Views.QRCode;
 using One.Toolbox.Views.RegularTester;
 using One.Toolbox.Views.Settings;
-using One.Toolbox.Views.StringNodify;
 using One.Toolbox.Views.UnixTimeConverter;
 
 using System.Collections.ObjectModel;
@@ -76,6 +74,12 @@ public partial class MainViewVM : BaseVM
             },
             new()
             {
+                Header = "Serialport",
+                Icon = ResourceHelper.FindObjectResource("image_library_regular"),
+                Content = new SerialportPage() { DataContext = App.Current!.Services.GetService<SerialportPageVM>() },
+            },
+            new()
+            {
                 Header = "Images",
                 Icon = ResourceHelper.FindObjectResource("image_library_regular"),
                 Content = new BingImagePage() { DataContext = App.Current!.Services.GetService<BingImagePageVM>() },
@@ -104,12 +108,12 @@ public partial class MainViewVM : BaseVM
                 Icon = ResourceHelper.FindObjectResource("teddy_regular"),
                 Content = new RegularTesterPage() { DataContext = App.Current!.Services.GetService<RegularTesterPageVM>() },
             },
-            new()
-            {
-                Header = "IconBoard",
-                Icon = ResourceHelper.FindObjectResource("icons_regular"),
-                Content = new IconBoardPage() { DataContext = App.Current!.Services.GetService<IconBoardPageVM>() },
-            },
+            //new()
+            //{
+            //    Header = "IconBoard",
+            //    Icon = ResourceHelper.FindObjectResource("icons_regular"),
+            //    Content = new IconBoardPage() { DataContext = App.Current!.Services.GetService<IconBoardPageVM>() },
+            //},
             new()
             {
                 Header = "QRCode",
@@ -122,12 +126,7 @@ public partial class MainViewVM : BaseVM
                 Icon = ResourceHelper.FindObjectResource("timer_regular"),
                 Content = new UnixTimeConverterPage() { DataContext = App.Current!.Services.GetService<UnixTimeConverterVM>() },
             },
-            new()
-            {
-                Header = "Nodify",
-                Icon = ResourceHelper.FindObjectResource("rocket_regular"),
-                 Content = new  EditorPage() { DataContext = App.Current!.Services.GetService<EditorPageVM>() },
-            },
+
             new()
             {
                 Header = "Settings",

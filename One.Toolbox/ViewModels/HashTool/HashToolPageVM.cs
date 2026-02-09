@@ -1,59 +1,57 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using One.Base.Helpers.EncryptionHelpers;
-using One.Control.Markup.I18n;
-using One.Toolbox.Assets.Languages;
+﻿using One.Base.Helpers.EncryptionHelpers;
 using One.Toolbox.ViewModels.Base;
+
+using System.Diagnostics;
 
 namespace One.Toolbox.ViewModels.HashTool;
 
 public partial class HashToolPageVM : BasePageVM
 {
-    public HashToolPageVM() { }
-
-   
+    public HashToolPageVM()
+    {
+    }
 
     public override void UpdateTitle()
     {
         Title = "HashTool";
     }
-    
 
     [ObservableProperty]
-    string anylizeResult;
+    private string anylizeResult;
 
     [ObservableProperty]
-    string filePath;
+    private string filePath;
 
     #region CheckBox
-    [ObservableProperty]
-    bool showFilePath = true;
 
     [ObservableProperty]
-    bool showFileSize;
+    private bool showFilePath = true;
 
     [ObservableProperty]
-    bool showFileVersion;
+    private bool showFileSize;
 
     [ObservableProperty]
-    bool showFileModifyTime;
+    private bool showFileVersion;
 
     [ObservableProperty]
-    bool showMD5 = true;
+    private bool showFileModifyTime;
 
     [ObservableProperty]
-    bool showSHA1;
+    private bool showMD5 = true;
 
     [ObservableProperty]
-    bool showSHA256;
+    private bool showSHA1;
 
     [ObservableProperty]
-    bool showCRC32 = true;
-    #endregion
+    private bool showSHA256;
 
     [ObservableProperty]
-    int progress;
+    private bool showCRC32 = true;
+
+    #endregion CheckBox
+
+    [ObservableProperty]
+    private int progress;
 
     private string GetFileName(Uri filePath)
     {
@@ -126,17 +124,19 @@ public partial class HashToolPageVM : BasePageVM
 
         return a;
     }
-    List<Uri> Last;
+
+    private List<Uri> Last;
+
     [RelayCommand]
     private void Drop(object obj)
     {
         Last = obj as List<Uri>;
         DoCal(Last);
     }
+
     [RelayCommand]
-    private void Start( )
+    private void Start()
     {
-        
         DoCal(Last);
     }
 
@@ -216,6 +216,7 @@ public partial class HashToolPageVM : BasePageVM
     }
 
     #region Helpers
+
     public static string FormatBytes(long bytes)
     {
         string[] sizes = { "B", "KB", "MB", "GB", "TB" };
@@ -230,8 +231,11 @@ public partial class HashToolPageVM : BasePageVM
 
         return $"{size:0.##} {sizes[order]}";
     }
-    #endregion
+
+    #endregion Helpers
+
     #region CRC32
+
     static uint CalculateFileCRC32(string filePath)
     {
         const uint polynomial = 0xedb88320;
@@ -256,5 +260,6 @@ public partial class HashToolPageVM : BasePageVM
 
         return ~crc;
     }
-    #endregion
+
+    #endregion CRC32
 }

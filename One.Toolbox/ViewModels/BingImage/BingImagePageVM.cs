@@ -94,7 +94,7 @@ public partial class BingImagePageVM : BasePageVM
         }
         catch (Exception ex)
         {
-            ServiceHelper.Instance.ShowErrorMessage(ex.ToString());
+            NotifyHelper. ShowErrorMessage(ex.ToString());
            
             return default;
         }

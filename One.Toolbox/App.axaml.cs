@@ -16,12 +16,10 @@ using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
-using One.Toolbox.ViewModels.StringNodify;
+using One.Toolbox.ViewModels.Serialport;
 using One.Toolbox.Views;
 
-using System;
 using System.Globalization;
-using System.Threading;
 
 namespace One.Toolbox;
 
@@ -86,7 +84,8 @@ public partial class App : Application
         services.AddSingleton<IconBoardPageVM>();
         services.AddSingleton<One.Toolbox.ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
         services.AddSingleton<RegularTesterPageVM>();
-        services.AddSingleton<EditorPageVM>();
+ 
+        services.AddSingleton<SerialportPageVM>();
 
         return services.BuildServiceProvider();
     }
