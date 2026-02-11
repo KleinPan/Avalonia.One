@@ -58,7 +58,7 @@ public partial class QuickSendVM : BaseVM
             }
             catch (Exception ex)
             {
-                NotifyHelper.  ShowErrorMessage($"{ResourceHelper.FindStringResource("ErrorSendFail")}\r\n" + ex.ToString());
+                NotifyHelper.ShowErrorMessage($"{ResourceHelper.FindStringResource("ErrorSendFail")}\r\n" + ex.ToString());
 
                 return;
             }

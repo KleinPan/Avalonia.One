@@ -6,9 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 using One.Base.ExtensionMethods;
 using One.Base.Helpers.DataProcessHelpers;
+using One.Control.Markup.I18n;
 using One.SimpleLog;
 using One.SimpleLog.Extensions;
 using One.SimpleLog.Loggers;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Component;
 using One.Toolbox.Helpers;
 using One.Toolbox.Messenger;
@@ -53,12 +55,12 @@ public partial class SerialportPageVM : BasePageVM
     public ObservableCollection<QuickSendVM> QuickSendList { get; set; } = new ObservableCollection<QuickSendVM>();
 
     #region 界面显示
+    
+    [ObservableProperty]
+    private string openCloseButtonContent = I18nManager.GetString(Language.Open)! ; 
 
     [ObservableProperty]
-    private string openCloseButtonContent = ResourceHelper.FindStringResource("Open");
-
-    [ObservableProperty]
-    private string statusTextBlockContent = ResourceHelper.FindStringResource("OpenPort_close");
+    private string statusTextBlockContent = I18nManager.GetString(Language.Close)!;
 
     [ObservableProperty]
     private int sentCount;
@@ -86,7 +88,10 @@ public partial class SerialportPageVM : BasePageVM
     #endregion 界面显示
 
     public static LoggerWrapper logger = LogManager.GetLogger();
-
+    public override void UpdateTitle()
+    {
+        Title = I18nManager.GetString(Language.SerialportDebugTool)!;
+    }
     public override void OnNavigatedLeave()
     {
         base.OnNavigatedLeave();
@@ -168,6 +173,9 @@ public partial class SerialportPageVM : BasePageVM
     [RelayCommand]
     private void ClearLog(object obj)
     {
+       
+
+
         //flowDocumentHelper.ClearContent();
     }
 
@@ -283,7 +291,7 @@ public partial class SerialportPageVM : BasePageVM
     [RelayCommand]
     private void AddQuickSendItem()
     {
-        QuickSendList.Add(new QuickSendVM() { Id = QuickSendList.Count + 1, Text = "", Hex = false, Commit = ResourceHelper.FindStringResource("QuickSendButton") });
+        QuickSendList.Add(new QuickSendVM() { Id = QuickSendList.Count + 1, Text = "", Hex = false, Commit = I18nManager.GetString("QuickSendButton") });
     }
 
     [RelayCommand]
@@ -320,14 +328,14 @@ public partial class SerialportPageVM : BasePageVM
             {
                 //串口关闭失败！
 
-                NotifyHelper.ShowErrorMessage(ResourceHelper.FindStringResource("ErrorClosePort"));
+                NotifyHelper.ShowErrorMessage(I18nManager.GetString(Language.ErrorClosePort)!);
             }
 
-            OpenCloseButtonContent = ResourceHelper.FindStringResource("Open");
+            OpenCloseButtonContent = I18nManager.GetString(Language.Open)!;
 
             IsOpen = false;
 
-            StatusTextBlockContent = ResourceHelper.FindStringResource("OpenPort_close");
+            StatusTextBlockContent = I18nManager.GetString(Language.Close)!;
 
             //refreshPortList(lastPort);
         }
@@ -396,10 +404,10 @@ public partial class SerialportPageVM : BasePageVM
                         IsOpen = true;
 
                         //待验证
-                        OpenCloseButtonContent = ResourceHelper.FindStringResource("OpenPort_close");
+                        OpenCloseButtonContent = I18nManager.GetString(Language.Close)!;
 
                         //serialPortsListComboBox.IsEnabled = false;
-                        StatusTextBlockContent = ResourceHelper.FindStringResource("Open");
+                        StatusTextBlockContent = I18nManager.GetString(Language.Open)!;
 
                         if (toSendData != null)
                         {
@@ -410,7 +418,7 @@ public partial class SerialportPageVM : BasePageVM
                     catch (Exception e)
                     {
                         //串口打开失败！
-                        NotifyHelper.ShowErrorMessage(ResourceHelper.FindStringResource("ErrorOpenPort") + e.Message);
+                        NotifyHelper.ShowErrorMessage(I18nManager.GetString(Language.ErrorOpenPort)! + e.Message);
                     }
                     isOpeningPort = false;
                 });
@@ -451,7 +459,7 @@ public partial class SerialportPageVM : BasePageVM
             }
             catch (Exception ex)
             {
-                NotifyHelper.ShowErrorMessage($"{ResourceHelper.FindStringResource("ErrorSendFail")}\r\n" + ex.ToString());
+                NotifyHelper.ShowErrorMessage($"{I18nManager.GetString(Language.ErrorSendFail)}\r\n" + ex.ToString());
                 return;
             }
         }

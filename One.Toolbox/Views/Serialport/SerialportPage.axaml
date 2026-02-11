@@ -1,27 +1,155 @@
-<UserControl x:Class="One.Toolbox.Views.SerialportPage"
-             xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:lang="using:One.Toolbox.Assets.Languages"
-             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
-             xmlns:markup="using:One.Control.Markup.I18n"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
-             xmlns:vm="using:One.Toolbox.ViewModels.Serialport"
-             d:DesignHeight="450"
-             d:DesignWidth="800"  xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-             x:DataType="vm:SerialportPageVM"
-             mc:Ignorable="d">
+<UserControl
+    x:Class="One.Toolbox.Views.SerialportPage"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="using:One.Toolbox.Assets.Languages"
+    xmlns:markup="https://github.com/KleinPan/Avalonia.One"
+    xmlns:markup1="using:One.Control.Markup.I18n"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
+    xmlns:u="https://irihi.tech/ursa" 
+    xmlns:vm="using:One.Toolbox.ViewModels.Serialport"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:SerialportPageVM"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+       
+    </UserControl.Resources>
     <Border>
-        <Grid  ColumnDefinitions="*,auto">
+        <Grid ColumnDefinitions="*,auto" RowDefinitions="10*,3*,auto">
+            <AvaloniaEdit:TextEditor
+                FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                ShowLineNumbers="True"
+                Text="Hello AvaloniaEdit!" />
 
-            <Grid RowDefinitions="10*,3*,auto">
-				  <Border Margin="0,0,0,-35">
-					  <AvaloniaEdit:TextEditor Text="Hello AvaloniaEdit!"
-                           ShowLineNumbers="True"></AvaloniaEdit:TextEditor>
-                  </Border>
+            <!--  发送数据区  -->
+            <Grid Grid.Row="1" RowDefinitions="auto,auto,*">
+                <StackPanel Margin="2" Orientation="Horizontal">
+                    <Button
+                        Name="clearLogButton"
+                        Command="{Binding ClearLogCommand}"
+                        Content="{markup1:I18n {x:Static lang:Language.ClearLog}}" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding MoreSerialportSettingCommand}"
+                        Content="{markup1:I18n {x:Static lang:Language.MoreSettings}}" />
+                    <Button
+                        Margin="2"
+                        Command="{Binding SaveLogCommand}"
+                        Content="{markup1:I18n {x:Static lang:Language.SaveLog}}" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="2,0"
+                    Orientation="Horizontal">
+                    <CheckBox Content="RTS" IsChecked="{Binding SerialportUISetting.SerialportParams.RtsEnable}" />
+                    <CheckBox Content="DTR" IsChecked="{Binding SerialportUISetting.SerialportParams.DtrEnable}" />
+                    <CheckBox Content="{markup1:I18n {x:Static lang:Language.HexShow}}" IsChecked="{Binding SerialportUISetting.SendAndReceiveSettingVM.HexShow}" />
 
+                    <!--<CheckBox Content="{markup1:I18n {x:Static lang:Language.ShowSymbol}} " IsChecked="{Binding SerialportUISetting.EnableSymbol}" /> -->
+
+                    <CheckBox
+                        HorizontalAlignment="Right"
+                        Content="{markup1:I18n {x:Static lang:Language.HexSendMode}}"
+                        IsChecked="{Binding SerialportUISetting.SendAndReceiveSettingVM.HexSend}" />
+
+                    <CheckBox Content="{markup1:I18n {x:Static lang:Language.AddExtraEnter}}" IsChecked="{Binding SerialportUISetting.SendAndReceiveSettingVM.WithExtraEnter}" />
+
+                    <CheckBox Content="{markup1:I18n {x:Static lang:Language.TimedSend}}" IsChecked="{Binding TimedSend}" />
+                    <TextBox Text="{Binding TimedCount}" />
+                    <TextBlock VerticalAlignment="Center" Text="ms/次" />
+                </StackPanel>
+
+                <Grid Grid.Row="2"   ColumnDefinitions=" auto,*,auto" >
+                   
+                    <Button
+                        Grid.Row="1"
+                        Margin="2,1"
+                        Command="{Binding OpenClosePortCommand}">
+                        <Button.Content>
+                            <StackPanel>
+                                <TextBlock Text="{Binding OpenCloseButtonContent}" />
+                                <TextBlock Text="{markup1:I18n {x:Static lang:Language.Serialport}}" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <TextBox
+                        Name="toSendDataTextBox"
+                        Grid.Column="1"
+                        Margin="0,1"
+                        VerticalContentAlignment="Top"
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        Text="{Binding DataToSend}"
+                        TextWrapping="Wrap" />
+                    <Button
+                        Name="sendDataButton"
+                        Grid.Column="2"
+                        Margin="2,1"
+                        Command="{Binding SendDataCommand}"
+                        Content="{markup1:I18n {x:Static lang:Language.SendData}}" />
+
+                
+
+                </Grid>
             </Grid>
+                <!--  底部状态栏  -->
+                    <StackPanel
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal">
+                        <StackPanel.Styles>
+							  <Style Selector="u|Divider">
+                                   <Setter Property="Orientation" Value="Vertical"></Setter>
+                                  
+                                </Style> 
+                                <Style Selector="TextBlock">
+                                   <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                   <Setter  Property="Margin" Value="0,0,5,0"></Setter>
+                                </Style>
+                          
+                        </StackPanel.Styles>
+
+                        <Button
+                            Name="refreshPortButton"
+                            Margin="2,2"
+                            Command="{Binding RefreshPortListCommand}"
+                            Content="{markup1:I18n {x:Static lang:Language.RefreshPort}}"
+                            IsEnabled="{Binding !IsOpen}" />
+                        
+
+                        <ComboBox
+                            MinWidth="150" VerticalAlignment="Center"
+                            MaxWidth="300"
+                            IsEnabled="{Binding !IsOpen}"
+                            ItemsSource="{Binding PortNameList}"
+                            SelectedItem="{Binding SelectedPortName}" />
+                        <u:Divider Margin="10,5"  />
+
+                        <TextBlock Text="{markup1:I18n {x:Static lang:Language.BaudRate}}" />
+                        <ComboBox
+                            IsEditable="True"
+                            IsEnabled="{Binding !IsOpen}" VerticalAlignment="Center"
+                            ItemsSource="{Binding BaudRateList}"
+                            Text="{Binding SelectedBaudRate}" />
+
+                        <u:Divider Margin="10,5" />
+                        <TextBlock Text="{markup1:I18n {x:Static lang:Language.Status}}" />
+
+                        <TextBlock Text="{Binding StatusTextBlockContent}" />
+                        <u:Divider Margin="10,5"   />
+                        <TextBlock Text="{markup1:I18n {x:Static lang:Language.SentCount}}" ToolTip.Tip="{markup1:I18n {x:Static lang:Language.ClearCountTip}}" />
+
+                        <TextBlock Text="{Binding SentCount}" />
+                        <u:Divider  Margin="10,5" />
+                        <TextBlock Text="{markup1:I18n {x:Static lang:Language.ReceivedCount}}" ToolTip.Tip="{markup1:I18n {x:Static lang:Language.ClearCountTip}}" />
+
+                        <TextBlock Text="{Binding ReceivedCount}" />
+                    </StackPanel>
         </Grid>
     </Border>
 </UserControl>

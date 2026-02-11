@@ -16,9 +16,9 @@
 
         <semi:SemiTheme Locale="zh-CN" />
         <u-semi:SemiTheme Locale="zh-CN" />
-
+        <semi:AvaloniaEditSemiTheme />
         <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
-
+ 
         <!--<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />-->
     </Application.Styles>
     <Application.Resources>
@@ -27,8 +27,7 @@
                 <!--<ResourceInclude Source="/Assets/Languages/zh-CN.axaml" />-->
                 <ResourceInclude Source="/Assets/AvaloniaUIGeometries.axaml" />
                 <ResourceInclude Source="/Assets/Geometries.axaml" />
-                <ResourceInclude Source="/Themes/Nodify.axaml" />
-                <ResourceInclude Source="avares://Nodify/Theme.axaml" />
+            
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

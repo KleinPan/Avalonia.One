@@ -120,17 +120,32 @@
   <data name="About" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="AddExtraEnter" xml:space="preserve">
+    <value>+回车换行</value>
+  </data>
   <data name="Auto" xml:space="preserve">
     <value>自动</value>
   </data>
   <data name="AWordADay" xml:space="preserve">
     <value>每日一言</value>
   </data>
+  <data name="BaudRate" xml:space="preserve">
+    <value>波特率</value>
+  </data>
   <data name="BingImage" xml:space="preserve">
     <value>Bing壁纸</value>
   </data>
   <data name="Chinese" xml:space="preserve">
     <value>中文</value>
+  </data>
+  <data name="ClearCountTip" xml:space="preserve">
+    <value>右键可清空此计数</value>
+  </data>
+  <data name="ClearLog" xml:space="preserve">
+    <value>清空日志</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
   </data>
   <data name="ConversionResult" xml:space="preserve">
     <value>转换结果</value>
@@ -147,11 +162,26 @@
   <data name="English" xml:space="preserve">
     <value>英文</value>
   </data>
+  <data name="ErrorClosePort" xml:space="preserve">
+    <value>串口关闭失败！</value>
+  </data>
+  <data name="ErrorOpenPort" xml:space="preserve">
+    <value>串口打开失败！</value>
+  </data>
+  <data name="ErrorSendFail" xml:space="preserve">
+    <value>串口数据发送失败！请检查连接！</value>
+  </data>
   <data name="ExcuteSelectedItem" xml:space="preserve">
     <value>执行选中项</value>
   </data>
   <data name="FileMonitor" xml:space="preserve">
     <value>文件监控</value>
+  </data>
+  <data name="HexSendMode" xml:space="preserve">
+    <value>Hex发送</value>
+  </data>
+  <data name="HexShow" xml:space="preserve">
+    <value>Hex显示</value>
   </data>
   <data name="Icon" xml:space="preserve">
     <value>图标</value>
@@ -171,14 +201,26 @@
   <data name="MatchingResult" xml:space="preserve">
     <value>匹配结果</value>
   </data>
+  <data name="MoreSettings" xml:space="preserve">
+    <value>更多设置</value>
+  </data>
   <data name="Multiline" xml:space="preserve">
     <value>多行模式搜索</value>
   </data>
   <data name="Note" xml:space="preserve">
     <value>笔记</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
   <data name="OriginalData" xml:space="preserve">
     <value>原始数据</value>
+  </data>
+  <data name="ReceivedCount" xml:space="preserve">
+    <value>已接收字节</value>
+  </data>
+  <data name="RefreshPort" xml:space="preserve">
+    <value>刷新串口</value>
   </data>
   <data name="RegTestTool" xml:space="preserve">
     <value>正则表达式测试工具</value>
@@ -189,6 +231,21 @@
   <data name="RightToLeft" xml:space="preserve">
     <value>从右往左搜索</value>
   </data>
+  <data name="SaveLog" xml:space="preserve">
+    <value>保存Log</value>
+  </data>
+  <data name="SendData" xml:space="preserve">
+    <value>发送数据</value>
+  </data>
+  <data name="SentCount" xml:space="preserve">
+    <value>已发送字节</value>
+  </data>
+  <data name="Serialport" xml:space="preserve">
+    <value>串口</value>
+  </data>
+  <data name="SerialportDebugTool" xml:space="preserve">
+    <value>串口调试工具</value>
+  </data>
   <data name="Setting" xml:space="preserve">
     <value>设置</value>
   </data>
@@ -198,8 +255,14 @@
   <data name="ShowIndex" xml:space="preserve">
     <value>显示编号</value>
   </data>
+  <data name="ShowSymbol" xml:space="preserve">
+    <value>替换不可见字符</value>
+  </data>
   <data name="Singleline" xml:space="preserve">
     <value>单行模式搜索</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状态</value>
   </data>
   <data name="Test" xml:space="preserve">
     <value>测试</value>
@@ -209,5 +272,8 @@
   </data>
   <data name="TimeConvert" xml:space="preserve">
     <value>Unix 时间转换</value>
+  </data>
+  <data name="TimedSend" xml:space="preserve">
+    <value>定时发送</value>
   </data>
 </root>

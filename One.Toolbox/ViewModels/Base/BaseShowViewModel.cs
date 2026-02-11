@@ -1,9 +1,5 @@
-﻿using Avalonia.Media;
-
-using One.Base.Helpers.DataProcessHelpers;
+﻿using One.Base.Helpers.DataProcessHelpers;
 using One.Toolbox.Component;
-
-using System.Windows.Media;
 
 namespace One.Toolbox.ViewModels.Base;
 
@@ -11,11 +7,11 @@ public class BaseShowViewModel : BaseVM
 {
     //protected FlowDocumentComponent flowDocumentHelper { get; set; }
 
-    /// <summary> 显示消息的方法 </summary>
-    /// <param name="title">   只支持字符串 </param>
-    /// <param name="data">    </param>
-    /// <param name="send">    </param>
-    /// <param name="hexMode"> </param>
+    /// <summary>显示消息的方法</summary>
+    /// <param name="title">只支持字符串</param>
+    /// <param name="data"></param>
+    /// <param name="send"></param>
+    /// <param name="hexMode"></param>
     public virtual void ShowData(string title = "", byte[] data = null, bool send = false, bool hexMode = false)
     {
         string realData = "";

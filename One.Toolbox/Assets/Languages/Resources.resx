@@ -120,17 +120,32 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AddExtraEnter" xml:space="preserve">
+    <value>+ extra enter</value>
+  </data>
   <data name="Auto" xml:space="preserve">
     <value>Auto</value>
   </data>
   <data name="AWordADay" xml:space="preserve">
     <value>A word a day</value>
   </data>
+  <data name="BaudRate" xml:space="preserve">
+    <value>BaudRate</value>
+  </data>
   <data name="BingImage" xml:space="preserve">
     <value>BingImage</value>
   </data>
   <data name="Chinese" xml:space="preserve">
     <value>Chinese</value>
+  </data>
+  <data name="ClearCountTip" xml:space="preserve">
+    <value>Right click to clear this</value>
+  </data>
+  <data name="ClearLog" xml:space="preserve">
+    <value>Clear Log</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
   </data>
   <data name="ConversionResult" xml:space="preserve">
     <value>Conversion Result</value>
@@ -148,11 +163,26 @@
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
+  <data name="ErrorClosePort" xml:space="preserve">
+    <value>Serial port close failed!</value>
+  </data>
+  <data name="ErrorOpenPort" xml:space="preserve">
+    <value>Serial port open failed!</value>
+  </data>
+  <data name="ErrorSendFail" xml:space="preserve">
+    <value>Serial port data send failed! Please check connection!</value>
+  </data>
   <data name="ExcuteSelectedItem" xml:space="preserve">
     <value>Excute Selected Item</value>
   </data>
   <data name="FileMonitor" xml:space="preserve">
     <value>FileMonitor</value>
+  </data>
+  <data name="HexSendMode" xml:space="preserve">
+    <value>Hex Send</value>
+  </data>
+  <data name="HexShow" xml:space="preserve">
+    <value>HexShow</value>
   </data>
   <data name="Icon" xml:space="preserve">
     <value>Icon</value>
@@ -172,14 +202,26 @@
   <data name="MatchingResult" xml:space="preserve">
     <value>Matching result</value>
   </data>
+  <data name="MoreSettings" xml:space="preserve">
+    <value>More Settings</value>
+  </data>
   <data name="Multiline" xml:space="preserve">
     <value>Multiline</value>
   </data>
   <data name="Note" xml:space="preserve">
     <value>Note</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
   <data name="OriginalData" xml:space="preserve">
     <value>Original Data</value>
+  </data>
+  <data name="ReceivedCount" xml:space="preserve">
+    <value>Received Count</value>
+  </data>
+  <data name="RefreshPort" xml:space="preserve">
+    <value>Refresh List</value>
   </data>
   <data name="RegTestTool" xml:space="preserve">
     <value>Regular expression testing tool</value>
@@ -190,6 +232,21 @@
   <data name="RightToLeft" xml:space="preserve">
     <value>RightToLeft</value>
   </data>
+  <data name="SaveLog" xml:space="preserve">
+    <value>Save Log</value>
+  </data>
+  <data name="SendData" xml:space="preserve">
+    <value>SendData</value>
+  </data>
+  <data name="SentCount" xml:space="preserve">
+    <value>Sent Count</value>
+  </data>
+  <data name="Serialport" xml:space="preserve">
+    <value>Serialport</value>
+  </data>
+  <data name="SerialportDebugTool" xml:space="preserve">
+    <value>Serialport Debug Tool</value>
+  </data>
   <data name="Setting" xml:space="preserve">
     <value>Setting</value>
   </data>
@@ -199,8 +256,14 @@
   <data name="ShowIndex" xml:space="preserve">
     <value>ShowIndex</value>
   </data>
+  <data name="ShowSymbol" xml:space="preserve">
+    <value>Replace invisible characters</value>
+  </data>
   <data name="Singleline" xml:space="preserve">
     <value>Singleline</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="Test" xml:space="preserve">
     <value>Test</value>
@@ -211,5 +274,8 @@
   <data name="TimeConvert" xml:space="preserve">
     <value>Unix Time Convert</value>
     <comment>{0} 时间转换</comment>
+  </data>
+  <data name="TimedSend" xml:space="preserve">
+    <value>Timed Send</value>
   </data>
 </root>

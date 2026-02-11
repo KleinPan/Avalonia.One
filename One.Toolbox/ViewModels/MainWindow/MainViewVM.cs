@@ -75,7 +75,7 @@ public partial class MainViewVM : BaseVM
             new()
             {
                 Header = "Serialport",
-                Icon = ResourceHelper.FindObjectResource("image_library_regular"),
+                Icon = ResourceHelper.FindObjectResource("SerialPort24Filled"),
                 Content = new SerialportPage() { DataContext = App.Current!.Services.GetService<SerialportPageVM>() },
             },
             new()

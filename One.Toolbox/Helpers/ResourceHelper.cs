@@ -1,20 +1,18 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 
-namespace One.Toolbox.Helpers
-{
-    internal class ResourceHelper
-    {
-        public static string FindStringResource(string resource)
-        {
-            return (string)FindObjectResource(resource) ?? "?!";
-            ;
-        }
+namespace One.Toolbox.Helpers;
 
-        public static object FindObjectResource(object resourceKey)
-        {
-            Application.Current!.TryFindResource(resourceKey, out object a);
-            return a;
-        }
+internal class ResourceHelper
+{
+    public static string FindStringResource(string resource)
+    {
+        return (string)FindObjectResource(resource) ?? "?!";
+    }
+
+    public static object FindObjectResource(object resourceKey)
+    {
+        Application.Current!.TryFindResource(resourceKey, out object a);
+        return a;
     }
 }

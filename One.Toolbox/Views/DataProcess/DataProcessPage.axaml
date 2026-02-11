@@ -26,7 +26,7 @@
                  Text="{Binding InputString}"
                  TextWrapping="Wrap" />
         <!--  FontFamily="Consolas"  -->
-        <TextBlock Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Classes="test"
+        <TextBlock Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Classes="test" 
                    Text="{markup:I18n {x:Static lang:Language.OriginalData}}" />
         <StackPanel Grid.Row="1" Orientation="Horizontal">
 
