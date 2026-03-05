@@ -88,7 +88,8 @@ public class StringHelper
                     byte[] tempData = strASCII;
                     if (isReverse)
                     {
-                        tempData = strASCII.Reverse().ToArray();
+                        strASCII.Reverse();
+                        tempData = strASCII.ToArray();
                         return BitConverter.ToString(tempData, 0, tempData.Length).Replace("-", separator);
                     }
                     else

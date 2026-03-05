@@ -6,22 +6,21 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>1.10.0</Version>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <PublishAot>true</PublishAot>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
-    <IsAotCompatible>true</IsAotCompatible>
     <ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <TrimmerRootDescriptor Include="Roots.xml" />
-    <Content Include="icons8-knife-100.ico" />
+    <TrimmerRootDescriptor Include="Roots.xml"/>
+    <Content Include="icons8-knife-100.ico"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.12"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\One.Toolbox\One.Toolbox.csproj" />
+    <ProjectReference Include="..\One.Toolbox\One.Toolbox.csproj"/>
   </ItemGroup>
 </Project>

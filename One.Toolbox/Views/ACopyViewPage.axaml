@@ -4,14 +4,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
              xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:local="using:One.Toolbox.Views"
              xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
-             xmlns:vm="using:One.Toolbox.ViewModels.QRCode"
+             xmlns:viewmodels="using:One.Toolbox.ViewModels"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             x:DataType="vm:QRCodePageVM"
+             x:DataType="viewmodels:ACopyVM"
              mc:Ignorable="d">
+
     <Border>
         <Grid RowDefinitions="auto,*">
 

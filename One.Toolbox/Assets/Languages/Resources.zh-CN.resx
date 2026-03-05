@@ -216,6 +216,12 @@
   <data name="OriginalData" xml:space="preserve">
     <value>原始数据</value>
   </data>
+  <data name="QuickSendAdd" xml:space="preserve">
+    <value>添加新项目</value>
+  </data>
+  <data name="QuickSendButton" xml:space="preserve">
+    <value>发送</value>
+  </data>
   <data name="ReceivedCount" xml:space="preserve">
     <value>已接收字节</value>
   </data>

@@ -1,4 +1,7 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Threading;
+
+using AvaloniaEdit.Document;
 
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -11,8 +14,6 @@ using One.SimpleLog;
 using One.SimpleLog.Extensions;
 using One.SimpleLog.Loggers;
 using One.Toolbox.Assets.Languages;
-using One.Toolbox.Component;
-using One.Toolbox.Helpers;
 using One.Toolbox.Messenger;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
@@ -20,6 +21,7 @@ using One.Toolbox.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Management;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace One.Toolbox.ViewModels.Serialport;
@@ -48,16 +50,16 @@ public partial class SerialportPageVM : BasePageVM
     private string dataToSend = "";
 
     private byte[] toSendData = null;//待发送的数据
-
+    private bool forcusClosePort = true;
     internal SerialPortComponent serialPortHelper { get; set; }
 
     /// <summary>快捷发送列表</summary>
     public ObservableCollection<QuickSendVM> QuickSendList { get; set; } = new ObservableCollection<QuickSendVM>();
 
     #region 界面显示
-    
+
     [ObservableProperty]
-    private string openCloseButtonContent = I18nManager.GetString(Language.Open)! ; 
+    private string openCloseButtonContent = I18nManager.GetString(Language.Open)!;
 
     [ObservableProperty]
     private string statusTextBlockContent = I18nManager.GetString(Language.Close)!;
@@ -88,10 +90,12 @@ public partial class SerialportPageVM : BasePageVM
     #endregion 界面显示
 
     public static LoggerWrapper logger = LogManager.GetLogger();
+
     public override void UpdateTitle()
     {
         Title = I18nManager.GetString(Language.SerialportDebugTool)!;
     }
+
     public override void OnNavigatedLeave()
     {
         base.OnNavigatedLeave();
@@ -99,6 +103,10 @@ public partial class SerialportPageVM : BasePageVM
         SaveSetting();
     }
 
+    public SerialportPageVM()
+    {
+        
+    }
     public override void OnNavigatedEnter(UserControl userControl)
     {
         base.OnNavigatedEnter(userControl);
@@ -152,43 +160,6 @@ public partial class SerialportPageVM : BasePageVM
 
     private bool refreshLock = false;
 
-    #region InitUI
-
-    //[RelayCommand]
-    //private void InitFlowDocumentControl(object obj)
-    //{
-    //    var args = obj as System.Windows.RoutedEventArgs;
-    //    var control = args.OriginalSource as FlowDocumentScrollViewer;
-    //    flowDocumentHelper = new FlowDocumentComponent(control);
-
-    //    flowDocumentHelper.MaxPacksAutoClear = SerialportUISetting.SendAndReceiveSettingVM.MaxPacksAutoClear;
-    //    flowDocumentHelper.LagAutoClear = SerialportUISetting.SendAndReceiveSettingVM.LagAutoClear;
-    //    flowDocumentHelper.ShowShortTimeInfo = SerialportUISetting.SendAndReceiveSettingVM.ShortTimeInfo;//重启生效
-    //}
-
-    #endregion InitUI
-
-    #region Command
-
-    [RelayCommand]
-    private void ClearLog(object obj)
-    {
-       
-
-
-        //flowDocumentHelper.ClearContent();
-    }
-
-    [RelayCommand]
-    private void MoreSerialportSetting(object obj)
-    {
-        //SettingWindow settingWindow = new SettingWindow();
-        //settingWindow.DataContext = SerialportUISetting;
-        //settingWindow.Show();
-
-        SaveSetting();
-    }
-
     /// <summary>刷新设备列表</summary>
     [RelayCommand]
     private void RefreshPortList(string lastPort = null)
@@ -219,7 +190,6 @@ public partial class SerialportPageVM : BasePageVM
                 {
                     Task.Delay(500).Wait();
                 }
-                //MessageBox.Show("fail了");
             }
 
             try
@@ -259,55 +229,10 @@ public partial class SerialportPageVM : BasePageVM
         });
     }
 
-    [RelayCommand]
-    private void SendData()
-    {
-        var data = System.Text.Encoding.UTF8.GetBytes(DataToSend);
+    /// <summary>是否正在打开端口</summary>
+    private bool isOpeningPort = false;
 
-        SendUartData(data);
-    }
-
-    /// <summary>定时发送</summary>
-    /// <param name="value"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    partial void OnTimedSendChanged(bool value)
-    {
-        if (value)
-        {
-            Task.Run(() =>
-            {
-                while (TimedSend)
-                {
-                    var data = System.Text.Encoding.UTF8.GetBytes(DataToSend);
-
-                    SendUartData(data);
-
-                    Thread.Sleep(TimedCount);
-                }
-            });
-        }
-    }
-
-    [RelayCommand]
-    private void AddQuickSendItem()
-    {
-        QuickSendList.Add(new QuickSendVM() { Id = QuickSendList.Count + 1, Text = "", Hex = false, Commit = I18nManager.GetString("QuickSendButton") });
-    }
-
-    [RelayCommand]
-    private void DeleteLast()
-    {
-        try
-        {
-            QuickSendList.RemoveAt(QuickSendList.Count - 1);
-        }
-        catch (Exception ex)
-        {
-            NotifyHelper.ShowErrorMessage(ex.ToString());
-        }
-    }
-
-    private bool forcusClosePort = true;
+    #region OpenClose
 
     [RelayCommand]
     private void OpenClosePort()
@@ -340,17 +265,6 @@ public partial class SerialportPageVM : BasePageVM
             //refreshPortList(lastPort);
         }
     }
-
-    [RelayCommand]
-    private void SaveLog()
-    {
-        GenerateRandomHeader();
-    }
-
-    #endregion Command
-
-    /// <summary>是否正在打开端口</summary>
-    private bool isOpeningPort = false;
 
     private void OpenPort()
     {
@@ -409,11 +323,12 @@ public partial class SerialportPageVM : BasePageVM
                         //serialPortsListComboBox.IsEnabled = false;
                         StatusTextBlockContent = I18nManager.GetString(Language.Open)!;
 
-                        if (toSendData != null)
-                        {
-                            SendUartData(toSendData);
-                            toSendData = null;
-                        }
+                        //待定，应该去掉
+                        //if (toSendData != null)
+                        //{
+                        //    SendUartData(toSendData);
+                        //    toSendData = null;
+                        //}
                     }
                     catch (Exception e)
                     {
@@ -426,46 +341,124 @@ public partial class SerialportPageVM : BasePageVM
         }
     }
 
-    /// <summary>发串口数据</summary>
-    /// <param name="data"></param>
-    private void SendUartData(byte[] data)
+    #endregion OpenClose
+
+    #region SendData
+
+    [RelayCommand]
+    private void SendData()
     {
-        if (serialPortHelper.IsOpen())
+        //string temp;
+        //if (SerialportUISetting.SendAndReceiveSettingVM.DeleteWhiteSpace)
+        //{
+        //    temp = DataToSend.Replace(" ", "");
+        //}
+        //else
+        //{
+        //    temp = DataToSend;
+        //}
+        //var data = System.Text.Encoding.UTF8.GetBytes(temp);
+
+        SendUartData(DataToSend);
+    }
+
+    /// <summary>定时发送</summary>
+    /// <param name="value"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    partial void OnTimedSendChanged(bool value)
+    {
+        if (value)
         {
-            byte[] dataConvert;
-
-            try
+            Task.Run(() =>
             {
-                if (SerialportUISetting.SendAndReceiveSettingVM.HexSend)
+                while (TimedSend)
                 {
-                    var temp = System.Text.Encoding.UTF8.GetString(data.ToArray());
+                    SendUartData(DataToSend);
 
-                    var temp2 = temp.Replace(" ", "").Replace("\r\n", "");
-                    dataConvert = StringHelper.HexStringToBytes(temp);
+                    Thread.Sleep(TimedCount);
                 }
-                else
-                {
-                    dataConvert = data;
-                }
-
-                if (SerialportUISetting.SendAndReceiveSettingVM.WithExtraEnter)
-                {
-                    var temp = dataConvert.ToList();
-                    temp.Add(0x0d);
-                    temp.Add(0x0a);
-                    dataConvert = temp.ToArray();
-                }
-                serialPortHelper.SendData(dataConvert);
-            }
-            catch (Exception ex)
-            {
-                NotifyHelper.ShowErrorMessage($"{I18nManager.GetString(Language.ErrorSendFail)}\r\n" + ex.ToString());
-                return;
-            }
+            });
         }
     }
 
+    /// <summary>发串口数据</summary>
+    /// <param name="data"></param>
+    private void SendUartData(string dataToSend)
+    {
+        if (!serialPortHelper.IsOpen()) return;
+
+        byte[] dataConvert;
+
+        try
+        {
+            string tempData = DataToSend.Replace("\r\n", "");
+
+            if (SerialportUISetting.SendAndReceiveSettingVM.DeleteWhiteSpace)
+            {
+                tempData = tempData.Replace(" ", "");
+            }
+
+            if (SerialportUISetting.SendAndReceiveSettingVM.HexSend)
+            {
+                dataConvert = StringHelper.HexStringToBytes(tempData);//转换成对应Hex发送
+            }
+            else
+            {
+                dataConvert = System.Text.Encoding.UTF8.GetBytes(tempData);//直接转换成byte发送
+            }
+
+            if (SerialportUISetting.SendAndReceiveSettingVM.WithExtraEnter)
+            {
+                var temp = dataConvert.ToList();
+                temp.Add(0x0d);
+                temp.Add(0x0a);
+                dataConvert = temp.ToArray();
+            }
+            serialPortHelper.SendData(dataConvert);
+        }
+        catch (Exception ex)
+        {
+            NotifyHelper.ShowErrorMessage($"{I18nManager.GetString(Language.ErrorSendFail)}\r\n" + ex.ToString());
+            return;
+        }
+    }
+
+    #endregion SendData
+
+    #region QuickSendList
+
+    [RelayCommand]
+    private void AddQuickSendItem()
+    {
+        QuickSendList.Add(new QuickSendVM() { Id = QuickSendList.Count + 1, Text = "", Hex = false, Commit = I18nManager.GetString("QuickSendButton") });
+    }
+
+    [RelayCommand]
+    private void DeleteLast()
+    {
+        try
+        {
+            QuickSendList.RemoveAt(QuickSendList.Count - 1);
+        }
+        catch (Exception ex)
+        {
+            NotifyHelper.ShowErrorMessage(ex.ToString());
+        }
+    }
+
+    #endregion QuickSendList
+
     #region Setting
+
+    [RelayCommand]
+    private void MoreSerialportSetting(object obj)
+    {
+        //SettingWindow settingWindow = new SettingWindow();
+        //settingWindow.DataContext = SerialportUISetting;
+        //settingWindow.Show();
+
+        SaveSetting();
+    }
 
     public void SaveSetting()
     {
@@ -493,6 +486,18 @@ public partial class SerialportPageVM : BasePageVM
 
     #region Log
 
+    [RelayCommand]
+    private void SaveLog()
+    {
+        GenerateRandomHeader();
+    }
+
+    [RelayCommand]
+    private void ClearLog(object obj)
+    {
+        //flowDocumentHelper.ClearContent();
+    }
+
     public string RandomHeader { get; set; }
 
     private void GenerateRandomHeader()
@@ -510,6 +515,11 @@ public partial class SerialportPageVM : BasePageVM
 
     #endregion Log
 
+    [ObservableProperty]
+    private TextDocument logDocument = new TextDocument();
+
+    #region ShowLog
+
     /// <summary>显示消息的方法</summary>
     /// <param name="title">只支持字符串</param>
     /// <param name="data"></param>
@@ -521,31 +531,24 @@ public partial class SerialportPageVM : BasePageVM
 
         if (data != null)
         {
-            if (hexMode)
-            {
-                realData = StringHelper.BytesToHexString(data);
-            }
-            else
-            {
-                realData = System.Text.Encoding.UTF8.GetString(data);
-            }
+            realData = hexMode
+                ? StringHelper.BytesToHexString(data)
+                : Encoding.UTF8.GetString(data);
         }
 
-        DataShowCommon dataShowCommon = new DataShowCommon()
-        {
-            Title = title,
-            Send = send,
-            Content = realData,
-            //MessageColor = send ? Brushes.DarkRed : Brushes.DarkGreen,
-            Prefix = (send ? " << " : " >> "),
-        };
+        var prefix = data == null ? "" : (send ? " << " : " >> ");
 
-        if (data == null)
-        {
-            dataShowCommon.Prefix = null;
-        }
-        //flowDocumentHelper.DataShowAdd(dataShowCommon);
+        string line =
+            $"{DateTime.Now:HH:mm:ss.fff}{prefix}{realData}";
 
-        //WriteInfoLog(realData);
+        WriteInfoLog(line);
+        Dispatcher.UIThread.Post(() =>
+        {
+            LogDocument.Insert(
+                LogDocument.TextLength,
+                line + Environment.NewLine);
+        });
     }
+
+    #endregion ShowLog
 }

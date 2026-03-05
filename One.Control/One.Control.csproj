@@ -4,7 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
-    <IsAotCompatible>False</IsAotCompatible>
+ 
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="HyperlinkButton\HyperLinkButtonStyle.axaml" />
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Avalonia" Version="11.3.12" />
   </ItemGroup>
 
   <ItemGroup>

@@ -43,6 +43,8 @@ public static class Language
 	public static readonly string Note = "Note";
 	public static readonly string Open = "Open";
 	public static readonly string OriginalData = "OriginalData";
+	public static readonly string QuickSendAdd = "QuickSendAdd";
+	public static readonly string QuickSendButton = "QuickSendButton";
 	public static readonly string ReceivedCount = "ReceivedCount";
 	public static readonly string RefreshPort = "RefreshPort";
 	public static readonly string RegTestTool = "RegTestTool";

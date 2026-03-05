@@ -27,6 +27,8 @@ public partial class SendAndReceiveSettingVM : BaseVM
 
     public bool LagAutoClear { get; set; }
 
+    [ObservableProperty]
+    private bool deleteWhiteSpace;
     public List<QuickSendVM> QuickSendList { get; set; } = new List<QuickSendVM>();
 
     public SendAndReceiveSettingVM()
@@ -36,18 +38,20 @@ public partial class SendAndReceiveSettingVM : BaseVM
 
     public SendAndReceiveSettingModel ToModel()
     {
-        SendAndReceiveSettingModel serialportSettingModel = new SendAndReceiveSettingModel();
-        serialportSettingModel.HexShow = HexShow;
-        serialportSettingModel.HexSend = HexSend;
-        serialportSettingModel.WithExtraEnter = WithExtraEnter;
-        serialportSettingModel.EnableSymbol = EnableSymbol;
-        serialportSettingModel.Timeout = Timeout;
-        serialportSettingModel.MaxLength = MaxLength;
-        serialportSettingModel.MaxPacksAutoClear = MaxPacksAutoClear;
-        serialportSettingModel.LagAutoClear = LagAutoClear;
-        serialportSettingModel.QuickSendList = QuickSendList.Select(x => x.ToM()).ToList();
-        serialportSettingModel.ShortTimeInfo = ShortTimeInfo;
-
+        SendAndReceiveSettingModel serialportSettingModel = new SendAndReceiveSettingModel
+        {
+            HexShow = HexShow,
+            HexSend = HexSend,
+            WithExtraEnter = WithExtraEnter,
+            EnableSymbol = EnableSymbol,
+            Timeout = Timeout,
+            MaxLength = MaxLength,
+            MaxPacksAutoClear = MaxPacksAutoClear,
+            LagAutoClear = LagAutoClear,
+            QuickSendList = QuickSendList.Select(x => x.ToM()).ToList(),
+            ShortTimeInfo = ShortTimeInfo,
+            DeleteWhiteSpace = DeleteWhiteSpace
+        };
         return serialportSettingModel;
     }
 }
@@ -72,22 +76,27 @@ public class SendAndReceiveSettingModel
 
     public bool ShortTimeInfo { get; set; }
 
+    public bool DeleteWhiteSpace { get; set; } = true;
+
+    
     public List<QuickSendModel> QuickSendList { get; set; } = new List<QuickSendModel>();
 
     public SendAndReceiveSettingVM ToVM()
     {
-        SendAndReceiveSettingVM vm = new SendAndReceiveSettingVM();
-        vm.HexShow = HexShow;
-        vm.HexSend = HexSend;
-        vm.WithExtraEnter = WithExtraEnter;
-        vm.EnableSymbol = EnableSymbol;
-        vm.Timeout = Timeout;
-        vm.MaxLength = MaxLength;
-        vm.MaxPacksAutoClear = MaxPacksAutoClear;
-        vm.LagAutoClear = LagAutoClear;
-        vm.QuickSendList = QuickSendList.Select(x => x.ToVM()).ToList();
-        vm.ShortTimeInfo = ShortTimeInfo;
-
+        SendAndReceiveSettingVM vm = new SendAndReceiveSettingVM
+        {
+            HexShow = HexShow,
+            HexSend = HexSend,
+            WithExtraEnter = WithExtraEnter,
+            EnableSymbol = EnableSymbol,
+            Timeout = Timeout,
+            MaxLength = MaxLength,
+            MaxPacksAutoClear = MaxPacksAutoClear,
+            LagAutoClear = LagAutoClear,
+            QuickSendList = QuickSendList.Select(x => x.ToVM()).ToList(),
+            ShortTimeInfo = ShortTimeInfo,
+            DeleteWhiteSpace = DeleteWhiteSpace
+        };
         return vm;
     }
 }

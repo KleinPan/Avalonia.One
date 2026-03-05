@@ -1,10 +1,8 @@
 using One.Toolbox.ViewModels.Base;
-using One.Toolbox.ViewModels.Serialport;
 
-using System.IO;
 using System.IO.Ports;
 
-namespace One.Toolbox.Component;
+namespace One.Toolbox.ViewModels.Serialport;
 
 internal class SerialPortComponent : BaseVM
 {
@@ -14,7 +12,7 @@ internal class SerialPortComponent : BaseVM
 
     public SerialPort serialPort = new SerialPort();
 
-    /// <summary> 收到数据的回调 </summary>
+    /// <summary>收到数据的回调</summary>
     public event EventHandler UartDataRecived;
 
     public event EventHandler UartDataSent;
@@ -27,21 +25,24 @@ internal class SerialPortComponent : BaseVM
 
     private SerialportSettingM SerialportSetting { get; set; }
 
-    Action<string> innerlogaction;
-    /// <summary> 初始化串口各个触发函数 </summary>
-    public SerialPortComponent(Action<string > logAction)
+    private Action<string> innerlogaction;
+
+    /// <summary>初始化串口各个触发函数</summary>
+    public SerialPortComponent(Action<string> logAction)
     {
-        innerlogaction=logAction;
+        innerlogaction = logAction;
         //声明接收到事件
         serialPort.DataReceived += Serial_DataReceived;
 
         new Thread(ReadData).Start();
     }
-   void WriteTraceLog(string msg)
+
+    void WriteTraceLog(string msg)
     {
         innerlogaction?.Invoke(msg);
     }
-    /// <summary> 刷新串口对象 </summary>
+
+    /// <summary>刷新串口对象</summary>
     private void refreshSerialDevice()
     {
         WriteTraceLog($"[refreshSerialDevice]start");
@@ -61,7 +62,6 @@ internal class SerialPortComponent : BaseVM
         catch (Exception e)
         {
             WriteTraceLog($"[refreshSerialDevice]lastPortBaseStream.Dispose error:{e.Message}");
-            
         }
         try
         {
@@ -78,7 +78,6 @@ internal class SerialPortComponent : BaseVM
         catch (Exception e)
         {
             WriteTraceLog($"[refreshSerialDevice]BaseStream.Dispose error:{e.Message}");
-            
         }
         WriteTraceLog($"[refreshSerialDevice]Dispose");
         Task.Run(() =>//我服了
@@ -99,28 +98,28 @@ internal class SerialPortComponent : BaseVM
         WriteTraceLog($"[refreshSerialDevice]done");
     }
 
-    /// <summary> 获取串口设备COM名 </summary>
-    /// <returns> </returns>
+    /// <summary>获取串口设备COM名</summary>
+    /// <returns></returns>
     public string GetName()
     {
         return serialPort.PortName;
     }
 
-    /// <summary> 设置串口设备COM名 </summary>
-    /// <returns> </returns>
+    /// <summary>设置串口设备COM名</summary>
+    /// <returns></returns>
     public void SetName(string s)
     {
         serialPort.PortName = s;
     }
 
-    /// <summary> 查看串口打开状态 </summary>
-    /// <returns> </returns>
+    /// <summary>查看串口打开状态</summary>
+    /// <returns></returns>
     public bool IsOpen()
     {
         return serialPort.IsOpen;
     }
 
-    /// <summary> 开启串口 </summary>
+    /// <summary>开启串口</summary>
     public void Open(SerialportSettingM serialportParams)
     {
         string temp = serialPort.PortName;
@@ -143,7 +142,7 @@ internal class SerialPortComponent : BaseVM
         WriteTraceLog($"[UartOpen]done");
     }
 
-    /// <summary> 关闭串口 </summary>
+    /// <summary>关闭串口</summary>
     public void Close()
     {
         WriteTraceLog($"[UartClose]refreshSerialDevice");
@@ -153,8 +152,8 @@ internal class SerialPortComponent : BaseVM
         WriteTraceLog($"[UartClose]done");
     }
 
-    /// <summary> 发送数据 </summary>
-    /// <param name="data"> 数据内容 </param>
+    /// <summary>发送数据</summary>
+    /// <param name="data">数据内容</param>
     public void SendData(byte[] data)
     {
         if (data.Length == 0)
@@ -167,15 +166,15 @@ internal class SerialPortComponent : BaseVM
     //收到串口事件的信号量
     public EventWaitHandle WaitUartReceive = new AutoResetEvent(true);
 
-    /// <summary> 接收到事件 </summary>
-    /// <param name="sender"> </param>
-    /// <param name="e">      SerialDataReceivedEventArgs </param>
+    /// <summary>接收到事件</summary>
+    /// <param name="sender"></param>
+    /// <param name="e">SerialDataReceivedEventArgs</param>
     private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
     {
         WaitUartReceive.Set();
     }
 
-    /// <summary> 单独开个线程接收数据 </summary>
+    /// <summary>单独开个线程接收数据</summary>
     private void ReadData()
     {
         WaitUartReceive.Reset();

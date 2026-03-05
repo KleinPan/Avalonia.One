@@ -217,6 +217,12 @@
   <data name="OriginalData" xml:space="preserve">
     <value>Original Data</value>
   </data>
+  <data name="QuickSendAdd" xml:space="preserve">
+    <value>Add new item</value>
+  </data>
+  <data name="QuickSendButton" xml:space="preserve">
+    <value>Send</value>
+  </data>
   <data name="ReceivedCount" xml:space="preserve">
     <value>Received Count</value>
   </data>
