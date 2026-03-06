@@ -99,6 +99,14 @@ public partial class App : Application
         {
             desktop.Shutdown();
         }
+        else
+        {
+            // 调试：如果没进 if，说明生命周期类型不对
+            System.Diagnostics.Debug.WriteLine("无法获取 Desktop 模式生命周期");
+
+            // 环境兜底（不推荐作为首选，但在调试时有用）
+              Environment.Exit(0); 
+        }
     }
 
     private void TrayIcon_Clicked(object? sender, EventArgs e)

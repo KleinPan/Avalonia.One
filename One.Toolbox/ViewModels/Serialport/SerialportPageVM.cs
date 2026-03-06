@@ -105,8 +105,8 @@ public partial class SerialportPageVM : BasePageVM
 
     public SerialportPageVM()
     {
-        
     }
+
     public override void OnNavigatedEnter(UserControl userControl)
     {
         base.OnNavigatedEnter(userControl);
@@ -434,16 +434,18 @@ public partial class SerialportPageVM : BasePageVM
     }
 
     [RelayCommand]
-    private void DeleteLast()
+    private void DeleteQuickSendItem(QuickSendVM item)
     {
-        try
+        if (item != null && QuickSendList.Contains(item))
         {
-            QuickSendList.RemoveAt(QuickSendList.Count - 1);
+            QuickSendList.Remove(item);
+            // 重新排序 ID (可选)
+            for (int i = 0; i < QuickSendList.Count; i++)
+            {
+                QuickSendList[i].Id = (i + 1);
+            }
         }
-        catch (Exception ex)
-        {
-            NotifyHelper.ShowErrorMessage(ex.ToString());
-        }
+        // NotifyHelper.ShowErrorMessage(ex.ToString());
     }
 
     #endregion QuickSendList
@@ -466,6 +468,7 @@ public partial class SerialportPageVM : BasePageVM
 
         SerialportUISetting.QuickSendList = QuickSendList.ToList();
 
+        SerialportUISetting.SerialportParams.BaudRate = int.Parse(SelectedBaudRate);
         service.SerialportSetting = SerialportUISetting.ToModel();
 
         service.SaveSerialportSetting();
@@ -477,6 +480,8 @@ public partial class SerialportPageVM : BasePageVM
 
         service.LoadLocalSerialportSetting();
         SerialportUISetting = service.SerialportSetting.ToVM();
+
+        SelectedBaudRate = SerialportUISetting.SerialportParams.BaudRate.ToString();
 
         QuickSendList.Clear();
         QuickSendList.AddRange(SerialportUISetting.QuickSendList);

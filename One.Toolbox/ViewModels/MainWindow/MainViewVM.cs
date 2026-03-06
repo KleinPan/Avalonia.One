@@ -35,6 +35,19 @@ public partial class MainViewVM : BaseVM
     private string _applicationTitle = string.Empty;
 
     [ObservableProperty]
+    private bool isPaneOpen ; // 默认不展开
+
+    [RelayCommand]
+    private void TriggerPane()
+    {
+        IsPaneOpen = !IsPaneOpen;
+        PaneWidth = IsPaneOpen ? 200 : 50; // 切换宽度
+    }
+
+    [ObservableProperty]
+    private double paneWidth = 50; // 初始宽度
+
+    [ObservableProperty]
     private ObservableCollection<MainMenuItemVM> _navigationItems =
     [
         new MainMenuItemVM() { Header = "Home", Icon = ResourceHelper.FindObjectResource("home_regular"), },

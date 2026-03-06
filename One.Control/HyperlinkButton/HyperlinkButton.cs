@@ -3,6 +3,9 @@ using Avalonia.Controls;
 
 namespace One.Control;
 
+/// <summary> <oc:HyperlinkButton Margin="0,10" Alias="Github Link" Command="{Binding
+/// OpenUrlCommand}" CommandParameter="{Binding $self.Url}" IsVisible="True"
+/// Url="https://github.com/KleinPan/One" /> </summary>
 public class HyperlinkButton : Button
 {
     public static readonly DirectProperty<HyperlinkButton, string> UrlProperty

@@ -2,37 +2,65 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vmMain="using:One.Toolbox.ViewModels.MainWindow"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             x:DataType="vmMain:MainViewVM"
-             mc:Ignorable="d">
-    <Design.DataContext>
-        <vmMain:MainViewVM />
-    </Design.DataContext>
-    <Grid ColumnDefinitions="50,*">
-        <ListBox ItemsSource="{Binding NavigationItems}" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectedItem="{Binding CurrentMenuItem}">
-            <ListBox.Styles>
-                <Style Selector="ListBoxItem">
-                    <Setter Property="DockPanel.Dock" Value="{Binding Dock, DataType=vmMain:MainMenuItemVM}" />
-                </Style>
-            </ListBox.Styles>
-            <ListBox.ItemTemplate>
-                <DataTemplate x:DataType="vmMain:MainMenuItemVM">
-                    <StackPanel>
-                        <PathIcon Width="20" Height="40" Data="{Binding Icon}" ToolTip.Tip="{Binding Header}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+             d:DesignHeight="600"
+             d:DesignWidth="840"
+             x:DataType="vmMain:MainViewVM">
 
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <DockPanel LastChildFill="False" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+    <Grid ColumnDefinitions="Auto,*">
+        <Border Width="{Binding PaneWidth}" Background="#F3F3F3" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
 
-        <ContentControl Grid.Column="1" Content="{Binding CurrentMenuItem.Content}" />
+            <DockPanel LastChildFill="True">
+                <Button Width="46" Margin="2" HorizontalAlignment="Left" Background="Transparent"
+                        Command="{Binding TriggerPaneCommand}"
+                        DockPanel.Dock="Top">
+                    <PathIcon Width="18" Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                </Button>
+
+                <ListBox Background="Transparent" ItemsSource="{Binding NavigationItems}" SelectedItem="{Binding CurrentMenuItem}">
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="DockPanel.Dock" Value="{Binding Dock, DataType=vmMain:MainMenuItemVM}" />
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Margin" Value="4,1" />
+                            <Setter Property="Padding" Value="0" />
+
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="CornerRadius" Value="4" />
+                        </Style>
+
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#E5F3FF" />
+                            <Setter Property="TextBlock.Foreground" Value="#0067C0" />
+                            <Setter Property="BorderBrush" Value="#0067C0" />
+                            <Setter Property="BorderThickness" Value="1,0,0,0" />
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <DockPanel LastChildFill="False" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vmMain:MainMenuItemVM">
+                            <Grid Height="38" Background="Transparent" ColumnDefinitions="38,*">
+                                <Panel Grid.Column="0">
+                                    <PathIcon Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Data="{Binding Icon}" />
+                                </Panel>
+
+                                <TextBlock Grid.Column="1" Margin="4,0,20,0" VerticalAlignment="Center" FontSize="13"
+                                           IsVisible="{Binding $parent[UserControl].((vmMain:MainViewVM)DataContext).IsPaneOpen}"
+                                           Text="{Binding Header}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <ContentControl Grid.Column="1" Padding="10,10" Content="{Binding CurrentMenuItem.Content}" />
     </Grid>
 </UserControl>

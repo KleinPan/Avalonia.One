@@ -2,41 +2,91 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:lang="using:One.Toolbox.Assets.Languages"
-             xmlns:markup="https://github.com/KleinPan/Avalonia.One"
-             xmlns:markup1="using:One.Control.Markup.I18n"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:oc="using:One.Control"
              xmlns:vm="using:One.Toolbox.ViewModels.Dashboard"
              d:DesignHeight="450"
              d:DesignWidth="800"
-             x:DataType="vm:DashboardPageVM"
-             mc:Ignorable="d">
+             x:DataType="vm:DashboardPageVM">
 
-    <Border>
-        <Grid Margin="10" ColumnDefinitions="*,*">
-            <StackPanel Margin="10,10,0,0" Orientation="Horizontal">
-                <TextBlock Margin="0,2,0,0" FontSize="18" FontWeight="DemiBold" Text="One.Toolbox" />
-                <HyperlinkButton Margin="10,0,0,0" VerticalAlignment="Top" Classes="WithIcon" NavigateUri="https://github.com/KleinPan/One">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Github Link" TextDecorations="Underline" />
+    <DockPanel LastChildFill="True">
+        <Border Height="80" Padding="24,0" Background="Transparent" BorderBrush="#10000000"
+                BorderThickness="0,0,0,1" DockPanel.Dock="Top">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
+                <TextBlock FontSize="28" FontWeight="Black" Foreground="{DynamicResource SystemAccentColor}" Text="One.Toolbox" />
+                <Separator Width="1" Height="24" Background="#20000000" />
+                <HyperlinkButton Padding="0" VerticalAlignment="Center" NavigateUri="https://github.com/KleinPan/One">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Width="18" Height="18" Data="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21.15C9.5,21.03 9.47,20.53 9.47,19.86C7,20.4 6.3,19.33 6.1,18.73C5.97,18.45 5.42,17.45 4.93,17.18C4.54,16.97 4,16.47 4.93,16.45C5.8,16.43 6.43,17.25 6.63,17.58C7.63,19.23 9.2,18.75 9.83,18.47C9.93,17.75 10.22,17.25 10.54,16.97C8.04,16.7 5.5,15.73 5.5,11.41C5.5,10.18 5.94,9.17 6.66,8.38C6.54,8.1 6.15,6.95 6.77,5.41C6.77,5.41 7.71,5.11 9.86,6.58C10.76,6.33 11.71,6.21 12.66,6.21C13.61,6.21 14.56,6.33 15.46,6.58C17.61,5.11 18.55,5.41 18.55,5.41C19.17,6.95 18.78,8.1 18.66,8.38C19.38,9.17 19.82,10.17 19.82,11.41C19.82,15.74 17.27,16.7 14.77,16.97C15.17,17.31 15.53,17.98 15.53,19.03C15.53,20.53 15.51,21.74 15.51,22.11C15.51,22.4 15.67,22.72 16.18,22.62C20.13,21.29 23,17.55 23,13.11C23,7.59 18.52,3.11 13,3.11Z" />
+                        <TextBlock VerticalAlignment="Center" FontSize="14" Opacity="0.7" Text="GitHub Link" />
+                    </StackPanel>
                 </HyperlinkButton>
-                <oc:HyperlinkButton Margin="0,10" Alias="Github Link"
-                                    Command="{Binding OpenUrlCommand}"
-                                    CommandParameter="{Binding $self.Url}"
-                                    IsVisible="False" Url="https://github.com/KleinPan/One" />
             </StackPanel>
-            <Grid Grid.Column="1" Margin="10,10,0,0" RowDefinitions="auto,auto,auto,*">
-                <TextBlock FontSize="18" FontWeight="DemiBold" Text="{markup1:I18n {x:Static lang:Language.AWordADay}}" />
-                <TextBlock Grid.Row="1" Margin="0,20,0,0" FontSize="18"
-                           Text="{Binding Text}"
-                           TextWrapping="WrapWithOverflow" />
-                <TextBlock Grid.Row="2" HorizontalAlignment="Right" FontSize="12"
-                           Text="{Binding Author}"
-                           TextWrapping="WrapWithOverflow" />
-            </Grid>
-        </Grid>
-    </Border>
+        </Border>
 
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl Margin="24" ItemsSource="{Binding DashboardCards}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="300" MinHeight="140" Margin="0,0,16,16" Padding="24"
+                                Background="{DynamicResource SystemRegionBrush}"
+                                BorderBrush="#15000000" BorderThickness="1" CornerRadius="12">
+                            <DockPanel>
+                                <StackPanel Margin="0,0,0,15" DockPanel.Dock="Top" Orientation="Horizontal" Spacing="12">
+                                    <Border Width="32" Height="32"
+                                            Background="{Binding AccentColor}"
+                                            CornerRadius="8" Opacity="0.1">
+                                        <PathIcon Width="16" Height="16" Data="{Binding IconData}" Foreground="{Binding AccentColor}" />
+                                    </Border>
+                                    <TextBlock VerticalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="{Binding Title}" />
+                                </StackPanel>
 
+                                <ContentControl Content="{Binding CardContent}">
+                                    <ContentControl.DataTemplates>
+
+                                        <DataTemplate DataType="vm:QuoteDataVM">
+                                            <StackPanel VerticalAlignment="Center" Spacing="8">
+                                                <TextBlock FontSize="14" FontStyle="Italic" LineHeight="20" MaxLines="2"
+                                                           Opacity="0.9"
+                                                           Text="{Binding Text}"
+                                                           TextWrapping="Wrap" />
+                                                <TextBlock HorizontalAlignment="Right" FontSize="11" Opacity="0.5" Text="{Binding Author, StringFormat={}{0}}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+
+                                        <!--<DataTemplate DataType="vm:ResourceUsageVM">
+                                            <StackPanel VerticalAlignment="Center" Spacing="12">
+                                                <StackPanel Spacing="4">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <TextBlock FontSize="11" Opacity="0.5" Text="CPU" />
+                                                        <TextBlock Grid.Column="1" FontSize="11" Text="{Binding CpuUsage, StringFormat={}{0:0}%}" />
+                                                    </Grid>
+                                                    <ProgressBar Height="4" CornerRadius="2" Maximum="100" Minimum="0"
+                                                                 Value="{Binding CpuUsage}" />
+                                                </StackPanel>
+                                                <StackPanel Spacing="4">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <TextBlock FontSize="11" Opacity="0.5" Text="Memory" />
+                                                        <TextBlock Grid.Column="1" FontSize="11" Text="{Binding MemoryPercent, StringFormat={}{0:0}%}" />
+                                                    </Grid>
+                                                    <ProgressBar Height="4" CornerRadius="2" Foreground="#28A745" Maximum="100"
+                                                                 Minimum="0"
+                                                                 Value="{Binding MemoryPercent}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </DataTemplate>-->
+
+                                    </ContentControl.DataTemplates>
+                                </ContentControl>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>
