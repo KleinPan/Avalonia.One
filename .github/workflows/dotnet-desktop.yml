@@ -2,102 +2,90 @@ name: GenerateRelease
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
-
-permissions:
-  contents: write
-  packages: write
+    tags:        
+      - "v*.*.*"
 
 jobs:
   build:
-    runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [Release]
+
+    runs-on: windows-latest  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
     env:
-      SOLUTION_NAME: Avalonia.One.sln
-      WAP_PROJECT_PATH: One.Toolbox.Desktop/One.Toolbox.Desktop.csproj
-      WAP_PROJECT_DIRECTORY: output
-      CONFIGURATION: Release
-      ARCHIVE_BASE: One.Toolbox
+      Solution_Name: Avalonia.One.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Wap_Project_Directory: output    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
+      Wap_Project_Path: One.Toolbox.Desktop/One.Toolbox.Desktop.csproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+     # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v2
 
-      - name: Restore & Publish (create AppPackages)
-        shell: pwsh
-        run: |
-          Write-Host "Solution: $env:SOLUTION_NAME"
-          $packageDir = Join-Path $env:WAP_PROJECT_DIRECTORY 'AppPackages'
-          dotnet restore $env:SOLUTION_NAME
-          dotnet publish $env:WAP_PROJECT_PATH -c $env:CONFIGURATION --output $packageDir /p:AppxBundle=Always /p:AppxBundlePlatforms=x86|x64 /p:AppxPackageBuildMode=StoreUpload
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
 
-      - name: List AppPackages (debug)
-        shell: pwsh
-        run: |
-          $packageDir = Join-Path $env:WAP_PROJECT_DIRECTORY 'AppPackages'
-          if (Test-Path $packageDir) {
-            Get-ChildItem -Path $packageDir -Recurse | Select-Object FullName, Length
-          } else {
-            Write-Host "AppPackages directory not found: $packageDir"
-            exit 1
-          }
+    # Create the app package by building and packaging the Windows Application Packaging project
+    - name: Create the app package
+      run: |
+        dotnet publish $env:Wap_Project_Path -c Release --output ${{ env.Wap_Project_Directory }}\AppPackages /p:AppxBundle=Always /p:AppxBundlePlatforms="x86|x64" /p:AppxPackageBuildMode=StoreUpload
+      env:
+        Configuration: ${{ matrix.configuration }}
 
-      - name: Zip AppPackages
-        shell: pwsh
-        env:
-          REF_NAME: ${{ github.ref_name }}
-        run: |
-          $packageDir = Join-Path $env:WAP_PROJECT_DIRECTORY 'AppPackages'
-          $zipName = '{0}_{1}.zip' -f $env:ARCHIVE_BASE, $env:REF_NAME
-          $zipPath = Join-Path (Resolve-Path .).Path $zipName
-          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
-          Compress-Archive -Path (Join-Path $packageDir '*') -DestinationPath $zipPath -Force
-          Write-Host "Created zip: $zipPath"
+  
+    #- name: Upload build artifacts
+    #  uses: actions/upload-artifact@v4
+    #  with:
+    #   name: One.Toolbox_${{ github.ref_name }}
+    #   path: |
+    #    ${{ env.Wap_Project_Directory }}\AppPackages
+    #    !${{ env.Wap_Project_Directory }}\AppPackages\*.pdb
+    - name: Zip the Build
+      uses: thedoctor0/zip-release@0.7.6
+      with:
+        type: '7z'
+        filename: 'One.Toolbox_${{ github.ref_name }}.zip'
+        path : ${{ env.Wap_Project_Directory }}\AppPackages
+        exclusions: '*.pdb'
+        recursive_exclusions: '*.pdb'
+    
+    - name: Get previous tag
+      id: prev-tag
+      shell: bash
+      run: |
+        PREV_TAG=$(git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1`)
+        echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
 
-      - name: Upload artifact (Actions)
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}
-          path: ${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}.zip
+    - name: Generate release notes
+      id: release-notes
+      run: |
+        if [ -z "${{ steps.prev-tag.outputs.prev_tag }}" ]; then
+          RELEASE_NOTES=$(git log --pretty=format:"- %s" HEAD)
+        else
+          RELEASE_NOTES=$(git log ${{ steps.prev-tag.outputs.prev_tag }}..HEAD --pretty=format:"- %s")
+        fi
+        echo "release_notes<<EOF" >> $GITHUB_OUTPUT
+        echo "$RELEASE_NOTES" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+      shell: bash
 
-      - name: Get previous tag
-        id: prev-tag
-        shell: bash
-        run: |
-          git fetch --tags
-          PREV_TAG=$(git describe --abbrev=0 --tags $(git rev-list --tags --skip=1 --max-count=1) 2>/dev/null || true)
-          echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
-
-      - name: Generate release notes
-        id: release-notes
-        shell: bash
-        run: |
-          if [ -z "${{ steps.prev-tag.outputs.prev_tag }}" ]; then
-            RELEASE_LOG=$(git log --pretty=format:"- %s (%h)" --reverse HEAD)
-          else
-            RELEASE_LOG=$(git log "${{ steps.prev-tag.outputs.prev_tag }}..HEAD" --pretty=format:"- %s (%h)" --reverse)
-          fi
-          echo "## Release ${{ github.ref_name }}" > release_notes.md
-          echo "" >> release_notes.md
-          echo "Changes:" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "$RELEASE_LOG" >> release_notes.md
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          body_path: release_notes.md
-          files: |
-            release_notes.md
-            ${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: ncipollo/release-action@v1
+      with:
+        body: ${{ steps.release-notes.outputs.release_notes }}
+        artifacts: "One.Toolbox_${{ github.ref_name }}.zip"
