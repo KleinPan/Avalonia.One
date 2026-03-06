@@ -3,7 +3,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
-    <AvaloniaVersion>11.3.11</AvaloniaVersion>
+    <AvaloniaVersion>11.3.12</AvaloniaVersion>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 </Project>
