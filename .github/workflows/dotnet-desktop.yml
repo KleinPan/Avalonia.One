@@ -31,19 +31,41 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore & Publish (create AppPackages)
-        shell: bash
+        shell: pwsh
         run: |
-          dotnet restore "${{ env.SOLUTION_NAME }}"
-          dotnet publish "${{ env.WAP_PROJECT_PATH }}" -c "${{ env.CONFIGURATION }}" --output "${{ env.WAP_PROJECT_DIRECTORY }}\AppPackages" /p:AppxBundle=Always /p:AppxBundlePlatforms=x86|x64 /p:AppxPackageBuildMode=StoreUpload
+          Write-Host "Solution: $env:SOLUTION_NAME"
+          $packageDir = Join-Path $env:WAP_PROJECT_DIRECTORY 'AppPackages'
+          dotnet restore $env:SOLUTION_NAME
+          dotnet publish $env:WAP_PROJECT_PATH -c $env:CONFIGURATION --output $packageDir /p:AppxBundle=Always /p:AppxBundlePlatforms=x86|x64 /p:AppxPackageBuildMode=StoreUpload
 
-      - name: Zip the Build
-        uses: thedoctor0/zip-release@0.7.6
+      - name: List AppPackages (debug)
+        shell: pwsh
+        run: |
+          $packageDir = Join-Path $env:WAP_PROJECT_DIRECTORY 'AppPackages'
+          if (Test-Path $packageDir) {
+            Get-ChildItem -Path $packageDir -Recurse | Select-Object FullName, Length
+          } else {
+            Write-Host "AppPackages directory not found: $packageDir"
+            exit 1
+          }
+
+      - name: Zip AppPackages
+        shell: pwsh
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          $packageDir = Join-Path $env:WAP_PROJECT_DIRECTORY 'AppPackages'
+          $zipName = '{0}_{1}.zip' -f $env:ARCHIVE_BASE, $env:REF_NAME
+          $zipPath = Join-Path (Resolve-Path .).Path $zipName
+          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          Compress-Archive -Path (Join-Path $packageDir '*') -DestinationPath $zipPath -Force
+          Write-Host "Created zip: $zipPath"
+
+      - name: Upload artifact (Actions)
+        uses: actions/upload-artifact@v4
         with:
-          type: '7z'
-          filename: '${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}.zip'
-          path: '${{ env.WAP_PROJECT_DIRECTORY }}\AppPackages'
-          exclusions: '*.pdb'
-          recursive_exclusions: '*.pdb'
+          name: ${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}
+          path: ${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}.zip
 
       - name: Get previous tag
         id: prev-tag
@@ -67,7 +89,6 @@ jobs:
           echo "Changes:" >> release_notes.md
           echo "" >> release_notes.md
           echo "$RELEASE_LOG" >> release_notes.md
-          echo "release_notes_path=release_notes.md" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -77,6 +98,6 @@ jobs:
           body_path: release_notes.md
           files: |
             release_notes.md
-            **/${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}.zip
+            ${{ env.ARCHIVE_BASE }}_${{ github.ref_name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
