@@ -1,13 +1,23 @@
 ﻿## Usage:
 
 ```csharp
-var logger = LogManager.GetLogger(typeof(YourClass));
+var logger = LogManager.GetLogger()
+    .WithPatternProperty("thread", $"{Thread.CurrentThread.Name ?? ""}:{Environment.CurrentManagedThreadId}");
 
 logger.Debug("Hello World");
 logger.Info("Hello World");
 logger.Warn("Hello World");
 logger.Error("Hello World");
 logger.Fatal("Hello World");
+
+try
+{
+    throw new InvalidOperationException("boom");
+}
+catch (Exception ex)
+{
+    logger.Error(ex, "Something failed");
+}
 ```
 
 ## Config
@@ -18,40 +28,32 @@ App.config
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <logging>
-    <target value="file" file="log/Mojito.log" maxRollBackups="30" maxRollTime="1d" />
+    <target value="File" file="log/Mojito.log" maxRollBackups="30" maxRollTime="1d" />
     <level value="Info" />
-    <pattern value="%date [%thread] %level %logger - %message%newline" />
+    <pattern value="%date [%thread] %level - %message%newline" />
   </logging>
 </configuration>
 ```
 
-Print stack
-
-```xml
-<pattern value="%date [%thread] %level %logger - %message%newline %stack" />
-```
-
-
 ### Options
 
-`target`: // Logger target `Console` | `file` 
-- `file` // Log path
-- `maxRollBackups="10"` // The maximum retention is 10 copies  
-- `maxRollSize="512kb"` // The log is larger than or equal to 512kb, Supported units is `b`, `kb`, `mb`, `gb`  
-- `maxRollTime="1d"` // The log is rolled every 1 day, Supported units is `s`, `m`, `h`, `d`
+`target`: logger target `Console` | `File`
+- `file`: log path
+- `maxRollBackups="10"`: keep latest 10 rolled files
+- `maxRollSize="512kb"`: roll when file size >= 512kb, supports `b`, `kb`, `mb`, `gb`
+- `maxRollTime="1d"`: roll every 1 day, supports `s`, `m`, `h`, `d`
 
-`level`: // Log level
+`level`: log level
 - `Debug`
 - `Info`
 - `Warn`
 - `Error`
 - `Fatal`
 
-`pattern` // Log pattern
-- `%date` // Date time default format is `yyyy-MM-dd HH:mm:ss`
-- `%level` // Log level
-- `%thread` // Thread name and Thread ID
-- `%logger` // Caller class name
-- `%stack` // Stack Trace
-- `%message` // Your message
-- `%newline` // Environment.NewLine
+`pattern`: log pattern (supports lower/upper case placeholders)
+- `%date` / `%Date`
+- `%level` / `%Level`
+- `%stack` / `%Stack`
+- `%message` / `%Message`
+- `%newline` / `%Newline`
+- custom placeholders via `.WithPatternProperty(...)`, e.g. `%thread`

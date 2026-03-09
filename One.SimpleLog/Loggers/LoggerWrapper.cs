@@ -19,15 +19,18 @@ public class LoggerWrapper
         var pattern = LogConfigHelper.GetPattern();
 
         var newMessage = pattern
-            .Replace("%Date", DateTime.Now.ToString(LogConfigHelper.GetDateFormat())) // FormatException
+            .Replace("%Date", DateTime.Now.ToString(LogConfigHelper.GetDateFormat()))
+            .Replace("%date", DateTime.Now.ToString(LogConfigHelper.GetDateFormat()))
             .Replace("%Level", level.ToString().ToUpper())
+            .Replace("%level", level.ToString().ToUpper())
             .Replace("%Stack", $"{new StackTrace(true)}")
+            .Replace("%stack", $"{new StackTrace(true)}")
             .Replace("%Message", message)
-            .Replace("%Newline", Environment.NewLine);
+            .Replace("%message", message)
+            .Replace("%Newline", Environment.NewLine)
+            .Replace("%newline", Environment.NewLine);
 
-        //.Replace("%thread",$"{Thread.CurrentThread.Name ?? ""}:{Environment.CurrentManagedThreadId}") //线程没有名称就不打印
-
-        baseLogger?.Log(newMessage, level);
+        baseLogger.Log(newMessage, level);
     }
 
     internal void SetTargetProperty(string propertyName, string propertyValue)
@@ -45,9 +48,19 @@ public class LoggerWrapper
         Log(message, LogLevel.Debug);
     }
 
+    public void Debug(Exception exception, string? message = null)
+    {
+        Log(FormatExceptionMessage(exception, message), LogLevel.Debug);
+    }
+
     public void Info(string message)
     {
         Log(message, LogLevel.Info);
+    }
+
+    public void Info(Exception exception, string? message = null)
+    {
+        Log(FormatExceptionMessage(exception, message), LogLevel.Info);
     }
 
     public void Warn(string message)
@@ -55,13 +68,36 @@ public class LoggerWrapper
         Log(message, LogLevel.Warn);
     }
 
+    public void Warn(Exception exception, string? message = null)
+    {
+        Log(FormatExceptionMessage(exception, message), LogLevel.Warn);
+    }
+
     public void Error(string message)
     {
         Log(message, LogLevel.Error);
     }
 
+    public void Error(Exception exception, string? message = null)
+    {
+        Log(FormatExceptionMessage(exception, message), LogLevel.Error);
+    }
+
     public void Fatal(string message)
     {
         Log(message, LogLevel.Fatal);
+    }
+
+    public void Fatal(Exception exception, string? message = null)
+    {
+        Log(FormatExceptionMessage(exception, message), LogLevel.Fatal);
+    }
+
+    private static string FormatExceptionMessage(Exception exception, string? message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+            return exception.ToString();
+
+        return $"{message}{Environment.NewLine}{exception}";
     }
 }
