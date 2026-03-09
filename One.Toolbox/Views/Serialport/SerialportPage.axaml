@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:ia="using:Avalonia.Xaml.Interactions"
+             xmlns:ic="using:Avalonia.Xaml.Interactions.Core"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
              xmlns:local="clr-namespace:One.Toolbox.Behaviors"
              xmlns:markup1="using:One.Control.Markup.I18n"
@@ -29,7 +30,63 @@
             <Grid Grid.Row="1" Margin="5" RowDefinitions="auto,auto,auto">
                 <StackPanel Orientation="Horizontal" Spacing="5">
                     <Button Name="clearLogButton" Command="{Binding ClearLogCommand}" Content="{markup1:I18n {x:Static lang:Language.ClearLog}}" />
-                    <Button Command="{Binding MoreSerialportSettingCommand}" Content="{markup1:I18n {x:Static lang:Language.MoreSettings}}" />
+                    <Button Name="MoreSettingButton" Content="{markup1:I18n {x:Static lang:Language.MoreSettings}}">
+                        <Button.Flyout>
+                            <Flyout Placement="Top">
+                                <i:Interaction.Behaviors>
+                                    <ic:EventTriggerBehavior EventName="Opened">
+                                        <ic:InvokeCommandAction Command="{Binding #MoreSettingButton.((vm:SerialportPageVM)DataContext).ShowMoreSerialportSettingCommand}" />
+                                    </ic:EventTriggerBehavior>
+
+                                    <ic:EventTriggerBehavior EventName="Closed">
+                                        <ic:InvokeCommandAction Command="{Binding #MoreSettingButton.((vm:SerialportPageVM)DataContext).SaveMoreSerialportSettingCommand}" />
+                                    </ic:EventTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                                <Border Width="340" Padding="15">
+                                    <StackPanel Spacing="15">
+
+                                       
+
+                                        <TextBlock FontSize="15" FontWeight="Bold" Text="更多串口配置" />
+
+                                        <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="数据位长度：" />
+                                            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
+                                                      ItemsSource="{Binding SerialportUISetting.DatabitList}"
+                                                      SelectedItem="{Binding SerialportUISetting.SerialportParams.DataBits}" />
+
+                                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="停止位：" />
+                                            <ComboBox Grid.Row="1" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
+                                                      ItemsSource="{Binding SerialportUISetting.StopBitsList}"
+                                                      SelectedItem="{Binding SerialportUISetting.SerialportParams.StopBits}" />
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="校验位：" />
+                                            <ComboBox Grid.Row="2" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
+                                                      ItemsSource="{Binding SerialportUISetting.ParityList}"
+                                                      SelectedItem="{Binding SerialportUISetting.SerialportParams.Parity}" />
+
+                                            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="分包数据超时时间：" />
+                                            <u:NumericIntUpDown Grid.Row="3" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
+                                                                InnerRightContent="毫秒" Minimum="-1"
+                                                                Value="{Binding SerialportUISetting.SendAndReceiveSettingVM.Timeout}" />
+
+                                            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="数据每包最大：" />
+                                            <u:NumericIntUpDown Grid.Row="4" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
+                                                                InnerRightContent="字节" Minimum="1"
+                                                                Value="{Binding SerialportUISetting.SendAndReceiveSettingVM.MaxLength}" />
+                                        </Grid>
+
+                                        <Separator Margin="0,5" Opacity="0.2" />
+
+                                        <!--<StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="10">
+                                            <TextBlock VerticalAlignment="Center" FontSize="11" Foreground="Gray" Text="* 负数为不分包模式" />
+                                            <Button Classes="Primary" Command="{Binding SaveSettingsCommand}" Content="确认" />
+                                        </StackPanel>-->
+                                    </StackPanel>
+                                </Border>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
                     <Button Command="{Binding SaveLogCommand}" Content="{markup1:I18n {x:Static lang:Language.SaveLog}}" />
                 </StackPanel>
 

@@ -16,7 +16,7 @@ public partial class SendAndReceiveSettingVM : BaseVM
     [ObservableProperty]
     private bool shortTimeInfo;
 
-    /// <summary> 替换不可见字符 </summary>
+    /// <summary>替换不可见字符</summary>
     public bool EnableSymbol { get; set; }
 
     public int Timeout { get; set; }
@@ -29,6 +29,7 @@ public partial class SendAndReceiveSettingVM : BaseVM
 
     [ObservableProperty]
     private bool deleteWhiteSpace;
+
     public List<QuickSendVM> QuickSendList { get; set; } = new List<QuickSendVM>();
 
     public SendAndReceiveSettingVM()
@@ -62,14 +63,14 @@ public class SendAndReceiveSettingModel
     public bool HexSend { get; set; }
     public bool WithExtraEnter { get; set; }
 
-    /// <summary> 替换不可见字符 </summary>
+    /// <summary>替换不可见字符</summary>
     public bool EnableSymbol { get; set; }
 
     public int Timeout { get; set; } = 50;
 
     public int MaxLength { get; set; } = 10240;
 
-    /// <summary> 自动清空UI，在超过此包数 </summary>
+    /// <summary>自动清空UI，在超过此包数</summary>
     public int MaxPacksAutoClear { get; set; } = 200;
 
     public bool LagAutoClear { get; set; } = true;
@@ -78,7 +79,6 @@ public class SendAndReceiveSettingModel
 
     public bool DeleteWhiteSpace { get; set; } = true;
 
-    
     public List<QuickSendModel> QuickSendList { get; set; } = new List<QuickSendModel>();
 
     public SendAndReceiveSettingVM ToVM()

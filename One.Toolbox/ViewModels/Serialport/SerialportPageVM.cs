@@ -19,6 +19,7 @@ using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Management;
 using System.Text;
@@ -451,14 +452,16 @@ public partial class SerialportPageVM : BasePageVM
     #endregion QuickSendList
 
     #region Setting
-
     [RelayCommand]
-    private void MoreSerialportSetting(object obj)
+    private void ShowMoreSerialportSetting(object obj)
     {
-        //SettingWindow settingWindow = new SettingWindow();
-        //settingWindow.DataContext = SerialportUISetting;
-        //settingWindow.Show();
-
+        Debug.WriteLine("ShowMoreSerialportSetting");
+        LoadSetting();
+    }
+    [RelayCommand]
+    private void SaveMoreSerialportSetting(object obj)
+    {
+        Debug.WriteLine("SaveMoreSerialportSetting");
         SaveSetting();
     }
 

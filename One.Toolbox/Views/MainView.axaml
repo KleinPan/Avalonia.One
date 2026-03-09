@@ -61,6 +61,6 @@
             </DockPanel>
         </Border>
 
-        <ContentControl Grid.Column="1" Padding="10,10" Content="{Binding CurrentMenuItem.Content}" />
+        <ContentControl Grid.Column="1" Padding="10,0" Content="{Binding CurrentMenuItem.Content}" />
     </Grid>
 </UserControl>

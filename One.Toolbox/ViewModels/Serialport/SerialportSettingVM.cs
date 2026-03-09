@@ -1,14 +1,19 @@
 ﻿using One.Toolbox.ViewModels.Base;
 
+using System.IO.Ports;
+
 namespace One.Toolbox.ViewModels.Serialport;
 
 public partial class SerialportSettingVM : ObservableObject
 {
     [ObservableProperty]
-    private List<int> databitList = new List<int>() { 5, 6, 7, 8 };
+    private List<int> databitList = new() { 5, 6, 7, 8 };
 
     [ObservableProperty]
-    private List<double> stopBits = new List<double>() { 1, 2, 3 };
+    private List<int> stopBitsList = new() { 1, 2, 3 };
+
+    [ObservableProperty]
+    private List<Parity> parityList = Enum.GetValues(typeof(Parity)).Cast<Parity>().ToList();
 
     [ObservableProperty]
     private SendAndReceiveSettingVM sendAndReceiveSettingVM;
