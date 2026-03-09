@@ -22,4 +22,10 @@
 
     <SolidColorBrush x:Key="GridLinesBrush" Color="{DynamicResource GridLinesColor}" />
 
+    <SolidColorBrush x:Key="MainViewNavPaneBackgroundBrush" Color="{DynamicResource MainViewNavPaneBackgroundColor}" />
+    <SolidColorBrush x:Key="MainViewNavPaneBorderBrush" Color="{DynamicResource MainViewNavPaneBorderColor}" />
+    <SolidColorBrush x:Key="MainViewNavSelectedBackgroundBrush" Color="{DynamicResource MainViewNavSelectedBackgroundColor}" />
+    <SolidColorBrush x:Key="MainViewNavSelectedForegroundBrush" Color="{DynamicResource MainViewNavSelectedForegroundColor}" />
+    <SolidColorBrush x:Key="MainViewNavSelectedBorderBrush" Color="{DynamicResource MainViewNavSelectedBorderColor}" />
+
 </ResourceDictionary>

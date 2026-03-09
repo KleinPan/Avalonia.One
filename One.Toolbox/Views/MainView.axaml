@@ -8,7 +8,7 @@
              x:DataType="vmMain:MainViewVM">
 
     <Grid ColumnDefinitions="Auto,*">
-        <Border Width="{Binding PaneWidth}" Background="#F3F3F3" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+        <Border Width="{Binding PaneWidth}" Background="{DynamicResource MainViewNavPaneBackgroundBrush}" BorderBrush="{DynamicResource MainViewNavPaneBorderBrush}" BorderThickness="0,0,1,0">
 
             <DockPanel LastChildFill="True">
                 <Button Width="46" Margin="2" HorizontalAlignment="Left" Background="Transparent"
@@ -30,9 +30,9 @@
                         </Style>
 
                         <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                            <Setter Property="Background" Value="#E5F3FF" />
-                            <Setter Property="TextBlock.Foreground" Value="#0067C0" />
-                            <Setter Property="BorderBrush" Value="#0067C0" />
+                            <Setter Property="Background" Value="{DynamicResource MainViewNavSelectedBackgroundBrush}" />
+                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource MainViewNavSelectedForegroundBrush}" />
+                            <Setter Property="BorderBrush" Value="{DynamicResource MainViewNavSelectedBorderBrush}" />
                             <Setter Property="BorderThickness" Value="1,0,0,0" />
                         </Style>
                     </ListBox.Styles>
