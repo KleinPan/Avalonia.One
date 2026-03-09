@@ -4,71 +4,69 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using One.SimpleLog.Configurations;
 using One.SimpleLog.Enum;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace One.SimpleLog.Loggers;
 
 internal class FileLogger : BaseLogger
 {
     private readonly object _lock = new object();
-    string logPath;
 
     internal override void Log(string message, LogLevel level)
     {
-        logPath = LogConfigHelper.GetLogFile();
+        if (!IsWriteable(level))
+            return;
 
+        var logPath = ResolveLogPath();
+        var newMsg = ReplacePatternProperty(message);
+
+        lock (_lock)
+        {
+            CheckDirectory(logPath);
+            CheckRollBackups(logPath);
+            File.AppendAllText(logPath, newMsg);
+        }
+    }
+
+    private string ResolveLogPath()
+    {
+        var logPath = LogConfigHelper.GetLogFile();
         logPath = ReplacePredefinedProperty(logPath);
         logPath = ReplaceTargetProperty(logPath);
-
-        if (IsWriteable(level))
-        {
-            var newMsg = ReplacePatternProperty(message);
-            lock (_lock)
-            {
-                CheckRollBackups();
-                CheckDirectory(logPath);
-                File.AppendAllText(logPath, newMsg);
-            }
-        }
+        return logPath;
     }
 
     /// <summary>
     /// 检查是否需要滚动日志
     /// </summary>
-    private static void CheckRollBackups()
+    private static void CheckRollBackups(string logPath)
     {
         var maxRollTime = LogConfigHelper.GetMaxRollTime();
         var maxRollSize = LogConfigHelper.GetMaxRollSize();
-        var file = new FileInfo(LogConfigHelper.GetLogFile());
+        var file = new FileInfo(logPath);
         if (!file.Exists)
             return;
 
         var fileSizeInBytes = file.Length;
-        var timeDifference = DateTime.Now - file.CreationTime;
+        var timeDifference = DateTime.Now - file.LastWriteTime;
 
         if ((maxRollTime > 0 && timeDifference.TotalSeconds >= maxRollTime) || (maxRollSize > 0 && fileSizeInBytes >= maxRollSize))
-        {
-            RollBackups();
-        }
+            RollBackups(logPath);
     }
 
     /// <summary>
     /// 滚动日志
     /// </summary>
-    private static void RollBackups()
+    private static void RollBackups(string logPath)
     {
         var now = DateTime.Now;
         var strNow = $"{now:yyyy-MM-dd_HH-mm-ss}";
-        var logPath = LogConfigHelper.GetLogFile();
         var maxRollBackups = LogConfigHelper.GetMaxRollBackups();
         try
         {
             if (maxRollBackups > 0)
-                DeleteOldRollBackups(maxRollBackups);
+                DeleteOldRollBackups(logPath, maxRollBackups);
 
             File.Move(logPath, $"{logPath}.{strNow}");
-            File.Create(logPath).Close();
-            File.SetCreationTime(logPath, now);
         }
         catch (Exception ex)
         {
@@ -81,10 +79,8 @@ internal class FileLogger : BaseLogger
     /// 删除旧的滚动日志，保持最大滚动日志数量
     /// </summary>
     /// <param name="maxRollBackups">最大日志数量</param>
-    private static void DeleteOldRollBackups(int maxRollBackups)
+    private static void DeleteOldRollBackups(string logPath, int maxRollBackups)
     {
-        var logPath = LogConfigHelper.GetLogFile();
-
         var fileName = Path.GetFileName(logPath);
         if (string.IsNullOrWhiteSpace(fileName))
             throw new NullReferenceException($"GetFileName Error: logPath is {logPath}");
@@ -93,28 +89,23 @@ internal class FileLogger : BaseLogger
         if (string.IsNullOrWhiteSpace(fileDir))
             fileDir = Environment.CurrentDirectory;
 
-        // 过滤日志备份文件
-        var regexPattern = $@"^{Regex.Escape(fileName)}\..*";
-        var files = Directory.GetFiles(fileDir).Where(f => Regex.IsMatch(Path.GetFileName(f), regexPattern)).ToArray();
+        var regexPattern = $@"^{Regex.Escape(fileName)}\.\d{{4}}-\d{{2}}-\d{{2}}_\d{{2}}-\d{{2}}-\d{{2}}$";
+        var files = Directory.GetFiles(fileDir)
+            .Where(f => Regex.IsMatch(Path.GetFileName(f), regexPattern))
+            .OrderByDescending(Path.GetFileName)
+            .ToArray();
 
-        if (files == null)
+        if (files.Length < maxRollBackups)
             return;
 
-        if (files.Length >= maxRollBackups)
-        {
-            // 按创建时间排序
-            Array.Sort(files, (a, b) => File.GetCreationTime(a).CompareTo(File.GetCreationTime(b)));
-
-            for (int i = 0; i <= files.Length - maxRollBackups; i++)
-                File.Delete(files[i]);
-        }
+        for (int i = maxRollBackups - 1; i < files.Length; i++)
+            File.Delete(files[i]);
     }
 
     private static void CheckDirectory(string path)
     {
         var dir = Path.GetDirectoryName(path);
-        if (!string.IsNullOrWhiteSpace(dir))
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+        if (!string.IsNullOrWhiteSpace(dir) && !Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
     }
 }
