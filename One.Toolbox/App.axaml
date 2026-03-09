@@ -23,6 +23,10 @@
     </Application.Styles>
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceInclude x:Key="Dark" Source="/Themes/Dark.axaml" />
+                <ResourceInclude x:Key="Light" Source="/Themes/Light.axaml" />
+            </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceInclude Source="/Assets/Languages/zh-CN.axaml" />-->
                 <ResourceInclude Source="/Assets/AvaloniaUIGeometries.axaml" />

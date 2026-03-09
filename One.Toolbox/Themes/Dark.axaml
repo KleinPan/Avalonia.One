@@ -20,4 +20,10 @@
     
     <Color x:Key="GridLinesColor">#333337</Color>
 
+    <Color x:Key="MainViewNavPaneBackgroundColor">#252528</Color>
+    <Color x:Key="MainViewNavPaneBorderColor">#3F3F3F</Color>
+    <Color x:Key="MainViewNavSelectedBackgroundColor">#2D3C4A</Color>
+    <Color x:Key="MainViewNavSelectedForegroundColor">#78B9FF</Color>
+    <Color x:Key="MainViewNavSelectedBorderColor">#78B9FF</Color>
+
 </ResourceDictionary>
