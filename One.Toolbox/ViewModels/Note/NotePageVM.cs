@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +11,6 @@ using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Setting;
 
 using System.Collections.ObjectModel;
-using System.IO;
 
 namespace One.Toolbox.ViewModels.Note;
 
@@ -87,7 +84,6 @@ public partial class NotePageVM : BasePageVM
         newValue?.LoadDocument();
     }
 
-   
     [RelayCommand]
     private void DeleteFile(object obj)
     {

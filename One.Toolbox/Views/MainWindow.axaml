@@ -56,13 +56,13 @@
                                     </MenuItem.Icon>
                                     <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="en" Header="{markup:I18n {x:Static lang:Language.English}}" />
                                     <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="zh-CN" Header="{markup:I18n {x:Static lang:Language.Chinese}}" />
-                                    <MenuItem Command="{Binding SetLanguageCommand}" CommandParameter="as_IN" Header="{markup:I18n {x:Static lang:Language.Test}}" />
+
                                 </MenuItem>
                                 <MenuItem Header="{markup:I18n {x:Static lang:Language.Theme}}">
                                     <MenuItem.Icon>
                                         <PathIcon Data="{StaticResource dark_theme_regular}" />
                                     </MenuItem.Icon>
-                                    <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Auto" Header="{markup:I18n {x:Static lang:Language.Auto}}" />
+                                    <!--<MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Auto" Header="{markup:I18n {x:Static lang:Language.Auto}}" />-->
                                     <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Light" Header="{markup:I18n {x:Static lang:Language.Light}}" />
                                     <MenuItem Command="{Binding SetThemeCommand}" CommandParameter="Dark" Header="{markup:I18n {x:Static lang:Language.Dark}}" />
                                 </MenuItem>

@@ -37,7 +37,7 @@ public partial class DashboardPageVM : BasePageVM
 
     public override void UpdateTitle()
     {
-        Title = I18nManager.GetString(Language.Test);
+        Title = I18nManager.GetString(Language.Dashboard);
     }
 
     private void OpenUrl(string urlObj)

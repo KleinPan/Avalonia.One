@@ -132,7 +132,7 @@ internal class SerialPortComponent : BaseVM
         serialPort.BaudRate = SerialportSetting.SerialportParams.BaudRate;
         serialPort.Parity = (Parity)SerialportSetting.SerialportParams.Parity;
         serialPort.DataBits = SerialportSetting.SerialportParams.DataBits;
-        serialPort.StopBits = (StopBits)(SerialportSetting.SerialportParams.StopBits + 1);
+        serialPort.StopBits = (StopBits)SerialportSetting.SerialportParams.StopBits;
         serialPort.RtsEnable = SerialportSetting.SerialportParams.RtsEnable;
         serialPort.DtrEnable = SerialportSetting.SerialportParams.DtrEnable;
 

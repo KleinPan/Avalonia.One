@@ -9,9 +9,7 @@ using One.Toolbox.Services;
 using One.Toolbox.Views.Note;
 
 using System.Diagnostics;
-using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Note;
 

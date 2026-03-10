@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Threading;
 
 using AvaloniaEdit.Document;
@@ -318,23 +319,18 @@ public partial class SerialportPageVM : BasePageVM
 
                         IsOpen = true;
 
-                        //待验证
+ 
                         OpenCloseButtonContent = I18nManager.GetString(Language.Close)!;
 
-                        //serialPortsListComboBox.IsEnabled = false;
                         StatusTextBlockContent = I18nManager.GetString(Language.Open)!;
-
-                        //待定，应该去掉
-                        //if (toSendData != null)
-                        //{
-                        //    SendUartData(toSendData);
-                        //    toSendData = null;
-                        //}
                     }
                     catch (Exception e)
                     {
                         //串口打开失败！
-                        NotifyHelper.ShowErrorMessage(I18nManager.GetString(Language.ErrorOpenPort)! + e.Message);
+                        Dispatcher.UIThread.Post(() =>
+                        {
+                            NotifyHelper.ShowErrorMessage(I18nManager.GetString(Language.ErrorOpenPort)! + e.Message);
+                        });
                     }
                     isOpeningPort = false;
                 });
@@ -452,12 +448,14 @@ public partial class SerialportPageVM : BasePageVM
     #endregion QuickSendList
 
     #region Setting
+
     [RelayCommand]
     private void ShowMoreSerialportSetting(object obj)
     {
         Debug.WriteLine("ShowMoreSerialportSetting");
         LoadSetting();
     }
+
     [RelayCommand]
     private void SaveMoreSerialportSetting(object obj)
     {

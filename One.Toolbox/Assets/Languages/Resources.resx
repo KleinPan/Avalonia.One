@@ -157,6 +157,9 @@
   <data name="Dark" xml:space="preserve">
     <value>Dark</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
   <data name="DataProcess" xml:space="preserve">
     <value>DataProcess</value>
   </data>

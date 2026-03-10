@@ -156,6 +156,9 @@
   <data name="Dark" xml:space="preserve">
     <value>深色</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>仪表盘</value>
+  </data>
   <data name="DataProcess" xml:space="preserve">
     <value>数据处理</value>
   </data>

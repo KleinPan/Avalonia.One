@@ -7,7 +7,7 @@ public class SerialportParams
     public int BaudRate { get; set; } = 115200;
     public Parity Parity { get; set; } = 0;
     public int DataBits { get; set; } = 8;
-    public int StopBits { get; set; } = 1;
+    public StopBits StopBits { get; set; } = StopBits.One;
 
     /// <summary>Request To Send 请求发送</summary>
     public bool RtsEnable { get; set; }

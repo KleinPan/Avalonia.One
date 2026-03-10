@@ -23,6 +23,7 @@ public static class Language
 	public static readonly string ConversionResult = "ConversionResult";
 	public static readonly string ConvertTask = "ConvertTask";
 	public static readonly string Dark = "Dark";
+	public static readonly string Dashboard = "Dashboard";
 	public static readonly string DataProcess = "DataProcess";
 	public static readonly string English = "English";
 	public static readonly string ErrorClosePort = "ErrorClosePort";

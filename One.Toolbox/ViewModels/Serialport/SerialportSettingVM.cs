@@ -10,7 +10,7 @@ public partial class SerialportSettingVM : ObservableObject
     private List<int> databitList = new() { 5, 6, 7, 8 };
 
     [ObservableProperty]
-    private List<int> stopBitsList = new() { 1, 2, 3 };
+    private List<StopBits> stopBitsList = Enum.GetValues(typeof(StopBits)).Cast<StopBits>().ToList();
 
     [ObservableProperty]
     private List<Parity> parityList = Enum.GetValues(typeof(Parity)).Cast<Parity>().ToList();
