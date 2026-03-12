@@ -41,6 +41,7 @@ public static class Language
 	public static readonly string MatchingResult = "MatchingResult";
 	public static readonly string MoreSettings = "MoreSettings";
 	public static readonly string Multiline = "Multiline";
+	public static readonly string NetDebugTool = "NetDebugTool";
 	public static readonly string Note = "Note";
 	public static readonly string Open = "Open";
 	public static readonly string OriginalData = "OriginalData";

@@ -27,6 +27,8 @@ using One.Toolbox.Views.Settings;
 using One.Toolbox.Views.UnixTimeConverter;
 
 using System.Collections.ObjectModel;
+using One.Toolbox.Views.IconBoard;
+using One.Toolbox.ViewModels.IconBoard;
 
 namespace One.Toolbox.ViewModels.MainWindow;
 
@@ -95,7 +97,7 @@ public partial class MainViewVM : BaseVM
             new()
             {
                 Header = "NetTool",
-                Icon = ResourceHelper.FindObjectResource("preview_link_regular"),
+                Icon = ResourceHelper.FindObjectResource("organization_regular"),
                 Content = new NetToolPage() { DataContext = App.Current!.Services.GetService<NetToolPageVM>() },
             },
             new()

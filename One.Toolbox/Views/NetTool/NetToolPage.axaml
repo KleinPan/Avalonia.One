@@ -4,72 +4,83 @@
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:One.Toolbox.Behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:One.Toolbox.ViewModels.NetTool"
              d:DesignHeight="450"
              d:DesignWidth="900"
              x:DataType="vm:NetToolPageVM"
              mc:Ignorable="d">
     <TabControl Margin="8">
-        <TabItem Header="端口占用">
-            <Grid RowDefinitions="Auto,*" RowSpacing="8">
-                <Button HorizontalAlignment="Left" Command="{Binding RefreshPortUsageCommand}" Content="刷新端口占用" />
-                <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding PortUsageItems}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Type}" Header="类型" Width="150" />
-                        <DataGridTextColumn Binding="{Binding Endpoint}" Header="端点" Width="*" />
-                        <DataGridTextColumn Binding="{Binding Port}" Header="端口" Width="100" />
-                        <DataGridTextColumn Binding="{Binding State}" Header="状态" Width="120" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </TabItem>
+
 
         <TabItem Header="Socket调试">
-            <Grid RowDefinitions="Auto,*,Auto" RowSpacing="8">
-                <Border Padding="8" Background="{DynamicResource SystemControlBackgroundChromeLowBrush}" BorderBrush="Gray" BorderThickness="1">
-                    <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
-                        <Grid ColumnDefinitions="Auto,130,Auto,160,Auto,100,*" ColumnSpacing="8">
-                            <TextBlock VerticalAlignment="Center" Text="模式" />
-                            <ComboBox Grid.Column="1" ItemsSource="{Binding SocketModes}" SelectedItem="{Binding SocketMode}" />
+            <Grid RowDefinitions="Auto,*,Auto, Auto" RowSpacing="8">
+                <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="8" IsEnabled="{Binding !SocketStarted}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock VerticalAlignment="Center" Text="模式" />
+                        <ComboBox Grid.Column="1" Width="200" ItemsSource="{Binding SocketModes}" SelectedItem="{Binding SocketMode}" />
 
-                            <TextBlock Grid.Column="2" VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端IP" />
-                            <TextBox Grid.Column="3" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemoteHost}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+                        <TextBlock VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端IP" />
+                        <TextBox Width="100" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemoteHost}" />
 
-                            <TextBlock Grid.Column="4" VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端端口" />
-                            <TextBox Grid.Column="5" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemotePort}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                        <TextBlock VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端端口" />
+                        <TextBox Width="60" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemotePort}" />
 
-                            <StackPanel Grid.Column="6" Orientation="Horizontal" Spacing="6" IsVisible="{Binding ShowLocalPort}">
-                                <TextBlock VerticalAlignment="Center" Text="本地端口" />
-                                <TextBox Width="100" Text="{Binding LocalPort}" />
-                            </StackPanel>
-                        </Grid>
+                    </StackPanel>
 
-                        <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*" ColumnSpacing="8">
-                            <Button Command="{Binding StartSocketCommand}" Content="启动" IsEnabled="{Binding !SocketStarted}" />
-                            <Button Grid.Column="1" Command="{Binding StopSocketCommand}" Content="停止" IsEnabled="{Binding SocketStarted}" />
-                            <CheckBox Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex发送" IsChecked="{Binding SocketHexSend}" />
-                            <CheckBox Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex显示" IsChecked="{Binding SocketHexShow}" />
-                            <Button Grid.Column="4" Command="{Binding ClearLogCommand}" Content="清空日志" />
-                        </Grid>
-                    </Grid>
-                </Border>
+                    <StackPanel Grid.Column="3" IsVisible="{Binding ShowLocalPort}" Orientation="Horizontal" Spacing="6">
+                        <TextBlock VerticalAlignment="Center" Text="本地端口" />
+                        <TextBox Width="60" Text="{Binding LocalPort}" />
+                    </StackPanel>
+                </Grid>
 
-                <AvaloniaEdit:TextEditor Grid.Row="1"
+                <AvaloniaEdit:TextEditor Name="LogEditor" Grid.Row="1"
                                          Document="{Binding LogDocument}"
-                                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                                         ShowLineNumbers="True"
-                                         WordWrap="True">
+                                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True" WordWrap="True">
                     <i:Interaction.Behaviors>
                         <local:AutoScrollBehavior />
                     </i:Interaction.Behaviors>
                 </AvaloniaEdit:TextEditor>
 
-                <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                    <TextBox AcceptsReturn="True" MinHeight="64" Text="{Binding SocketSendText}" TextWrapping="Wrap" />
+                <Border Grid.Row="2" Padding="8" Background="{DynamicResource SystemControlBackgroundChromeLowBrush}">
+                    <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
+
+
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*" ColumnSpacing="8">
+                            <Button Command="{Binding StartSocketCommand}" Content="启动" IsEnabled="{Binding !SocketStarted}" />
+                            <Button Grid.Column="1" Command="{Binding StopSocketCommand}" Content="停止" IsEnabled="{Binding SocketStarted}" />
+                            <CheckBox Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex发送"
+                                      IsChecked="{Binding SocketHexSend}" />
+                            <CheckBox Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex显示"
+                                      IsChecked="{Binding SocketHexShow}" />
+                            <Button Grid.Column="4" Command="{Binding ClearLogCommand}" Content="清空日志" />
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="3" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <TextBox MinHeight="64" VerticalContentAlignment="Top" AcceptsReturn="True" FontFamily="Consolas"
+                             Text="{Binding SocketSendText}"
+                             TextWrapping="Wrap" />
                     <Button Grid.Column="1" MinWidth="90" Command="{Binding SendSocketDataCommand}" Content="发送" />
                 </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="端口占用">
+            <Grid RowDefinitions="Auto,*" RowSpacing="8">
+                <Button HorizontalAlignment="Left" Command="{Binding RefreshPortUsageCommand}" Content="刷新端口占用" />
+                <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding PortUsageItems}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="150" Binding="{Binding Type}" Header="类型" />
+                        <DataGridTextColumn Width="*" Binding="{Binding Endpoint}" Header="端点" />
+                        <DataGridTextColumn Width="100" Binding="{Binding Port}" Header="端口" />
+                        <DataGridTextColumn Width="120" Binding="{Binding State}" Header="状态" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </TabItem>
     </TabControl>

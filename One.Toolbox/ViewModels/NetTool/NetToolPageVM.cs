@@ -5,6 +5,8 @@ using AvaloniaEdit.Document;
 
 using One.Base.Helpers.DataProcessHelpers;
 using One.Base.Helpers.NetHelpers;
+using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.ViewModels.Base;
 
 using System.Collections.ObjectModel;
@@ -64,7 +66,7 @@ public partial class NetToolPageVM : BasePageVM
 
     public override void UpdateTitle()
     {
-        Title = "网络调试工具";
+        Title = I18nManager.GetString(Language.NetDebugTool)!;
     }
 
     [RelayCommand]
@@ -95,8 +97,10 @@ public partial class NetToolPageVM : BasePageVM
         PortUsageItems = new ObservableCollection<PortUsageItemVM>(usages.OrderBy(x => x.Port).ThenBy(x => x.Type));
     }
 
+    #region Start&Stop
+
     [RelayCommand]
-    private void StartSocket()
+    private async Task StartSocket()
     {
         if (SocketStarted)
             return;
@@ -106,7 +110,7 @@ public partial class NetToolPageVM : BasePageVM
             switch (SocketMode)
             {
                 case "TCP Client":
-                    StartTcpClient();
+                    await StartTcpClient();
                     break;
 
                 case "TCP Server":
@@ -127,85 +131,7 @@ public partial class NetToolPageVM : BasePageVM
         }
     }
 
-    [RelayCommand]
-    private void StopSocket()
-    {
-        try
-        {
-            tcpClient?.ReleaseClient();
-            tcpServer?.ReleaseServer();
-            udpClient?.ReleaseClient();
-        }
-        catch (Exception ex)
-        {
-            AppendLog($"[ERR] 停止异常: {ex.Message}");
-        }
-        finally
-        {
-            tcpClient = null;
-            tcpServer = null;
-            udpClient = null;
-            SocketStarted = false;
-            AppendLog("[SYS] Socket已停止");
-        }
-    }
-
-    [RelayCommand]
-    private void SendSocketData()
-    {
-        if (!SocketStarted)
-        {
-            AppendLog("[SYS] 请先启动Socket");
-            return;
-        }
-
-        try
-        {
-            var payload = BuildPayload(SocketSendText, SocketHexSend);
-            switch (SocketMode)
-            {
-                case "TCP Client":
-                    tcpClient?.SendData(payload);
-                    break;
-
-                case "TCP Server":
-                    tcpServer?.SendDataToAll(payload);
-                    break;
-
-                case "UDP":
-                    udpClient?.SendData(new IPEndPoint(IPAddress.Parse(SocketRemoteHost), SocketRemotePort), payload);
-                    break;
-            }
-
-        }
-        catch (Exception ex)
-        {
-            AppendLog($"[ERR] 发送失败: {ex.Message}");
-        }
-    }
-
-    [RelayCommand]
-    private void ClearLog()
-    {
-        LogDocument = new TextDocument();
-    }
-
-    public override void OnNavigatedEnter(UserControl userControl)
-    {
-        base.OnNavigatedEnter(userControl);
-        RefreshPortUsage();
-    }
-
-    partial void OnSocketModeChanged(string value)
-    {
-        OnPropertyChanged(nameof(IsTcpClientMode));
-        OnPropertyChanged(nameof(IsTcpServerMode));
-        OnPropertyChanged(nameof(IsUdpMode));
-        OnPropertyChanged(nameof(ShowRemoteEndpoint));
-        OnPropertyChanged(nameof(ShowLocalPort));
-    }
-
-    private void StartTcpClient()
+    private async Task StartTcpClient()
     {
         tcpClient = new AsyncTCPClient(WriteInfoLog);
         tcpClient.ReceiveAction = data => ShowSocketData(data, send: false, SocketHexShow);
@@ -213,7 +139,7 @@ public partial class NetToolPageVM : BasePageVM
         tcpClient.OnConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
         tcpClient.OnDisConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
 
-        if (!tcpClient.InitClient(IPAddress.Parse(SocketRemoteHost), SocketRemotePort))
+        if (!await tcpClient.InitClient(IPAddress.Parse(SocketRemoteHost), SocketRemotePort))
         {
             throw new Exception("TCP客户端启动失败");
         }
@@ -245,6 +171,85 @@ public partial class NetToolPageVM : BasePageVM
         {
             throw new Exception("UDP启动失败");
         }
+    }
+
+    [RelayCommand]
+    private void StopSocket()
+    {
+        try
+        {
+            tcpClient?.ReleaseClient();
+            tcpServer?.ReleaseServer();
+            udpClient?.ReleaseClient();
+        }
+        catch (Exception ex)
+        {
+            AppendLog($"[ERR] 停止异常: {ex.Message}");
+        }
+        finally
+        {
+            tcpClient = null;
+            tcpServer = null;
+            udpClient = null;
+            SocketStarted = false;
+            AppendLog("[SYS] Socket已停止");
+        }
+    }
+
+    #endregion Start&Stop
+
+    [RelayCommand]
+    private void SendSocketData()
+    {
+        if (!SocketStarted)
+        {
+            AppendLog("[SYS] 请先启动Socket");
+            return;
+        }
+
+        try
+        {
+            var payload = BuildPayload(SocketSendText, SocketHexSend);
+            switch (SocketMode)
+            {
+                case "TCP Client":
+                    tcpClient?.SendData(payload);
+                    break;
+
+                case "TCP Server":
+                    tcpServer?.SendDataToAll(payload);
+                    break;
+
+                case "UDP":
+                    udpClient?.SendData(new IPEndPoint(IPAddress.Parse(SocketRemoteHost), SocketRemotePort), payload);
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            AppendLog($"[ERR] 发送失败: {ex.Message}");
+        }
+    }
+
+    [RelayCommand]
+    private void ClearLog()
+    {
+        LogDocument = new TextDocument();
+    }
+
+    public override void OnNavigatedEnter(UserControl userControl)
+    {
+        base.OnNavigatedEnter(userControl);
+        RefreshPortUsage();
+    }
+
+    partial void OnSocketModeChanged(string value)
+    {
+        OnPropertyChanged(nameof(IsTcpClientMode));
+        OnPropertyChanged(nameof(IsTcpServerMode));
+        OnPropertyChanged(nameof(IsUdpMode));
+        OnPropertyChanged(nameof(ShowRemoteEndpoint));
+        OnPropertyChanged(nameof(ShowLocalPort));
     }
 
     private byte[] BuildPayload(string text, bool hex)
@@ -279,7 +284,7 @@ public partial class NetToolPageVM : BasePageVM
         WriteInfoLog(line);
         Dispatcher.UIThread.Post(() =>
         {
-            LogDocument.Insert(LogDocument.TextLength, $"{DateTime.Now:HH:mm:ss.fff} {line}{Environment.NewLine}");
+            LogDocument.Insert(LogDocument.TextLength, $"{DateTime.Now:HH:mm:ss.fff}{line}{Environment.NewLine}");
         });
     }
 }

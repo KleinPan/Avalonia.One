@@ -87,7 +87,7 @@
                         </Button.Flyout>
                     </Button>
                     <Button Command="{Binding SaveLogCommand}" Content="{markup1:I18n {x:Static lang:Language.SaveLog}}" />
-                
+
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10">
@@ -214,6 +214,8 @@
                 <StackPanel.Styles>
                     <Style Selector="u|Divider">
                         <Setter Property="Orientation" Value="Vertical" />
+                    </Style>
+                    <Style Selector="u|Divider[Orientation=Vertical]">
                         <Setter Property="Margin" Value="10,5" />
                     </Style>
                     <Style Selector="TextBlock">

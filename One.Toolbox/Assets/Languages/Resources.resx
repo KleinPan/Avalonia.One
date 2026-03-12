@@ -211,6 +211,9 @@
   <data name="Multiline" xml:space="preserve">
     <value>Multiline</value>
   </data>
+  <data name="NetDebugTool" xml:space="preserve">
+    <value>NetDebugTool</value>
+  </data>
   <data name="Note" xml:space="preserve">
     <value>Note</value>
   </data>

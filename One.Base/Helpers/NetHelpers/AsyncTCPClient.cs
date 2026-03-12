@@ -1,187 +1,149 @@
-﻿using System;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Threading;
+using System.Text;
 
 namespace One.Base.Helpers.NetHelpers;
 
-/// <summary>
-/// 使用新版本微软推荐的异步套接字开发
-/// <para>https://learn.microsoft.com/en-us/dotnet/fundamentals/networking/sockets/socket-services#create-a-socket-client</para>
-/// <para>https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket?view=net-7.0</para>
-/// </summary>
 public class AsyncTCPClient : BaseHelper
 {
-    #region 变量
-
     private Socket? socket;
 
-    #endregion 变量
-
+    // 保留你原有的业务回调
     public Action<byte[]> ReceiveAction;
+
     public Action<byte[]> SendAction;
     public Action<byte[]> OnConnected;
     public Action<byte[]> OnDisConnected;
 
     public CancellationToken cancellationToken = default;
 
-    /// <summary>暂时不起作用</summary>
-    public int WaitTime = 100;
-
     public AsyncTCPClient(Action<string> logAction) : base(logAction)
     {
     }
 
-    /// <summary>初始化作为客户端并连接</summary>
+    /// <summary>初始化并连接。现在它返回 <see cref="Task"/>，调用方可以用 await 准确知道是否连接成功。</summary>
     /// <param name="ip"></param>
     /// <param name="port"></param>
-    public bool InitClient(IPAddress ip, int port)
+    /// <returns></returns>
+    public async Task<bool> InitClient(IPAddress ip, int port)
     {
         try
         {
-            IPEndPoint ipEndPoint = new(ip, port);
+            // 如果已有连接，先释放
+            ReleaseClient();
 
-            //socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPEndPoint ipEndPoint = new(ip, port);
             socket = new Socket(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-            SocketAsyncEventArgs e = new SocketAsyncEventArgs();
-            e.RemoteEndPoint = ipEndPoint;
-            e.UserToken = socket;
-            e.Completed += new EventHandler<SocketAsyncEventArgs>(ConnectComplete);
-            e.SetBuffer(System.Text.Encoding.UTF8.GetBytes("Hello!"));
+            // 1. 尝试连接（真正异步等待结果）
+            await socket.ConnectAsync(ipEndPoint, cancellationToken);
 
-            var willRaiseEvent = socket.ConnectAsync(e);
+            // 2. 连接成功后的处理
+            var a = $"{socket.LocalEndPoint} connected!";
+            WriteLog(a);
 
-            if (!willRaiseEvent)//暂时没发现有什么用
-            {
-                ConnectComplete(this, e);
-            }
+            // 触发你定义的回调
+            OnConnected?.Invoke(Encoding.UTF8.GetBytes(a));
+
+            // 3. 启动后台接收循环（不阻塞当前线程）
+            _ = ReceiveLoop();
 
             return true;
         }
         catch (Exception ex)
         {
-            WriteLog(ex.ToString());
+            WriteLog($"连接失败: {ex.Message}");
             return false;
         }
     }
 
-    /// <summary>连接成功事件</summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void ConnectComplete(object sender, SocketAsyncEventArgs e)
+    /// <summary>循环接收数据</summary>
+    private async Task ReceiveLoop()
     {
-        //这里设置buffer已经晚了，所以提前设置进去
-
+        // 缓冲区放在循环外重用，减少 GC 压力
+        byte[] buffer = new byte[1024];
         try
         {
-            //客户端自己的Socket,也可以直接用最开始的socket
-            if (e.SocketError != SocketError.Success || e.ConnectSocket == null)
+            while (socket != null && socket.Connected)
             {
-                throw new SocketException((int)e.SocketError);
-            }
+                // 使用内存片段接收，直接 await 结果
+                int bytesReceived = await socket.ReceiveAsync(buffer.AsMemory(), SocketFlags.None, cancellationToken);
 
-            var localClientSocket = e.ConnectSocket;//连接的 Socket 对象。
-            var a = $"{localClientSocket.LocalEndPoint} connected!";
-
-            var info = System.Text.Encoding.UTF8.GetBytes(a);
-            OnConnected?.Invoke(info);
-
-            WriteLog(a);
-
-            //连接成功再启动接受函数
-            Receive();
-        }
-        catch (Exception ex)
-        {
-            WriteLog($"连接失败 => {ex}");
-
-            // throw;
-        }
-    }
-
-    /// <summary>释放当前客户端连接</summary>
-    /// <returns></returns>
-    public void ReleaseClient()
-    {
-        try
-        {
-            if (socket == null)
-            {
-                return;
-            }
-
-            if (socket.Connected)
-            {
-                socket.Shutdown(SocketShutdown.Both);
-            }
-
-            var a = $"{socket.LocalEndPoint} disconnected!";
-            var info = System.Text.Encoding.UTF8.GetBytes(a);
-            OnDisConnected?.Invoke(info);
-
-            socket.Close();
-            socket = null;
-        }
-        catch (Exception ex)
-        {
-            WriteLog(ex.ToString());
-            // ignore close exception
-        }
-    }
-
-    public async void SendData(byte[] data)
-    {
-        try
-        {
-            // int count = sckClient.Send(data);
-            //Console.WriteLine("发送数据长度为：" + count);
-
-            int bytesSent = 0;
-            while (bytesSent < data.Length)
-            {
-                if (socket == null)
+                if (bytesReceived <= 0)
                 {
-                    return;
+                    WriteLog("服务器主动断开连接");
+                    break;
                 }
 
-                bytesSent += await socket.SendAsync(data.AsMemory(bytesSent), SocketFlags.None);
+                // 提取实际数据并触发你的回调
+                var receivedData = buffer.Take(bytesReceived).ToArray();
+                ReceiveAction?.Invoke(receivedData);
+            }
+        }
+        catch (OperationCanceledException) { /* 正常退出 */ }
+        catch (Exception ex)
+        {
+            WriteLog($"接收异常: {ex.Message}");
+        }
+        finally
+        {
+            // 如果循环跳出，说明连接断了，清理资源
+            ReleaseClient();
+        }
+    }
+
+    /// <summary>发送数据</summary>
+    public async void SendData(byte[] data)
+    {
+        if (socket == null || !socket.Connected)
+        {
+            WriteLog("发送失败：Socket 未连接");
+            return;
+        }
+
+        try
+        {
+            // 循环发送直到发送完毕
+            int totalSent = 0;
+            while (totalSent < data.Length)
+            {
+                int sent = await socket.SendAsync(data.AsMemory(totalSent), SocketFlags.None, cancellationToken);
+                if (sent <= 0) break;
+                totalSent += sent;
             }
 
+            // 触发你定义的发送回调
             SendAction?.Invoke(data);
         }
         catch (Exception ex)
         {
-            WriteLog(ex.ToString());
+            WriteLog($"发送数据异常: {ex.Message}");
         }
     }
 
-    /// <summary>循环接受缓冲区数据</summary>
-    private async void Receive()
+    /// <summary>释放连接</summary>
+    public void ReleaseClient()
     {
         try
         {
-            while (true)
+            if (socket == null) return;
+
+            if (socket.Connected)
             {
-                if (socket == null || !socket.Connected)
-                {
-                    return;
-                }
-                byte[] responseBytes = new byte[1024];
-                int bytesReceived = await socket.ReceiveAsync(responseBytes, SocketFlags.None, cancellationToken);
+                var a = $"{socket.LocalEndPoint} disconnected!";
+                OnDisConnected?.Invoke(Encoding.UTF8.GetBytes(a));
 
-                if (bytesReceived <= 0)
-                {
-                    return;
-                }
-
-                ReceiveAction?.Invoke(responseBytes.Take(bytesReceived).ToArray());
+                socket.Shutdown(SocketShutdown.Both);
             }
+
+            socket.Close();
+            socket.Dispose();
+            socket = null;
+            WriteLog("Socket 资源已释放");
         }
         catch (Exception ex)
         {
-            WriteLog(ex.ToString());
+            WriteLog($"释放资源错误: {ex.Message}");
         }
     }
 }

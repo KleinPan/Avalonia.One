@@ -210,6 +210,9 @@
   <data name="Multiline" xml:space="preserve">
     <value>多行模式搜索</value>
   </data>
+  <data name="NetDebugTool" xml:space="preserve">
+    <value>网络调试工具</value>
+  </data>
   <data name="Note" xml:space="preserve">
     <value>笔记</value>
   </data>
