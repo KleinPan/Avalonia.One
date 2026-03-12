@@ -59,7 +59,7 @@ public class AsyncTCPServer : BaseHelper
         catch (Exception ex)
         {
             WriteLog(ex.ToString());
-            throw ex;
+            throw;
         }
     }
 
@@ -67,7 +67,26 @@ public class AsyncTCPServer : BaseHelper
     {
         try
         {
-            sckServer.Shutdown(SocketShutdown.Both);
+            foreach (var client in listConnection.ToList())
+            {
+                try
+                {
+                    if (client.Connected)
+                    {
+                        client.Shutdown(SocketShutdown.Both);
+                    }
+
+                    var info = System.Text.Encoding.UTF8.GetBytes($"{client.RemoteEndPoint} disconnected!");
+                    OnDisConnected?.Invoke(info);
+                    client.Close();
+                }
+                catch
+                {
+                }
+            }
+            listConnection.Clear();
+
+            sckServer?.Shutdown(SocketShutdown.Both);
         }
         catch (Exception ex)
         {
@@ -76,7 +95,7 @@ public class AsyncTCPServer : BaseHelper
         }
         try
         {
-            sckServer.Close();
+            sckServer?.Close();
         }
         catch (Exception ex)
         {

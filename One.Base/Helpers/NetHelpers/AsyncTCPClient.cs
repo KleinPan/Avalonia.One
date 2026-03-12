@@ -15,7 +15,7 @@ public class AsyncTCPClient : BaseHelper
 {
     #region 变量
 
-    private Socket socket = null;
+    private Socket? socket;
 
     #endregion 变量
 
@@ -77,11 +77,13 @@ public class AsyncTCPClient : BaseHelper
         try
         {
             //客户端自己的Socket,也可以直接用最开始的socket
-            var localClientSocket = e.ConnectSocket;//连接的 Socket 对象。
-            var addressFamily = localClientSocket.AddressFamily.ToString();
+            if (e.SocketError != SocketError.Success || e.ConnectSocket == null)
+            {
+                throw new SocketException((int)e.SocketError);
+            }
 
-            // var a = localClientSocket.LocalEndPoint.ToString();
-            var a = $"{localClientSocket.LocalEndPoint.ToString()} connected!";
+            var localClientSocket = e.ConnectSocket;//连接的 Socket 对象。
+            var a = $"{localClientSocket.LocalEndPoint} connected!";
 
             var info = System.Text.Encoding.UTF8.GetBytes(a);
             OnConnected?.Invoke(info);
@@ -105,18 +107,27 @@ public class AsyncTCPClient : BaseHelper
     {
         try
         {
-            socket.Shutdown(SocketShutdown.Both);
+            if (socket == null)
+            {
+                return;
+            }
+
+            if (socket.Connected)
+            {
+                socket.Shutdown(SocketShutdown.Both);
+            }
 
             var a = $"{socket.LocalEndPoint} disconnected!";
             var info = System.Text.Encoding.UTF8.GetBytes(a);
             OnDisConnected?.Invoke(info);
 
             socket.Close();
+            socket = null;
         }
         catch (Exception ex)
         {
             WriteLog(ex.ToString());
-            throw ex;
+            // ignore close exception
         }
     }
 
@@ -130,6 +141,11 @@ public class AsyncTCPClient : BaseHelper
             int bytesSent = 0;
             while (bytesSent < data.Length)
             {
+                if (socket == null)
+                {
+                    return;
+                }
+
                 bytesSent += await socket.SendAsync(data.AsMemory(bytesSent), SocketFlags.None);
             }
 
@@ -148,17 +164,19 @@ public class AsyncTCPClient : BaseHelper
         {
             while (true)
             {
-                if (!socket.Connected)
+                if (socket == null || !socket.Connected)
                 {
                     return;
                 }
                 byte[] responseBytes = new byte[1024];
                 int bytesReceived = await socket.ReceiveAsync(responseBytes, SocketFlags.None, cancellationToken);
 
-                if (bytesReceived > 0)
+                if (bytesReceived <= 0)
                 {
-                    ReceiveAction?.Invoke(responseBytes.Take(bytesReceived).ToArray());
+                    return;
                 }
+
+                ReceiveAction?.Invoke(responseBytes.Take(bytesReceived).ToArray());
             }
         }
         catch (Exception ex)

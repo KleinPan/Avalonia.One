@@ -10,7 +10,6 @@ using One.Toolbox.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Text;
 
 namespace One.Toolbox.ViewModels.NetTool;
@@ -25,16 +24,7 @@ public partial class NetToolPageVM : BasePageVM
     private ObservableCollection<PortUsageItemVM> portUsageItems = [];
 
     [ObservableProperty]
-    private string targetHost = "127.0.0.1";
-
-    [ObservableProperty]
-    private int targetPort = 80;
-
-    [ObservableProperty]
     private int localPort = 9000;
-
-    [ObservableProperty]
-    private string testResult = "";
 
     [ObservableProperty]
     private bool socketHexSend;
@@ -61,6 +51,16 @@ public partial class NetToolPageVM : BasePageVM
 
     [ObservableProperty]
     private TextDocument logDocument = new();
+
+    public bool IsTcpClientMode => SocketMode == "TCP Client";
+
+    public bool IsTcpServerMode => SocketMode == "TCP Server";
+
+    public bool IsUdpMode => SocketMode == "UDP";
+
+    public bool ShowRemoteEndpoint => IsTcpClientMode || IsUdpMode;
+
+    public bool ShowLocalPort => IsTcpServerMode || IsUdpMode;
 
     public override void UpdateTitle()
     {
@@ -96,40 +96,6 @@ public partial class NetToolPageVM : BasePageVM
     }
 
     [RelayCommand]
-    private async Task RunTcpTest()
-    {
-        try
-        {
-            using var client = new TcpClient();
-            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-
-            await client.ConnectAsync(TargetHost, TargetPort, cts.Token);
-            TestResult = $"TCP连接成功: {TargetHost}:{TargetPort}";
-        }
-        catch (Exception ex)
-        {
-            TestResult = $"TCP连接失败: {ex.Message}";
-        }
-    }
-
-    [RelayCommand]
-    private async Task RunUdpTest()
-    {
-        try
-        {
-            using var client = new UdpClient(LocalPort);
-            var endpoint = new IPEndPoint(IPAddress.Parse(TargetHost), TargetPort);
-            var bytes = Encoding.UTF8.GetBytes("UDP TEST");
-            await client.SendAsync(bytes, endpoint);
-            TestResult = $"UDP发送成功: {endpoint}";
-        }
-        catch (Exception ex)
-        {
-            TestResult = $"UDP测试失败: {ex.Message}";
-        }
-    }
-
-    [RelayCommand]
     private void StartSocket()
     {
         if (SocketStarted)
@@ -153,11 +119,11 @@ public partial class NetToolPageVM : BasePageVM
             }
 
             SocketStarted = true;
-            AppendLog($"Socket已启动: {SocketMode}");
+            AppendLog($"[SYS] Socket已启动: {SocketMode}");
         }
         catch (Exception ex)
         {
-            AppendLog($"启动失败: {ex.Message}");
+            AppendLog($"[ERR] 启动失败: {ex.Message}");
         }
     }
 
@@ -172,7 +138,7 @@ public partial class NetToolPageVM : BasePageVM
         }
         catch (Exception ex)
         {
-            AppendLog($"停止异常: {ex.Message}");
+            AppendLog($"[ERR] 停止异常: {ex.Message}");
         }
         finally
         {
@@ -180,7 +146,7 @@ public partial class NetToolPageVM : BasePageVM
             tcpServer = null;
             udpClient = null;
             SocketStarted = false;
-            AppendLog("Socket已停止");
+            AppendLog("[SYS] Socket已停止");
         }
     }
 
@@ -189,7 +155,7 @@ public partial class NetToolPageVM : BasePageVM
     {
         if (!SocketStarted)
         {
-            AppendLog("请先启动Socket");
+            AppendLog("[SYS] 请先启动Socket");
             return;
         }
 
@@ -211,11 +177,10 @@ public partial class NetToolPageVM : BasePageVM
                     break;
             }
 
-            AppendLog($"[Send] {FormatBytes(payload, SocketHexSend)}");
         }
         catch (Exception ex)
         {
-            AppendLog($"发送失败: {ex.Message}");
+            AppendLog($"[ERR] 发送失败: {ex.Message}");
         }
     }
 
@@ -231,12 +196,22 @@ public partial class NetToolPageVM : BasePageVM
         RefreshPortUsage();
     }
 
+    partial void OnSocketModeChanged(string value)
+    {
+        OnPropertyChanged(nameof(IsTcpClientMode));
+        OnPropertyChanged(nameof(IsTcpServerMode));
+        OnPropertyChanged(nameof(IsUdpMode));
+        OnPropertyChanged(nameof(ShowRemoteEndpoint));
+        OnPropertyChanged(nameof(ShowLocalPort));
+    }
+
     private void StartTcpClient()
     {
         tcpClient = new AsyncTCPClient(WriteInfoLog);
-        tcpClient.ReceiveAction = data => AppendLog($"[Recv] {FormatBytes(data, SocketHexShow)}");
-        tcpClient.OnConnected = data => AppendLog($"[Conn] {Encoding.UTF8.GetString(data)}");
-        tcpClient.OnDisConnected = data => AppendLog($"[Disc] {Encoding.UTF8.GetString(data)}");
+        tcpClient.ReceiveAction = data => ShowSocketData(data, send: false, SocketHexShow);
+        tcpClient.SendAction = data => ShowSocketData(data, send: true, SocketHexSend);
+        tcpClient.OnConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
+        tcpClient.OnDisConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
 
         if (!tcpClient.InitClient(IPAddress.Parse(SocketRemoteHost), SocketRemotePort))
         {
@@ -247,9 +222,10 @@ public partial class NetToolPageVM : BasePageVM
     private void StartTcpServer()
     {
         tcpServer = new AsyncTCPServer(WriteInfoLog);
-        tcpServer.ReceiveAction = (_, data) => AppendLog($"[Recv] {FormatBytes(data, SocketHexShow)}");
-        tcpServer.OnConnected = data => AppendLog($"[Conn] {Encoding.UTF8.GetString(data)}");
-        tcpServer.OnDisConnected = data => AppendLog($"[Disc] {Encoding.UTF8.GetString(data)}");
+        tcpServer.ReceiveAction = (_, data) => ShowSocketData(data, send: false, SocketHexShow);
+        tcpServer.SendAction = data => ShowSocketData(data, send: true, SocketHexSend);
+        tcpServer.OnConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
+        tcpServer.OnDisConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
 
         if (!tcpServer.InitAsServer(IPAddress.Any, LocalPort))
         {
@@ -260,9 +236,10 @@ public partial class NetToolPageVM : BasePageVM
     private void StartUdp()
     {
         udpClient = new AsyncUDPClient(WriteInfoLog);
-        udpClient.ReceiveAction = (remote, data) => AppendLog($"[Recv {remote}] {FormatBytes(data, SocketHexShow)}");
-        udpClient.OnConnected = data => AppendLog($"[Conn] {Encoding.UTF8.GetString(data)}");
-        udpClient.OnDisConnected = _ => AppendLog("[Disc] UDP Closed");
+        udpClient.ReceiveAction = (remote, data) => ShowSocketData(data, send: false, SocketHexShow, remote);
+        udpClient.SendAction = data => ShowSocketData(data, send: true, SocketHexSend);
+        udpClient.OnConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
+        udpClient.OnDisConnected = data => AppendLog($"[SYS] {Encoding.UTF8.GetString(data)}");
 
         if (!udpClient.InitClient(IPAddress.Any, LocalPort))
         {
@@ -290,8 +267,16 @@ public partial class NetToolPageVM : BasePageVM
         return Encoding.UTF8.GetString(data);
     }
 
+    private void ShowSocketData(byte[] data, bool send, bool hexMode, string? remote = null)
+    {
+        var prefix = send ? " << " : " >> ";
+        var remotePart = string.IsNullOrWhiteSpace(remote) ? string.Empty : $"[{remote}] ";
+        AppendLog($"{remotePart}{prefix}{FormatBytes(data, hexMode)}");
+    }
+
     private void AppendLog(string line)
     {
+        WriteInfoLog(line);
         Dispatcher.UIThread.Post(() =>
         {
             LogDocument.Insert(LogDocument.TextLength, $"{DateTime.Now:HH:mm:ss.fff} {line}{Environment.NewLine}");

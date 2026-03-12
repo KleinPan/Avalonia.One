@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:One.Toolbox.Behaviors"
              xmlns:vm="using:One.Toolbox.ViewModels.NetTool"
              d:DesignHeight="450"
              d:DesignWidth="900"
@@ -24,49 +26,48 @@
             </Grid>
         </TabItem>
 
-        <TabItem Header="TCP/UDP测试">
-            <StackPanel Spacing="8">
-                <Grid ColumnDefinitions="Auto,160,Auto,100,Auto,100,*" ColumnSpacing="8">
-                    <TextBlock VerticalAlignment="Center" Text="目标IP" />
-                    <TextBox Grid.Column="1" Text="{Binding TargetHost}" />
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="目标端口" />
-                    <TextBox Grid.Column="3" Text="{Binding TargetPort}" />
-                    <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="本地端口" />
-                    <TextBox Grid.Column="5" Text="{Binding LocalPort}" />
-                </Grid>
-                <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Command="{Binding RunTcpTestCommand}" Content="TCP连接测试" />
-                    <Button Command="{Binding RunUdpTestCommand}" Content="UDP发送测试" />
-                </StackPanel>
-                <TextBlock Foreground="DarkCyan" Text="{Binding TestResult}" TextWrapping="Wrap" />
-            </StackPanel>
-        </TabItem>
-
         <TabItem Header="Socket调试">
-            <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="8">
-                <Grid ColumnDefinitions="Auto,130,Auto,160,Auto,100,Auto,100,*" ColumnSpacing="8">
-                    <TextBlock VerticalAlignment="Center" Text="模式" />
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding SocketModes}" SelectedItem="{Binding SocketMode}" />
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="远端IP" />
-                    <TextBox Grid.Column="3" Text="{Binding SocketRemoteHost}" />
-                    <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="远端端口" />
-                    <TextBox Grid.Column="5" Text="{Binding SocketRemotePort}" />
-                    <TextBlock Grid.Column="6" VerticalAlignment="Center" Text="本地端口" />
-                    <TextBox Grid.Column="7" Text="{Binding LocalPort}" />
-                </Grid>
+            <Grid RowDefinitions="Auto,*,Auto" RowSpacing="8">
+                <Border Padding="8" Background="{DynamicResource SystemControlBackgroundChromeLowBrush}" BorderBrush="Gray" BorderThickness="1">
+                    <Grid RowDefinitions="Auto,Auto" RowSpacing="8">
+                        <Grid ColumnDefinitions="Auto,130,Auto,160,Auto,100,*" ColumnSpacing="8">
+                            <TextBlock VerticalAlignment="Center" Text="模式" />
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding SocketModes}" SelectedItem="{Binding SocketMode}" />
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8">
-                    <Button Command="{Binding StartSocketCommand}" Content="启动" IsEnabled="{Binding !SocketStarted}" />
-                    <Button Command="{Binding StopSocketCommand}" Content="停止" IsEnabled="{Binding SocketStarted}" />
-                    <CheckBox Content="Hex发送" IsChecked="{Binding SocketHexSend}" />
-                    <CheckBox Content="Hex显示" IsChecked="{Binding SocketHexShow}" />
-                    <Button Command="{Binding ClearLogCommand}" Content="清空日志" />
-                </StackPanel>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端IP" />
+                            <TextBox Grid.Column="3" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemoteHost}" />
 
-                <AvaloniaEdit:TextEditor Grid.Row="2" Document="{Binding LogDocument}" FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True" />
+                            <TextBlock Grid.Column="4" VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端端口" />
+                            <TextBox Grid.Column="5" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemotePort}" />
 
-                <Grid Grid.Row="3" ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                    <TextBox AcceptsReturn="True" MinHeight="60" Text="{Binding SocketSendText}" TextWrapping="Wrap" />
+                            <StackPanel Grid.Column="6" Orientation="Horizontal" Spacing="6" IsVisible="{Binding ShowLocalPort}">
+                                <TextBlock VerticalAlignment="Center" Text="本地端口" />
+                                <TextBox Width="100" Text="{Binding LocalPort}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*" ColumnSpacing="8">
+                            <Button Command="{Binding StartSocketCommand}" Content="启动" IsEnabled="{Binding !SocketStarted}" />
+                            <Button Grid.Column="1" Command="{Binding StopSocketCommand}" Content="停止" IsEnabled="{Binding SocketStarted}" />
+                            <CheckBox Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex发送" IsChecked="{Binding SocketHexSend}" />
+                            <CheckBox Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex显示" IsChecked="{Binding SocketHexShow}" />
+                            <Button Grid.Column="4" Command="{Binding ClearLogCommand}" Content="清空日志" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <AvaloniaEdit:TextEditor Grid.Row="1"
+                                         Document="{Binding LogDocument}"
+                                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                                         ShowLineNumbers="True"
+                                         WordWrap="True">
+                    <i:Interaction.Behaviors>
+                        <local:AutoScrollBehavior />
+                    </i:Interaction.Behaviors>
+                </AvaloniaEdit:TextEditor>
+
+                <Grid Grid.Row="2" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <TextBox AcceptsReturn="True" MinHeight="64" Text="{Binding SocketSendText}" TextWrapping="Wrap" />
                     <Button Grid.Column="1" MinWidth="90" Command="{Binding SendSocketDataCommand}" Content="发送" />
                 </Grid>
             </Grid>
