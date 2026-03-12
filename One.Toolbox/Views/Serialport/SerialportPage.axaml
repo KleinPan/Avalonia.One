@@ -21,7 +21,9 @@
 
     <Grid RowDefinitions="*, auto">
         <Grid Grid.Row="0" RowDefinitions="*, Auto">
-            <AvaloniaEdit:TextEditor Name="LogEditor" Document="{Binding LogDocument}" FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True">
+            <AvaloniaEdit:TextEditor Name="LogEditor"
+                                     Document="{Binding LogDocument}"
+                                     FontFamily="Cascadia Code,Consolas,Menlo,Monospace" ShowLineNumbers="True" WordWrap="True">
                 <i:Interaction.Behaviors>
                     <local:AutoScrollBehavior />
                 </i:Interaction.Behaviors>
@@ -44,9 +46,6 @@
                                 </i:Interaction.Behaviors>
                                 <Border Width="340" Padding="15">
                                     <StackPanel Spacing="15">
-
-                                       
-
                                         <TextBlock FontSize="15" FontWeight="Bold" Text="更多串口配置" />
 
                                         <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
@@ -88,6 +87,7 @@
                         </Button.Flyout>
                     </Button>
                     <Button Command="{Binding SaveLogCommand}" Content="{markup1:I18n {x:Static lang:Language.SaveLog}}" />
+                
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10">

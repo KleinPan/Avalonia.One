@@ -13,9 +13,9 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 
-namespace One.Toolbox.ViewModels.PortTool;
+namespace One.Toolbox.ViewModels.NetTool;
 
-public partial class PortToolPageVM : BasePageVM
+public partial class NetToolPageVM : BasePageVM
 {
     private AsyncTCPClient? tcpClient;
     private AsyncTCPServer? tcpServer;
@@ -64,7 +64,7 @@ public partial class PortToolPageVM : BasePageVM
 
     public override void UpdateTitle()
     {
-        Title = "端口工具";
+        Title = "网络调试工具";
     }
 
     [RelayCommand]

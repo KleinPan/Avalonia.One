@@ -14,7 +14,7 @@ using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
-using One.Toolbox.ViewModels.PortTool;
+using One.Toolbox.ViewModels.NetTool;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Serialport;
@@ -90,7 +90,7 @@ public partial class App : Application
         services.AddSingleton<RegularTesterPageVM>();
  
         services.AddSingleton<SerialportPageVM>();
-        services.AddSingleton<PortToolPageVM>();
+        services.AddSingleton<NetToolPageVM>();
 
         return services.BuildServiceProvider();
     }

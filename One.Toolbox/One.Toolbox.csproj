@@ -92,6 +92,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Language.tt</DependentUpon>
     </Compile>
+    <Compile Update="Views\NetTool\NetToolPage.axaml.cs">
+      <DependentUpon>NetToolPage.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Serialport\SerialportPage.axaml.cs">
       <DependentUpon>SerialportPage.axaml</DependentUpon>
     </Compile>

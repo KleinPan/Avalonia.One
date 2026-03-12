@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace One.Toolbox.Views;
 
-public partial class PortToolPage : UserControl
+public partial class NetToolPage : UserControl
 {
-    public PortToolPage()
+    public NetToolPage()
     {
         InitializeComponent();
     }

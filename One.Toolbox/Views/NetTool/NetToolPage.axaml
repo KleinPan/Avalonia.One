@@ -1,13 +1,13 @@
-<UserControl x:Class="One.Toolbox.Views.PortToolPage"
+<UserControl x:Class="One.Toolbox.Views.NetToolPage"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:One.Toolbox.ViewModels.PortTool"
+             xmlns:vm="using:One.Toolbox.ViewModels.NetTool"
              d:DesignHeight="450"
              d:DesignWidth="900"
-             x:DataType="vm:PortToolPageVM"
+             x:DataType="vm:NetToolPageVM"
              mc:Ignorable="d">
     <TabControl Margin="8">
         <TabItem Header="端口占用">

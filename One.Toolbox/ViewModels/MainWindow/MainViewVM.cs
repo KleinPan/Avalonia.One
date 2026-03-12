@@ -9,7 +9,7 @@ using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.Note;
-using One.Toolbox.ViewModels.PortTool;
+using One.Toolbox.ViewModels.NetTool;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Serialport;
@@ -94,9 +94,9 @@ public partial class MainViewVM : BaseVM
             },
             new()
             {
-                Header = "PortTool",
+                Header = "NetTool",
                 Icon = ResourceHelper.FindObjectResource("preview_link_regular"),
-                Content = new PortToolPage() { DataContext = App.Current!.Services.GetService<PortToolPageVM>() },
+                Content = new NetToolPage() { DataContext = App.Current!.Services.GetService<NetToolPageVM>() },
             },
             new()
             {
