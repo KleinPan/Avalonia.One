@@ -9,6 +9,7 @@ using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.Note;
+using One.Toolbox.ViewModels.PortTool;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Serialport;
@@ -90,6 +91,12 @@ public partial class MainViewVM : BaseVM
                 Header = "Serialport",
                 Icon = ResourceHelper.FindObjectResource("SerialPort24Filled"),
                 Content = new SerialportPage() { DataContext = App.Current!.Services.GetService<SerialportPageVM>() },
+            },
+            new()
+            {
+                Header = "PortTool",
+                Icon = ResourceHelper.FindObjectResource("preview_link_regular"),
+                Content = new PortToolPage() { DataContext = App.Current!.Services.GetService<PortToolPageVM>() },
             },
             new()
             {
