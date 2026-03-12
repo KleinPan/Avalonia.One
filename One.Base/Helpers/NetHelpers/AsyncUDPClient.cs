@@ -14,7 +14,7 @@ public class AsyncUDPClient : BaseHelper
 {
     #region 变量
 
-    protected UdpClient udpClient = null;
+    protected UdpClient? udpClient;
 
     #endregion 变量
 
@@ -69,12 +69,17 @@ public class AsyncUDPClient : BaseHelper
         try
         {
             //注意对于udp协议来说，仍然接受并排列传入的数据，因此udp套接字而言shutdown毫无意义
+            if (udpClient == null)
+            {
+                return;
+            }
+
+            var localEndPoint = udpClient.Client.LocalEndPoint?.ToString() ?? "UDP";
             udpClient.Close();
+            udpClient = null;
 
-            var info = System.Text.Encoding.UTF8.GetBytes("DD");
+            var info = System.Text.Encoding.UTF8.GetBytes($"{localEndPoint} closed");
             OnDisConnected?.Invoke(info);
-
-            cancellationToken.ThrowIfCancellationRequested();
         }
         catch (Exception ex)
         {
@@ -89,12 +94,12 @@ public class AsyncUDPClient : BaseHelper
             // int count = sckClient.Send(data);
             //Console.WriteLine("发送数据长度为：" + count);
 
-            int bytesSent = 0;
-            while (bytesSent < data.Length)
+            if (udpClient == null)
             {
-                bytesSent += await udpClient.SendAsync(data.AsMemory(bytesSent), iPEndPoint);
+                return;
             }
 
+            await udpClient.SendAsync(data, iPEndPoint);
             SendAction?.Invoke(data);
         }
         catch (Exception ex)
@@ -110,6 +115,11 @@ public class AsyncUDPClient : BaseHelper
         {
             while (true)
             {
+                if (udpClient == null)
+                {
+                    return;
+                }
+
                 var receive = await udpClient.ReceiveAsync(cancellationToken);
 
                 if (receive.Buffer.Length > 0)
