@@ -501,7 +501,7 @@ public partial class SerialportPageVM : BasePageVM
     [RelayCommand]
     private void ClearLog(object obj)
     {
-        //flowDocumentHelper.ClearContent();
+        LogDocument = new TextDocument();
     }
 
     public string RandomHeader { get; set; }
