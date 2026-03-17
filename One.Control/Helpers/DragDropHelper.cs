@@ -16,9 +16,9 @@ public class DragDropHelper : AvaloniaObject
 
     /// <summary>标识 <seealso cref="DropFilesCommandProperty"/> avalonia附加属性。</summary>
     /// <value>提供一个派生自 <see cref="ICommand"/> 的对象或绑定。</value>
-    public static readonly AttachedProperty<ICommand> DropFilesCommandProperty = AvaloniaProperty.RegisterAttached<DragDropHelper, Interactive, ICommand>(
+    public static readonly AttachedProperty<ICommand?> DropFilesCommandProperty = AvaloniaProperty.RegisterAttached<DragDropHelper, Interactive, ICommand?>(
         "DropFilesCommand",
-        default(ICommand),
+        default(ICommand?),
         false,
         BindingMode.OneTime
     );
@@ -29,42 +29,65 @@ public class DragDropHelper : AvaloniaObject
         if (args.NewValue is ICommand commandValue)
         {
             // 添加非空值
-            interactElem.AddHandler(DragDrop.DropEvent, Handler);
+            interactElem.AddHandler(DragDrop.DragOverEvent, DragOverHandler, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, true);
+            interactElem.AddHandler(DragDrop.DropEvent, DropHandler, RoutingStrategies.Tunnel | RoutingStrategies.Bubble, true);
         }
         else
         {
             // 删除之前的值
-            interactElem.RemoveHandler(DragDrop.DropEvent, Handler);
+            interactElem.RemoveHandler(DragDrop.DragOverEvent, DragOverHandler);
+            interactElem.RemoveHandler(DragDrop.DropEvent, DropHandler);
         }
-        // 本地处理函数
-        static void Handler(object s, DragEventArgs e)
+
+        static void DragOverHandler(object s, DragEventArgs e)
         {
-            if (s is Interactive interactElem)
+            if (s is not Interactive interactElem)
             {
-                // 这是如何从GUI元素中获取参数的方法。
+                return;
+            }
 
-                ICommand commandValue = interactElem.GetValue(DropFilesCommandProperty);
+            var commandValue = interactElem.GetValue(DropFilesCommandProperty);
+            var files = e.Data.GetFiles();
 
-                var b = e.Data.GetFiles();
+            if (commandValue != null && files != null && files.Any())
+            {
+                e.DragEffects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+        }
 
-                var c = b.Select(x => x.Path).ToList();
+        static void DropHandler(object s, DragEventArgs e)
+        {
+            if (s is not Interactive interactElem)
+            {
+                return;
+            }
 
-                if (commandValue?.CanExecute(c) == true)
-                {
-                    commandValue.Execute(c);
-                }
+            ICommand? commandValue = interactElem.GetValue(DropFilesCommandProperty);
+
+            var fileUris = e.Data.GetFiles()?.Select(x => x.Path).ToList();
+
+            if (fileUris == null || fileUris.Count == 0)
+            {
+                return;
+            }
+
+            if (commandValue?.CanExecute(fileUris) == true)
+            {
+                commandValue.Execute(fileUris);
+                e.Handled = true;
             }
         }
     }
 
     /// <summary>附加属性 <see cref="DropFilesCommandProperty"/> 的访问器。</summary>
-    public static void SetDropFilesCommand(AvaloniaObject element, ICommand commandValue)
+    public static void SetDropFilesCommand(AvaloniaObject element, ICommand? commandValue)
     {
         element.SetValue(DropFilesCommandProperty, commandValue);
     }
 
     /// <summary>附加属性 <see cref="DropFilesCommandProperty"/> 的访问器。</summary>
-    public static ICommand GetDropFilesCommand(AvaloniaObject element)
+    public static ICommand? GetDropFilesCommand(AvaloniaObject element)
     {
         return element.GetValue(DropFilesCommandProperty);
     }

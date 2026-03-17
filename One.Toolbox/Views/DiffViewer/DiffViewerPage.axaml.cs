@@ -33,5 +33,8 @@ public partial class DiffViewerPage : UserControl
 
         RightEditor.TextArea.TextView.BackgroundRenderers.Add(
             new DiffBackgroundRenderer(diff.RightChanges));
+
+        LeftEditor.TextArea.TextView.InvalidateLayer(AvaloniaEdit.Rendering.KnownLayer.Selection);
+        RightEditor.TextArea.TextView.InvalidateLayer(AvaloniaEdit.Rendering.KnownLayer.Selection);
     }
 }
