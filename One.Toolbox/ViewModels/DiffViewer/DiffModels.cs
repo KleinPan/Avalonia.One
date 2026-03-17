@@ -20,5 +20,11 @@ public class DiffResult
     public string RightText { get; set; } = string.Empty;
     public List<DiffLine> LeftChanges { get; set; } = new();
     public List<DiffLine> RightChanges { get; set; } = new();
+
+    /// <summary>
+    /// 每个差异块的锚点行号（1-based），用于首个/下一个差异导航。
+    /// </summary>
+    public List<int> AnchorLines { get; set; } = new();
+
     public int ChangedRows { get; set; }
 }

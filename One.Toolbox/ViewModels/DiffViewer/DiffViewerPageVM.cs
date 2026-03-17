@@ -11,7 +11,10 @@ public partial class DiffViewerPageVM : BasePageVM
         Remove
     }
 
+    private readonly List<int> _anchors = new();
+
     public Action<DiffResult>? OnDiffUpdated;
+    public Action<int>? OnNavigateToDiffLine;
 
     [ObservableProperty]
     private string leftFilePath = "将文件拖拽到左侧编辑器";
@@ -30,6 +33,20 @@ public partial class DiffViewerPageVM : BasePageVM
 
     [ObservableProperty]
     private int totalLineCount;
+
+    [ObservableProperty]
+    private bool isSyncScrollEnabled = true;
+
+    [ObservableProperty]
+    private int currentDiffIndex = -1;
+
+
+    public string DiffPositionText => _anchors.Count == 0 ? "0/0" : $"{CurrentDiffIndex + 1}/{_anchors.Count}";
+
+    partial void OnCurrentDiffIndexChanged(int value)
+    {
+        OnPropertyChanged(nameof(DiffPositionText));
+    }
 
     public override void UpdateTitle()
     {
@@ -64,6 +81,66 @@ public partial class DiffViewerPageVM : BasePageVM
         RefreshDiff();
     }
 
+    /// <summary>
+    /// 跳到首个差异块。
+    /// </summary>
+    [RelayCommand]
+    private void FirstDiff()
+    {
+        if (_anchors.Count == 0)
+        {
+            return;
+        }
+
+        CurrentDiffIndex = 0;
+        OnNavigateToDiffLine?.Invoke(_anchors[CurrentDiffIndex]);
+    }
+
+    /// <summary>
+    /// 跳到上一个差异块。
+    /// </summary>
+    [RelayCommand]
+    private void PreviousDiff()
+    {
+        if (_anchors.Count == 0)
+        {
+            return;
+        }
+
+        CurrentDiffIndex = CurrentDiffIndex <= 0 ? 0 : CurrentDiffIndex - 1;
+        OnNavigateToDiffLine?.Invoke(_anchors[CurrentDiffIndex]);
+    }
+
+    /// <summary>
+    /// 跳到下一个差异块。
+    /// </summary>
+    [RelayCommand]
+    private void NextDiff()
+    {
+        if (_anchors.Count == 0)
+        {
+            return;
+        }
+
+        CurrentDiffIndex = CurrentDiffIndex < 0 ? 0 : Math.Min(CurrentDiffIndex + 1, _anchors.Count - 1);
+        OnNavigateToDiffLine?.Invoke(_anchors[CurrentDiffIndex]);
+    }
+
+    /// <summary>
+    /// 跳到最后一个差异块。
+    /// </summary>
+    [RelayCommand]
+    private void LastDiff()
+    {
+        if (_anchors.Count == 0)
+        {
+            return;
+        }
+
+        CurrentDiffIndex = _anchors.Count - 1;
+        OnNavigateToDiffLine?.Invoke(_anchors[CurrentDiffIndex]);
+    }
+
     private static string? GetFirstFilePath(object? obj)
     {
         if (obj is not List<Uri> files || files.Count == 0)
@@ -88,7 +165,7 @@ public partial class DiffViewerPageVM : BasePageVM
     }
 
     /// <summary>
-    /// 刷新左右文件差异。允许任一侧为空（用于新增/删除文件场景）。
+    /// 刷新左右文件差异，并同步导航锚点。
     /// </summary>
     private void RefreshDiff()
     {
@@ -100,14 +177,17 @@ public partial class DiffViewerPageVM : BasePageVM
         TotalLineCount = Math.Max(leftLines.Count, rightLines.Count);
         ChangedLineCount = result.ChangedRows;
 
+        _anchors.Clear();
+        _anchors.AddRange(result.AnchorLines);
+        CurrentDiffIndex = _anchors.Count > 0 ? 0 : -1;
+        OnPropertyChanged(nameof(DiffPositionText));
+
         OnDiffUpdated?.Invoke(result);
     }
 
     /// <summary>
-    /// 参考 SourceGit 的“按块对齐”思路：
-    /// 1) 先用 LCS 得到稳定的 Add/Remove 操作序列；
-    /// 2) 在每个变化块内把 Remove/Add 按位置配对为 Modified；
-    /// 这样能避免全局配对导致的错误标色。
+    /// 参考 SourceGit 的按块对齐思路：
+    /// 在同一变化块内配对 Remove/Add 为 Modified，并记录差异块锚点。
     /// </summary>
     private static DiffResult BuildDiffResult(IReadOnlyList<string> leftLines, IReadOnlyList<string> rightLines)
     {
@@ -148,6 +228,17 @@ public partial class DiffViewerPageVM : BasePageVM
                 }
 
                 index++;
+            }
+
+            var anchor = removeLines.FirstOrDefault();
+            if (anchor <= 0)
+            {
+                anchor = addLines.FirstOrDefault();
+            }
+
+            if (anchor > 0)
+            {
+                result.AnchorLines.Add(anchor);
             }
 
             var modifiedCount = Math.Min(removeLines.Count, addLines.Count);
