@@ -7,6 +7,7 @@ using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.BingImage;
 using One.Toolbox.ViewModels.Dashboard;
 using One.Toolbox.ViewModels.DataProcess;
+using One.Toolbox.ViewModels.DiffViewer;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.Note;
 using One.Toolbox.ViewModels.NetTool;
@@ -19,6 +20,7 @@ using One.Toolbox.Views;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
 using One.Toolbox.Views.DataProcess;
+using One.Toolbox.Views.DiffViewer;
 using One.Toolbox.Views.HashTool;
 using One.Toolbox.Views.Note;
 using One.Toolbox.Views.QRCode;
@@ -111,6 +113,12 @@ public partial class MainViewVM : BaseVM
                 Header = "Texts",
                 Icon = ResourceHelper.FindObjectResource("text_edit_style_regular"),
                 Content = new DataProcessPage() { DataContext = App.Current!.Services.GetService<DataProcessPageVM>() },
+            },
+            new()
+            {
+                Header = "DiffViewer",
+                Icon = ResourceHelper.FindObjectResource("text_number_format_regular"),
+                Content = new DiffViewerPage() { DataContext = App.Current!.Services.GetService<DiffViewerPageVM>() },
             },
             new()
             {
