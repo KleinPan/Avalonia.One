@@ -1,6 +1,7 @@
 <UserControl x:Class="One.Toolbox.Views.DiffViewer.DiffViewerPage"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:och="using:One.Control.Helpers"
@@ -13,10 +14,8 @@
         <vm:DiffViewerPageVM />
     </Design.DataContext>
 
-    <Grid  RowDefinitions="Auto,*">
-      
-
-        <Border Grid.Column="1" Margin="0,8,0,8" Padding="8" Background="#12000000" CornerRadius="6">
+    <Grid RowDefinitions="Auto,*" RowSpacing="8">
+        <Border Padding="8" Background="#12000000" CornerRadius="6">
             <StackPanel Orientation="Horizontal" Spacing="16">
                 <TextBlock Text="总行数:" />
                 <TextBlock FontWeight="Bold" Text="{Binding TotalLineCount}" />
@@ -25,66 +24,30 @@
             </StackPanel>
         </Border>
 
-        <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,*" RowDefinitions="Auto,*" ColumnSpacing="8">
-            <Border Margin="0,0,0,8" Padding="10" Background="#10007ACC" CornerRadius="6"
-                    och:DragDropHelper.DropFilesCommand="{Binding DropLeftCommand}"
-                    DragDrop.AllowDrop="True">
-                <StackPanel>
-                    <TextBlock FontWeight="SemiBold" Text="左侧文件" />
-                    <TextBlock Foreground="Gray" Text="{Binding LeftFilePath}" TextTrimming="CharacterEllipsis" />
-                </StackPanel>
-            </Border>
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="8">
+            <Grid RowDefinitions="Auto,*" RowSpacing="8">
+                <TextBlock FontWeight="SemiBold" Text="{Binding LeftFilePath}" TextTrimming="CharacterEllipsis" />
+                <AvaloniaEdit:TextEditor Grid.Row="1"
+                                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                                         IsReadOnly="True"
+                                         ShowLineNumbers="True"
+                                         Text="{Binding LeftContent}"
+                                         WordWrap="False"
+                                         och:DragDropHelper.DropFilesCommand="{Binding DropLeftCommand}"
+                                         DragDrop.AllowDrop="True" />
+            </Grid>
 
-            <Border Grid.Column="1" Margin="0,0,0,8" Padding="10" Background="#10CC7A00" CornerRadius="6"
-                    och:DragDropHelper.DropFilesCommand="{Binding DropRightCommand}"
-                    DragDrop.AllowDrop="True">
-                <StackPanel>
-                    <TextBlock FontWeight="SemiBold" Text="右侧文件" />
-                    <TextBlock Foreground="Gray" Text="{Binding RightFilePath}" TextTrimming="CharacterEllipsis" />
-                </StackPanel>
-            </Border>
-
-            <Border Grid.Row="1" BorderBrush="#22000000" BorderThickness="1" CornerRadius="6">
-                <Grid RowDefinitions="Auto,*">
-                    <Grid ColumnDefinitions="60,*" Background="#12000000">
-                        <TextBlock Margin="8,6" Text="行号" />
-                        <TextBlock Grid.Column="1" Margin="8,6" Text="左侧内容" />
-                    </Grid>
-                    <ScrollViewer Grid.Row="1">
-                        <ItemsControl ItemsSource="{Binding DiffLines}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="vm:DiffLineItemVM">
-                                    <Grid ColumnDefinitions="60,*" Background="{Binding RowBackground}">
-                                        <TextBlock Margin="8,4" Foreground="Gray" Text="{Binding LineNumber}" />
-                                        <TextBlock Grid.Column="1" Margin="8,4" Text="{Binding LeftText}" TextWrapping="Wrap" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </Grid>
-            </Border>
-
-            <Border Grid.Row="1" Grid.Column="1" BorderBrush="#22000000" BorderThickness="1" CornerRadius="6">
-                <Grid RowDefinitions="Auto,*">
-                    <Grid ColumnDefinitions="60,*" Background="#12000000">
-                        <TextBlock Margin="8,6" Text="行号" />
-                        <TextBlock Grid.Column="1" Margin="8,6" Text="右侧内容" />
-                    </Grid>
-                    <ScrollViewer Grid.Row="1">
-                        <ItemsControl ItemsSource="{Binding DiffLines}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="vm:DiffLineItemVM">
-                                    <Grid ColumnDefinitions="60,*" Background="{Binding RowBackground}">
-                                        <TextBlock Margin="8,4" Foreground="Gray" Text="{Binding LineNumber}" />
-                                        <TextBlock Grid.Column="1" Margin="8,4" Text="{Binding RightText}" TextWrapping="Wrap" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                </Grid>
-            </Border>
+            <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="8">
+                <TextBlock FontWeight="SemiBold" Text="{Binding RightFilePath}" TextTrimming="CharacterEllipsis" />
+                <AvaloniaEdit:TextEditor Grid.Row="1"
+                                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+                                         IsReadOnly="True"
+                                         ShowLineNumbers="True"
+                                         Text="{Binding RightContent}"
+                                         WordWrap="False"
+                                         och:DragDropHelper.DropFilesCommand="{Binding DropRightCommand}"
+                                         DragDrop.AllowDrop="True" />
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

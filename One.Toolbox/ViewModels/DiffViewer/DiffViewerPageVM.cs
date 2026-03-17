@@ -1,28 +1,26 @@
-﻿using Avalonia.Media;
-using One.Toolbox.ViewModels.Base;
-using System.Collections.ObjectModel;
+﻿using One.Toolbox.ViewModels.Base;
 
 namespace One.Toolbox.ViewModels.DiffViewer;
 
 public partial class DiffViewerPageVM : BasePageVM
 {
     [ObservableProperty]
-    private string leftFilePath = "将文件拖拽到左侧区域";
+    private string leftFilePath = "将文件拖拽到左侧编辑器";
 
     [ObservableProperty]
-    private string rightFilePath = "将文件拖拽到右侧区域";
+    private string rightFilePath = "将文件拖拽到右侧编辑器";
+
+    [ObservableProperty]
+    private string leftContent = string.Empty;
+
+    [ObservableProperty]
+    private string rightContent = string.Empty;
 
     [ObservableProperty]
     private int changedLineCount;
 
     [ObservableProperty]
     private int totalLineCount;
-
-    [ObservableProperty]
-    private ObservableCollection<DiffLineItemVM> diffLines = [];
-
-    private string? _leftContent;
-    private string? _rightContent;
 
     public override void UpdateTitle()
     {
@@ -39,7 +37,7 @@ public partial class DiffViewerPageVM : BasePageVM
         }
 
         LeftFilePath = path;
-        _leftContent = ReadAllText(path);
+        LeftContent = ReadAllText(path);
         RefreshDiff();
     }
 
@@ -53,7 +51,7 @@ public partial class DiffViewerPageVM : BasePageVM
         }
 
         RightFilePath = path;
-        _rightContent = ReadAllText(path);
+        RightContent = ReadAllText(path);
         RefreshDiff();
     }
 
@@ -82,17 +80,18 @@ public partial class DiffViewerPageVM : BasePageVM
 
     private void RefreshDiff()
     {
-        if (_leftContent is null || _rightContent is null)
+        if (string.IsNullOrEmpty(LeftContent) || string.IsNullOrEmpty(RightContent))
         {
+            TotalLineCount = 0;
+            ChangedLineCount = 0;
             return;
         }
 
-        var leftLines = NormalizeLines(_leftContent);
-        var rightLines = NormalizeLines(_rightContent);
+        var leftLines = NormalizeLines(LeftContent);
+        var rightLines = NormalizeLines(RightContent);
 
         var max = Math.Max(leftLines.Count, rightLines.Count);
         var changed = 0;
-        var items = new List<DiffLineItemVM>(max);
 
         for (var i = 0; i < max; i++)
         {
@@ -104,38 +103,14 @@ public partial class DiffViewerPageVM : BasePageVM
             {
                 changed++;
             }
-
-            items.Add(new DiffLineItemVM
-            {
-                LineNumber = i + 1,
-                LeftText = left,
-                RightText = right,
-                RowBackground = isChanged ? new SolidColorBrush(Color.Parse("#25FFB3B3")) : Brushes.Transparent,
-            });
         }
 
         TotalLineCount = max;
         ChangedLineCount = changed;
-        DiffLines = new ObservableCollection<DiffLineItemVM>(items);
     }
 
     private static List<string> NormalizeLines(string text)
     {
         return text.Replace("\r\n", "\n").Split('\n').ToList();
     }
-}
-
-public partial class DiffLineItemVM : ObservableObject
-{
-    [ObservableProperty]
-    private int lineNumber;
-
-    [ObservableProperty]
-    private string leftText = string.Empty;
-
-    [ObservableProperty]
-    private string rightText = string.Empty;
-
-    [ObservableProperty]
-    private IBrush rowBackground = Brushes.Transparent;
 }
