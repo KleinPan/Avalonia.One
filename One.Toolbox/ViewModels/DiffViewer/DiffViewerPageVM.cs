@@ -4,6 +4,8 @@ namespace One.Toolbox.ViewModels.DiffViewer;
 
 public partial class DiffViewerPageVM : BasePageVM
 {
+    public Action<DiffResult>? OnDiffUpdated;
+
     [ObservableProperty]
     private string leftFilePath = "将文件拖拽到左侧编辑器";
 
@@ -81,32 +83,46 @@ public partial class DiffViewerPageVM : BasePageVM
     private void RefreshDiff()
     {
         if (string.IsNullOrEmpty(LeftContent) || string.IsNullOrEmpty(RightContent))
-        {
-            TotalLineCount = 0;
-            ChangedLineCount = 0;
             return;
-        }
 
         var leftLines = NormalizeLines(LeftContent);
         var rightLines = NormalizeLines(RightContent);
 
         var max = Math.Max(leftLines.Count, rightLines.Count);
-        var changed = 0;
 
-        for (var i = 0; i < max; i++)
+        var result = new DiffResult
         {
-            var left = i < leftLines.Count ? leftLines[i] : string.Empty;
-            var right = i < rightLines.Count ? rightLines[i] : string.Empty;
-            var isChanged = !string.Equals(left, right, StringComparison.Ordinal);
+            LeftText = LeftContent,
+            RightText = RightContent
+        };
 
-            if (isChanged)
+        for (int i = 0; i < max; i++)
+        {
+            var left = i < leftLines.Count ? leftLines[i] : null;
+            var right = i < rightLines.Count ? rightLines[i] : null;
+
+            if (left == right)
+                continue;
+
+            if (left == null)
             {
-                changed++;
+                result.RightChanges.Add(new DiffLine { LineNumber = i + 1, Type = DiffType.Added });
+            }
+            else if (right == null)
+            {
+                result.LeftChanges.Add(new DiffLine { LineNumber = i + 1, Type = DiffType.Removed });
+            }
+            else
+            {
+                result.LeftChanges.Add(new DiffLine { LineNumber = i + 1, Type = DiffType.Modified });
+                result.RightChanges.Add(new DiffLine { LineNumber = i + 1, Type = DiffType.Modified });
             }
         }
 
         TotalLineCount = max;
-        ChangedLineCount = changed;
+        ChangedLineCount = result.LeftChanges.Count + result.RightChanges.Count;
+
+        OnDiffUpdated?.Invoke(result);
     }
 
     private static List<string> NormalizeLines(string text)

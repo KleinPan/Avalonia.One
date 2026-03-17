@@ -8,6 +8,7 @@
              xmlns:vm="using:One.Toolbox.ViewModels.DiffViewer"
              d:DesignHeight="520"
              d:DesignWidth="1000"
+             x:CompileBindings="False"
              x:DataType="vm:DiffViewerPageVM"
              mc:Ignorable="d">
     <Design.DataContext>
@@ -27,26 +28,18 @@
         <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="8">
             <Grid RowDefinitions="Auto,*" RowSpacing="8">
                 <TextBlock FontWeight="SemiBold" Text="{Binding LeftFilePath}" TextTrimming="CharacterEllipsis" />
-                <AvaloniaEdit:TextEditor Grid.Row="1"
-                                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                                         IsReadOnly="True"
-                                         ShowLineNumbers="True"
-                                         Text="{Binding LeftContent}"
-                                         WordWrap="False"
+                <AvaloniaEdit:TextEditor x:Name="LeftEditor" Grid.Row="1"
                                          och:DragDropHelper.DropFilesCommand="{Binding DropLeftCommand}"
-                                         DragDrop.AllowDrop="True" />
+                                         DragDrop.AllowDrop="True" FontFamily="Cascadia Code,Consolas,Menlo,Monospace" IsReadOnly="True"
+                                         ShowLineNumbers="True" WordWrap="False" />
             </Grid>
 
             <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="8">
                 <TextBlock FontWeight="SemiBold" Text="{Binding RightFilePath}" TextTrimming="CharacterEllipsis" />
-                <AvaloniaEdit:TextEditor Grid.Row="1"
-                                         FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                                         IsReadOnly="True"
-                                         ShowLineNumbers="True"
-                                         Text="{Binding RightContent}"
-                                         WordWrap="False"
+                <AvaloniaEdit:TextEditor x:Name="RightEditor" Grid.Row="1"
                                          och:DragDropHelper.DropFilesCommand="{Binding DropRightCommand}"
-                                         DragDrop.AllowDrop="True" />
+                                         DragDrop.AllowDrop="True" FontFamily="Cascadia Code,Consolas,Menlo,Monospace" IsReadOnly="True"
+                                         ShowLineNumbers="True" WordWrap="False" />
             </Grid>
         </Grid>
     </Grid>
