@@ -1,0 +1,94 @@
+<UserControl x:Class="One.Toolbox.Views.DiffViewer.DiffViewerPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:och="using:One.Control.Helpers"
+             xmlns:vm="using:One.Toolbox.ViewModels.DiffViewer"
+             d:DesignHeight="520"
+             d:DesignWidth="1000"
+             x:DataType="vm:DiffViewerPageVM"
+             mc:Ignorable="d">
+    <Design.DataContext>
+        <vm:DiffViewerPageVM />
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,*">
+        <Border Grid.RowSpan="2" Margin="0,0,8,0" Padding="8" BorderBrush="#33000000" BorderThickness="0,0,1,0">
+            <ListBox SelectedIndex="0">
+                <ListBoxItem Content="文件对比" />
+            </ListBox>
+        </Border>
+
+        <Border Grid.Column="1" Margin="0,8,0,8" Padding="8" Background="#12000000" CornerRadius="6">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+                <TextBlock Text="总行数:" />
+                <TextBlock FontWeight="Bold" Text="{Binding TotalLineCount}" />
+                <TextBlock Text="差异行数:" />
+                <TextBlock FontWeight="Bold" Foreground="#D94A4A" Text="{Binding ChangedLineCount}" />
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Grid.Column="1" ColumnDefinitions="*,*" RowDefinitions="Auto,*" ColumnSpacing="8">
+            <Border Margin="0,0,0,8" Padding="10" Background="#10007ACC" CornerRadius="6"
+                    och:DragDropHelper.DropFilesCommand="{Binding DropLeftCommand}"
+                    DragDrop.AllowDrop="True">
+                <StackPanel>
+                    <TextBlock FontWeight="SemiBold" Text="左侧文件" />
+                    <TextBlock Foreground="Gray" Text="{Binding LeftFilePath}" TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Margin="0,0,0,8" Padding="10" Background="#10CC7A00" CornerRadius="6"
+                    och:DragDropHelper.DropFilesCommand="{Binding DropRightCommand}"
+                    DragDrop.AllowDrop="True">
+                <StackPanel>
+                    <TextBlock FontWeight="SemiBold" Text="右侧文件" />
+                    <TextBlock Foreground="Gray" Text="{Binding RightFilePath}" TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" BorderBrush="#22000000" BorderThickness="1" CornerRadius="6">
+                <Grid RowDefinitions="Auto,*">
+                    <Grid ColumnDefinitions="60,*" Background="#12000000">
+                        <TextBlock Margin="8,6" Text="行号" />
+                        <TextBlock Grid.Column="1" Margin="8,6" Text="左侧内容" />
+                    </Grid>
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl ItemsSource="{Binding DiffLines}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:DiffLineItemVM">
+                                    <Grid ColumnDefinitions="60,*" Background="{Binding RowBackground}">
+                                        <TextBlock Margin="8,4" Foreground="Gray" Text="{Binding LineNumber}" />
+                                        <TextBlock Grid.Column="1" Margin="8,4" Text="{Binding LeftText}" TextWrapping="Wrap" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1" BorderBrush="#22000000" BorderThickness="1" CornerRadius="6">
+                <Grid RowDefinitions="Auto,*">
+                    <Grid ColumnDefinitions="60,*" Background="#12000000">
+                        <TextBlock Margin="8,6" Text="行号" />
+                        <TextBlock Grid.Column="1" Margin="8,6" Text="右侧内容" />
+                    </Grid>
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl ItemsSource="{Binding DiffLines}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:DiffLineItemVM">
+                                    <Grid ColumnDefinitions="60,*" Background="{Binding RowBackground}">
+                                        <TextBlock Margin="8,4" Foreground="Gray" Text="{Binding LineNumber}" />
+                                        <TextBlock Grid.Column="1" Margin="8,4" Text="{Binding RightText}" TextWrapping="Wrap" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

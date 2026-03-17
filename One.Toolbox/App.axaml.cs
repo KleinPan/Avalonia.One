@@ -11,6 +11,7 @@ using One.SimpleLog.Extensions;
 using One.SimpleLog.Loggers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.DataProcess;
+using One.Toolbox.ViewModels.DiffViewer;
 using One.Toolbox.ViewModels.HashTool;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
@@ -79,6 +80,7 @@ public partial class App : Application
         services.AddSingleton<MainViewVM>();
         services.AddSingleton<One.Toolbox.ViewModels.Dashboard.DashboardPageVM>();
         services.AddSingleton<DataProcessPageVM>();
+        services.AddSingleton<DiffViewerPageVM>();
         services.AddSingleton<One.Toolbox.ViewModels.Setting.SettingsPageVM>();
         services.AddSingleton<One.Toolbox.ViewModels.Note.NotePageVM>();
         services.AddSingleton<One.Toolbox.ViewModels.Setting.CloudSettingsVM>();
