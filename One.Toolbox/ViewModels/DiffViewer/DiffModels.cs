@@ -1,9 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace One.Toolbox.ViewModels.DiffViewer;
 
 public enum DiffType
@@ -22,8 +16,9 @@ public class DiffLine
 
 public class DiffResult
 {
-    public string LeftText { get; set; } = "";
-    public string RightText { get; set; } = "";
+    public string LeftText { get; set; } = string.Empty;
+    public string RightText { get; set; } = string.Empty;
     public List<DiffLine> LeftChanges { get; set; } = new();
     public List<DiffLine> RightChanges { get; set; } = new();
+    public int ChangedRows { get; set; }
 }
