@@ -13,12 +13,8 @@
         <vm:DiffViewerPageVM />
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,*">
-        <Border Grid.RowSpan="2" Margin="0,0,8,0" Padding="8" BorderBrush="#33000000" BorderThickness="0,0,1,0">
-            <ListBox SelectedIndex="0">
-                <ListBoxItem Content="文件对比" />
-            </ListBox>
-        </Border>
+    <Grid  RowDefinitions="Auto,*">
+      
 
         <Border Grid.Column="1" Margin="0,8,0,8" Padding="8" Background="#12000000" CornerRadius="6">
             <StackPanel Orientation="Horizontal" Spacing="16">
