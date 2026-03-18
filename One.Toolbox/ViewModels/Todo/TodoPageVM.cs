@@ -33,6 +33,14 @@ public partial class TodoPageVM : BasePageVM
     {
         WeakReferenceMessenger.Default.Register<CloseMessage>(this, (_, _) => SaveSetting());
 
+        Days.Add(new TodoDayVM(DateTime.Now)
+        {
+            Items = new ObservableCollection<TodoItemVM>
+            {
+                new TodoItemVM() { Title = "Test1", IsDone = false} ,
+                new TodoItemVM() { Title = "Test2", IsDone = true } 
+            }
+        });
         InitData();
     }
 

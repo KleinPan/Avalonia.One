@@ -131,7 +131,7 @@ public partial class MainViewVM : BaseVM
             new()
             {
                 Header = "Todo",
-                Icon = ResourceHelper.FindObjectResource("notepad_regular"),
+                Icon = ResourceHelper.FindObjectResource("text_bullet_list_regular"),
                 Content = new TodoPage() { DataContext = App.Current!.Services.GetService<TodoPageVM>() },
             },
             new()

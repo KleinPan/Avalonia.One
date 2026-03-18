@@ -9,8 +9,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
              xmlns:viewmodels="using:One.Toolbox.ViewModels"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DesignHeight="600"
+             d:DesignWidth="840"
              x:DataType="viewmodels:ACopyVM"
              mc:Ignorable="d">
 
