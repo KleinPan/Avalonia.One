@@ -12,6 +12,7 @@ public partial class DiffViewerPageVM : BasePageVM
     }
 
     private readonly List<int> _anchors = new();
+    private int _refreshVersion;
 
     public Action<DiffResult>? OnDiffUpdated;
     public Action<int>? OnNavigateToDiffLine;
@@ -54,7 +55,7 @@ public partial class DiffViewerPageVM : BasePageVM
     }
 
     [RelayCommand]
-    private void DropLeft(object? obj)
+    private async Task DropLeft(object? obj)
     {
         var path = GetFirstFilePath(obj);
         if (string.IsNullOrWhiteSpace(path))
@@ -63,12 +64,12 @@ public partial class DiffViewerPageVM : BasePageVM
         }
 
         LeftFilePath = path;
-        LeftContent = ReadAllText(path);
-        RefreshDiff();
+        LeftContent = await ReadAllTextAsync(path);
+        await RefreshDiffAsync();
     }
 
     [RelayCommand]
-    private void DropRight(object? obj)
+    private async Task DropRight(object? obj)
     {
         var path = GetFirstFilePath(obj);
         if (string.IsNullOrWhiteSpace(path))
@@ -77,8 +78,8 @@ public partial class DiffViewerPageVM : BasePageVM
         }
 
         RightFilePath = path;
-        RightContent = ReadAllText(path);
-        RefreshDiff();
+        RightContent = await ReadAllTextAsync(path);
+        await RefreshDiffAsync();
     }
 
     /// <summary>
@@ -152,11 +153,11 @@ public partial class DiffViewerPageVM : BasePageVM
         return uri.IsFile ? uri.LocalPath : uri.ToString();
     }
 
-    private static string ReadAllText(string path)
+    private static async Task<string> ReadAllTextAsync(string path)
     {
         try
         {
-            return File.ReadAllText(path);
+            return await File.ReadAllTextAsync(path);
         }
         catch
         {
@@ -167,14 +168,26 @@ public partial class DiffViewerPageVM : BasePageVM
     /// <summary>
     /// 刷新左右文件差异，并同步导航锚点。
     /// </summary>
-    private void RefreshDiff()
+    private async Task RefreshDiffAsync()
     {
-        var leftLines = NormalizeLines(LeftContent);
-        var rightLines = NormalizeLines(RightContent);
+        var leftContentSnapshot = LeftContent;
+        var rightContentSnapshot = RightContent;
+        var refreshVersion = Interlocked.Increment(ref _refreshVersion);
 
-        var result = BuildDiffResult(leftLines, rightLines);
+        var (leftLinesCount, rightLinesCount, result) = await Task.Run(() =>
+        {
+            var leftLines = NormalizeLines(leftContentSnapshot);
+            var rightLines = NormalizeLines(rightContentSnapshot);
+            var diffResult = BuildDiffResult(leftLines, rightLines);
+            return (leftLines.Count, rightLines.Count, diffResult);
+        });
 
-        TotalLineCount = Math.Max(leftLines.Count, rightLines.Count);
+        if (refreshVersion != _refreshVersion)
+        {
+            return;
+        }
+
+        TotalLineCount = Math.Max(leftLinesCount, rightLinesCount);
         ChangedLineCount = result.ChangedRows;
 
         _anchors.Clear();
@@ -244,8 +257,9 @@ public partial class DiffViewerPageVM : BasePageVM
             var modifiedCount = Math.Min(removeLines.Count, addLines.Count);
             for (var i = 0; i < modifiedCount; i++)
             {
-                result.LeftChanges.Add(new DiffLine { LineNumber = removeLines[i], Type = DiffType.Modified });
-                result.RightChanges.Add(new DiffLine { LineNumber = addLines[i], Type = DiffType.Modified });
+                // 与 SourceGit 一致：左侧修改行按删除（红色）显示，右侧按新增（绿色）显示。
+                result.LeftChanges.Add(new DiffLine { LineNumber = removeLines[i], Type = DiffType.Removed });
+                result.RightChanges.Add(new DiffLine { LineNumber = addLines[i], Type = DiffType.Added });
             }
 
             for (var i = modifiedCount; i < removeLines.Count; i++)

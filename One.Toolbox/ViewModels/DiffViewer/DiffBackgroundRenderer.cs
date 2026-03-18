@@ -9,10 +9,9 @@ public class DiffBackgroundRenderer : IBackgroundRenderer
 {
     private readonly Dictionary<int, DiffType> _lineTypes;
 
-    // 颜色参考常见 Git 工具：新增=绿，删除=红，修改=黄。
+    // 颜色参考 SourceGit：新增=绿，删除=红。
     private static readonly IBrush AddedBrush = new SolidColorBrush(Color.Parse("#4A2E7D32"));
     private static readonly IBrush RemovedBrush = new SolidColorBrush(Color.Parse("#4AA94442"));
-    private static readonly IBrush ModifiedBrush = new SolidColorBrush(Color.Parse("#4A9A8F33"));
 
     public DiffBackgroundRenderer(IEnumerable<DiffLine> lines)
     {
@@ -48,7 +47,6 @@ public class DiffBackgroundRenderer : IBackgroundRenderer
             {
                 DiffType.Added => AddedBrush,
                 DiffType.Removed => RemovedBrush,
-                DiffType.Modified => ModifiedBrush,
                 _ => null
             };
 
