@@ -19,6 +19,7 @@ using One.Toolbox.ViewModels.NetTool;
 using One.Toolbox.ViewModels.QRCode;
 using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Serialport;
+using One.Toolbox.ViewModels.Todo;
 using One.Toolbox.Views;
 
 using System.Globalization;
@@ -83,6 +84,7 @@ public partial class App : Application
         services.AddSingleton<DiffViewerPageVM>();
         services.AddSingleton<One.Toolbox.ViewModels.Setting.SettingsPageVM>();
         services.AddSingleton<One.Toolbox.ViewModels.Note.NotePageVM>();
+        services.AddSingleton<TodoPageVM>();
         services.AddSingleton<One.Toolbox.ViewModels.Setting.CloudSettingsVM>();
         services.AddSingleton<One.Toolbox.ViewModels.BingImage.BingImagePageVM>();
         services.AddSingleton<QRCodePageVM>();
