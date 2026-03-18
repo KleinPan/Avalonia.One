@@ -16,6 +16,7 @@ using One.Toolbox.ViewModels.RegularTester;
 using One.Toolbox.ViewModels.Serialport;
 using One.Toolbox.ViewModels.Setting;
 using One.Toolbox.ViewModels.UnixTimeConverter;
+using One.Toolbox.ViewModels.Todo;
 using One.Toolbox.Views;
 using One.Toolbox.Views.BingImage;
 using One.Toolbox.Views.Dashboard;
@@ -27,6 +28,7 @@ using One.Toolbox.Views.QRCode;
 using One.Toolbox.Views.RegularTester;
 using One.Toolbox.Views.Settings;
 using One.Toolbox.Views.UnixTimeConverter;
+using One.Toolbox.Views.Todo;
 
 using System.Collections.ObjectModel;
 using One.Toolbox.Views.IconBoard;
@@ -125,6 +127,12 @@ public partial class MainViewVM : BaseVM
                 Header = "Notes",
                 Icon = ResourceHelper.FindObjectResource("notepad_regular"),
                 Content = new NotePage() { DataContext = App.Current!.Services.GetService<NotePageVM>() },
+            },
+            new()
+            {
+                Header = "Todo",
+                Icon = ResourceHelper.FindObjectResource("notepad_regular"),
+                Content = new TodoPage() { DataContext = App.Current!.Services.GetService<TodoPageVM>() },
             },
             new()
             {
