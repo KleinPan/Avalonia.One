@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+Ôªøusing Microsoft.Extensions.DependencyInjection;
 
 using One.Base.Helpers.DataProcessHelpers;
 using One.Toolbox.Helpers;
@@ -10,88 +10,87 @@ namespace One.Toolbox.ViewModels.Serialport;
 public partial class QuickSendVM : BaseVM
 {
     [ObservableProperty]
-    private int _id;
+    private int id;
 
-    /// <summary>∑¢ÀÕƒ⁄»›</summary>
+    /// <summary>ÂèëÈÄÅÂÜÖÂÆπ</summary>
     [ObservableProperty]
-    private string _text;
+    private string text = string.Empty;
 
     [ObservableProperty]
-    private bool _hex;
+    private bool hex;
 
-    /// <summary>∞¥≈•ƒ⁄»›</summary>
+    /// <summary>ÊåâÈíÆÂÜÖÂÆπ</summary>
     [ObservableProperty]
-    private string _commit;
+    private string commit = string.Empty;
 
     [RelayCommand]
     private void SendData(object obj)
     {
         var vm = App.Current.Services.GetService<SerialportPageVM>();
+        if (vm is null || !vm.serialPortHelper.IsOpen())
+        {
+            return;
+        }
 
         var data = System.Text.Encoding.UTF8.GetBytes(Text);
 
-        byte[] dataConvert;
-        if (vm.serialPortHelper.IsOpen())
+        try
         {
-            try
+            byte[] dataConvert;
+            if (Hex)
             {
-                if (Hex)
-                {
-                    var temp = System.Text.Encoding.UTF8.GetString(data.ToArray());
-
-                    var temp2 = temp.Replace(" ", "").Replace("\r\n", "");
-                    dataConvert = StringHelper.HexStringToBytes(temp);
-                }
-                else
-                {
-                    dataConvert = data;
-                }
-
-                if (vm.SerialportUISetting.SendAndReceiveSettingVM.WithExtraEnter)
-                {
-                    var temp = dataConvert.ToList();
-                    temp.Add(0x0d);
-                    temp.Add(0x0a);
-                    dataConvert = temp.ToArray();
-                }
-                vm.serialPortHelper.SendData(dataConvert);
+                var temp = System.Text.Encoding.UTF8.GetString(data.ToArray());
+                var pureHex = temp.Replace(" ", "").Replace("\r\n", "");
+                dataConvert = StringHelper.HexStringToBytes(pureHex);
             }
-            catch (Exception ex)
+            else
             {
-                NotifyHelper.ShowErrorMessage($"{ResourceHelper.FindStringResource("ErrorSendFail")}\r\n" + ex.ToString());
-
-                return;
+                dataConvert = data;
             }
+
+            if (vm.SerialportUISetting.SendAndReceiveSettingVM.WithExtraEnter)
+            {
+                var temp = dataConvert.ToList();
+                temp.Add(0x0d);
+                temp.Add(0x0a);
+                dataConvert = temp.ToArray();
+            }
+
+            vm.serialPortHelper.SendData(dataConvert);
+        }
+        catch (Exception ex)
+        {
+            NotifyHelper.ShowErrorMessage($"{ResourceHelper.FindStringResource("ErrorSendFail")}\r\n{ex}");
         }
     }
 
     public QuickSendModel ToM()
     {
-        QuickSendModel quickSendVM = new QuickSendModel();
-        quickSendVM.Id = Id;
-        quickSendVM.Text = Text;
-        quickSendVM.Hex = Hex;
-        quickSendVM.Commit = Commit;
-
-        return quickSendVM;
+        return new QuickSendModel
+        {
+            Id = Id,
+            Text = Text,
+            Hex = Hex,
+            Commit = Commit,
+        };
     }
 }
 
 public class QuickSendModel
 {
     public int Id { get; set; }
-    public string Text { get; set; }
+    public string Text { get; set; } = string.Empty;
     public bool Hex { get; set; }
-    public string Commit { get; set; }
+    public string Commit { get; set; } = string.Empty;
 
     public QuickSendVM ToVM()
     {
-        QuickSendVM quickSendVM = new QuickSendVM();
-        quickSendVM.Id = Id;
-        quickSendVM.Text = Text;
-        quickSendVM.Hex = Hex;
-        quickSendVM.Commit = Commit;
-
-        return quickSendVM;
+        return new QuickSendVM
+        {
+            Id = Id,
+            Text = Text,
+            Hex = Hex,
+            Commit = Commit,
+        };
     }
 }

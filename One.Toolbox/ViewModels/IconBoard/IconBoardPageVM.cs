@@ -21,14 +21,14 @@ public partial class IconBoardPageVM : BasePageVM
     {
         base.InitializeViewModel();
 
-        InitData();
+        _ = InitDataAsync();
     }
 
     [ObservableProperty]
-    private string searchText;
+    private string searchText = string.Empty;
 
     [ObservableProperty]
-    private IconItemVM selectItem;
+    private IconItemVM? selectItem;
 
     public ManualObservableCollection<IconItemVM> IconItems { get; set; } = new ManualObservableCollection<IconItemVM>();
 
@@ -37,11 +37,9 @@ public partial class IconBoardPageVM : BasePageVM
         Title = I18nManager.GetString(Language.Icon);
     }
 
-    async void InitData()
+    private async Task InitDataAsync()
     {
         await LoadAssets();
-
-       
         FilterItems("");
     }
 

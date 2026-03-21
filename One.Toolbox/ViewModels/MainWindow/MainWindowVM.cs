@@ -14,15 +14,15 @@ namespace One.Toolbox.ViewModels.MainWindow;
 public partial class MainWindowVM : BaseVM
 {
     [ObservableProperty]
-    private string a;
+    private string a = string.Empty;
 
     [ObservableProperty]
-    private MainViewVM mainViewVM;
+    private MainViewVM mainViewVM = null!;
 
     [ObservableProperty]
     private string _appVersion = string.Empty;
 
-    private SettingService SettingService { get; set; }
+    private SettingService SettingService { get; set; } = null!;
 
     public MainWindowVM()
     {

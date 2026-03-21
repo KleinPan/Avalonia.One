@@ -75,6 +75,9 @@ public partial class App : Application
         services.AddSingleton<IFilesService>(x => new FilesService(desktop.MainWindow!));
         services.AddSingleton<INotifyService>(x => new NotifyService(desktop.MainWindow!));
         services.AddSingleton<SettingService>();
+        services.AddSingleton<NavigationService>();
+        services.AddSingleton<BingImageService>();
+        services.AddSingleton<CloudSettingSyncService>();
 
         // Views and ViewModels
         services.AddSingleton<MainWindowVM>();

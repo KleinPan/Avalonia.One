@@ -87,13 +87,13 @@ public partial class DashboardPageVM : BasePageVM
     }
 
     [ObservableProperty]
-    private string text;
+    private string text = string.Empty;
 
     [ObservableProperty]
-    private string author;
+    private string author = string.Empty;
 
     [RelayCommand]
-    private async void Test()
+    private Task Test()
     {
         //var s = AssemblyHelper.Instance.FileVersionInfo;
         //var ab = new AssemblyHelper(Assembly.GetExecutingAssembly());
@@ -105,6 +105,7 @@ public partial class DashboardPageVM : BasePageVM
         //     new InputInfoVM("dd","ee"),
         //};
         //var res = await DialogHelper.Instance.ShowInputDialog("test", inputInfoVMs);
+        return Task.CompletedTask;
     }
 
     // 动态卡片集合

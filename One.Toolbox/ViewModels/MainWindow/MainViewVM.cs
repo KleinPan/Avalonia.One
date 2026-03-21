@@ -1,202 +1,92 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Avalonia.Controls;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
+using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
-using One.Toolbox.ViewModels.BingImage;
-using One.Toolbox.ViewModels.Dashboard;
-using One.Toolbox.ViewModels.DataProcess;
-using One.Toolbox.ViewModels.DiffViewer;
-using One.Toolbox.ViewModels.HashTool;
-using One.Toolbox.ViewModels.Note;
-using One.Toolbox.ViewModels.NetTool;
-using One.Toolbox.ViewModels.QRCode;
-using One.Toolbox.ViewModels.RegularTester;
-using One.Toolbox.ViewModels.Serialport;
-using One.Toolbox.ViewModels.Setting;
-using One.Toolbox.ViewModels.UnixTimeConverter;
-using One.Toolbox.ViewModels.Todo;
-using One.Toolbox.Views;
-using One.Toolbox.Views.BingImage;
-using One.Toolbox.Views.Dashboard;
-using One.Toolbox.Views.DataProcess;
-using One.Toolbox.Views.DiffViewer;
-using One.Toolbox.Views.HashTool;
-using One.Toolbox.Views.Note;
-using One.Toolbox.Views.QRCode;
-using One.Toolbox.Views.RegularTester;
-using One.Toolbox.Views.Settings;
-using One.Toolbox.Views.UnixTimeConverter;
-using One.Toolbox.Views.Todo;
 
 using System.Collections.ObjectModel;
-using One.Toolbox.Views.IconBoard;
-using One.Toolbox.ViewModels.IconBoard;
 
 namespace One.Toolbox.ViewModels.MainWindow;
 
 public partial class MainViewVM : BaseVM
 {
     [ObservableProperty]
-    private string _applicationTitle = string.Empty;
+    private string applicationTitle = string.Empty;
 
     [ObservableProperty]
-    private bool isPaneOpen ; // 默认不展开
-
-    [RelayCommand]
-    private void TriggerPane()
-    {
-        IsPaneOpen = !IsPaneOpen;
-        PaneWidth = IsPaneOpen ? 200 : 50; // 切换宽度
-    }
+    private bool isPaneOpen;
 
     [ObservableProperty]
-    private double paneWidth = 50; // 初始宽度
+    private double paneWidth = 50;
 
     [ObservableProperty]
-    private ObservableCollection<MainMenuItemVM> _navigationItems =
+    private ObservableCollection<MainMenuItemVM> navigationItems =
     [
-        new MainMenuItemVM() { Header = "Home", Icon = ResourceHelper.FindObjectResource("home_regular"), },
-        new() { Header = "Images", Icon = ResourceHelper.FindObjectResource("image_library_regular"), },
-        new() { Header = "Texts", Icon = ResourceHelper.FindObjectResource("text_number_format_regular"), },
-        new() { Header = "Notes", Icon = ResourceHelper.FindObjectResource("notepad_regular"), },
-        new() { Header = "HashTools", Icon = ResourceHelper.FindObjectResource("premium_regular"), },
-        new()
+        new MainMenuItemVM { Header = "Home", Icon = ResourceHelper.FindObjectResource("home_regular") },
+        new MainMenuItemVM { Header = "Images", Icon = ResourceHelper.FindObjectResource("image_library_regular") },
+        new MainMenuItemVM { Header = "Texts", Icon = ResourceHelper.FindObjectResource("text_number_format_regular") },
+        new MainMenuItemVM { Header = "Notes", Icon = ResourceHelper.FindObjectResource("notepad_regular") },
+        new MainMenuItemVM { Header = "HashTools", Icon = ResourceHelper.FindObjectResource("premium_regular") },
+        new MainMenuItemVM
         {
-            Dock = Avalonia.Controls.Dock.Bottom,
+            Dock = Dock.Bottom,
             Header = "Settings",
             Icon = ResourceHelper.FindObjectResource("settings_regular"),
         },
     ];
 
     [ObservableProperty]
-    private MainMenuItemVM currentMenuItem;
+    private MainMenuItemVM? currentMenuItem;
+
+    private readonly NavigationService navigationService;
 
     public MainViewVM()
     {
+        navigationService = App.Current!.Services.GetService<NavigationService>()!;
+    }
+
+    [RelayCommand]
+    private void TriggerPane()
+    {
+        IsPaneOpen = !IsPaneOpen;
+        PaneWidth = IsPaneOpen ? 200 : 50;
     }
 
     public void InitializeViewModel()
     {
         ApplicationTitle = "One.Toolbox";
+        NavigationItems = navigationService.CreateNavigationItems();
 
-        NavigationItems = new ObservableCollection<MainMenuItemVM>
+        if (NavigationItems.Count > 0)
         {
-            //https://avaloniaui.github.io/icons.html
-            //https://www.xicons.org/#/
-            //https://pictogrammers.com/library/mdi/
-            new()
-            {
-                Header = "Home",
-                Icon = ResourceHelper.FindObjectResource("home_regular"),
-                Content = new DashboardPage() { DataContext = App.Current!.Services.GetService<DashboardPageVM>() },
-            },
-            new()
-            {
-                Header = "Serialport",
-                Icon = ResourceHelper.FindObjectResource("SerialPort24Filled"),
-                Content = new SerialportPage() { DataContext = App.Current!.Services.GetService<SerialportPageVM>() },
-            },
-            new()
-            {
-                Header = "NetTool",
-                Icon = ResourceHelper.FindObjectResource("organization_regular"),
-                Content = new NetToolPage() { DataContext = App.Current!.Services.GetService<NetToolPageVM>() },
-            },
-            new()
-            {
-                Header = "Images",
-                Icon = ResourceHelper.FindObjectResource("image_library_regular"),
-                Content = new BingImagePage() { DataContext = App.Current!.Services.GetService<BingImagePageVM>() },
-            },
-            new()
-            {
-                Header = "Texts",
-                Icon = ResourceHelper.FindObjectResource("text_edit_style_regular"),
-                Content = new DataProcessPage() { DataContext = App.Current!.Services.GetService<DataProcessPageVM>() },
-            },
-            new()
-            {
-                Header = "DiffViewer",
-                Icon = ResourceHelper.FindObjectResource("text_number_format_regular"),
-                Content = new DiffViewerPage() { DataContext = App.Current!.Services.GetService<DiffViewerPageVM>() },
-            },
-            new()
-            {
-                Header = "Notes",
-                Icon = ResourceHelper.FindObjectResource("notepad_regular"),
-                Content = new NotePage() { DataContext = App.Current!.Services.GetService<NotePageVM>() },
-            },
-            new()
-            {
-                Header = "Todo",
-                Icon = ResourceHelper.FindObjectResource("text_bullet_list_regular"),
-                Content = new TodoPage() { DataContext = App.Current!.Services.GetService<TodoPageVM>() },
-            },
-            new()
-            {
-                Header = "HashTools",
-                Icon = ResourceHelper.FindObjectResource("premium_regular"),
-                Content = new HashToolPage() { DataContext = App.Current!.Services.GetService<HashToolPageVM>() },
-            },
-            new()
-            {
-                Header = I18nManager.GetString(Language.RegTestTool),//待研究，更换语言后这里不更新
-                Icon = ResourceHelper.FindObjectResource("teddy_regular"),
-                Content = new RegularTesterPage() { DataContext = App.Current!.Services.GetService<RegularTesterPageVM>() },
-            },
-            //new()
-            //{
-            //    Header = "IconBoard",
-            //    Icon = ResourceHelper.FindObjectResource("icons_regular"),
-            //    Content = new IconBoardPage() { DataContext = App.Current!.Services.GetService<IconBoardPageVM>() },
-            //},
-            new()
-            {
-                Header = "QRCode",
-                Icon = ResourceHelper.FindObjectResource("qr_code_regular"),
-                Content = new QRCodePage() { DataContext = App.Current!.Services.GetService<QRCodePageVM>() },
-            },
-            new()
-            {
-                Header =  I18nManager.GetString(Language.TimeConvert),
-                Icon = ResourceHelper.FindObjectResource("timer_regular"),
-                Content = new UnixTimeConverterPage() { DataContext = App.Current!.Services.GetService<UnixTimeConverterVM>() },
-            },
-
-            new()
-            {
-                Header = "Settings",
-                Dock = Avalonia.Controls.Dock.Bottom,
-                Icon = ResourceHelper.FindObjectResource("settings_regular"),
-                Content = new SettingsPage() { DataContext = App.Current.Services.GetService<SettingsPageVM>() },
-            },
-        };
-        //判断平台
-        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-        {
+            CurrentMenuItem = NavigationItems.First();
         }
-        CurrentMenuItem = NavigationItems.First();
     }
 
-    #region 框架逻辑
-
-    partial void OnCurrentMenuItemChanged(MainMenuItemVM? oldValue, MainMenuItemVM newValue)
+    partial void OnCurrentMenuItemChanged(MainMenuItemVM? oldValue, MainMenuItemVM? newValue)
     {
         if (oldValue != null)
         {
-            var vm = oldValue.Content.DataContext as BasePageVM;
-
-            vm.OnNavigatedLeave();
+            var oldContent = oldValue.Content;
+            if (oldContent?.DataContext is BasePageVM vmOld)
+            {
+                vmOld.OnNavigatedLeave();
+            }
         }
-        if (newValue != null)
-        {
-            var vmNew = newValue.Content.DataContext as BasePageVM;
 
-            vmNew.OnNavigatedEnter(newValue.Content);
+        if (newValue == null)
+        {
+            return;
+        }
+
+        var newContent = newValue.EnsureContent();
+        if (newContent.DataContext is BasePageVM vmNew)
+        {
+            vmNew.OnNavigatedEnter(newContent);
         }
     }
-
-    #endregion 框架逻辑
 }

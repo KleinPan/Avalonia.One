@@ -1,33 +1,23 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 using One.Toolbox.Enums;
-using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
-
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-
-using WebDav;
 
 namespace One.Toolbox.ViewModels.Setting;
 
 public partial class CloudSettingsVM : BaseVM
 {
-    //https://github.com/skazantsev/WebDavClient/tree/main
-    public static IWebDavClient _client = new WebDavClient();
-
     #region UI
 
     [ObservableProperty]
     private WebDAVTypeEnum selectedWebDAVTypeEnum;
 
     [ObservableProperty]
-    private string userName;
+    private string userName = string.Empty;
 
     [ObservableProperty]
-    private string password;
+    private string password = string.Empty;
 
     [ObservableProperty]
     private bool isUploading;
@@ -43,119 +33,83 @@ public partial class CloudSettingsVM : BaseVM
 
     #endregion UI
 
-    private const string targetFile = targetDir + "/Setting.json";
-    private const string targetDir = "One.Toolbox";//"One.Toolbox/Setting"//yandex 不支持 嵌套文件夹
-    private SettingService settingService;
+    private readonly SettingService settingService;
+    private readonly CloudSettingSyncService cloudSettingSyncService;
 
     public CloudSettingsVM()
     {
-        settingService = App.Current.Services.GetService<Services.SettingService>();
-    }
-
-    
-
-    [RelayCommand]
-    private async void Upload()
-    {
-        IsUploading = true;
-        await UploadCloudSettingAsync();
-        IsUploading = false;
+        settingService = App.Current!.Services.GetService<SettingService>()!;
+        cloudSettingSyncService = App.Current!.Services.GetService<CloudSettingSyncService>()!;
     }
 
     [RelayCommand]
-    private void Download()
+    private async Task Upload()
     {
-        IsDownloading = true;
-        DownloadCloudSettingAsync();
-        IsDownloading = false;
-    }
-
-    private WebDavClientParams InitWebDavParam()
-    {
-        string addr = SelectedWebDAVTypeEnum switch
+        if (IsUploading)
         {
-            WebDAVTypeEnum.坚果云 => "https://dav.jianguoyun.com/dav/",
-            WebDAVTypeEnum.Yandex => "https://webdav.yandex.com/",
-            _ => throw new Exception("Unsupport WebDAV type!"),
-        };
-
-        var clientParams = new WebDavClientParams
-        {
-            BaseAddress = new Uri(addr),
-            Credentials = new NetworkCredential(UserName, Password)
-        };
-        if (useProxy)
-        {
-            WebProxy webProxy = new WebProxy(ProxyAddress);//"socks5://localhost:10808"
-            clientParams.Proxy = webProxy;
+            return;
         }
 
-        return clientParams;
-    }
-
-    public async Task DownloadCloudSettingAsync()
-    {
+        IsUploading = true;
         try
         {
-            var param = InitWebDavParam();
-            using (var client = new WebDavClient(param))
+            var error = await cloudSettingSyncService.UploadSettingAsync(
+                SelectedWebDAVTypeEnum,
+                UserName,
+                Password,
+                UseProxy,
+                ProxyAddress,
+                SettingService.LocalConfig);
+
+            if (!string.IsNullOrWhiteSpace(error))
             {
-                // create a setting directory
-                var resMK = await client.Mkcol(targetDir);
-
-                if (!resMK.IsSuccessful)
-                {
-                    App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("Connect failed!");
-                    return;
-                }
-                var res = await client.Propfind(targetFile);
-                if (res.IsSuccessful)
-                {
-                    if (res.Resources.Count > 0)
-                    {
-                        var rsp = await client.GetRawFile(targetFile);
-
-                        using (var fileStream = File.Create(SettingService.LocalConfig))
-                        {
-                            rsp.Stream.CopyTo(fileStream);
-                        }
-
-                        settingService.LoadTargetCommonSetting(SettingService.LocalConfig);
-                    }
-
-                    App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("Not find cloud setting!");
-                }
-                else
-                {
-                    App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage("Not find cloud setting!");
-                }
+                App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(error);
             }
         }
         catch (Exception ex)
         {
             App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.Message);
         }
+        finally
+        {
+            IsUploading = false;
+        }
     }
 
-    public async Task UploadCloudSettingAsync()
+    [RelayCommand]
+    private async Task Download()
     {
+        if (IsDownloading)
+        {
+            return;
+        }
+
+        IsDownloading = true;
         try
         {
-            var param = InitWebDavParam();
-            //简化using
-            using var client = new WebDavClient(param);
-            // create a setting directory
-            var resMK = await client.Mkcol(targetDir);
-            if (!resMK.IsSuccessful)
+            var error = await cloudSettingSyncService.DownloadSettingAsync(
+                SelectedWebDAVTypeEnum,
+                UserName,
+                Password,
+                UseProxy,
+                ProxyAddress,
+                SettingService.LocalConfig);
+
+            if (string.IsNullOrWhiteSpace(error))
             {
-                App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage($"Error {resMK.Description};");
+                settingService.LoadTargetCommonSetting(SettingService.LocalConfig);
                 return;
             }
-            await client.PutFile(targetFile, File.OpenRead(SettingService.LocalConfig)); // upload a resource
+
+            App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(error);
         }
         catch (Exception ex)
         {
             App.Current!.Services.GetService<INotifyService>()!.ShowErrorMessage(ex.Message);
+        }
+        finally
+        {
+            IsDownloading = false;
         }
     }
 }

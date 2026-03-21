@@ -17,7 +17,7 @@ public partial class EditFileInfoVM : ObservableObject
 {
     /// <summary>文件名</summary>
     [ObservableProperty]
-    private string fileName;
+    private string fileName = string.Empty;
 
     /// <summary>文件名</summary>
     [ObservableProperty]
@@ -36,77 +36,73 @@ public partial class EditFileInfoVM : ObservableObject
     private bool isReadOnly;
 
     [ObservableProperty]
-    private string isReadOnlyReason;
+    private string isReadOnlyReason = string.Empty;
 
     /// <summary>当前打开的文件路径</summary>
     [ObservableProperty]
-    private string fileParentDirectory;
+    private string fileParentDirectory = string.Empty;
 
     [ObservableProperty]
     private Encoding encoding = Encoding.UTF8;
 
     [ObservableProperty]
-    private string mdContent;
+    private string mdContent = string.Empty;
 
     [ObservableProperty]
     private bool showInDesktop;
 
-    public Action UpdateInfoAction { get; set; }
+    public Action? UpdateInfoAction { get; set; }
 
-    public string FilePath
-    {
-        get => FileParentDirectory + "\\" + FileName;
-    }
+    public string FilePath => FileParentDirectory + "\\" + FileName;
 
-    public string FileFullPath
-    {
-        get => FilePath + suffix;
-    }
+    public string FileFullPath => FilePath + suffix;
 
     public const string suffix = ".md";
 
+    private string lastFileName = string.Empty;
+    private readonly LittleNoteWnd littleNotePage;
+
     /// <summary>UI 展示数据使用</summary>
-    public EditFileInfoVM() { }
+    public EditFileInfoVM()
+    {
+        littleNotePage = new LittleNoteWnd { DataContext = this };
+    }
 
     /// <summary>正常使用</summary>
     /// <param name="filePath"></param>
     public EditFileInfoVM(string filePath)
     {
         FileParentDirectory = Directory.GetParent(filePath)!.FullName;
-        FileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
-        //Extension = System.IO.Path.GetExtension(FilePath);
+        FileName = Path.GetFileNameWithoutExtension(filePath);
         lastFileName = FileName;
-        littleNotePage = new LittleNoteWnd();
-        littleNotePage.DataContext = this;
+
+        littleNotePage = new LittleNoteWnd { DataContext = this };
     }
 
     #region RelayCommand
 
     [RelayCommand]
-    private async void OpenFile()
+    private async Task OpenFile()
     {
-        //var dlg = new OpenFileDialog();
-        //if (dlg.ShowDialog().GetValueOrDefault())
-        //{
-        //    var fileViewModel = LoadDocument(dlg.FileName);
-        //}
-
         try
         {
             var filesService = App.Current?.Services?.GetService<IFilesService>();
             if (filesService is null)
+            {
                 throw new NullReferenceException("Missing File Service instance.");
+            }
 
             var file = await filesService.OpenFileAsync();
             if (file is null)
+            {
                 return;
+            }
 
-            // Limit the text file to 1MB so that the demo wont lag.
-            if ((await file.GetBasicPropertiesAsync()).Size <= 1024 * 1024 * 1)
+            if ((await file.GetBasicPropertiesAsync()).Size <= 1024 * 1024)
             {
                 await using var readStream = await file.OpenReadAsync();
                 using var reader = new StreamReader(readStream);
-                var FileText = await reader.ReadToEndAsync();
+                _ = await reader.ReadToEndAsync();
             }
             else
             {
@@ -126,43 +122,43 @@ public partial class EditFileInfoVM : ObservableObject
     }
 
     [RelayCommand]
-    private async Task SaveFile()
+    private Task SaveFile()
     {
-        await SaveDocument();
+        return SaveDocument();
     }
 
     [RelayCommand]
     private void RenameFile(object obj)
     {
         var parent = obj as Grid;
-
-        var a = parent!.GetLogicalChildren().OfType<TextBox>().FirstOrDefault();
+        var textBox = parent?.GetLogicalChildren().OfType<TextBox>().FirstOrDefault();
+        if (textBox is null)
+        {
+            return;
+        }
 
         IsEditFileName = true;
 
-        a!.LostFocus += EditFileInfoVM_LostFocus;
-        a!.KeyDown += EditFileInfoVM_KeyDown;
-        a.Focus();
+        textBox.LostFocus += EditFileInfoVM_LostFocus;
+        textBox.KeyDown += EditFileInfoVM_KeyDown;
+        textBox.Focus();
     }
-
-    private string lastFileName = "";
 
     private void EditFileInfoVM_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
     {
-        //可能触发多次
-        //if (!IsEditFileName)
-        //{
-        //    return;
-        //}
-        TextBox textBox = sender as TextBox;
+        if (sender is not TextBox textBox)
+        {
+            return;
+        }
+
         if (e.Key == Avalonia.Input.Key.Enter)
         {
             IsEditFileName = false;
 
-            FileName = textBox.Text.Trim();
+            FileName = textBox.Text?.Trim() ?? string.Empty;
 
             UpdateInfoAction?.Invoke();
-            SaveDocument();
+            _ = SaveDocument();
 
             File.Delete(FileParentDirectory + "\\" + lastFileName + suffix);
             lastFileName = FileName;
@@ -171,7 +167,10 @@ public partial class EditFileInfoVM : ObservableObject
 
     private void EditFileInfoVM_LostFocus(object? sender, RoutedEventArgs e)
     {
-        TextBox textBox = sender as TextBox;
+        if (sender is not TextBox textBox)
+        {
+            return;
+        }
 
         IsEditFileName = false;
 
@@ -181,22 +180,14 @@ public partial class EditFileInfoVM : ObservableObject
 
     #endregion RelayCommand
 
-    private LittleNoteWnd littleNotePage;
-
     partial void OnMdContentChanged(string? oldValue, string newValue)
     {
-        if (oldValue == null)//第一次加载
+        if (oldValue == null)
         {
             return;
         }
-        if (oldValue == newValue)
-        {
-            IsDirty = false;
-        }
-        else
-        {
-            IsDirty = true;
-        }
+
+        IsDirty = oldValue != newValue;
     }
 
     partial void OnShowInDesktopChanged(bool value)
@@ -239,12 +230,11 @@ public partial class EditFileInfoVM : ObservableObject
         return true;
     }
 
-    async Task<bool> LoadDocument(string filePath)
+    private async Task<bool> LoadDocument(string filePath)
     {
         if (File.Exists(filePath))
         {
             MdContent = await File.ReadAllTextAsync(filePath);
-
             return true;
         }
 
@@ -253,8 +243,10 @@ public partial class EditFileInfoVM : ObservableObject
 
     public async Task SaveDocument()
     {
-        if (FilePath == null || string.IsNullOrEmpty(FilePath))
-            throw new ArgumentNullException("fileName");
+        if (string.IsNullOrEmpty(FilePath))
+        {
+            throw new ArgumentNullException(nameof(FilePath));
+        }
 
         if (IsDirty)
         {

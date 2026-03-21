@@ -23,6 +23,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Management;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -35,25 +36,25 @@ public partial class SerialportPageVM : BasePageVM
     public ObservableCollection<string> PortNameList { get; set; } = new ObservableCollection<string>();
 
     [ObservableProperty]
-    private string selectedPortName;
+    private string selectedPortName = string.Empty;
 
     [ObservableProperty]
     private ObservableCollection<string> baudRateList = new ObservableCollection<string>();
 
     [ObservableProperty]
-    private string selectedBaudRate;
+    private string selectedBaudRate = "115200";
 
     [ObservableProperty]
-    private SerialportSettingVM serialportUISetting;
+    private SerialportSettingVM serialportUISetting = new SerialportSettingM().ToVM();
 
     #endregion SerialPortSetting
 
     [ObservableProperty]
     private string dataToSend = "";
 
-    private byte[] toSendData = null;//待发送的数据
-    private bool forcusClosePort = true;
     internal SerialPortComponent serialPortHelper { get; set; }
+    private CancellationTokenSource? timedSendCts;
+    private CancellationTokenSource? refreshCts;
 
     /// <summary>快捷发送列表</summary>
     public ObservableCollection<QuickSendVM> QuickSendList { get; set; } = new ObservableCollection<QuickSendVM>();
@@ -102,11 +103,14 @@ public partial class SerialportPageVM : BasePageVM
     {
         base.OnNavigatedLeave();
 
+        timedSendCts?.Cancel();
+        refreshCts?.Cancel();
         SaveSetting();
     }
 
     public SerialportPageVM()
     {
+        RandomHeader = "Default";
     }
 
     public override void OnNavigatedEnter(UserControl userControl)
@@ -135,8 +139,6 @@ public partial class SerialportPageVM : BasePageVM
 
         SelectedBaudRate = "115200";
 
-        RandomHeader = "Default";
-
         //Dtr = true;
         serialPortHelper = new SerialPortComponent(WriteInfoLog);
         serialPortHelper.UartDataSent += SerialPortHelper_UartDataSent;
@@ -147,88 +149,129 @@ public partial class SerialportPageVM : BasePageVM
 
     private void SerialPortHelper_UartDataRecived(object? sender, EventArgs e)
     {
-        var data = sender as byte[];
-        ReceivedCount += data.Length;
+        if (sender is not byte[] data)
+        {
+            return;
+        }
 
-        ShowData("", data, false, SerialportUISetting.SendAndReceiveSettingVM.HexShow);
+        _ = Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            ReceivedCount += data.Length;
+            ShowData("", data, false, SerialportUISetting.SendAndReceiveSettingVM.HexShow, true);
+        });
     }
 
     private void SerialPortHelper_UartDataSent(object? sender, EventArgs e)
     {
-        var data1 = sender as byte[];
-        SentCount += data1.Length;
-        ShowData("", data: data1, send: true, SerialportUISetting.SendAndReceiveSettingVM.HexSend);
+        if (sender is not byte[] data)
+        {
+            return;
+        }
+
+        _ = Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            SentCount += data.Length;
+            ShowData("", data: data, send: true, SerialportUISetting.SendAndReceiveSettingVM.HexSend, alreadyOnUIThread: true);
+        });
     }
 
     private bool refreshLock = false;
 
     /// <summary>刷新设备列表</summary>
     [RelayCommand]
-    private void RefreshPortList(string lastPort = null)
+    private async Task RefreshPortList(string? lastPort = null)
     {
         if (refreshLock)
             return;
         refreshLock = true;
-        PortNameList.Clear();
-        List<string> strs = new List<string>();
-        Task.Run(() =>
+        refreshCts?.Cancel();
+        refreshCts = new CancellationTokenSource();
+        var token = refreshCts.Token;
+
+        try
         {
-            while (true)
+            var ports = await Task.Run(() => GetPortDisplayNames(token), token);
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                try
+                PortNameList.Clear();
+                foreach (var item in ports)
                 {
-                    ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity");
-                    Regex regExp = new Regex("\\(COM\\d+\\)");
-                    foreach (ManagementObject queryObj in searcher.Get())
-                    {
-                        if ((queryObj["Caption"] != null) && regExp.IsMatch(queryObj["Caption"].ToString()))
-                        {
-                            strs.Add(queryObj["Caption"].ToString());
-                        }
-                    }
-                    break;
+                    PortNameList.Add(item);
                 }
-                catch
+
+                if (PortNameList.Count > 0)
                 {
-                    Task.Delay(500).Wait();
+                    SelectedPortName = PortNameList[0];
                 }
+            });
+        }
+        catch (OperationCanceledException)
+        {
+            // Ignore canceled refresh.
+        }
+        finally
+        {
+            refreshLock = false;
+        }
+    }
+
+    private static List<string> GetPortDisplayNames(CancellationToken cancellationToken)
+    {
+        List<string> names = new();
+
+        if (OperatingSystem.IsWindows())
+        {
+            names.AddRange(ReadPortsFromWmi(cancellationToken));
+        }
+
+        foreach (var p in SerialPort.GetPortNames())
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var pp = p;
+            if (p.IndexOf('\0') > 0)
+            {
+                pp = p.Substring(0, p.IndexOf('\0'));
             }
 
+            if (!names.Any(n => n.Contains($"({pp})", StringComparison.OrdinalIgnoreCase)))
+            {
+                names.Add($"Serial Port {pp} ({pp})");
+            }
+        }
+
+        return names;
+    }
+
+    [SupportedOSPlatform("windows")]
+    private static List<string> ReadPortsFromWmi(CancellationToken cancellationToken)
+    {
+        List<string> result = new();
+        var regExp = new Regex("\\(COM\\d+\\)");
+
+        while (!cancellationToken.IsCancellationRequested)
+        {
             try
             {
-                foreach (string p in SerialPort.GetPortNames())//加上缺少的com口
+                using var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_PnPEntity");
+                foreach (ManagementObject queryObj in searcher.Get())
                 {
-                    //有些人遇到了微软库的bug，所以需要手动从0x00截断
-                    var pp = p;
-                    if (p.IndexOf("\0") > 0)
-                        pp = p.Substring(0, p.IndexOf("\0"));
-                    bool notMatch = true;
-                    foreach (string n in strs)
+                    cancellationToken.ThrowIfCancellationRequested();
+                    var caption = queryObj["Caption"]?.ToString();
+                    if (!string.IsNullOrWhiteSpace(caption) && regExp.IsMatch(caption))
                     {
-                        if (n.Contains($"({pp})"))//如果和选中项目匹配
-                        {
-                            notMatch = false;
-                            break;
-                        }
+                        result.Add(caption);
                     }
-                    if (notMatch)
-                        strs.Add($"Serial Port {pp} ({pp})");//如果列表中没有，就自己加上
                 }
-            }
-            catch { }
-            //待验证
-            foreach (var item in strs)
-            {
-                PortNameList.Add(item);
-            }
 
-            if (PortNameList.Count > 0)
-            {
-                SelectedPortName = PortNameList[0];
+                break;
             }
+            catch
+            {
+                Task.Delay(500, cancellationToken).Wait(cancellationToken);
+            }
+        }
 
-            refreshLock = false;
-        });
+        return result;
     }
 
     /// <summary>是否正在打开端口</summary>
@@ -237,18 +280,16 @@ public partial class SerialportPageVM : BasePageVM
     #region OpenClose
 
     [RelayCommand]
-    private void OpenClosePort()
+    private async Task OpenClosePort()
     {
         if (!serialPortHelper.IsOpen())//打开串口逻辑
         {
-            OpenPort();
+            await OpenPort();
         }
         else//关闭串口逻辑
         {
             try
             {
-                forcusClosePort = true;//不再重新开启串口
-
                 serialPortHelper.Close();
             }
             catch
@@ -268,7 +309,7 @@ public partial class SerialportPageVM : BasePageVM
         }
     }
 
-    private void OpenPort()
+    private async Task OpenPort()
     {
         if (isOpeningPort)
             return;
@@ -303,12 +344,11 @@ public partial class SerialportPageVM : BasePageVM
 
             if (port != "")
             {
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
                     isOpeningPort = true;
                     try
                     {
-                        forcusClosePort = false;//不再强制关闭串口
                         WriteInfoLog($"SetName");
                         serialPortHelper.SetName(port);
 
@@ -317,12 +357,12 @@ public partial class SerialportPageVM : BasePageVM
 
                         serialPortHelper.Open(SerialportUISetting.ToModel());
 
-                        IsOpen = true;
-
- 
-                        OpenCloseButtonContent = I18nManager.GetString(Language.Close)!;
-
-                        StatusTextBlockContent = I18nManager.GetString(Language.Open)!;
+                        Dispatcher.UIThread.Post(() =>
+                        {
+                            IsOpen = true;
+                            OpenCloseButtonContent = I18nManager.GetString(Language.Close)!;
+                            StatusTextBlockContent = I18nManager.GetString(Language.Open)!;
+                        });
                     }
                     catch (Exception e)
                     {
@@ -364,17 +404,28 @@ public partial class SerialportPageVM : BasePageVM
     /// <exception cref="NotImplementedException"></exception>
     partial void OnTimedSendChanged(bool value)
     {
+        timedSendCts?.Cancel();
+
         if (value)
         {
-            Task.Run(() =>
-            {
-                while (TimedSend)
-                {
-                    SendUartData(DataToSend);
+            timedSendCts = new CancellationTokenSource();
+            _ = StartTimedSendAsync(timedSendCts.Token);
+        }
+    }
 
-                    Thread.Sleep(TimedCount);
-                }
-            });
+    private async Task StartTimedSendAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            while (TimedSend && !cancellationToken.IsCancellationRequested)
+            {
+                SendUartData(DataToSend);
+                await Task.Delay(TimedCount, cancellationToken);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Ignore canceled timed send.
         }
     }
 
@@ -427,7 +478,7 @@ public partial class SerialportPageVM : BasePageVM
     [RelayCommand]
     private void AddQuickSendItem()
     {
-        QuickSendList.Add(new QuickSendVM() { Id = QuickSendList.Count + 1, Text = "", Hex = false, Commit = I18nManager.GetString("QuickSendButton") });
+        QuickSendList.Add(new QuickSendVM() { Id = QuickSendList.Count + 1, Text = "", Hex = false, Commit = I18nManager.GetString("QuickSendButton") ?? "Send" });
     }
 
     [RelayCommand]
@@ -469,7 +520,7 @@ public partial class SerialportPageVM : BasePageVM
 
         SerialportUISetting.QuickSendList = QuickSendList.ToList();
 
-        SerialportUISetting.SerialportParams.BaudRate = int.Parse(SelectedBaudRate);
+        SerialportUISetting.SerialportParams.BaudRate = int.TryParse(SelectedBaudRate, out var baudRate) ? baudRate : 115200;
         service.SerialportSetting = SerialportUISetting.ToModel();
 
         service.SaveSerialportSetting();
@@ -504,7 +555,7 @@ public partial class SerialportPageVM : BasePageVM
         LogDocument = new TextDocument();
     }
 
-    public string RandomHeader { get; set; }
+    public string RandomHeader { get; set; } = "Default";
 
     private void GenerateRandomHeader()
     {
@@ -531,7 +582,7 @@ public partial class SerialportPageVM : BasePageVM
     /// <param name="data"></param>
     /// <param name="send"></param>
     /// <param name="hexMode"></param>
-    public virtual void ShowData(string title = "", byte[] data = null, bool send = false, bool hexMode = false)
+    public virtual void ShowData(string title = "", byte[]? data = null, bool send = false, bool hexMode = false, bool alreadyOnUIThread = false)
     {
         string realData = "";
 
@@ -548,12 +599,21 @@ public partial class SerialportPageVM : BasePageVM
             $"{DateTime.Now:HH:mm:ss.fff}{prefix}{realData}";
 
         WriteInfoLog(line);
-        Dispatcher.UIThread.Post(() =>
+
+        Action insertAction = () =>
         {
             LogDocument.Insert(
                 LogDocument.TextLength,
                 line + Environment.NewLine);
-        });
+        };
+
+        if (alreadyOnUIThread)
+        {
+            insertAction();
+            return;
+        }
+
+        Dispatcher.UIThread.Post(insertAction);
     }
 
     #endregion ShowLog

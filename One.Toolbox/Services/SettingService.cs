@@ -64,7 +64,8 @@ public class SettingService
 
             //AllConfig = JsonSerializer.Deserialize(content, SourceGenerationContext.Default.AllConfigModel);
 
-            AllConfig = IOHelper.Instance.ReadContentFromLocalSourceGeneration(fullPath, SourceGenerationContext.Default.AllConfigModel);
+            AllConfig = IOHelper.Instance.ReadContentFromLocalSourceGeneration(fullPath, SourceGenerationContext.Default.AllConfigModel)
+                ?? new AllConfigModel();
         }
         catch (Exception)
         {
@@ -97,12 +98,18 @@ public class SettingService
 
             //AllConfig = JsonSerializer.Deserialize(content, SourceGenerationContext.Default.AllConfigModel);
 
-            SerialportSetting = IOHelper.Instance.ReadContentFromLocalSourceGeneration(fullPath, SourceGenerationContext.Default.SerialportSettingM);
+            SerialportSetting = IOHelper.Instance.ReadContentFromLocalSourceGeneration(fullPath, SourceGenerationContext.Default.SerialportSettingM)
+                ?? new SerialportSettingM();
         }
         catch (Exception)
         {
-            InitDefaultCommonSetting();
+            InitDefaultSerialportSetting();
         }
+    }
+
+    void InitDefaultSerialportSetting()
+    {
+        SerialportSetting = new SerialportSettingM();
     }
 
     #endregion LoadSave
