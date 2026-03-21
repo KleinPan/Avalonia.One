@@ -58,7 +58,11 @@
                 </Grid>
 
                 <StackPanel Grid.Row="1" Margin="0,12,0,12" Orientation="Horizontal" Spacing="8">
-                    <TextBox Width="420" Text="{Binding NewTodoTitle}" Watermark="输入待办事项" />
+                    <TextBox Width="420" Text="{Binding NewTodoTitle}" Watermark="输入待办事项">
+                        <TextBox.KeyBindings>
+                            <KeyBinding Command="{Binding AddTodoCommand}" Gesture="Enter" />
+                        </TextBox.KeyBindings>
+                    </TextBox>
                     <Button Command="{Binding AddTodoCommand}" Content="新增" />
                     <Button Command="{Binding SyncToTodayCommand}" Content="同步到今天" />
                 </StackPanel>
@@ -79,7 +83,7 @@
                             <Border Padding="4" Background="#0F000000" CornerRadius="6">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <CheckBox VerticalAlignment="Center" Command="{Binding $parent[UserControl].DataContext.ToggleTodoCommand}" CommandParameter="{Binding}" IsChecked="{Binding IsDone}" />
-                                    <TextBlock Grid.Column="1" Margin="8,0,8,0" VerticalAlignment="Center" Text="{Binding Title}" />
+                                    <SelectableTextBlock Grid.Column="1" Margin="8,0,8,0" VerticalAlignment="Center" Text="{Binding Title}" />
                                     <Button Grid.Column="2" Width="28" Height="28"
                                             Command="{Binding $parent[UserControl].DataContext.DeleteTodoCommand}"
                                             CommandParameter="{Binding}">
