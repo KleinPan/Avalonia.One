@@ -1,4 +1,6 @@
-﻿using One.Toolbox.ViewModels.Base;
+﻿using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
+using One.Toolbox.ViewModels.Base;
 
 namespace One.Toolbox.ViewModels.DiffViewer;
 
@@ -18,10 +20,10 @@ public partial class DiffViewerPageVM : BasePageVM
     public Action<int>? OnNavigateToDiffLine;
 
     [ObservableProperty]
-    private string leftFilePath = "将文件拖拽到左侧编辑器";
+    private string leftFilePath = I18nManager.GetString(Language.DiffDropLeftHint)!;
 
     [ObservableProperty]
-    private string rightFilePath = "将文件拖拽到右侧编辑器";
+    private string rightFilePath = I18nManager.GetString(Language.DiffDropRightHint)!;
 
     [ObservableProperty]
     private string leftContent = string.Empty;
@@ -51,7 +53,9 @@ public partial class DiffViewerPageVM : BasePageVM
 
     public override void UpdateTitle()
     {
-        Title = "Diff Viewer";
+        Title = I18nManager.GetString(Language.DiffViewer)!;     
+        LeftFilePath = I18nManager.GetString(Language.DiffDropLeftHint)!;      
+        RightFilePath = I18nManager.GetString(Language.DiffDropRightHint)!;
     }
 
     [RelayCommand]
@@ -364,3 +368,4 @@ public partial class DiffViewerPageVM : BasePageVM
             : normalized.Split('\n').ToList();
     }
 }
+

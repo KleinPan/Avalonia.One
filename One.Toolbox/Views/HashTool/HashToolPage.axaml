@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:One.Toolbox.Assets.Languages"
-             xmlns:languages="clr-namespace:One.Toolbox.Assets.Languages"
+             xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:oc="clr-namespace:One.Control;assembly=One.Control"
              xmlns:och="using:One.Control.Helpers"
@@ -24,7 +24,7 @@
                 </Style>
             </Grid.Styles>
             <Grid RowDefinitions="auto,*">
-                <TextBlock HorizontalAlignment="Left" Foreground="Gray" Text="请拖拽文件或者文件夹到下方进行校验..." />
+                <TextBlock HorizontalAlignment="Left" Foreground="Gray" Text="{markup:I18n {x:Static lang:Language.HashDropHint}}" />
                 <Rectangle Grid.Row="1" Margin="5" Fill="Transparent" Stroke="Gray"
                            StrokeDashArray="5" StrokeThickness="1" />
                 <TextBox Grid.Row="1" Margin="5" VerticalAlignment="Stretch" VerticalContentAlignment="Top"
@@ -37,17 +37,18 @@
                 <StackPanel.Styles>
                     <Style Selector="CheckBox">
                         <Setter Property="Margin" Value="5,0" />
+                        <Setter Property="VerticalAlignment" Value="Center"></Setter>
                     </Style>
                 </StackPanel.Styles>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="设置" />
-                    <CheckBox Content="文件路径" IsChecked="{Binding ShowFilePath}" />
-                    <CheckBox Content="文件大小" IsChecked="{Binding ShowFileSize}" />
-                    <CheckBox Content="文件版本" IsChecked="{Binding ShowFileVersion}" />
-                    <CheckBox Content="修改时间" IsChecked="{Binding ShowFileModifyTime}" />
+                    <TextBlock Text="{markup:I18n {x:Static lang:Language.HashSettings}}"/>
+                    <CheckBox Content="{markup:I18n {x:Static lang:Language.HashFilePath}}" IsChecked="{Binding ShowFilePath}"  />
+                    <CheckBox Content="{markup:I18n {x:Static lang:Language.HashFileSize}}" IsChecked="{Binding ShowFileSize}" />
+                    <CheckBox Content="{markup:I18n {x:Static lang:Language.HashFileVersion}}" IsChecked="{Binding ShowFileVersion}" />
+                    <CheckBox Content="{markup:I18n {x:Static lang:Language.HashModifiedTime}}" IsChecked="{Binding ShowFileModifyTime}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="算法" />
+                    <TextBlock Text="{markup:I18n {x:Static lang:Language.HashAlgorithm}}" />
                     <CheckBox Content="MD5" IsChecked="{Binding ShowMD5}" />
                     <CheckBox Content="SHA1" IsChecked="{Binding ShowSHA1}" />
                     <CheckBox Content="SHA256" IsChecked="{Binding ShowSHA256}" />
@@ -58,13 +59,13 @@
             </StackPanel>
 
             <Grid Grid.Row="2" ColumnDefinitions="auto,*">
-                <TextBlock Text="进度" />
+                <TextBlock Text="{markup:I18n {x:Static lang:Language.HashProgress}}" />
                 <ProgressBar Grid.Column="1" Height="15" Margin="5" VerticalAlignment="Center"
                              Value="{Binding Progress}" />
             </Grid>
             <DockPanel Grid.Row="3" LastChildFill="False">
-                <Button Command="{Binding ClearCommand}" Content="清除" />
-                <Button Command="{Binding StartCommand}" Content="开始" DockPanel.Dock="Right" />
+                <Button Command="{Binding ClearCommand}" Content="{markup:I18n {x:Static lang:Language.HashClear}}" />
+                <Button Command="{Binding StartCommand}" Content="{markup:I18n {x:Static lang:Language.HashStart}}" DockPanel.Dock="Right" />
             </DockPanel>
         </Grid>
     </Border>

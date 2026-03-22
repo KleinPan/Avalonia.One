@@ -290,4 +290,223 @@
   <data name="TimedSend" xml:space="preserve">
     <value>Timed Send</value>
   </data>
+  <data name="DiffViewer" xml:space="preserve">
+    <value>Diff Viewer</value>
+  </data>
+  <data name="DiffDropLeftHint" xml:space="preserve">
+    <value>Drop file here (left)</value>
+  </data>
+  <data name="DiffDropRightHint" xml:space="preserve">
+    <value>Drop file here (right)</value>
+  </data>
+  <data name="HashTool" xml:space="preserve">
+    <value>Hash Tool</value>
+  </data>
+  <data name="HashFilePathLabel" xml:space="preserve">
+    <value>File Path</value>
+  </data>
+  <data name="HashFileSizeLabel" xml:space="preserve">
+    <value>File Size</value>
+  </data>
+  <data name="HashBytesUnit" xml:space="preserve">
+    <value>bytes</value>
+  </data>
+  <data name="HashModifiedTimeLabel" xml:space="preserve">
+    <value>Modified Time</value>
+  </data>
+  <data name="HashFileVersionLabel" xml:space="preserve">
+    <value>File Version</value>
+  </data>
+  <data name="NetTcpListener" xml:space="preserve">
+    <value>TCP Listener</value>
+  </data>
+  <data name="NetUdpListener" xml:space="preserve">
+    <value>UDP Listener</value>
+  </data>
+  <data name="NetTcpConnection" xml:space="preserve">
+    <value>TCP Connection</value>
+  </data>
+  <data name="NetListening" xml:space="preserve">
+    <value>Listening</value>
+  </data>
+  <data name="NetSocketStartedLog" xml:space="preserve">
+    <value>[SYS] {0} started</value>
+  </data>
+  <data name="NetStartFailedLog" xml:space="preserve">
+    <value>[SYS] Start failed</value>
+  </data>
+  <data name="NetTcpClientStartFailed" xml:space="preserve">
+    <value>TCP Client start failed!</value>
+  </data>
+  <data name="NetTcpServerStartFailed" xml:space="preserve">
+    <value>TCP Server start failed!</value>
+  </data>
+  <data name="NetUdpStartFailed" xml:space="preserve">
+    <value>UDP start failed!</value>
+  </data>
+  <data name="NetStopFailedLog" xml:space="preserve">
+    <value>[SYS] Stop failed</value>
+  </data>
+  <data name="NetSocketStoppedLog" xml:space="preserve">
+    <value>[SYS] Socket stopped</value>
+  </data>
+  <data name="NetStartSocketFirstLog" xml:space="preserve">
+    <value>[SYS] Please start socket first!</value>
+  </data>
+  <data name="NetSendFailedLog" xml:space="preserve">
+    <value>[SYS] Send failed</value>
+  </data>
+  <data name="SerialMoreConfig" xml:space="preserve">
+    <value>More Config</value>
+  </data>
+  <data name="SerialDataBits" xml:space="preserve">
+    <value>Data Bits</value>
+  </data>
+  <data name="SerialStopBits" xml:space="preserve">
+    <value>Stop Bits</value>
+  </data>
+  <data name="SerialParity" xml:space="preserve">
+    <value>Parity</value>
+  </data>
+  <data name="SerialPacketTimeout" xml:space="preserve">
+    <value>Packet Timeout</value>
+  </data>
+  <data name="SerialMilliseconds" xml:space="preserve">
+    <value>ms</value>
+  </data>
+  <data name="SerialPacketMaxBytes" xml:space="preserve">
+    <value>Max Bytes</value>
+  </data>
+  <data name="SerialBytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="SerialMsPerSend" xml:space="preserve">
+    <value>ms per send</value>
+  </data>
+  <data name="SerialQuickSendList" xml:space="preserve">
+    <value>Quick Send List</value>
+  </data>
+  <data name="SerialDataContent" xml:space="preserve">
+    <value>Data Content</value>
+  </data>
+  <data name="SerialAction" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="SerialDeleteItem" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="TodoAddDay" xml:space="preserve">
+    <value>Add Day</value>
+  </data>
+  <data name="TodoToday" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="TodoProgress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="TodoInputWatermark" xml:space="preserve">
+    <value>What needs to be done?</value>
+  </data>
+  <data name="TodoAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="TodoSyncToToday" xml:space="preserve">
+    <value>Sync to Today</value>
+  </data>
+  <data name="NetSocketDebug" xml:space="preserve">
+    <value>Socket Debug</value>
+  </data>
+  <data name="NetMode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="NetRemoteIp" xml:space="preserve">
+    <value>Remote IP</value>
+  </data>
+  <data name="NetRemotePort" xml:space="preserve">
+    <value>Remote Port</value>
+  </data>
+  <data name="NetLocalPort" xml:space="preserve">
+    <value>Local Port</value>
+  </data>
+  <data name="NetStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="NetStop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="NetSend" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="NetPortUsage" xml:space="preserve">
+    <value>Port Usage</value>
+  </data>
+  <data name="NetRefreshPortUsage" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="NetType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="NetEndpoint" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="NetPort" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="NetStatus" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="DiffTotalLines" xml:space="preserve">
+    <value>Total Lines</value>
+  </data>
+  <data name="DiffChangedLines" xml:space="preserve">
+    <value>Changed Lines</value>
+  </data>
+  <data name="DiffCurrentPosition" xml:space="preserve">
+    <value>Current Position</value>
+  </data>
+  <data name="DiffSyncScroll" xml:space="preserve">
+    <value>Sync Scroll</value>
+  </data>
+  <data name="DiffFirst" xml:space="preserve">
+    <value>First</value>
+  </data>
+  <data name="DiffPrevious" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="DiffNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="DiffLast" xml:space="preserve">
+    <value>Last</value>
+  </data>
+  <data name="HashDropHint" xml:space="preserve">
+    <value>Drop files here</value>
+  </data>
+  <data name="HashSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="HashFilePath" xml:space="preserve">
+    <value>File Path</value>
+  </data>
+  <data name="HashFileSize" xml:space="preserve">
+    <value>File Size</value>
+  </data>
+  <data name="HashFileVersion" xml:space="preserve">
+    <value>File Version</value>
+  </data>
+  <data name="HashModifiedTime" xml:space="preserve">
+    <value>Modified Time</value>
+  </data>
+  <data name="HashAlgorithm" xml:space="preserve">
+    <value>Algorithm</value>
+  </data>
+  <data name="HashProgress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="HashClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="HashStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
 </root>

@@ -47,9 +47,9 @@ public partial class NetToolPageVM : BasePageVM
     private bool socketStarted;
 
     [ObservableProperty]
-    private string socketMode = "TCP Client";
+    private string socketMode = ModeTcpClient;
 
-    public ObservableCollection<string> SocketModes { get; } = ["TCP Client", "TCP Server", "UDP"];
+    public ObservableCollection<string> SocketModes { get; } = [ModeTcpClient, ModeTcpServer, ModeUdp];
 
     [ObservableProperty]
     private TextDocument logDocument = new();
@@ -64,6 +64,10 @@ public partial class NetToolPageVM : BasePageVM
 
     public bool ShowLocalPort => IsTcpServerMode || IsUdpMode;
 
+    private const string ModeTcpClient = "TCP Client";
+    private const string ModeTcpServer = "TCP Server";
+    private const string ModeUdp = "UDP";
+
     public override void UpdateTitle()
     {
         Title = I18nManager.GetString(Language.NetDebugTool)!;
@@ -77,18 +81,18 @@ public partial class NetToolPageVM : BasePageVM
 
         foreach (var item in ip.GetActiveTcpListeners())
         {
-            usages.Add(new PortUsageItemVM("TCP Listener", item.Address.ToString(), item.Port, "Listening"));
+            usages.Add(new PortUsageItemVM(I18nManager.GetString(Language.NetTcpListener)!, item.Address.ToString(), item.Port, I18nManager.GetString(Language.NetListening)!));
         }
 
         foreach (var item in ip.GetActiveUdpListeners())
         {
-            usages.Add(new PortUsageItemVM("UDP Listener", item.Address.ToString(), item.Port, "Listening"));
+            usages.Add(new PortUsageItemVM(I18nManager.GetString(Language.NetUdpListener)!, item.Address.ToString(), item.Port, I18nManager.GetString(Language.NetListening)!));
         }
 
         foreach (var item in ip.GetActiveTcpConnections())
         {
             usages.Add(new PortUsageItemVM(
-                "TCP Connection",
+                I18nManager.GetString(Language.NetTcpConnection)!,
                 item.LocalEndPoint.ToString(),
                 item.LocalEndPoint.Port,
                 item.State.ToString()));
@@ -109,25 +113,25 @@ public partial class NetToolPageVM : BasePageVM
         {
             switch (SocketMode)
             {
-                case "TCP Client":
+                case ModeTcpClient:
                     await StartTcpClient();
                     break;
 
-                case "TCP Server":
+                case ModeTcpServer:
                     StartTcpServer();
                     break;
 
-                case "UDP":
+                case ModeUdp:
                     StartUdp();
                     break;
             }
 
             SocketStarted = true;
-            AppendLog($"[SYS] Socket已启动: {SocketMode}");
+            AppendLog(string.Format(I18nManager.GetString(Language.NetSocketStartedLog)!, SocketMode));
         }
         catch (Exception ex)
         {
-            AppendLog($"[ERR] 启动失败: {ex.Message}");
+            AppendLog($"{I18nManager.GetString(Language.NetStartFailedLog)}: {ex.Message}");
         }
     }
 
@@ -141,7 +145,7 @@ public partial class NetToolPageVM : BasePageVM
 
         if (!await tcpClient.InitClient(IPAddress.Parse(SocketRemoteHost), SocketRemotePort))
         {
-            throw new Exception("TCP客户端启动失败");
+            throw new Exception(I18nManager.GetString(Language.NetTcpClientStartFailed)!);
         }
     }
 
@@ -155,7 +159,7 @@ public partial class NetToolPageVM : BasePageVM
 
         if (!tcpServer.InitAsServer(IPAddress.Any, LocalPort))
         {
-            throw new Exception("TCP服务端启动失败");
+            throw new Exception(I18nManager.GetString(Language.NetTcpServerStartFailed)!);
         }
     }
 
@@ -169,7 +173,7 @@ public partial class NetToolPageVM : BasePageVM
 
         if (!udpClient.InitClient(IPAddress.Any, LocalPort))
         {
-            throw new Exception("UDP启动失败");
+            throw new Exception(I18nManager.GetString(Language.NetUdpStartFailed)!);
         }
     }
 
@@ -184,7 +188,7 @@ public partial class NetToolPageVM : BasePageVM
         }
         catch (Exception ex)
         {
-            AppendLog($"[ERR] 停止异常: {ex.Message}");
+            AppendLog($"{I18nManager.GetString(Language.NetStopFailedLog)}: {ex.Message}");
         }
         finally
         {
@@ -192,7 +196,7 @@ public partial class NetToolPageVM : BasePageVM
             tcpServer = null;
             udpClient = null;
             SocketStarted = false;
-            AppendLog("[SYS] Socket已停止");
+            AppendLog(I18nManager.GetString(Language.NetSocketStoppedLog)!);
         }
     }
 
@@ -203,7 +207,7 @@ public partial class NetToolPageVM : BasePageVM
     {
         if (!SocketStarted)
         {
-            AppendLog("[SYS] 请先启动Socket");
+            AppendLog(I18nManager.GetString(Language.NetStartSocketFirstLog)!);
             return;
         }
 
@@ -212,22 +216,22 @@ public partial class NetToolPageVM : BasePageVM
             var payload = BuildPayload(SocketSendText, SocketHexSend);
             switch (SocketMode)
             {
-                case "TCP Client":
+                case ModeTcpClient:
                     tcpClient?.SendData(payload);
                     break;
 
-                case "TCP Server":
+                case ModeTcpServer:
                     tcpServer?.SendDataToAll(payload);
                     break;
 
-                case "UDP":
+                case ModeUdp:
                     udpClient?.SendData(new IPEndPoint(IPAddress.Parse(SocketRemoteHost), SocketRemotePort), payload);
                     break;
             }
         }
         catch (Exception ex)
         {
-            AppendLog($"[ERR] 发送失败: {ex.Message}");
+            AppendLog($"{I18nManager.GetString(Language.NetSendFailedLog)}: {ex.Message}");
         }
     }
 

@@ -89,17 +89,26 @@ public class I18nManager : INotifyPropertyChanged
             var baseEntries = resourceManager.GetResourceSet(CultureInfo.InvariantCulture, true, true)
                 ?.OfType<DictionaryEntry>();
             var cultureEntries = resourceManager.GetResourceSet(_culture, true, true)?.OfType<DictionaryEntry>();
-            if (cultureEntries == null || baseEntries == null)
+            if (baseEntries == null)
             {
                 yield break;
             }
 
-            foreach (var entry in cultureEntries
-                         .Concat(baseEntries)
-                         .GroupBy(entry => entry.Key)
-                         .Select(entries => entries.First()))
+            var merged = baseEntries
+                .GroupBy(entry => entry.Key)
+                .ToDictionary(group => group.Key, group => group.First().Value);
+
+            if (cultureEntries != null)
             {
-                yield return entry;
+                foreach (var entry in cultureEntries)
+                {
+                    merged[entry.Key] = entry.Value;
+                }
+            }
+
+            foreach (var entry in merged)
+            {
+                yield return new DictionaryEntry(entry.Key, entry.Value);
             }
         }
 

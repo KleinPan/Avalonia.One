@@ -2,6 +2,8 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
+             xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:u="https://irihi.tech/ursa"
              xmlns:vms="using:One.Toolbox.ViewModels.Todo"
@@ -18,10 +20,10 @@
         <Border Grid.Column="0" Padding="6" Background="#14000000" CornerRadius="8">
             <Grid RowDefinitions="Auto,*">
                 <u:ToolBar Grid.Row="0">
-                    <Button Command="{Binding AddDayCommand}" ToolTip.Tip="新增日期">
+                    <Button Command="{Binding AddDayCommand}" ToolTip.Tip="{markup:I18n {x:Static lang:Language.TodoAddDay}}">
                         <PathIcon Width="16" Height="16" Data="{DynamicResource note_add_regular}" />
                     </Button>
-                    <Button Margin="4,0,0,0" Command="{Binding GoTodayCommand}" Content="今天" />
+                    <Button Margin="4,0,0,0" Command="{Binding GoTodayCommand}" Content="{markup:I18n {x:Static lang:Language.TodoToday}}" />
                 </u:ToolBar>
 
                 <ListBox Grid.Row="1" Margin="0,8,0,8" ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}">
@@ -51,20 +53,20 @@
                 <Grid ColumnDefinitions="*,Auto,Auto">
                     <TextBlock FontSize="24" FontWeight="SemiBold" Text="{Binding SelectedDay.Date, StringFormat={}{0:yyyy-MM-dd}}" />
                     <TextBlock Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center" FontSize="13"
-                               Opacity="0.75" Text="进度" />
+                               Opacity="0.75" Text="{markup:I18n {x:Static lang:Language.TodoProgress}}" />
                     <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="13"
                                FontWeight="Bold"
                                Text="{Binding ProgressText}" />
                 </Grid>
 
                 <StackPanel Grid.Row="1" Margin="0,12,0,12" Orientation="Horizontal" Spacing="8">
-                    <TextBox Width="420" Text="{Binding NewTodoTitle}" Watermark="输入待办事项">
+                    <TextBox Width="420" Text="{Binding NewTodoTitle}" Watermark="{markup:I18n {x:Static lang:Language.TodoInputWatermark}}">
                         <TextBox.KeyBindings>
                             <KeyBinding Command="{Binding AddTodoCommand}" Gesture="Enter" />
                         </TextBox.KeyBindings>
                     </TextBox>
-                    <Button Command="{Binding AddTodoCommand}" Content="新增" />
-                    <Button Command="{Binding SyncToTodayCommand}" Content="同步到今天" />
+                    <Button Command="{Binding AddTodoCommand}" Content="{markup:I18n {x:Static lang:Language.TodoAdd}}" />
+                    <Button Command="{Binding SyncToTodayCommand}" Content="{markup:I18n {x:Static lang:Language.TodoSyncToToday}}" />
                 </StackPanel>
 
                 <ProgressBar Grid.Row="2" Height="8" Maximum="100" Minimum="0"

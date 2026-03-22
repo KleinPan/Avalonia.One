@@ -46,32 +46,32 @@
                                 </i:Interaction.Behaviors>
                                 <Border Width="340" Padding="15">
                                     <StackPanel Spacing="15">
-                                        <TextBlock FontSize="15" FontWeight="Bold" Text="更多串口配置" />
+                                        <TextBlock FontSize="15" FontWeight="Bold" Text="{markup1:I18n {x:Static lang:Language.SerialMoreConfig}}" />
 
                                         <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-                                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="数据位长度：" />
+                                            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="{markup1:I18n {x:Static lang:Language.SerialDataBits}}" />
                                             <ComboBox Grid.Row="0" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
                                                       ItemsSource="{Binding SerialportUISetting.DatabitList}"
                                                       SelectedItem="{Binding SerialportUISetting.SerialportParams.DataBits}" />
 
-                                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="停止位：" />
+                                            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="{markup1:I18n {x:Static lang:Language.SerialStopBits}}" />
                                             <ComboBox Grid.Row="1" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
                                                       ItemsSource="{Binding SerialportUISetting.StopBitsList}"
                                                       SelectedItem="{Binding SerialportUISetting.SerialportParams.StopBits}" />
 
-                                            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="校验位：" />
+                                            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="{markup1:I18n {x:Static lang:Language.SerialParity}}" />
                                             <ComboBox Grid.Row="2" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
                                                       ItemsSource="{Binding SerialportUISetting.ParityList}"
                                                       SelectedItem="{Binding SerialportUISetting.SerialportParams.Parity}" />
 
-                                            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="分包数据超时时间：" />
+                                            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="{markup1:I18n {x:Static lang:Language.SerialPacketTimeout}}" />
                                             <u:NumericIntUpDown Grid.Row="3" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
-                                                                InnerRightContent="毫秒" Minimum="-1"
+                                                                InnerRightContent="{markup1:I18n {x:Static lang:Language.SerialMilliseconds}}" Minimum="-1"
                                                                 Value="{Binding SerialportUISetting.SendAndReceiveSettingVM.Timeout}" />
 
-                                            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="数据每包最大：" />
+                                            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="{markup1:I18n {x:Static lang:Language.SerialPacketMaxBytes}}" />
                                             <u:NumericIntUpDown Grid.Row="4" Grid.Column="1" Margin="10,4,0,4" HorizontalAlignment="Stretch"
-                                                                InnerRightContent="字节" Minimum="1"
+                                                                InnerRightContent="{markup1:I18n {x:Static lang:Language.SerialBytes}}" Minimum="1"
                                                                 Value="{Binding SerialportUISetting.SendAndReceiveSettingVM.MaxLength}" />
                                         </Grid>
 
@@ -107,7 +107,7 @@
                     <CheckBox Content="{markup1:I18n {x:Static lang:Language.AddExtraEnter}}" IsChecked="{Binding SerialportUISetting.SendAndReceiveSettingVM.WithExtraEnter}" />
                     <CheckBox Content="{markup1:I18n {x:Static lang:Language.TimedSend}}" IsChecked="{Binding TimedSend}" />
                     <TextBox Width="60" Text="{Binding TimedCount}" />
-                    <TextBlock Text="ms/次" />
+                    <TextBlock Text="{markup1:I18n {x:Static lang:Language.SerialMsPerSend}}" />
                 </StackPanel>
 
                 <Grid Grid.Row="2" Margin="0,1" ColumnDefinitions="auto,*,auto">
@@ -121,7 +121,7 @@
                              VerticalContentAlignment="Top" AcceptsReturn="True" FontFamily="Consolas"
                              Text="{Binding DataToSend}"
                              TextWrapping="Wrap" />
-                    <Button Name="sendDataButton" Grid.Column="2" Width="80" VerticalAlignment="Stretch"
+                    <Button Name="sendDataButton" Grid.Column="2"  VerticalAlignment="Stretch"
                             Command="{Binding SendDataCommand}"
                             Content="{markup1:I18n {x:Static lang:Language.SendData}}" />
                 </Grid>
@@ -141,7 +141,7 @@
                     </Border.Transitions>
 
                     <DockPanel Margin="12" LastChildFill="True">
-                        <TextBlock Margin="0,0,0,10" DockPanel.Dock="Top" FontSize="16" FontWeight="Bold">快捷发送列表</TextBlock>
+                        <TextBlock Margin="0,0,0,10" DockPanel.Dock="Top" FontSize="16" FontWeight="Bold" Text="{markup1:I18n {x:Static lang:Language.SerialQuickSendList}}" />
 
                         <Button Margin="0,0,0,15" HorizontalAlignment="Stretch"
                                 Command="{Binding AddQuickSendItemCommand}"
@@ -152,9 +152,9 @@
                             <TextBlock Grid.Column="0" HorizontalAlignment="Center" FontSize="11" Foreground="Gray"
                                        Text="#" />
                             <TextBlock Grid.Column="1" Margin="5,0" FontSize="11" Foreground="Gray"
-                                       Text="数据内容" />
+                                       Text="{markup1:I18n {x:Static lang:Language.SerialDataContent}}" />
                             <TextBlock Grid.Column="2" HorizontalAlignment="Center" FontSize="11" Foreground="Gray"
-                                       Text="操作" />
+                                       Text="{markup1:I18n {x:Static lang:Language.SerialAction}}" />
                             <TextBlock Grid.Column="3" HorizontalAlignment="Center" FontSize="11" Foreground="Gray"
                                        Text="Hex" />
                         </Grid>
@@ -169,7 +169,7 @@
                                                     <MenuItem Height="24" Padding="10,0"
                                                               Command="{Binding $parent[UserControl].((vm:SerialportPageVM)DataContext).DeleteQuickSendItemCommand}"
                                                               CommandParameter="{Binding}"
-                                                              FontSize="12" Header="删除项">
+                                                              FontSize="12" Header="{markup1:I18n {x:Static lang:Language.SerialDeleteItem}}">
                                                         <MenuItem.Icon>
                                                             <PathIcon Width="12" Height="12" Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" Foreground="#CE3B3B" />
                                                         </MenuItem.Icon>

@@ -49,7 +49,7 @@ public partial class App : Application
         // duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
-        I18nManager.Instance.Culture = new CultureInfo("zh-CN");
+        I18nManager.Instance.Culture = CultureInfo.CurrentUICulture;
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

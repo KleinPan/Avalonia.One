@@ -4,7 +4,9 @@
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:lang="using:One.Toolbox.Assets.Languages"
              xmlns:local="clr-namespace:One.Toolbox.Behaviors"
+             xmlns:markup="using:One.Control.Markup.I18n"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:One.Toolbox.ViewModels.NetTool"
              d:DesignHeight="450"
@@ -14,27 +16,27 @@
     <TabControl Margin="8">
 
 
-        <TabItem Header="Socket调试">
+        <TabItem Header="{markup:I18n {x:Static lang:Language.NetSocketDebug}}">
             <Grid RowDefinitions="Auto,*,Auto, Auto" RowSpacing="8">
                 <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="8" IsEnabled="{Binding !SocketStarted}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <TextBlock VerticalAlignment="Center" Text="模式" />
+                        <TextBlock VerticalAlignment="Center" Text="{markup:I18n {x:Static lang:Language.NetMode}}" />
                         <ComboBox Grid.Column="1" Width="200" ItemsSource="{Binding SocketModes}" SelectedItem="{Binding SocketMode}" />
 
                     </StackPanel>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
-                        <TextBlock VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端IP" />
+                        <TextBlock VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="{markup:I18n {x:Static lang:Language.NetRemoteIp}}" />
                         <TextBox Width="100" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemoteHost}" />
 
                     </StackPanel>
                     <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
-                        <TextBlock VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="远端端口" />
+                        <TextBlock VerticalAlignment="Center" IsVisible="{Binding ShowRemoteEndpoint}" Text="{markup:I18n {x:Static lang:Language.NetRemotePort}}" />
                         <TextBox Width="60" IsVisible="{Binding ShowRemoteEndpoint}" Text="{Binding SocketRemotePort}" />
 
                     </StackPanel>
 
                     <StackPanel Grid.Column="3" IsVisible="{Binding ShowLocalPort}" Orientation="Horizontal" Spacing="6">
-                        <TextBlock VerticalAlignment="Center" Text="本地端口" />
+                        <TextBlock VerticalAlignment="Center" Text="{markup:I18n {x:Static lang:Language.NetLocalPort}}" />
                         <TextBox Width="60" Text="{Binding LocalPort}" />
                     </StackPanel>
                 </Grid>
@@ -52,13 +54,13 @@
 
 
                         <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*" ColumnSpacing="8">
-                            <Button Command="{Binding StartSocketCommand}" Content="启动" IsEnabled="{Binding !SocketStarted}" />
-                            <Button Grid.Column="1" Command="{Binding StopSocketCommand}" Content="停止" IsEnabled="{Binding SocketStarted}" />
-                            <CheckBox Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex发送"
+                            <Button Command="{Binding StartSocketCommand}" Content="{markup:I18n {x:Static lang:Language.NetStart}}" IsEnabled="{Binding !SocketStarted}" />
+                            <Button Grid.Column="1" Command="{Binding StopSocketCommand}" Content="{markup:I18n {x:Static lang:Language.NetStop}}" IsEnabled="{Binding SocketStarted}" />
+                            <CheckBox Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{markup:I18n {x:Static lang:Language.HexSendMode}}"
                                       IsChecked="{Binding SocketHexSend}" />
-                            <CheckBox Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hex显示"
+                            <CheckBox Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{markup:I18n {x:Static lang:Language.HexShow}}"
                                       IsChecked="{Binding SocketHexShow}" />
-                            <Button Grid.Column="4" Command="{Binding ClearLogCommand}" Content="清空日志" />
+                            <Button Grid.Column="4" Command="{Binding ClearLogCommand}" Content="{markup:I18n {x:Static lang:Language.ClearLog}}" />
                         </Grid>
                     </Grid>
                 </Border>
@@ -66,19 +68,19 @@
                     <TextBox MinHeight="64" VerticalContentAlignment="Top" AcceptsReturn="True" FontFamily="Consolas"
                              Text="{Binding SocketSendText}"
                              TextWrapping="Wrap" />
-                    <Button Grid.Column="1" MinWidth="90" Command="{Binding SendSocketDataCommand}" Content="发送" />
+                    <Button Grid.Column="1" MinWidth="90" Command="{Binding SendSocketDataCommand}" Content="{markup:I18n {x:Static lang:Language.NetSend}}" />
                 </Grid>
             </Grid>
         </TabItem>
-        <TabItem Header="端口占用">
+        <TabItem Header="{markup:I18n {x:Static lang:Language.NetPortUsage}}">
             <Grid RowDefinitions="Auto,*" RowSpacing="8">
-                <Button HorizontalAlignment="Left" Command="{Binding RefreshPortUsageCommand}" Content="刷新端口占用" />
+                <Button HorizontalAlignment="Left" Command="{Binding RefreshPortUsageCommand}" Content="{markup:I18n {x:Static lang:Language.NetRefreshPortUsage}}" />
                 <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding PortUsageItems}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="150" Binding="{Binding Type}" Header="类型" />
-                        <DataGridTextColumn Width="*" Binding="{Binding Endpoint}" Header="端点" />
-                        <DataGridTextColumn Width="100" Binding="{Binding Port}" Header="端口" />
-                        <DataGridTextColumn Width="120" Binding="{Binding State}" Header="状态" />
+                        <DataGridTextColumn Width="150" Binding="{Binding Type}" Header="{markup:I18n {x:Static lang:Language.NetType}}" />
+                        <DataGridTextColumn Width="*" Binding="{Binding Endpoint}" Header="{markup:I18n {x:Static lang:Language.NetEndpoint}}" />
+                        <DataGridTextColumn Width="100" Binding="{Binding Port}" Header="{markup:I18n {x:Static lang:Language.NetPort}}" />
+                        <DataGridTextColumn Width="120" Binding="{Binding State}" Header="{markup:I18n {x:Static lang:Language.NetStatus}}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
