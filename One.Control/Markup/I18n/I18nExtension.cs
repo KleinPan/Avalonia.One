@@ -1,4 +1,4 @@
-锘縰sing Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml;
 
 namespace One.Control.Markup.I18n;
 
@@ -9,7 +9,7 @@ public class I18nExtension : MarkupExtension
         Key = key;
     }
 
-    /// <summary>鍙互杩欐牱鍐橰unning {0} operating system {markup:I18n {x:Static l:Language.RunningCountInfo},Win10}</summary>
+    /// <summary>可以这样写Running {0} operating system {markup:I18n {x:Static l:Language.RunningCountInfo},Win10}</summary>
     /// <param name="key"></param>
     /// <param name="args"></param>
     public I18nExtension(object key, params object[] args)
@@ -21,5 +21,5 @@ public class I18nExtension : MarkupExtension
     public object Key { get; }
     public object[]? Args { get; }
 
-    public override object ProvideValue(IServiceProvider serviceProvider) => new I18nBinding(Key, Args);
+    public override object ProvideValue(IServiceProvider serviceProvider) => new I18nBinding(Key, Args).ToMultiBinding();
 }

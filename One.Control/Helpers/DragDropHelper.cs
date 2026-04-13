@@ -47,7 +47,7 @@ public class DragDropHelper : AvaloniaObject
             }
 
             var commandValue = interactElem.GetValue(DropFilesCommandProperty);
-            var files = e.Data.GetFiles();
+            var files = e.DataTransfer.TryGetFiles();
 
             if (commandValue != null && files != null && files.Any())
             {
@@ -65,7 +65,7 @@ public class DragDropHelper : AvaloniaObject
 
             ICommand? commandValue = interactElem.GetValue(DropFilesCommandProperty);
 
-            var fileUris = e.Data.GetFiles()?.Select(x => x.Path).ToList();
+            var fileUris = e.DataTransfer.TryGetFiles()?.Select(x => x.Path).ToList();
 
             if (fileUris == null || fileUris.Count == 0)
             {

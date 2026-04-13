@@ -12,8 +12,8 @@ public class ArgCollection(I18nBinding owner) : Collection<object>
     {
         if (item is BindingBase binding)
         {
-            Indexes.Add((true, owner.Bindings.Count));
-            owner.Bindings.Add(binding);
+            Indexes.Add((true, owner.GetBindingCount()));
+            owner.AddArgumentBinding(binding);
         }
         else
         {

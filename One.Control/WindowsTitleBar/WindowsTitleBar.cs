@@ -111,13 +111,13 @@ public class WindowsTitleBar : ContentControl
 
     private void CloseWindow(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        Window hostWindow = (Window)VisualRoot;
+        Window hostWindow = TopLevel.GetTopLevel(this) as Window;
         hostWindow.Close();
     }
 
     private void MaximizeWindow(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        Window hostWindow = (Window)VisualRoot;
+        Window hostWindow = TopLevel.GetTopLevel(this) as Window;
 
         if (hostWindow.WindowState == WindowState.Normal)
         {
@@ -139,7 +139,8 @@ public class WindowsTitleBar : ContentControl
 
     private async void SubscribeToWindowState()
     {
-        Window hostWindow = (Window)VisualRoot;
+        Window hostWindow = TopLevel.GetTopLevel(this) as Window;
+       // Window hostWindow = (Window)VisualRoot;
 
         while (hostWindow == null)
         {

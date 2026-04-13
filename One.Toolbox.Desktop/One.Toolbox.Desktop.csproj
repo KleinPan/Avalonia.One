@@ -12,15 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <TrimmerRootDescriptor Include="Roots.xml"/>
-    <Content Include="icons8-knife-100.ico"/>
+    <TrimmerRootDescriptor Include="Roots.xml" />
+    <Content Include="icons8-knife-100.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="11.3.12"/>
+    <PackageReference Include="Avalonia.Desktop" Version="12.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\One.Toolbox\One.Toolbox.csproj"/>
+    <ProjectReference Include="..\One.Toolbox\One.Toolbox.csproj" />
   </ItemGroup>
 </Project>

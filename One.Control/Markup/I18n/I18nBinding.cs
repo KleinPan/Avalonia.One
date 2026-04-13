@@ -16,7 +16,7 @@ public class I18nBinding : MultiBindingExtensionBase
         Args = new ArgCollection(this);
 
         var cultureBinding = new Binding { Source = I18nManager.Instance, Path = nameof(I18nManager.Culture) };
-        Bindings.Add(cultureBinding);
+        AddBinding(cultureBinding);
 
         Key = key;
         if (Key is not BindingBase keyBinding)
@@ -24,7 +24,7 @@ public class I18nBinding : MultiBindingExtensionBase
             keyBinding = new Binding { Source = key };
         }
 
-        Bindings.Add(keyBinding);
+        AddBinding(keyBinding);
     }
 
     public I18nBinding(object key, params object[]? args) : this(key)
@@ -47,4 +47,8 @@ public class I18nBinding : MultiBindingExtensionBase
     public IValueConverter KeyConverter { get; set; }
 
     public IValueConverter ValueConverter { get; set; }
+
+    internal int GetBindingCount() => BindingCount;
+
+    internal void AddArgumentBinding(BindingBase binding) => AddBinding(binding);
 }
