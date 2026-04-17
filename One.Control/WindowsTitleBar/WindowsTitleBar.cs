@@ -6,6 +6,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Reactive;
+using Avalonia.VisualTree;
 
 using One.Control.Extensions;
 
@@ -101,6 +102,7 @@ public class WindowsTitleBar : ContentControl
             minimizeButton.Click += MinimizeWindow;
             maximizeButton.Click += MaximizeWindow;
             closeButton.Click += CloseWindow;
+            titleBar.PointerPressed += TitleBarPointerPressed;
             //windowIcon.DoubleTapped += CloseWindow;
 
             SubscribeToWindowState();
@@ -136,6 +138,24 @@ public class WindowsTitleBar : ContentControl
     }
 
     #endregion MinMaxCloseEvent
+
+    private void TitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+        {
+            return;
+        }
+
+        if (e.Source is Visual sourceVisual && sourceVisual.FindAncestorOfType<Button>() is not null)
+        {
+            return;
+        }
+
+        if (TopLevel.GetTopLevel(this) is Window hostWindow)
+        {
+            hostWindow.BeginMoveDrag(e);
+        }
+    }
 
     private async void SubscribeToWindowState()
     {
