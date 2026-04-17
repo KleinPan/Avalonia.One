@@ -5,7 +5,7 @@ using One.Control.Converters.I18n;
 
 namespace One.Control.Markup.I18n;
 
-public class I18nBinding : MultiBindingExtensionBase
+public class I18nBinding : MultiBindingWrapper
 {
     public I18nBinding(object key)
     {

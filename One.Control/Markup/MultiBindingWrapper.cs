@@ -3,10 +3,16 @@ using Avalonia.Data.Converters;
 
 namespace One.Control.Markup;
 
-public abstract class MultiBindingExtensionBase
+/// <summary>
+/// 主要目的就是限制 Converter 只允许赋值一次
+/// </summary>
+public abstract class MultiBindingWrapper 
 {
     private readonly MultiBinding _binding = new();
 
+    /// <summary>
+    /// 限制 Converter 只允许赋值一次
+    /// </summary>
     protected IMultiValueConverter? Converter
     {
         get => _binding.Converter;

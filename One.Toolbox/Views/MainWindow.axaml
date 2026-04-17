@@ -17,10 +17,10 @@
         MinHeight="600"
         d:DesignHeight="1100"
         d:DesignWidth="720"
-        x:DataType="vmMain:MainWindowVM" 
-        WindowDecorations="None"
+        x:DataType="vmMain:MainWindowVM"
         ExtendClientAreaTitleBarHeightHint="-1"
         ExtendClientAreaToDecorationsHint="True"
+        WindowDecorations="None"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Design.DataContext>

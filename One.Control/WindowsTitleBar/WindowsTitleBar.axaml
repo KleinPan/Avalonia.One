@@ -8,7 +8,8 @@
                 <Grid Height="30">
                     <StackPanel Name="PART_TitleBarBackground" HorizontalAlignment="Stretch" Background="{DynamicResource WindowsTitleBarBackground}" IsHitTestVisible="False" />
 
-                    <Grid Name="PART_TitleBar" ColumnDefinitions="auto,*,auto">
+                    <Grid Name="PART_TitleBar" Background="Transparent" ColumnDefinitions="auto,*,auto">
+
                         <!--<StackPanel Orientation="Horizontal" Spacing="0">
                             <Image Name="PART_WindowIcon" Width="20" Height="20" Margin="5,0,5,0"
                                    Source="{TemplateBinding Icon}"

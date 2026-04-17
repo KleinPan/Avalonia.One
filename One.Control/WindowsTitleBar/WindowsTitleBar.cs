@@ -146,10 +146,14 @@ public class WindowsTitleBar : ContentControl
             return;
         }
 
-        if (e.Source is Visual sourceVisual && sourceVisual.FindAncestorOfType<Button>() is not null)
+        if (e.Source is Visual sourceVisual
+            && (sourceVisual.FindAncestorOfType<Button>() is not null
+                || sourceVisual.FindAncestorOfType<Menu>() is not null
+                || sourceVisual.FindAncestorOfType<MenuItem>() is not null))
         {
             return;
         }
+
 
         if (TopLevel.GetTopLevel(this) is Window hostWindow)
         {
