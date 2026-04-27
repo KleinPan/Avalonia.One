@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>One.Update</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageId>One.Update</PackageId>
+    <Description>Independent auto-update library for .NET applications. Supports resumable downloads, smart full updates, forced updates, blacklist filtering, backup &amp; rollback, and crash recovery.</Description>
+    <PackageTags>update;auto-update;resumable-download;rollback</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<PackageOutputPath>D:\LocalDebugNugetPackages</PackageOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\One.Update.Abstractions\One.Update.Abstractions.csproj" />
+  </ItemGroup>
+</Project>

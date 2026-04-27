@@ -42,6 +42,7 @@
   <ItemGroup>
     <ProjectReference Include="..\One.Control\One.Control.csproj" />
     <ProjectReference Include="..\One.SimpleLog\One.SimpleLog.csproj" />
+    <ProjectReference Include="..\One.Update.Abstractions\One.Update.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

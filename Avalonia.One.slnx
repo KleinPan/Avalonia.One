@@ -10,4 +10,6 @@
   <Project Path="One.SimpleLog/One.SimpleLog.csproj" />
   <Project Path="One.Toolbox.Desktop/One.Toolbox.Desktop.csproj" />
   <Project Path="One.Toolbox/One.Toolbox.csproj" />
+  <Project Path="One.Update.Abstractions/One.Update.Abstractions.csproj" />
+  <Project Path="One.Update/One.Update.csproj" />
 </Solution>
