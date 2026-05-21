@@ -21,7 +21,7 @@ public static class SHAHelper
             byte[] hash = new byte[sha1.GetDigestSize()];
             sha1.DoFinal(hash, 0);
 
-            return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            return Convert.ToHexString(hash).ToLowerInvariant();
         }
     }
 
@@ -40,7 +40,7 @@ public static class SHAHelper
             byte[] hash = new byte[sha256.GetDigestSize()];
             sha256.DoFinal(hash, 0);
 
-            return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            return Convert.ToHexString(hash).ToLowerInvariant();
         }
     }
 }

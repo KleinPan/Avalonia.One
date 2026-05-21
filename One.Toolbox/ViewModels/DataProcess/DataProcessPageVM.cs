@@ -153,7 +153,7 @@ public partial class DataProcessPageVM : BasePageVM
     {
         ["InitToHexArray"] = (e) => Encoding.Default.GetBytes(InitArrayEvent(Encoding.Default.GetString(e))),
         ["String to Hex(with space)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(e).Replace("-", " ")),
-        ["String to Hex(without space)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(e).Replace("-", "")),
+        ["String to Hex(without space)"] = (e) => Encoding.Default.GetBytes(Convert.ToHexString(e)),
         ["Hex to String"] = (e) => Hex2byte(Encoding.Default.GetString(e)),
 
         ["Int To ByteArray(<<)"] = (e) =>
@@ -192,10 +192,10 @@ public partial class DataProcessPageVM : BasePageVM
         ["HTML decode"] = (e) => Encoding.Default.GetBytes(System.Web.HttpUtility.HtmlDecode(Encoding.Default.GetString(e))),
         ["String to Unicode"] = (e) => Encoding.Default.GetBytes(String2Unicode(Encoding.Default.GetString(e))),
         ["Unicode to String"] = (e) => Encoding.Default.GetBytes(Unicode2String(Encoding.Default.GetString(e))),
-        ["String to MD5 (Hex)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(MD5Encrypt(e)).Replace("-", "")),
-        ["String to SHA-1 (Hex)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(Sha1Encrypt(e)).Replace("-", "")),
-        ["String to SHA-256 (Hex)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(Sha256Encrypt(e)).Replace("-", "")),
-        ["String to SHA-512 (Hex)"] = (e) => Encoding.Default.GetBytes(BitConverter.ToString(Sha512Encrypt(e)).Replace("-", "")),
+        ["String to MD5 (Hex)"] = (e) => Encoding.Default.GetBytes(Convert.ToHexString(MD5Encrypt(e))),
+        ["String to SHA-1 (Hex)"] = (e) => Encoding.Default.GetBytes(Convert.ToHexString(Sha1Encrypt(e))),
+        ["String to SHA-256 (Hex)"] = (e) => Encoding.Default.GetBytes(Convert.ToHexString(Sha256Encrypt(e))),
+        ["String to SHA-512 (Hex)"] = (e) => Encoding.Default.GetBytes(Convert.ToHexString(Sha512Encrypt(e))),
     };
 
     #region Helpers

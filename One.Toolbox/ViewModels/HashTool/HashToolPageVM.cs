@@ -6,6 +6,7 @@ using One.Toolbox.ViewModels.Base;
 using One.Toolbox.Views.HashTool;
 
 using System.Diagnostics;
+using System.Text;
 
 namespace One.Toolbox.ViewModels.HashTool;
 
@@ -141,6 +142,8 @@ public partial class HashToolPageVM : BasePageVM
         var everyAdd = add / enabledCount;
         Progress = 0;
 
+        var sb = new StringBuilder(AnylizeResult);
+
         try
         {
             foreach (var item in last)
@@ -148,65 +151,67 @@ public partial class HashToolPageVM : BasePageVM
                 var path = GetFileName(item);
                 if (ShowFilePath)
                 {
-                    AnylizeResult += $"{I18nManager.GetString(Language.HashFilePathLabel)}: {path}{Environment.NewLine}";
+                    sb.Append(I18nManager.GetString(Language.HashFilePathLabel)).Append(": ").AppendLine(path);
                     Progress += everyAdd;
                 }
 
                 if (ShowFileSize)
                 {
                     var fileInfo = GetFileInfo(path);
-                    AnylizeResult += $"{I18nManager.GetString(Language.HashFileSizeLabel)}: {FormatBytes(fileInfo.Length)} ({fileInfo.Length} {I18nManager.GetString(Language.HashBytesUnit)}){Environment.NewLine}";
+                    sb.Append(I18nManager.GetString(Language.HashFileSizeLabel)).Append(": ")
+                        .Append(FormatBytes(fileInfo.Length)).Append(" (").Append(fileInfo.Length).Append(' ')
+                        .Append(I18nManager.GetString(Language.HashBytesUnit)).AppendLine(")");
                     Progress += everyAdd;
                 }
 
                 if (ShowFileModifyTime)
                 {
                     var fileInfo = GetFileInfo(path);
-                    AnylizeResult += $"{I18nManager.GetString(Language.HashModifiedTimeLabel)}: {fileInfo.LastWriteTime}{Environment.NewLine}";
+                    sb.Append(I18nManager.GetString(Language.HashModifiedTimeLabel)).Append(": ").Append(fileInfo.LastWriteTime).AppendLine();
                     Progress += everyAdd;
                 }
 
                 if (ShowMD5)
                 {
-                    var md5 = GetMD5(path);
-                    AnylizeResult += $"MD5: {md5}{Environment.NewLine}";
+                    sb.Append("MD5: ").AppendLine(GetMD5(path));
                     Progress += everyAdd;
                 }
 
                 if (ShowSHA1)
                 {
-                    var sha1 = GetSHA1(path);
-                    AnylizeResult += $"SHA1: {sha1}{Environment.NewLine}";
+                    sb.Append("SHA1: ").AppendLine(GetSHA1(path));
                     Progress += everyAdd;
                 }
 
                 if (ShowSHA256)
                 {
-                    var sha256 = GetSHA256(path);
-                    AnylizeResult += $"SHA256: {sha256}{Environment.NewLine}";
+                    sb.Append("SHA256: ").AppendLine(GetSHA256(path));
                     Progress += everyAdd;
                 }
 
                 if (ShowCRC32)
                 {
-                    var crc32 = GetCRC32(path);
-                    AnylizeResult += $"CRC32: {crc32}{Environment.NewLine}";
+                    sb.Append("CRC32: ").AppendLine(GetCRC32(path));
                     Progress += everyAdd;
                 }
 
                 if (ShowFileVersion)
                 {
                     var fileInfo = GetFileVersionInfo(path);
-                    AnylizeResult += $"{I18nManager.GetString(Language.HashFileVersionLabel)}: {fileInfo.FileVersion}{Environment.NewLine}";
+                    sb.Append(I18nManager.GetString(Language.HashFileVersionLabel)).Append(": ").AppendLine(fileInfo.FileVersion);
                     Progress += everyAdd;
                 }
 
                 Progress = 100;
-                AnylizeResult += Environment.NewLine;
+                sb.AppendLine();
             }
         }
         catch (Exception)
         {
+        }
+        finally
+        {
+            AnylizeResult = sb.ToString();
         }
     }
 
