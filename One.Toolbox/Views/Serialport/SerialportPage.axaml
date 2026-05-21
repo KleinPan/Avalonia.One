@@ -1,4 +1,4 @@
-<UserControl x:Class="One.Toolbox.Views.SerialportPage"
+<UserControl x:Class="One.Toolbox.Views.Serialport.SerialportPage"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"

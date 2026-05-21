@@ -7,7 +7,9 @@ using One.Base.Helpers.DataProcessHelpers;
 using One.Base.Helpers.NetHelpers;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.NetTool;
 
 using System.Collections.ObjectModel;
 using System.Net;
@@ -16,6 +18,7 @@ using System.Text;
 
 namespace One.Toolbox.ViewModels.NetTool;
 
+[ToolPage(30, Language.NetDebugTool, "organization_regular", typeof(NetToolPage))]
 public partial class NetToolPageVM : BasePageVM
 {
     private AsyncTCPClient? tcpClient;

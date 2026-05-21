@@ -10,16 +10,10 @@ using One.SimpleLog;
 using One.SimpleLog.Extensions;
 using One.SimpleLog.Loggers;
 using One.Toolbox.Services;
-using One.Toolbox.ViewModels.DataProcess;
-using One.Toolbox.ViewModels.DiffViewer;
-using One.Toolbox.ViewModels.HashTool;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.IconBoard;
 using One.Toolbox.ViewModels.MainWindow;
-using One.Toolbox.ViewModels.NetTool;
-using One.Toolbox.ViewModels.QRCode;
-using One.Toolbox.ViewModels.RegularTester;
-using One.Toolbox.ViewModels.Serialport;
-using One.Toolbox.ViewModels.Todo;
+using One.Toolbox.ViewModels.Setting;
 using One.Toolbox.Views;
 
 using System.Globalization;
@@ -71,7 +65,6 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
-        // 核心服务注册
         services.AddSingleton<IFilesService>(x => new FilesService(desktop.MainWindow!));
         services.AddSingleton<INotifyService>(x => new NotifyService(desktop.MainWindow!));
         services.AddSingleton<SettingService>();
@@ -79,25 +72,12 @@ public partial class App : Application
         services.AddSingleton<BingImageService>();
         services.AddSingleton<CloudSettingSyncService>();
 
-        // Views and ViewModels
         services.AddSingleton<MainWindowVM>();
         services.AddSingleton<MainViewVM>();
-        services.AddSingleton<One.Toolbox.ViewModels.Dashboard.DashboardPageVM>();
-        services.AddSingleton<DataProcessPageVM>();
-        services.AddSingleton<DiffViewerPageVM>();
-        services.AddSingleton<One.Toolbox.ViewModels.Setting.SettingsPageVM>();
-        services.AddSingleton<One.Toolbox.ViewModels.Note.NotePageVM>();
-        services.AddSingleton<TodoPageVM>();
-        services.AddSingleton<One.Toolbox.ViewModels.Setting.CloudSettingsVM>();
-        services.AddSingleton<One.Toolbox.ViewModels.BingImage.BingImagePageVM>();
-        services.AddSingleton<QRCodePageVM>();
-        services.AddSingleton<HashToolPageVM>();
+        services.AddSingleton<CloudSettingsVM>();
         services.AddSingleton<IconBoardPageVM>();
-        services.AddSingleton<One.Toolbox.ViewModels.UnixTimeConverter.UnixTimeConverterVM>();
-        services.AddSingleton<RegularTesterPageVM>();
- 
-        services.AddSingleton<SerialportPageVM>();
-        services.AddSingleton<NetToolPageVM>();
+
+        ToolPageRegistry.RegisterAll(services);
 
         return services.BuildServiceProvider();
     }

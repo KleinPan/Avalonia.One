@@ -12,7 +12,9 @@ using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
 using One.Toolbox.Services;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.DataProcess;
 
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -25,6 +27,7 @@ using System.Text.Unicode;
 
 namespace One.Toolbox.ViewModels.DataProcess;
 
+[ToolPage(50, Language.DataProcess, "text_edit_style_regular", typeof(DataProcessPage))]
 public partial class DataProcessPageVM : BasePageVM
 {
     public ObservableCollection<string> ConverterTaskList { get; set; } = new ObservableCollection<string>();

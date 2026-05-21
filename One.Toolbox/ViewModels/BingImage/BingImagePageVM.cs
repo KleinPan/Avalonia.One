@@ -6,12 +6,15 @@ using One.Base.ExtensionMethods;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.BingImage;
 
 using System.Collections.ObjectModel;
 
 namespace One.Toolbox.ViewModels.BingImage;
 
+[ToolPage(40, Language.BingImage, "image_library_regular", typeof(BingImagePage))]
 public partial class BingImagePageVM : BasePageVM
 {
     [ObservableProperty]

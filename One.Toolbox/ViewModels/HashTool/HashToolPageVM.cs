@@ -1,12 +1,15 @@
 ﻿using One.Base.Helpers.EncryptionHelpers;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.HashTool;
 
 using System.Diagnostics;
 
 namespace One.Toolbox.ViewModels.HashTool;
 
+[ToolPage(90, Language.HashTool, "premium_regular", typeof(HashToolPage))]
 public partial class HashToolPageVM : BasePageVM
 {
     [ObservableProperty]

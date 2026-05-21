@@ -7,13 +7,16 @@ using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
 using One.Toolbox.Messenger;
 using One.Toolbox.Services;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Setting;
+using One.Toolbox.Views.Note;
 
 using System.Collections.ObjectModel;
 
 namespace One.Toolbox.ViewModels.Note;
 
+[ToolPage(70, Language.Note, "notepad_regular", typeof(NotePage))]
 public partial class NotePageVM : BasePageVM
 {
     [ObservableProperty]

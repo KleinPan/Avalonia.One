@@ -1,9 +1,12 @@
 ﻿using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.DiffViewer;
 
 namespace One.Toolbox.ViewModels.DiffViewer;
 
+[ToolPage(60, Language.DiffViewer, "text_number_format_regular", typeof(DiffViewerPage))]
 public partial class DiffViewerPageVM : BasePageVM
 {
     private enum DiffOpType

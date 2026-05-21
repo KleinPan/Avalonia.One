@@ -17,7 +17,9 @@ using One.SimpleLog.Loggers;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Messenger;
 using One.Toolbox.Services;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.Serialport;
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -29,6 +31,7 @@ using System.Text.RegularExpressions;
 
 namespace One.Toolbox.ViewModels.Serialport;
 
+[ToolPage(20, Language.Serialport, "SerialPort24Filled", typeof(SerialportPage))]
 public partial class SerialportPageVM : BasePageVM
 {
     #region SerialPortSetting
