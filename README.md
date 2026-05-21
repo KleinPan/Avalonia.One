@@ -7,8 +7,8 @@
   <p>基于 Avalonia 框架开发的轻量级、模块化桌面工具集合，为开发者和技术人员提供一站式解决方案</p>
   
   <div>
-    <img src="https://img.shields.io/badge/.NET-8.0-blue" alt=".NET 8.0">
-    <img src="https://img.shields.io/badge/Avalonia-11.3.12-purple" alt="Avalonia 11.3.12">
+    <img src="https://img.shields.io/badge/.NET-10.0-blue" alt=".NET 10.0">
+    <img src="https://img.shields.io/badge/Avalonia-12.0.0-purple" alt="Avalonia 12.0.0">
     <img src="https://img.shields.io/badge/MVVM-Architecture-green" alt="MVVM Architecture">
     <img src="https://img.shields.io/badge/Cross--Platform-Windows%20%7C%20macOS%20%7C%20Linux-orange" alt="Cross-Platform">
   </div>
@@ -90,11 +90,11 @@ Avalonia.One 采用模块化设计，各模块职责明确，耦合度低，便�
 
 | 技术/框架 | 版本 | 用途 |
 |----------|------|------|
-| .NET | 8.0 | 核心开发框架 |
-| Avalonia | 11.3.12 | 跨平台UI框架 |
-| MVVM Toolkit | 8.2.0 | MVVM架构实现 |
-| Microsoft.Extensions.DependencyInjection | 8.0.0 | 依赖注入容器 |
-| Newtonsoft.Json | 13.0.3 | JSON序列化与反序列化 |
+| .NET | 10.0 | 核心开发框架 |
+| Avalonia | 12.0.0 | 跨平台UI框架 |
+| MVVM Toolkit | 8.4.2 | MVVM架构实现 |
+| Microsoft.Extensions.DependencyInjection | 10.0.6 | 依赖注入容器 |
+| Semi.Avalonia / Irihi.Ursa | 12.0.0 / 2.0.0-rc1 | UI 主题与组件库 |
 
 ## 🚀 功能特性
 
@@ -323,7 +323,7 @@ dotnet restore
 
 3. 构建项目：
 ```bash
-dotnet build Avalonia.One.sln -c Debug
+dotnet build Avalonia.One.slnx -c Debug
 ```
 
 4. 运行应用：

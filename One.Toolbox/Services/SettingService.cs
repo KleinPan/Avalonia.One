@@ -33,19 +33,6 @@ public class SettingService
 
     public void SaveCommonSetting()
     {
-        //IOHelper.Instance.WriteContentTolocal(AllConfig, LocalConfig);
-
-        //string newpath = System.IO.Path.GetDirectoryName(LocalConfig);
-
-        //if (!Directory.Exists(newpath))
-        //{
-        //    Directory.CreateDirectory(newpath);
-        //}
-
-        //var json = JsonSerializer.Serialize(AllConfig, SourceGenerationContext.Default.AllConfigModel);
-
-        //System.IO.File.WriteAllText(LocalConfig, json);
-
         IOHelper.Instance.WriteContentTolocalSourceGeneration(AllConfig, LocalConfig, SourceGenerationContext.Default.AllConfigModel);
     }
 
@@ -58,12 +45,6 @@ public class SettingService
     {
         try
         {
-            //AllConfig = IOHelper.Instance.ReadContentFromLocal<AllConfigModel>(fullPath);
-
-            //var content = System.IO.File.ReadAllText(fullPath);
-
-            //AllConfig = JsonSerializer.Deserialize(content, SourceGenerationContext.Default.AllConfigModel);
-
             AllConfig = IOHelper.Instance.ReadContentFromLocalSourceGeneration(fullPath, SourceGenerationContext.Default.AllConfigModel)
                 ?? new AllConfigModel();
         }
@@ -92,12 +73,6 @@ public class SettingService
     {
         try
         {
-            //AllConfig = IOHelper.Instance.ReadContentFromLocal<AllConfigModel>(fullPath);
-
-            //var content = System.IO.File.ReadAllText(fullPath);
-
-            //AllConfig = JsonSerializer.Deserialize(content, SourceGenerationContext.Default.AllConfigModel);
-
             SerialportSetting = IOHelper.Instance.ReadContentFromLocalSourceGeneration(fullPath, SourceGenerationContext.Default.SerialportSettingM)
                 ?? new SerialportSettingM();
         }
@@ -120,19 +95,12 @@ public class SettingService
     {
         try
         {
-            //var file = $"avares://One.Toolbox/Assets/Languages/{language}.axaml";
-            //var data = new ResourceInclude(new Uri(file, UriKind.Absolute));
-            //data.Source = new Uri(file, UriKind.Absolute);
-            //Avalonia.Application.Current!.Resources.MergedDictionaries[0] = data;
-
-            //Assets.Languages.Resources.Culture = new CultureInfo(language);
-
             var culture = new CultureInfo(language);
             I18nManager.Instance.Culture = culture;
 
             WeakReferenceMessenger.Default.Send(new string(language));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
         }
     }
