@@ -253,7 +253,7 @@ public partial class EditFileInfoVM : ObservableObject
             ModifyTime = DateTime.Now;
 
             await File.WriteAllTextAsync(FilePath + suffix, MdContent);
-            App.Current!.Services.GetService<INotifyService>()!.ShowInfoMessage("Save success!");
+            //App.Current!.Services.GetService<INotifyService>()!.ShowInfoMessage("Save success!");
         }
     }
 }

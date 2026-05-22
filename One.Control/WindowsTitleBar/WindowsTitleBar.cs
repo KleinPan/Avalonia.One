@@ -133,7 +133,7 @@ public class WindowsTitleBar : ContentControl
 
     private void MinimizeWindow(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        Window hostWindow = (Window)VisualRoot;
+        Window hostWindow = TopLevel.GetTopLevel(this) as Window;
         hostWindow.WindowState = WindowState.Minimized;
     }
 
