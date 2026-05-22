@@ -1,10 +1,13 @@
 ﻿using One.Base.Helpers;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.UnixTimeConverter;
 
 namespace One.Toolbox.ViewModels.UnixTimeConverter;
 
+[ToolPage(120, Language.TimeConvert, "timer_regular", typeof(UnixTimeConverterPage))]
 public partial class UnixTimeConverterVM : BasePageVM
 {
     public UnixTimeConverterVM()

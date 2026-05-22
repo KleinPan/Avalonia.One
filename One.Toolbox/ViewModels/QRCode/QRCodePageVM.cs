@@ -5,8 +5,11 @@ using Avalonia.Media;
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Control.Markup.I18n;
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.QRCode;
 
 using System.Collections.ObjectModel;
 
@@ -14,6 +17,7 @@ using static Avalonia.Labs.Qr.QrCode;
 
 namespace One.Toolbox.ViewModels.QRCode;
 
+[ToolPage(110, Language.QRCode, "qr_code_regular", typeof(QRCodePage))]
 public partial class QRCodePageVM : BasePageVM
 {
     public QRCodePageVM()

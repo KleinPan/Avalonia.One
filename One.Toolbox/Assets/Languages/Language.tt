@@ -34,7 +34,7 @@ public static class Language
     foreach (string resourceKey in resourceKeys)
     {
 #>
-	public static readonly string <#= resourceKey #> = "<#= resourceKey #>";
+	public const string <#= resourceKey #> = "<#= resourceKey #>";
 <#
     }
 #>

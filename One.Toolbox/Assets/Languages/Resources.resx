@@ -395,6 +395,12 @@
   <data name="SerialDeleteItem" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Todo" xml:space="preserve">
+    <value>Todo</value>
+  </data>
+  <data name="QRCode" xml:space="preserve">
+    <value>QR Code</value>
+  </data>
   <data name="TodoAddDay" xml:space="preserve">
     <value>Add Day</value>
   </data>

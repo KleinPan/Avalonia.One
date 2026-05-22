@@ -7,7 +7,9 @@ using One.Control.Helpers;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.RegularTester;
 
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
@@ -15,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.RegularTester;
 
+[ToolPage(100, Language.RegTestTool, "teddy_regular", typeof(RegularTesterPage))]
 public partial class RegularTesterPageVM : BasePageVM
 {
     [ObservableProperty]

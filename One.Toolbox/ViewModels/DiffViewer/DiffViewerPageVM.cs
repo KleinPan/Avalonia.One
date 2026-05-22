@@ -1,18 +1,16 @@
-﻿using One.Control.Markup.I18n;
+﻿using DiffPlex;
+
+using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.DiffViewer;
 
 namespace One.Toolbox.ViewModels.DiffViewer;
 
+[ToolPage(60, Language.DiffViewer, "text_number_format_regular", typeof(DiffViewerPage))]
 public partial class DiffViewerPageVM : BasePageVM
 {
-    private enum DiffOpType
-    {
-        Equal,
-        Add,
-        Remove
-    }
-
     private readonly List<int> _anchors = new();
     private int _refreshVersion;
 
@@ -203,8 +201,7 @@ public partial class DiffViewerPageVM : BasePageVM
     }
 
     /// <summary>
-    /// 参考 SourceGit 的按块对齐思路：
-    /// 在同一变化块内配对 Remove/Add 为 Modified，并记录差异块锚点。
+    /// 用 DiffPlex 计算行级差异，并按块对齐：同块内 Remove/Add 配对为修改，记录锚点。
     /// </summary>
     private static DiffResult BuildDiffResult(IReadOnlyList<string> leftLines, IReadOnlyList<string> rightLines)
     {
@@ -214,140 +211,44 @@ public partial class DiffViewerPageVM : BasePageVM
             RightText = string.Join(Environment.NewLine, rightLines)
         };
 
-        var ops = BuildDiffOps(leftLines, rightLines);
+        var diff = Differ.Instance.CreateLineDiffs(
+            string.Join('\n', leftLines),
+            string.Join('\n', rightLines),
+            ignoreWhitespace: false);
+
         var changedRows = 0;
 
-        var index = 0;
-        var leftLine = 1;
-        var rightLine = 1;
-        while (index < ops.Count)
+        foreach (var block in diff.DiffBlocks)
         {
-            if (ops[index] == DiffOpType.Equal)
-            {
-                leftLine++;
-                rightLine++;
-                index++;
-                continue;
-            }
+            var anchor = block.DeleteCountA > 0
+                ? block.DeleteStartA + 1
+                : block.InsertStartB + 1;
+            result.AnchorLines.Add(anchor);
 
-            var removeLines = new List<int>();
-            var addLines = new List<int>();
-
-            while (index < ops.Count && ops[index] != DiffOpType.Equal)
+            // 与 SourceGit 一致：左侧修改行按删除（红色）显示，右侧按新增（绿色）显示。
+            for (var i = 0; i < block.DeleteCountA; i++)
             {
-                if (ops[index] == DiffOpType.Remove)
+                result.LeftChanges.Add(new DiffLine
                 {
-                    removeLines.Add(leftLine++);
-                }
-                else
+                    LineNumber = block.DeleteStartA + 1 + i,
+                    Type = DiffType.Removed
+                });
+            }
+
+            for (var i = 0; i < block.InsertCountB; i++)
+            {
+                result.RightChanges.Add(new DiffLine
                 {
-                    addLines.Add(rightLine++);
-                }
-
-                index++;
+                    LineNumber = block.InsertStartB + 1 + i,
+                    Type = DiffType.Added
+                });
             }
 
-            var anchor = removeLines.FirstOrDefault();
-            if (anchor <= 0)
-            {
-                anchor = addLines.FirstOrDefault();
-            }
-
-            if (anchor > 0)
-            {
-                result.AnchorLines.Add(anchor);
-            }
-
-            var modifiedCount = Math.Min(removeLines.Count, addLines.Count);
-            for (var i = 0; i < modifiedCount; i++)
-            {
-                // 与 SourceGit 一致：左侧修改行按删除（红色）显示，右侧按新增（绿色）显示。
-                result.LeftChanges.Add(new DiffLine { LineNumber = removeLines[i], Type = DiffType.Removed });
-                result.RightChanges.Add(new DiffLine { LineNumber = addLines[i], Type = DiffType.Added });
-            }
-
-            for (var i = modifiedCount; i < removeLines.Count; i++)
-            {
-                result.LeftChanges.Add(new DiffLine { LineNumber = removeLines[i], Type = DiffType.Removed });
-            }
-
-            for (var i = modifiedCount; i < addLines.Count; i++)
-            {
-                result.RightChanges.Add(new DiffLine { LineNumber = addLines[i], Type = DiffType.Added });
-            }
-
-            changedRows += Math.Max(removeLines.Count, addLines.Count);
+            changedRows += Math.Max(block.DeleteCountA, block.InsertCountB);
         }
 
         result.ChangedRows = changedRows;
         return result;
-    }
-
-    /// <summary>
-    /// 通过 LCS 回溯构建操作序列（Equal/Add/Remove）。
-    /// </summary>
-    private static List<DiffOpType> BuildDiffOps(IReadOnlyList<string> left, IReadOnlyList<string> right)
-    {
-        var lcs = BuildLcsMatrix(left, right);
-        var ops = new List<DiffOpType>();
-
-        var i = 0;
-        var j = 0;
-        while (i < left.Count && j < right.Count)
-        {
-            if (left[i] == right[j])
-            {
-                ops.Add(DiffOpType.Equal);
-                i++;
-                j++;
-                continue;
-            }
-
-            if (lcs[i + 1, j] >= lcs[i, j + 1])
-            {
-                ops.Add(DiffOpType.Remove);
-                i++;
-            }
-            else
-            {
-                ops.Add(DiffOpType.Add);
-                j++;
-            }
-        }
-
-        while (i++ < left.Count)
-        {
-            ops.Add(DiffOpType.Remove);
-        }
-
-        while (j++ < right.Count)
-        {
-            ops.Add(DiffOpType.Add);
-        }
-
-        return ops;
-    }
-
-    /// <summary>
-    /// 构建 LCS 长度矩阵：用于稳定决定“当前是 Add 还是 Remove”。
-    /// </summary>
-    private static int[,] BuildLcsMatrix(IReadOnlyList<string> left, IReadOnlyList<string> right)
-    {
-        var m = left.Count;
-        var n = right.Count;
-        var matrix = new int[m + 1, n + 1];
-
-        for (var i = m - 1; i >= 0; i--)
-        {
-            for (var j = n - 1; j >= 0; j--)
-            {
-                matrix[i, j] = left[i] == right[j]
-                    ? matrix[i + 1, j + 1] + 1
-                    : Math.Max(matrix[i + 1, j], matrix[i, j + 1]);
-            }
-        }
-
-        return matrix;
     }
 
     private static List<string> NormalizeLines(string text)

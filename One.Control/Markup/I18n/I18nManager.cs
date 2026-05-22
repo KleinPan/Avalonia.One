@@ -15,18 +15,7 @@ public class I18nManager : INotifyPropertyChanged
 
     private I18nManager()
     {
-        _resourceManagers = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(assembly =>
-                assembly.GetTypes()
-                    .Where(type => string.Compare(type?.FullName, "i18n", StringComparison.OrdinalIgnoreCase) != 0)
-                    .ToDictionary(
-                        type => type,
-                        type => type.GetProperty(nameof(ResourceManager), BindingFlags.Public | BindingFlags.Static)
-                            ?.GetValue(null, null) as ResourceManager)
-            )
-            .Where(pair => pair.Value != null)
-            .ToDictionary(pair => pair.Key, pair => pair.Value!);
-
+        _resourceManagers = new Dictionary<Type, ResourceManager>();
         Resources = new Dictionary<string, object>();
         _culture = CultureInfo.InvariantCulture;
     }

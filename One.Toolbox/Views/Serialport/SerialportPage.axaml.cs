@@ -2,7 +2,7 @@ using Avalonia.Controls;
 
 using One.Toolbox.ViewModels.Serialport;
 
-namespace One.Toolbox.Views;
+namespace One.Toolbox.Views.Serialport;
 
 public partial class SerialportPage : UserControl
 {

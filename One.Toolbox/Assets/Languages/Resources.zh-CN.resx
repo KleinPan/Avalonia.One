@@ -393,6 +393,12 @@
   <data name="SerialDeleteItem" xml:space="preserve">
     <value>删除</value>
   </data>
+  <data name="Todo" xml:space="preserve">
+    <value>待办事项</value>
+  </data>
+  <data name="QRCode" xml:space="preserve">
+    <value>二维码</value>
+  </data>
   <data name="TodoAddDay" xml:space="preserve">
     <value>添加日期</value>
   </data>

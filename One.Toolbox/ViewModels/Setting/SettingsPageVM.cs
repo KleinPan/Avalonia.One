@@ -1,17 +1,22 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Avalonia.Controls;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using One.Base.Helpers;
 using One.Base.Helpers.HttpHelper;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Dashboard;
+using One.Toolbox.Views.Settings;
 
 using System.Threading.Tasks;
 
 namespace One.Toolbox.ViewModels.Setting;
 
+[ToolPage(1000, Language.Setting, "settings_regular", typeof(SettingsPage), Dock = Dock.Bottom)]
 public partial class SettingsPageVM : BasePageVM
 {
     [ObservableProperty]

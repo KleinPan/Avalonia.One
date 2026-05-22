@@ -15,7 +15,7 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: Avalonia.One.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      Solution_Name: Avalonia.One.slnx                        # Replace with your solution name, i.e. MyWpfApp.sln.
       Wap_Project_Directory: output    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
       Wap_Project_Path: One.Toolbox.Desktop/One.Toolbox.Desktop.csproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
@@ -28,7 +28,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 10.0.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe

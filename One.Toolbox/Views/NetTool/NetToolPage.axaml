@@ -1,4 +1,4 @@
-<UserControl x:Class="One.Toolbox.Views.NetToolPage"
+<UserControl x:Class="One.Toolbox.Views.NetTool.NetToolPage"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"

@@ -4,8 +4,6 @@ using Avalonia.Styling;
 using Microsoft.Extensions.DependencyInjection;
 
 using One.Base.Helpers;
-using One.Control.Markup.I18n;
-using One.Toolbox.Assets.Languages;
 using One.Toolbox.Services;
 using One.Toolbox.ViewModels.Base;
 
@@ -13,9 +11,6 @@ namespace One.Toolbox.ViewModels.MainWindow;
 
 public partial class MainWindowVM : BaseVM
 {
-    [ObservableProperty]
-    private string a = string.Empty;
-
     [ObservableProperty]
     private MainViewVM mainViewVM = null!;
 
@@ -32,11 +27,10 @@ public partial class MainWindowVM : BaseVM
     [RelayCommand]
     private void SetLanguage(object obj)
     {
-        var language = obj as string;
-
-        SettingService.ChangeLanguage(language.ToString());
-
-        var a = I18nManager.GetString(Language.About);
+        if (obj is string language)
+        {
+            SettingService.ChangeLanguage(language);
+        }
     }
 
     [RelayCommand]

@@ -1,14 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 
+using One.Toolbox.Assets.Languages;
 using One.Toolbox.Helpers;
 using One.Toolbox.Messenger;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
+using One.Toolbox.Views.Todo;
 
 using System.Collections.ObjectModel;
 using System.Text.Json;
 
 namespace One.Toolbox.ViewModels.Todo;
 
+[ToolPage(80, Language.Todo, "text_bullet_list_regular", typeof(TodoPage))]
 public partial class TodoPageVM : BasePageVM
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };

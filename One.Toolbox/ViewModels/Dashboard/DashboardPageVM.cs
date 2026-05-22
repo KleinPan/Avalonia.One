@@ -5,8 +5,10 @@ using One.Base.Helpers;
 using One.Base.Helpers.HttpHelper;
 using One.Control.Markup.I18n;
 using One.Toolbox.Assets.Languages;
+using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.Base;
 using One.Toolbox.ViewModels.Setting;
+using One.Toolbox.Views.Dashboard;
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -18,6 +20,7 @@ using System.Text.Json;
 
 namespace One.Toolbox.ViewModels.Dashboard;
 
+[ToolPage(10, Language.Dashboard, "home_regular", typeof(DashboardPage))]
 public partial class DashboardPageVM : BasePageVM
 {
     public DashboardPageVM()
