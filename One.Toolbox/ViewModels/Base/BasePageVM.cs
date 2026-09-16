@@ -1,10 +1,11 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 
 using CommunityToolkit.Mvvm.Messaging;
 
 using One.SimpleLog;
 using One.SimpleLog.Extensions;
 using One.SimpleLog.Loggers;
+using One.Toolbox.Helpers;
 
 namespace One.Toolbox.ViewModels.Base;
 
@@ -21,6 +22,8 @@ public partial class BasePageVM : BaseVM
     /// <summary>进入当前页面</summary>
     public virtual void OnNavigatedEnter(UserControl userControl)
     {
+        StartupTracker.MarkFirstNavigation(); // 首页导航时间点，仅记录一次
+
         if (!isInitialized)
         {
             currentPage = userControl;

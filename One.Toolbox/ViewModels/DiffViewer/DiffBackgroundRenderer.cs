@@ -22,9 +22,7 @@ public class DiffBackgroundRenderer : IBackgroundRenderer
 
     public KnownLayer Layer => KnownLayer.Background;
 
-    /// <summary>
-    /// 对可见行绘制背景色，避免全量扫描导致滚动卡顿。
-    /// </summary>
+    /// <summary> 对可见行绘制背景色，避免全量扫描导致滚动卡顿。 </summary>
     public void Draw(TextView textView, DrawingContext drawingContext)
     {
         if (!textView.VisualLinesValid)

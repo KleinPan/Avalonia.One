@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Avalonia.Threading;
 
 using One.Base.Helpers;
@@ -23,14 +23,15 @@ namespace One.Toolbox.ViewModels.Dashboard;
 [ToolPage(10, Language.Dashboard, "home_regular", typeof(DashboardPage))]
 public partial class DashboardPageVM : BasePageVM
 {
+    private DashboardCardVM? networkCard;
+
     public DashboardPageVM()
     {
-        Register();
-
         InitializeCards();
 
-        // 初始网络信息
-        LocalIp = GetLocalIpAddress();
+        // 注册表检查与 DNS 解析移入后台任务：Dns.GetHostEntry 在异常网络环境（VPN/域/DNS 不可达）下
+        // 可阻塞数秒，绝不能在 UI 线程的构造函数中同步调用（原实现调用了两次）
+        _ = LoadNetworkInfoAsync();
     }
 
     public override void OnNavigatedEnter(UserControl userControl)
@@ -132,16 +133,37 @@ public partial class DashboardPageVM : BasePageVM
             CardContent = new QuoteDataVM()
         });
 
-      
-
-        // 2. 网络快照卡片
-        DashboardCards.Add(new DashboardCardVM
+        // 2. 网络快照卡片（IP 由 LoadNetworkInfoAsync 异步填充）
+        networkCard = new DashboardCardVM
         {
             Title = "网络信息",
             AccentColor = "#E81123",
             IconData = "M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L5.67,11.67C5.86,11.86 6.11,11.97 6.38,11.97H8.38C8.93,11.97 9.38,11.52 9.38,10.97V8.97C9.38,8.42 8.93,7.97 8.38,7.97H7.38V5.97C7.38,5.42 7.83,4.97 8.38,4.97H11.38C11.93,4.97 12.38,5.42 12.38,5.97V7.97H14.38C14.93,7.97 15.38,8.42 15.38,8.97V11.97C15.38,12.52 14.93,12.97 14.38,12.97H13.38V15.97C13.38,16.52 13.83,16.97 14.38,16.97H15.38V18.97C15.38,19.52 14.93,19.97 14.38,19.97H11V19.93Z",
-            CardContent = $"IP: {GetLocalIpAddress()}"
-        });
+            CardContent = "IP: ..."
+        };
+        DashboardCards.Add(networkCard);
+    }
+
+    /// <summary>后台加载网络信息与首次运行检查：DNS 只解析一次，结果同时更新 LocalIp 与卡片内容。</summary>
+    private async Task LoadNetworkInfoAsync()
+    {
+        try
+        {
+            await Task.Run(Register);
+
+            var ip = await Task.Run(GetLocalIpAddress);
+
+            LocalIp = ip;
+            if (networkCard != null)
+            {
+                networkCard.CardContent = $"IP: {ip}";
+            }
+        }
+        catch (Exception ex)
+        {
+            // 后台任务兜底：记录异常，不影响启动
+            WriteErrorLog($"加载网络信息失败: {ex.Message}");
+        }
     }
 
     private string GetLocalIpAddress()

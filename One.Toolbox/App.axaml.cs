@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -9,6 +9,7 @@ using One.Control.Markup.I18n;
 using One.SimpleLog;
 using One.SimpleLog.Extensions;
 using One.SimpleLog.Loggers;
+using One.Toolbox.Helpers;
 using One.Toolbox.Services;
 using One.Toolbox.Services.Navigation;
 using One.Toolbox.ViewModels.IconBoard;
@@ -26,7 +27,9 @@ public partial class App : Application
 
     public override void Initialize()
     {
+        StartupTracker.Mark("App.Initialize 开始（含 AppBuilder 配置与平台检测）");
         AvaloniaXamlLoader.Load(this);
+        StartupTracker.Mark("App.Initialize 完成（App.axaml 样式与资源加载）");
 #if DEBUG
         this.AttachDeveloperTools();
 #endif
@@ -39,6 +42,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        StartupTracker.Mark("OnFrameworkInitializationCompleted 开始");
+
         // Line below is needed to remove Avalonia data validation. Without this line you will get
         // duplicate validations from both Avalonia and CT
         //BindingPlugins.DataValidators.RemoveAt(0);
@@ -49,9 +54,11 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             Services = ConfigureServices(desktop);
+            StartupTracker.Mark("DI 容器构建完成");
 
             MainWindowVM vm = new MainWindowVM();
             desktop.MainWindow = new MainWindow { DataContext = vm };
+            StartupTracker.Mark("MainWindow 及首页 ViewModel 创建完成");
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
@@ -59,6 +66,7 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+        StartupTracker.Mark("OnFrameworkInitializationCompleted 完成");
     }
 
     /// <summary>Configures the services for the application.</summary>

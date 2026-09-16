@@ -13,7 +13,7 @@
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
                 <TextBlock FontSize="28" FontWeight="Black" Foreground="{DynamicResource SystemAccentColor}" Text="One.Toolbox" />
                 <Separator Width="1" Height="24" Background="#20000000" />
-                <HyperlinkButton Padding="0" VerticalAlignment="Center" NavigateUri="https://github.com/KleinPan/One">
+                <HyperlinkButton Padding="0" VerticalAlignment="Center" NavigateUri="https://github.com/KleinPan/Avalonia.One">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <PathIcon Width="18" Height="18" Data="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21.15C9.5,21.03 9.47,20.53 9.47,19.86C7,20.4 6.3,19.33 6.1,18.73C5.97,18.45 5.42,17.45 4.93,17.18C4.54,16.97 4,16.47 4.93,16.45C5.8,16.43 6.43,17.25 6.63,17.58C7.63,19.23 9.2,18.75 9.83,18.47C9.93,17.75 10.22,17.25 10.54,16.97C8.04,16.7 5.5,15.73 5.5,11.41C5.5,10.18 5.94,9.17 6.66,8.38C6.54,8.1 6.15,6.95 6.77,5.41C6.77,5.41 7.71,5.11 9.86,6.58C10.76,6.33 11.71,6.21 12.66,6.21C13.61,6.21 14.56,6.33 15.46,6.58C17.61,5.11 18.55,5.41 18.55,5.41C19.17,6.95 18.78,8.1 18.66,8.38C19.38,9.17 19.82,10.17 19.82,11.41C19.82,15.74 17.27,16.7 14.77,16.97C15.17,17.31 15.53,17.98 15.53,19.03C15.53,20.53 15.51,21.74 15.51,22.11C15.51,22.4 15.67,22.72 16.18,22.62C20.13,21.29 23,17.55 23,13.11C23,7.59 18.52,3.11 13,3.11Z" />
                         <TextBlock VerticalAlignment="Center" FontSize="14" Opacity="0.7" Text="GitHub Link" />

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -19,7 +19,8 @@ public class HTTPClientHelper
         //var handler = new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.None, ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true };
         var handler = new SocketsHttpHandler() { AutomaticDecompression = DecompressionMethods.None };
 
-        HttpClient = new HttpClient(handler);
+        // 显式超时：默认 100s 会让失败请求长时间挂起（如 Dashboard 每日一言、Bing 图片列表）。本客户端仅用于小 JSON 请求，大文件下载走 HttpDownloadHelper 的独立实例
+        HttpClient = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(10) };
     }
 
     #region Get

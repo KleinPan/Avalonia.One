@@ -16,36 +16,44 @@ public sealed record ToolPageDescriptor(
 
 public sealed class ToolPageRegistry
 {
+    // 缓存反射扫描结果：RegisterAll 与本类构造函数各扫描一次全程序集，重复的 asm.GetTypes() 开销无必要
+    private static IReadOnlyList<ToolPageDescriptor>? _cachedDescriptors;
+
     public IReadOnlyList<ToolPageDescriptor> Descriptors { get; }
 
     public ToolPageRegistry()
     {
-        Descriptors = DiscoverDescriptors().OrderBy(d => d.Order).ToList();
+        Descriptors = GetDescriptors();
     }
 
     public static void RegisterAll(IServiceCollection services)
     {
-        foreach (var d in DiscoverDescriptors())
+        foreach (var d in GetDescriptors())
         {
             services.AddSingleton(d.ViewModelType);
         }
         services.AddSingleton<ToolPageRegistry>();
     }
 
-    private static IEnumerable<ToolPageDescriptor> DiscoverDescriptors()
+    private static IReadOnlyList<ToolPageDescriptor> GetDescriptors()
     {
-        var asm = typeof(ToolPageRegistry).Assembly;
-        foreach (var t in asm.GetTypes())
+        if (_cachedDescriptors is null)
         {
-            var attr = t.GetCustomAttribute<ToolPageAttribute>();
-            if (attr is null) continue;
-            yield return new ToolPageDescriptor(
-                ViewModelType: t,
-                ViewType: attr.ViewType,
-                Order: attr.Order,
-                I18nKey: attr.I18nKey,
-                IconKey: attr.IconKey,
-                Dock: attr.Dock);
+            var asm = typeof(ToolPageRegistry).Assembly;
+            _cachedDescriptors = asm.GetTypes()
+                .Select(t => (Type: t, Attr: t.GetCustomAttribute<ToolPageAttribute>()))
+                .Where(x => x.Attr is not null)
+                .Select(x => new ToolPageDescriptor(
+                    ViewModelType: x.Type,
+                    ViewType: x.Attr!.ViewType,
+                    Order: x.Attr.Order,
+                    I18nKey: x.Attr.I18nKey,
+                    IconKey: x.Attr.IconKey,
+                    Dock: x.Attr.Dock))
+                .OrderBy(d => d.Order)
+                .ToList();
         }
+
+        return _cachedDescriptors;
     }
 }

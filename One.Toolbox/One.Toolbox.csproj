@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!--  AvaloniaUIGeometries.axaml 为完整图标库（1.6MB），仅作后续取用参考，排除出编译；实际使用的图标在 Geometries.Used.axaml  -->
     <AvaloniaResource Remove="Assets\AvaloniaUIGeometries.axaml" />
+    <AvaloniaXaml Remove="Assets\AvaloniaUIGeometries.axaml" />
     <AvaloniaResource Remove="Assets\Geometries.axaml" />
     <AvaloniaResource Remove="Assets\Resources.en-US.resx" />
     <AvaloniaResource Remove="Assets\Resources.resx" />
@@ -20,24 +22,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Controls.DataGrid" Version="12.1.0" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="12.1.2" />
     <PackageReference Include="Avalonia.Labs.Qr" Version="12.0.2" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.1" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.1.1" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="12.1.2" />
     <PackageReference Include="AvaloniaEdit.TextMate" Version="12.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3" />
+    <PackageReference Condition="'$(Configuration)'=='Debug'" Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3" />
     <PackageReference Include="DiffPlex" Version="1.9.0" />
     <PackageReference Include="Markdown.Avalonia" Version="12.0.0-a2" />
-    <PackageReference Include="Irihi.Ursa" Version="2.1.0" />
-    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="2.1.0" />
-    <PackageReference Include="Semi.Avalonia" Version="12.1.0" />
+    <PackageReference Include="Irihi.Ursa" Version="2.2.0" />
+    <PackageReference Include="Irihi.Ursa.Themes.Semi" Version="2.2.0" />
+    <PackageReference Include="Semi.Avalonia" Version="12.1.0.1" />
     <PackageReference Include="Semi.Avalonia.AvaloniaEdit" Version="12.0.0" />
-    <PackageReference Include="Semi.Avalonia.DataGrid" Version="12.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.10" />
-    <PackageReference Include="System.IO.Ports" Version="10.0.10" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="12.1.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageReference Include="System.IO.Ports" Version="10.0.12" />
     <PackageReference Include="WebDav.Client" Version="2.9.0" />
-    <PackageReference Include="Xaml.Behaviors.Interactions" Version="12.0.5" />
+    <PackageReference Include="Xaml.Behaviors.Interactions" Version="12.0.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,9 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaXaml Update="Assets\AvaloniaUIGeometries.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaXaml>
     <AvaloniaXaml Update="Assets\Geometries.axaml">
       <SubType>Designer</SubType>
     </AvaloniaXaml>
