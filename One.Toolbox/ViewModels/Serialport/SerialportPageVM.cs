@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Threading;
 
@@ -251,7 +251,9 @@ public partial class SerialportPageVM : BasePageVM
         List<string> result = new();
         var regExp = new Regex("\\(COM\\d+\\)");
 
-        while (!cancellationToken.IsCancellationRequested)
+        // WMI 枚举最多重试 3 次：WMI 服务不可用时避免无限重试卡死刷新锁，
+        // 失败后返回空列表，由调用方 fallback 到 SerialPort.GetPortNames()
+        for (int attempt = 0; attempt < 3 && !cancellationToken.IsCancellationRequested; attempt++)
         {
             try
             {

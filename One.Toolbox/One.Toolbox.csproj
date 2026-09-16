@@ -3,7 +3,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-     
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -58,10 +58,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </AvaloniaResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <RdXmlFile Include="rd.xml" />
   </ItemGroup>
 
   <ItemGroup>

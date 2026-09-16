@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <Nullable>enable</Nullable>
@@ -7,13 +7,12 @@
     <Version>2.0.0</Version>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    <PublishReadyToRun>true</PublishReadyToRun>
     <ApplicationIcon>icons8-knife-100.ico</ApplicationIcon>
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
-    <TrimmerRootDescriptor Include="Roots.xml" />
     <Content Include="icons8-knife-100.ico" />
   </ItemGroup>
 
