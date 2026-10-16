@@ -393,29 +393,8 @@
   <data name="SerialDeleteItem" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="Todo" xml:space="preserve">
-    <value>待办事项</value>
-  </data>
   <data name="QRCode" xml:space="preserve">
     <value>二维码</value>
-  </data>
-  <data name="TodoAddDay" xml:space="preserve">
-    <value>添加日期</value>
-  </data>
-  <data name="TodoToday" xml:space="preserve">
-    <value>今天</value>
-  </data>
-  <data name="TodoProgress" xml:space="preserve">
-    <value>进度</value>
-  </data>
-  <data name="TodoInputWatermark" xml:space="preserve">
-    <value>需要做什么？</value>
-  </data>
-  <data name="TodoAdd" xml:space="preserve">
-    <value>添加</value>
-  </data>
-  <data name="TodoSyncToToday" xml:space="preserve">
-    <value>同步到今天</value>
   </data>
   <data name="NetSocketDebug" xml:space="preserve">
     <value>Socket调试</value>

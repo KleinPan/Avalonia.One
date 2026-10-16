@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -395,29 +395,8 @@
   <data name="SerialDeleteItem" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="Todo" xml:space="preserve">
-    <value>Todo</value>
-  </data>
   <data name="QRCode" xml:space="preserve">
     <value>QR Code</value>
-  </data>
-  <data name="TodoAddDay" xml:space="preserve">
-    <value>Add Day</value>
-  </data>
-  <data name="TodoToday" xml:space="preserve">
-    <value>Today</value>
-  </data>
-  <data name="TodoProgress" xml:space="preserve">
-    <value>Progress</value>
-  </data>
-  <data name="TodoInputWatermark" xml:space="preserve">
-    <value>What needs to be done?</value>
-  </data>
-  <data name="TodoAdd" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="TodoSyncToToday" xml:space="preserve">
-    <value>Sync to Today</value>
   </data>
   <data name="NetSocketDebug" xml:space="preserve">
     <value>Socket Debug</value>
